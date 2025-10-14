@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex, nofollow"> 
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Basketball Ai V2.5 - Günün Tahminleri</title>
+<title>BasketbolAi - Tahminler</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -65,12 +65,14 @@
   .title{
     font-weight:800;font-size:20px;line-height:1;color:var(--text);
   }
-  .tabs{display:flex;gap:10px;margin:14px 0;}
+  /* SEKME DÜZENLEMESİ */
+  .tabs{display:flex;gap:6px;margin:14px 0; justify-content: space-between;} 
   .tab{
-    flex:1;padding:12px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;
+    flex:1;padding:10px 6px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;font-size:12px; 
     background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     color:var(--text);
-    transition: all 0.2s ease-in-out; 
+    white-space: nowrap; 
+    min-width: 0; 
   }
   .tab.active{box-shadow:0 6px 18px rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.03)}
   .content{padding-bottom:18px}
@@ -89,9 +91,8 @@
     border-radius:10px;padding:12px;margin-top:8px;border:1px solid rgba(255,255,255,0.02)
   }
   .bet .type{font-weight:700;color:var(--accent-start);font-size:13px;margin-bottom:8px}
-  .bet .odd{font-size:34px;font-weight:800;margin-bottom:6px; color:var(--success);}
+  .bet .odd{font-size:28px;font-weight:800;margin-bottom:6px;color:var(--warning);}
   .muted-small{color:var(--muted);font-size:13px}
-  .ev-small{color:var(--success);font-weight:700;margin-top:8px}
   .progress-wrap{background:rgba(255,255,255,0.04);height:10px;border-radius:999px;margin-top:12px;overflow:hidden}
   .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--success),#12b76a);transition:width 600ms ease}
   .confidence-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;color:var(--muted);font-size:13px}
@@ -130,6 +131,7 @@
   .kupon-predictions > div {
       display: block;
       overflow-wrap: break-word; 
+      color: var(--warning); 
   }
   .kupon-confidence-row {
       width: 100%;
@@ -140,12 +142,47 @@
       font-size: 13px;
       padding-top: 8px;
   }
-  .kupon-odd {
-      font-size: 26px;
+  /* Eklenen Total/Alt-Üst Listesi Kartı Stili */
+  .total-card{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.03); 
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-end);
+  }
+  .total-card-match{
+      flex: 1;
+      font-weight: 600;
+      font-size: 14px; 
+  }
+  .total-card-bet{
       font-weight: 800;
-      color: var(--warning); 
-      margin-bottom: 15px; 
-      margin-top: 5px; 
+      color: var(--success); 
+      white-space: nowrap; 
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px; 
+  }
+  /* ALT/ÜST HEADER DÜZENLENDİ */
+  .alt-ust-header {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  /* MAÇ VE LİMİT başlığı için */
+  .alt-ust-header span:nth-child(1) {
+    flex: 1; 
+  }
+  .alt-ust-header span:nth-child(2) {
+    width: 65px; 
+    text-align: right;
   }
 </style>
 </head>
@@ -153,21 +190,21 @@
 <div class="container" role="application" aria-label="BasketballAi WebApp">
   <div class="inner">
     <div class="header">
-        <div class="title">🏀 Basketball Ai V2.5</div> </div>
+        <div class="title">🏀🤖 BasketbolAi - Robot Tahminleri</div> </div>
 
-    <div class="success-rates"> 
-        <div class="success-rate-item">
-            <div style="font-size:12px;color:var(--muted)">Tekli Başarı Oranı</div>
-            <div style="font-weight:800;font-size:18px;margin-top:4px">75%</div>
-        </div>
-        <div class="success-rate-item">
-            <div style="font-size:12px;color:var(--muted)">Kupon Başarı Oranı</div>
-            <div style="font-weight:800;font-size:18px;margin-top:4px">70%</div>
-        </div>
+    <div class="success-rates"> <div class="success-rate-item">
+        <div style="font-size:12px;color:var(--muted)">MS/H Başarı Oranı</div>
+        <div style="font-weight:800;font-size:18px;margin-top:4px">100%</div>
+      </div>
+      <div class="success-rate-item">
+        <div style="font-size:12px;color:var(--muted)">A/Ü Başarı Oranı</div>
+        <div style="font-weight:800;font-size:18px;margin-top:4px">100%</div>
+      </div>
     </div>
 
     <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
-      <div class="tab active" data-tab="tahminler">✅ Tekli Tahminler</div> 
+      <div class="tab" data-tab="handikap">⛹️ Handikap</div> 
+      <div class="tab" data-tab="altust">📊 Alt/Üst</div> 
       <div class="tab" data-tab="kuponlar">🔥 Kuponlar</div> 
     </div>
 
@@ -178,138 +215,182 @@
 </div>
 
 <script>
-/* VERİ YAPISI */
-
-// Risk seviyesi
-function calculateRisk(confidence) {
-    if (confidence >= 80) return "düşük";
-    if (confidence >= 70) return "orta";
-    // %60'dan düşük olanlar otomatik olarak "yüksek" risk sayılır
-    return "yüksek"; 
-}
-
-// Veriyi işleme fonksiyonu - HATA DÜZELTME YAPILDI!
-function processData(data) {
-    const [teams, betType, betDetail, confidenceStr, odd] = data;
-    const confidenceNum = parseFloat(confidenceStr);
-    
-    let line = 'N/A';
-    let proj = 'N/A';
-
-    // Alt/Üst ve Handikap için Line değerini ve Projeksiyonu bulma
-    const lineMatch = betDetail.match(/[\+\-]?[\d]+\.?[\d]+/); 
-
-    if (lineMatch) {
-        line = parseFloat(lineMatch[0]);
-        
-        // Çok basit bir projeksiyon: Üst/Alt için Line değerine yakın bir değer atandı (Sadece görsel amaçlı)
-        if (betDetail.toLowerCase().includes('üst')) {
-            proj = (line + 2.5).toFixed(1); 
-        } else if (betDetail.toLowerCase().includes('alt')) {
-            proj = (line - 2.5).toFixed(1); 
-        } else if (betType.includes('Handikap')) {
-            // Handikap bahislerinde, projeksiyonu Line'dan biraz daha büyük yapabiliriz (tahmin edilen fark)
-            proj = (Math.abs(line) + 1.5).toFixed(1); 
-        }
-    }
-
-    return {
-        id: Math.random().toString(36).substring(2, 9),
-        title: teams,
-        league: "Basketbol Tahmini", 
-        date: "Bugün", 
-        risk: calculateRisk(confidenceNum),
-        preferred_bet: betDetail,
-        confidence: confidenceNum,
-        bets: [
-            {
-                type: betType, 
-                label: betDetail, 
-                odd: odd, 
-                line: isNaN(line) ? 'N/A' : line, 
-                proj: isNaN(proj) ? 'N/A' : proj, 
-                ev: "N/A" 
-            }
-        ]
-    };
-}
-
-
-const RAW_DATA = [
-    // MAÇ SONUCU & NORMAL SÜRE - MS'lerde line ve proj olmaz.
-    ["Maccabi vs Barcelona", "MS", "Normal Süre Barcelona", 72, 1.94],
-    ["Bursaspor vs Cholet", "MS", "Normal Süre Bursaspor", 75, 1.82],
-    ["Enisey vs Unics Kazan", "MS", "Normal Süre Unics Kazan", 88, 1.12],
-    ["AS Karditsas vs Malaga", "MS", "Normal Süre Unicaja Malaga", 85, 1.29],
-    ["Hamburg vs Bahcesehir", "MS", "Normal Süre Bahcesehir Koleji", 82, 1.18],
-    // HANDİKAP
-    ["Olympiakos vs Efes", "Handikap", "+11.5 (Efes)", 75, 1.48],
-    ["Maccabi vs Barcelona", "Handikap", "+7.5 (Maccabi)", 79, 1.44],
-    ["FC Porto vs Antwerp", "Handikap", "-5.5 (Porto)", 69, 2.05],
-    ["Enisey vs Unics Kazan", "Handikap", "-14.5 (Unics)", 71, 1.96],
-    ["New York vs Wizards", "Handikap", "-12.5 (Knicks)", 73, 1.83],
-    ["Indiana vs Spurs", "Handikap", "+1.5 (Spurs)", 63, 2.15],
-    ["Iberostar vs Herzliya", "Handikap", "+7.5 (Herzliya)", 69, 1.82],
-    ["AS Karditsas vs Malaga", "Handikap", "-4.5 (Malaga)", 71, 1.74],
-    // ALT/ÜST BAHİSLERİ
-    ["Utah Jazz vs Mavericks", "MS Alt/Üst", "Üst 233.5", 69, 1.74],
-    ["New York vs Wizards", "MS Alt/Üst", "Üst 219.5", 71, 1.83],
-    ["Atlanta vs Miami", "MS Alt/Üst", "Üst 229.5", 66, 1.80],
-    ["Hapoel vs Joventut", "IY Alt/Üst", "Alt 79.5 (1. Yarı)", 67, 1.95],
-    ["CEZ Nymburk vs Chalonnais", "Çeyrek Alt/Üst", "Alt 43.5 (1. Çeyrek)", 65, 1.83],
-    ["VEF Riga vs Levice", "MS Alt/Üst", "Alt 160.5 (Maç)", 68, 1.90],
-    ["Hamburg vs Bahcesehir", "Çeyrek Alt/Üst", "Üst 43.5 (1. Çeyrek)", 63, 1.96],
-    ["KK Cedevita vs Aris", "IY Alt/Üst", "Alt 82.5 (1. Yarı)", 63, 1.87],
-    // TAKIM SAYISI ALT/ÜST BAHİSLERİ
-    ["Bayern vs Milano", "Takım Alt/Üst", "Üst 21.5 (Bayern 1. Çeyrek)", 68, 2.00],
-    ["Bursaspor vs Cholet", "Takım Alt/Üst", "Alt 92.5 (Bursaspor)", 71, 1.82],
-    ["CEZ Nymburk vs Chalonnais", "Takım Alt/Üst", "Üst 74.5 (Chalonnais)", 66, 1.83],
-    ["VEF Riga vs Levice", "Takım Alt/Üst", "Üst 65.5 (Levice)", 62, 1.90],
-    ["Uralmash vs Avtodor", "Takım Alt/Üst", "Üst 74.5 (Avtodor)", 73, 1.79],
-    ["Pallacanestro vs Tofas", "Takım Alt/Üst", "Üst 80.5 (Tofas)", 74, 1.30],
-    ["KK Cedevita vs Aris", "Takım Alt/Üst", "Alt 24.5 (Cedevita 1. Çeyrek)", 61, 1.87],
-    ["Würzburg vs Igokea", "Takım Alt/Üst", "Üst 72.5 (Igokea)", 70, 1.34],
-    // ÇEYREK BAHİSLERİ
-    ["Bayern vs Milano", "Çeyrek Bahis", "1. Çeyrek Üst 21.5 (Bayern)", 68, 2.00],
-    ["Crvena Zvezda vs Zalgiris", "Çeyrek Bahis", "1. Çeyrek Zalgiris Kazanır", 62, 2.02],
-    ["Fenerbahçe vs Dubai", "Çeyrek Bahis", "1. Çeyrek Fenerbahçe Kazanır", 82, 1.53],
-    ["Türk Telekom vs Buducnost", "Çeyrek Bahis", "1. Çeyrek Handikap +1.5 (Buducnost)", 64, 1.72],
-    ["Iberostar vs Herzliya", "Çeyrek Bahis", "1. Çeyrek Tenerife Kazanır", 78, 1.44],
-    // YARI BAHİSLERİ
-    ["Würzburg vs Igokea", "IY Bahis", "1. Yarı Würzburg Kazanır", 66, 1.50]
+// Alt/Üst olmayan (Handikap tahmini olan) maçlar bu listede kalır.
+const HANDIKAP_TAHMINLERI = [
+    { title: "Olympiakos vs Anadolu Efes", bet: "Olympiakos -3.5", risk: "orta", confidence: 80 },
+    { title: "Fenerbahçe vs BC Dubai", bet: "Fenerbahçe -4.5", risk: "düşük", confidence: 85 },
+    { title: "Mobis Phoebus vs Daegu Pegasus", bet: "Mobis -3.5", risk: "düşük", confidence: 83 },
+    { title: "E. Krasnoyarsk vs Unics Kazan", bet: "Unics -5.5", risk: "orta", confidence: 78 },
+    { title: "BK Uralmash vs A. Saratov", bet: "Uralmash -2.5", risk: "düşük", confidence: 81 },
+    { title: "Türk Telekom vs Buducnost", bet: "Türk Telekom -3.5", risk: "orta", confidence: 79 },
+    { title: "Vef Riga vs Levicki Patrioti", bet: "Vef Riga -2.5", risk: "düşük", confidence: 82 },
+    { title: "Rostock vs BC Tartu", bet: "Rostock -1.5", risk: "orta", confidence: 77 },
+    { title: "O. Ljubljana vs Aris", bet: "Olimpija -2.5", risk: "orta", confidence: 79 },
+    { title: "Nymburk vs Chalon", bet: "Nymburk -3.5", risk: "düşük", confidence: 83 },
+    { title: "Bursaspor vs Cholet", bet: "Bursaspor -2.5", risk: "orta", confidence: 78 },
+    { title: "Hapoel Holon vs J. Badalona", bet: "Hapoel Holon -3.5", risk: "orta", confidence: 80 },
+    { title: "Wurzburg vs Igokea", bet: "Wurzburg -2.5", risk: "düşük", confidence: 82 },
+    { title: "Maccabi vs Barcelona", bet: "Maccabi -2.5", risk: "yüksek", confidence: 75 },
+    { title: "AS Karditsas vs U. Malaga", bet: "AS Karditsas -1.5", risk: "yüksek", confidence: 70 },
+    { title: "Hamburg vs Bahçeşehir", bet: "Hamburg -2.5", risk: "orta", confidence: 78 },
+    { title: "Kızılyıldız vs Zalgiris", bet: "Kızılyıldız -2.5", risk: "orta", confidence: 79 },
+    { title: "Bilbao vs Peristeri", bet: "Bilbao -1.5", risk: "orta", confidence: 77 },
+    { title: "Bayern Münih vs O. Milano", bet: "Bayern -2.5", risk: "orta", confidence: 79 },
+    { title: "Trapani vs Tofaş", bet: "Trapani -1.5", risk: "orta", confidence: 78 },
+    { title: "Tenerife vs B Herzelia", bet: "Tenerife -2.5", risk: "düşük", confidence: 81 },
+    { title: "Porto vs Antwerp", bet: "Porto -1.5", risk: "orta", confidence: 77 }
 ];
 
-const TAHMINLER_DATA = RAW_DATA.map(d => processData(d));
+// Alt/Üst Tahminleri listesi sadece alt/üst bahislerini içerecek şekilde filtrelenmiştir.
+const ALTUST_TAHMINLERI = [
+    { match: "Mobis Phoebus vs Daegu Pegasus", line: "155.5", bet: "ÜST" },
+    { match: "E. Krasnoyarsk vs Unics Kazan", line: "162.5", bet: "ÜST" },
+    { match: "BK Uralmash vs A. Saratov", line: "160", bet: "ALT" },
+    { match: "Türk Telekom vs Buducnost", line: "164", bet: "ÜST" },
+    { match: "Vef Riga vs Levicki Patrioti", line: "162", bet: "ALT" },
+    { match: "Rostock vs BC Tartu", line: "158", bet: "ÜST" },
+    { match: "O. Ljubljana vs Aris", line: "166", bet: "ÜST" },
+    { match: "Nymburk vs Chalon", line: "160", bet: "ÜST" },
+    { match: "Bursaspor vs Cholet", line: "162", bet: "ALT" },
+    { match: "Hapoel Holon vs J. Badalona", line: "164", bet: "ÜST" },
+    { match: "Wurzburg vs Igokea", line: "160", bet: "ALT" },
+    { match: "Maccabi vs Barcelona", line: "168", bet: "ÜST" },
+    { match: "AS Karditsas vs U. Malaga", line: "162", bet: "ÜST" },
+    { match: "Hamburg vs Bahçeşehir", line: "164", bet: "ÜST" },
+    { match: "Fenerbahçe vs BC Dubai", line: "166", bet: "ÜST" },
+    { match: "Kızılyıldız vs Zalgiris", line: "162", bet: "ÜST" },
+    { match: "Bilbao vs Peristeri", line: "160", bet: "ÜST" },
+    { match: "Olympiakos vs Anadolu Efes", line: "165", bet: "ÜST" },
+    { match: "Bayern Münih vs O. Milano", line: "162", bet: "ALT" },
+    { match: "Trapani vs Tofaş", line: "164", bet: "ÜST" },
+    { match: "Tenerife vs B Herzelia", line: "162", bet: "ALT" },
+    { match: "Porto vs Antwerp", line: "160", bet: "ALT" }
+];
 
-const KUPONLAR_DATA = [
+
+// Kupon başlıkları güncellendi
+const KUPON_TAHMINLERI = [
     {
-      id:101,
-      name: "✅ GARANTİ KUPON",
-      risk: "düşük", 
-      confidence: 85, 
+      id: 1,
+      title: "KUPON - 1",
+      risk: "orta", 
+      confidence: 88, 
       predictions: [
-        "Fenerbahçe vs Dubai: 1. Çeyrek Fenerbahçe Kazanır",
-        "Enisey vs Unics Kazan: Normal Süre Unics Kazanır"
+        { match: "Maccabi vs Barcelona", bet: "MS ÜST 168" },
+        { match: "Fenerbahçe vs BC Dubai", bet: "MS ÜST 166" }
       ],
-      total_odd: (1.53 * 1.12).toFixed(2) // 1.71
+      tavsiye: "Yüksek güven ve AI uyumu. Orta-Yüksek stake ile oynanabilir."
     },
     {
-      id:102,
-      name: "💰 DEĞER KUPON",
+      id: 2,
+      title: "KUPON - 2",
       risk: "orta", 
-      confidence: 73, 
+      confidence: 85, 
       predictions: [
-        "Maccabi vs Barcelona: Handikap +7.5 (Maccabi)",
-        "Bayern vs Milano: Üst 21.5 (Bayern 1. Çeyrek)"
+        { match: "AS Karditsas vs U. Malaga", bet: "MS ÜST 162" },
+        { match: "Olympiakos vs Anadolu Efes", bet: "MS ÜST 165" }
       ],
-      total_odd: (1.44 * 2.00).toFixed(2) // 2.88
+      tavsiye: "Farklı liglerden güçlü tahminler. Orta stake ile denenebilir."
+    },
+    {
+      id: 3,
+      title: "KUPON - 3",
+      risk: "düşük", 
+      confidence: 90, 
+      predictions: [
+        { match: "BK Uralmash vs A. Saratov", bet: "MS ALT 160" },
+        { match: "Bursaspor vs Cholet", bet: "MS ALT 162" }
+      ],
+      tavsiye: "Düşük riskli, ALT skor beklentili maçlardan oluşur. Yüksek stake ile denenebilir."
     }
 ];
 
-const SAMPLE_DATA = {
-    tahminler: TAHMINLER_DATA,
-    kuponlar: KUPONLAR_DATA
-};
+// Tek bir tahmin kartı oluşturma (MS/Handikap için)
+function renderHandikapMatch(m){
+  const color = riskColor(m.risk);
+  const riskTxt = riskText(m.risk); 
+  const confidence = m.confidence || (m.risk === "yüksek" ? 70 : m.risk === "orta" ? 78 : 85);
+  
+  return `
+    <div class="match-card" id="match-${m.id}">
+      <div class="match-head">
+        <div>
+          <div class="match-title">${m.title}</div>
+        </div>
+        <div class="risk-ev-wrap">
+            <div class="risk-text">
+                <span class="risk-dot" style="background:${color}"></span>
+                ${riskTxt} 
+            </div>
+        </div>
+      </div>
+      <div class="bet-preference">Tahmin:</div>
+      <div class="bet" role="article">
+        <div class="type">MS Handikap</div>
+        <div class="odd">${m.bet}</div>
+      </div>
+      <div class="confidence-row">
+        <div style="font-weight:700;color:var(--muted)">GÜVEN</div>
+        <div style="font-weight:800">${confidence}%</div>
+      </div>
+      <div class="progress-wrap" aria-hidden="true"><div class="progress-bar" style="width:${confidence}%"></div></div>
+    </div>
+  `;
+}
+
+// Alt/Üst listesini oluşturma (Limit bilgisi geri getirildi)
+function renderAltUstList() {
+    let html = `<div class="alt-ust-header"><span>MAÇ VE LİMİT</span> <span>TAHMİN</span></div>`;
+    
+    // Sadece Alt/Üst bahsi olan maçlar listelenir
+    const filteredAltUst = ALTUST_TAHMINLERI.filter(m => m.bet === "ÜST" || m.bet === "ALT");
+    
+    html += filteredAltUst.map((m, index) => {
+        const betColor = m.bet === "ÜST" ? 'var(--warning)' : 'var(--tech-blue)';
+        return `
+            <div class="total-card" role="listitem" style="border-left-color: ${betColor};">
+                <div class="total-card-match">${m.match} <span style="color:var(--muted); font-size:12px;">(${m.line})</span></div>
+                <div class="total-card-bet" style="color:${betColor};">
+                    ${m.bet} 
+                </div>
+            </div>
+        `;
+    }).join("");
+    return html;
+}
+
+// Kupon kartı oluşturma
+function renderKupon(k){
+    const riskColorCode = riskColor(k.risk);
+    
+    // Kupon tahminleri gösterimi sadeleştirildi
+    const predictionsHTML = k.predictions.map(p => `<div>${p.match}: <span style="font-weight:700;">${p.bet}</span></div>`).join('');
+    
+    return `<div class="match-card">
+       <div class="kupon-card-content">
+          <div style="font-size:16px; font-weight:800; color:var(--text); margin-bottom:15px;">${k.title}</div>
+          
+          <div class="kupon-risk-indicator">
+              <span style="font-size:12px; font-weight:700; color:var(--muted); margin-right:10px;">RİSK: ${riskText(k.risk)}</span>
+              <span style="width:20px; height:20px; border-radius:50%; display:inline-block; vertical-align:middle; background:${riskColorCode}; box-shadow: 0 0 10px ${riskColorCode}77;"></span>
+          </div>
+          
+          <div class="kupon-predictions">
+             ${predictionsHTML}
+          </div>
+
+          <div style="font-size:14px; color:var(--muted); text-align:center; margin-bottom:10px;">${k.tavsiye}</div>
+
+          <div class="kupon-confidence-row">
+              <div style="font-weight:700;color:var(--muted)">KUPON GÜVEN</div>
+              <div style="font-weight:800">${k.confidence}%</div>
+          </div>
+          <div class="progress-wrap" style="width: 100%;" aria-hidden="true">
+              <div class="progress-bar" style="width:${k.confidence}%"></div>
+          </div>
+       </div>
+    </div>`;
+}
 
 /* helpers */
 function riskColor(r){
@@ -326,102 +407,15 @@ function riskText(r) {
     return r.toUpperCase();
 }
 
-function renderBet(b){
-  const typeText = b.type.replace('MS', 'Maç Sonu').replace('IY', '1. Yarı').replace('Bahis', 'Bahis'); 
-  
-  // Parantez içindeki takımı ayır
-  let betLabel = b.label;
-  let detailInfo = '';
-
-  const parentMatch = b.label.match(/\(([^)]+)\)/);
-  if (parentMatch) {
-      detailInfo = parentMatch[1];
-      betLabel = b.label.replace(parentMatch[0], '').trim();
-  }
-  
-  // Line ve Proj sadece mevcutsa gösterilir.
-  const projHTML = (b.proj !== 'N/A' && b.type !== 'MS') ? `<div class="muted-small">Proj: ${b.proj}</div>` : '';
-  const lineHTML = (b.line !== 'N/A' && b.type !== 'MS') ? `<div class="muted-small">Line: ${b.line}</div>` : '';
-
-
-  return `
-    <div class="bet" role="article">
-      <div class="type">${typeText}</div>
-      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px">${betLabel} ${detailInfo ? '('+detailInfo+')' : ''}</div>
-      <div class="odd">${b.odd}</div>
-      ${lineHTML}
-      ${projHTML}
-    </div>
-  `;
-}
-
-function renderMatch(m){
-  const color = riskColor(m.risk);
-  const riskTxt = riskText(m.risk); 
-  const betsHTML = m.bets.map(renderBet).join("");
-  
-  return `
-    <div class="match-card" id="match-${m.id}">
-      <div class="match-head">
-        <div>
-          <div class="match-title">${m.title}</div>
-          <div class="match-meta">${m.league} • ${m.date}</div>
-        </div>
-        <div class="risk-ev-wrap">
-            <div class="risk-text">
-                <span class="risk-dot" style="background:${color}"></span>
-                ${riskTxt} RİSK
-            </div>
-        </div>
-      </div>
-      <div style="font-weight:700;color:var(--accent-end);font-size:14px;margin-top:8px;">Tercih: ${m.preferred_bet}</div>
-      ${betsHTML}
-      <div class="confidence-row">
-        <div style="font-weight:700;color:var(--muted)">GÜVEN ORANI</div>
-        <div style="font-weight:800">${m.confidence}%</div>
-      </div>
-      <div class="progress-wrap" aria-hidden="true"><div class="progress-bar" style="width:${m.confidence}%"></div></div>
-    </div>
-  `;
-}
-function renderKupon(k){
-    const riskColorCode = riskColor(k.risk);
-    
-    const predictionsHTML = k.predictions.map(p => `<div>• ${p}</div>`).join('');
-    
-    return `<div class="match-card">
-       <div class="kupon-card-content">
-          <div class="match-title" style="margin-bottom:15px; font-size:18px; color: var(--warning);">${k.name}</div>
-          
-          <div class="kupon-risk-indicator">
-              <span style="width:20px; height:20px; border-radius:50%; display:block; background:${riskColorCode}; box-shadow: 0 0 10px ${riskColorCode}77;"></span>
-              <div style="font-size:12px;color:var(--muted);text-align:center;margin-top:5px">${riskText(k.risk)} RİSK</div>
-          </div>
-          
-          <div class="kupon-predictions">
-             ${predictionsHTML}
-          </div>
-          
-          <div class="kupon-odd">${k.total_odd} ORAN</div>
-
-          <div class="kupon-confidence-row">
-              <div style="font-weight:700;color:var(--muted)">KUPON GÜVEN</div>
-              <div style="font-weight:800">${k.confidence}%</div>
-          </div>
-          <div class="progress-wrap" style="width: 100%;" aria-hidden="true">
-              <div class="progress-bar" style="width:${k.confidence}%"></div>
-          </div>
-       </div>
-    </div>`;
-}
-
 /* initial render */
 const content = document.getElementById('content');
 function showTab(name){
-  if(name==="tahminler"){
-    content.innerHTML = SAMPLE_DATA.tahminler.map(renderMatch).join("");
+  if(name==="handikap"){
+    content.innerHTML = HANDIKAP_TAHMINLERI.map(renderHandikapMatch).join("");
+  } else if(name==="altust"){
+    content.innerHTML = renderAltUstList();
   } else {
-    content.innerHTML = SAMPLE_DATA.kuponlar.map(renderKupon).join("");
+    content.innerHTML = KUPON_TAHMINLERI.map(renderKupon).join("");
   }
   document.querySelectorAll('.tab').forEach(t=>{
     t.classList.toggle('active', t.dataset.tab===name);
@@ -433,10 +427,17 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=> showTab(t.dataset.tab));
 });
 
-/* default */
-showTab('tahminler');
+/* default tab: MS Handikap */
+showTab('handikap');
+document.querySelector('.tab[data-tab="handikap"]').classList.add('active');
 
+
+/* Optional: Telegram WebApp ready hook (works in Telegram webview) */
+if(window.Telegram && window.Telegram.WebApp){
+  try{
+    window.Telegram.WebApp.ready();
+  }catch(e){}
+}
 </script>
 </body>
-  </html>
-  
+</html>
