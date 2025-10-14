@@ -58,12 +58,24 @@
   }
   .header{
     display:flex;
+    flex-direction: column; /* Dikey hizalama için */
     align-items:center;
     justify-content:center; 
     margin-bottom:12px;
   }
   .title{
-    font-weight:800;font-size:20px;line-height:1;color:var(--text);
+    font-weight:800;
+    font-size:18px; /* Başlık boyutu küçültüldü */
+    line-height:1.2; /* Satır aralığı ayarlandı */
+    color:var(--text);
+    white-space: nowrap; /* Tek satırda kalması için */
+    margin-bottom: 4px; /* Altındaki metinle aralık */
+  }
+  .powered-by-ai {
+    font-size: 11px; /* Küçük font boyutu */
+    font-weight: 600;
+    color: var(--tech-blue); /* Yapay zeka renk tonu */
+    opacity: 0.8;
   }
   /* SEKME DÜZENLEMESİ */
   .tabs{display:flex;gap:6px;margin:14px 0; justify-content: space-between;} 
@@ -210,7 +222,9 @@
 <div class="container" role="application" aria-label="BasketballAi WebApp">
   <div class="inner">
     <div class="header">
-        <div class="title">BasketbolAi - Robot Tahminleri</div> </div>
+        <div class="title">BasketbolAi - Robot Tahminleri</div>
+        <div class="powered-by-ai">Powered by AI</div>
+    </div>
 
     <div class="success-rates"> 
       <div class="success-rate-item">
@@ -282,9 +296,9 @@ const ALTUST_TAHMINLERI = [
     { match: "Bilbao vs Peristeri", line: "160", bet: "ÜST" },
     { match: "Olympiakos vs Anadolu Efes", line: "165", bet: "ÜST" },
     { match: "Bayern Münih vs O. Milano", line: "162", bet: "ALT" },
-    { match: "Trapani vs Tofaş", line: "164", bet: "ÜST" },
-    { match: "Tenerife vs B Herzelia", line: "162", bet: "ALT" },
-    { match: "Porto vs Antwerp", line: "160", bet: "ALT" }
+    { title: "Trapani vs Tofaş", line: "164", bet: "ÜST" },
+    { title: "Tenerife vs B Herzelia", line: "162", bet: "ALT" },
+    { title: "Porto vs Antwerp", line: "160", bet: "ALT" }
 ];
 
 
