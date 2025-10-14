@@ -100,6 +100,7 @@
   .success-rates{
     display:flex;
     justify-content: space-between;
+    align-items: center; /* Dikeyde hizalama */
     margin-top: 10px; 
   }
   .success-rate-item{
@@ -184,21 +185,41 @@
     width: 65px; 
     text-align: right;
   }
+  /* SİSTEM ONLİNE GÖSTERGESİ */
+  @keyframes pulse-online {
+    0% { box-shadow: 0 0 0 0 rgba(40, 208, 123, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 208, 123, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 208, 123, 0); }
+  }
+  .system-online-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end; /* Sağ tarafa yaslamak için */
+  }
+  .online-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--success);
+    border-radius: 50%;
+    animation: pulse-online 1.5s infinite;
+  }
 </style>
 </head>
 <body>
 <div class="container" role="application" aria-label="BasketballAi WebApp">
   <div class="inner">
     <div class="header">
-        <div class="title">🏀🤖 BasketbolAi - Robot Tahminleri</div> </div>
+        <div class="title">BasketbolAi - Robot Tahminleri</div> </div>
 
-    <div class="success-rates"> <div class="success-rate-item">
-        <div style="font-size:12px;color:var(--muted)">MS/H Başarı Oranı</div>
-        <div style="font-weight:800;font-size:18px;margin-top:4px">100%</div>
-      </div>
+    <div class="success-rates"> 
       <div class="success-rate-item">
-        <div style="font-size:12px;color:var(--muted)">A/Ü Başarı Oranı</div>
-        <div style="font-weight:800;font-size:18px;margin-top:4px">100%</div>
+        <div style="font-size:12px;color:var(--muted)">Başarı Oranı</div>
+        <div style="font-weight:800;font-size:18px;margin-top:4px">%89</div>
+      </div>
+      <div class="success-rate-item system-online-indicator">
+        <div style="font-size:12px;color:var(--success); font-weight:700;">SİSTEM ONLİNE</div>
+        <div class="online-dot"></div>
       </div>
     </div>
 
@@ -215,7 +236,6 @@
 </div>
 
 <script>
-// Alt/Üst olmayan (Handikap tahmini olan) maçlar bu listede kalır.
 const HANDIKAP_TAHMINLERI = [
     { title: "Olympiakos vs Anadolu Efes", bet: "Olympiakos -3.5", risk: "orta", confidence: 80 },
     { title: "Fenerbahçe vs BC Dubai", bet: "Fenerbahçe -4.5", risk: "düşük", confidence: 85 },
@@ -241,7 +261,7 @@ const HANDIKAP_TAHMINLERI = [
     { title: "Porto vs Antwerp", bet: "Porto -1.5", risk: "orta", confidence: 77 }
 ];
 
-// Alt/Üst Tahminleri listesi sadece alt/üst bahislerini içerecek şekilde filtrelenmiştir.
+// Alt/Üst Tahminleri listesi
 const ALTUST_TAHMINLERI = [
     { match: "Mobis Phoebus vs Daegu Pegasus", line: "155.5", bet: "ÜST" },
     { match: "E. Krasnoyarsk vs Unics Kazan", line: "162.5", bet: "ÜST" },
@@ -268,7 +288,7 @@ const ALTUST_TAHMINLERI = [
 ];
 
 
-// Kupon başlıkları güncellendi
+// Kupon başlıkları KUPON - 1, KUPON - 2, KUPON - 3
 const KUPON_TAHMINLERI = [
     {
       id: 1,
@@ -338,7 +358,7 @@ function renderHandikapMatch(m){
   `;
 }
 
-// Alt/Üst listesini oluşturma (Limit bilgisi geri getirildi)
+// Alt/Üst listesini oluşturma (Limit bilgisi parantez içinde)
 function renderAltUstList() {
     let html = `<div class="alt-ust-header"><span>MAÇ VE LİMİT</span> <span>TAHMİN</span></div>`;
     
