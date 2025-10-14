@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex, nofollow"> 
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>BasketbolAi - Tahminler</title>
+<title>BasketbolAi - NBA Tahminleri</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -44,16 +44,12 @@
   }
   .inner{
     border-radius:16px;
-    /* BASKETBOL DOKUNUŞU: PARKET ZEMİN ETKİSİ */
     background: 
-      /* Yatay ve dikey çizgiler (çok ince, koyu kahverengi) */
       repeating-linear-gradient(90deg, #111e2b, #111e2b 1px, transparent 1px, transparent 100px),
       repeating-linear-gradient(0deg, #111e2b, #111e2b 1px, transparent 1px, transparent 100px),
-      /* Ana Koyu Tema Rengi */
       var(--panel); 
     background-blend-mode: overlay; 
     background-size: 100% 100%, 100% 100%, 100% 100%;
-    
     padding:14px;
   }
   .header{
@@ -94,7 +90,6 @@
   .match-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}
   .match-title{font-weight:700;font-size:16px}
   
-  /* GÜNCELLENEN VE İSTENEN TARİH/SAAT STİLİ */
   .match-datetime {
     font-weight: 800; 
     color: var(--warning); 
@@ -103,7 +98,6 @@
     margin-top: 4px;
     margin-bottom: 6px; 
   }
-  /* GÜNCELLENEN TARİH/SAAT STİLİ BİTİŞ */
 
   .risk-ev-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
   .risk-text{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;} 
@@ -114,15 +108,7 @@
     border-radius:10px;padding:12px;margin-top:8px;border:1px solid rgba(255,255,255,0.02)
   }
   .bet .type{font-weight:700;color:var(--accent-start);font-size:13px;margin-bottom:8px}
-  .bet .odd{
-    font-size:28px;
-    font-weight:800;
-    margin-bottom:6px;
-    color:var(--warning);
-    display: flex; /* Flexbox ekledik */
-    align-items: center; /* Dikeyde hizalama */
-    gap: 12px; /* Oran ile logo arasına boşluk artırıldı */
-  }
+  .bet .odd{font-size:28px;font-weight:800;margin-bottom:6px;color:var(--warning);}
   .muted-small{color:var(--muted);font-size:13px}
   .progress-wrap{background:rgba(255,255,255,0.04);height:10px;border-radius:999px;margin-top:12px;overflow:hidden}
   .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--success),#12b76a);transition:width 600ms ease}
@@ -174,61 +160,6 @@
       font-size: 13px;
       padding-top: 8px;
   }
-  /* Eklenen Total/Alt-Üst Listesi Kartı Stili */
-  .total-card{
-      display: flex;
-      flex-direction: column; 
-      align-items: flex-start; 
-      padding: 10px;
-      margin-bottom: 8px;
-      background: rgba(255,255,255,0.03); 
-      border-radius: 8px;
-      border-left: 4px solid var(--accent-end);
-  }
-  .total-card-match-info{
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin-bottom: 4px;
-  }
-  .total-card-match{
-      flex: 1;
-      font-weight: 600;
-      font-size: 14px; 
-  }
-  .total-card-datetime {
-      font-size: 13px; 
-      color: var(--warning); 
-      font-weight: 700; 
-      white-space: nowrap;
-      margin-left: 10px;
-  }
-  .total-card-bet{
-      font-weight: 800;
-      color: var(--success); 
-      white-space: nowrap; 
-      display: flex;
-      align-items: center;
-      gap: 6px; /* Alt/Üst için oran ile logo arasına boşluk */
-      font-size: 14px; 
-  }
-  /* ALT/ÜST HEADER DÜZENLENDİ */
-  .alt-ust-header {
-    font-weight: 700;
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  /* MAÇ VE TAHMİN başlığı için */
-  .alt-ust-header span:nth-child(1) {
-    flex: 1; 
-  }
-  .alt-ust-header span:nth-child(2) {
-    width: 65px; 
-    text-align: right;
-  }
   /* SİSTEM ONLİNE GÖSTERGESİ */
   @keyframes pulse-online {
     0% { box-shadow: 0 0 0 0 rgba(40, 208, 123, 0.7); }
@@ -259,22 +190,6 @@
     width: 100%;
     text-align: center;
   }
-
-  /* WON ✅ logosunun yeni stili */
-  .kazandi-tag {
-    background-color: var(--success); /* Yeşil arka plan */
-    color: var(--panel); /* Koyu metin rengi */
-    font-size: 14px; /* Font boyutu biraz küçültüldü */
-    font-weight: 800;
-    padding: 4px 8px; /* İç boşluk */
-    border-radius: 6px; /* Köşe yuvarlama */
-    display: inline-flex;
-    align-items: center;
-    gap: 4px; /* WON ile ✅ arasına boşluk */
-    line-height: 1; /* Satır yüksekliği ayarı */
-    box-shadow: 0 2px 8px rgba(40, 208, 123, 0.4); /* Hafif gölge */
-    text-transform: uppercase; /* Metni büyük harf yap */
-  }
 </style>
 </head>
 <body>
@@ -297,8 +212,8 @@
     </div>
 
     <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
-      <div class="tab" data-tab="handikap">⛹️ Handikap</div> 
-      <div class="tab" data-tab="altust">📊 Alt/Üst</div> 
+      <div class="tab" data-tab="handikap">🎯 Taraf Tahmini</div> 
+      <div class="tab" data-tab="altust">📊 Alt/Üst Tahmini</div> 
       <div class="tab" data-tab="kuponlar">🔥 Kuponlar</div> 
     </div>
 
@@ -309,71 +224,62 @@
 </div>
 
 <script>
-// *** TUTARLILIK İÇİN TEK ANA MAÇ LİSTESİ - TÜMÜ 14 EKİM SALI (Düzeltildi) ***
-const MATCHES = [
-    // 14 Ekim (Bugün) Maçları - SAATLER KESİN OLARAK KONTROL EDİLDİ VE SIRALANDI
-    // Mobis ve Enisey maçlarına 'result: "kazandı"' eklendi
-    { title: "Mobis Phoebus vs Daegu Pegasus", date: "14 Ekim Salı", time: "13:00", handikapBet: "Mobis -3.5", altUstBet: "Alt (162.5)", handikapOdd: 1.85, altUstOdd: 1.88, risk: "düşük", confidence: 83, result: "kazandı" },
-    { title: "E. Krasnoyarsk vs Unics Kazan", date: "14 Ekim Salı", time: "15:30", handikapBet: "Unics -5.5", altUstBet: "Üst (148.5)", handikapOdd: 1.90, altUstOdd: 1.90, risk: "orta", confidence: 78, result: "kazandı" },
-    { title: "BK Uralmash vs A. Saratov", date: "14 Ekim Salı", time: "17:30", handikapBet: "Uralmash -2.5", altUstBet: "Üst (152.5)", handikapOdd: 1.88, altUstOdd: 1.91, risk: "düşük", confidence: 81 },
-    { title: "AS Karditsas vs U. Malaga", date: "14 Ekim Salı", time: "18:30", handikapBet: "AS Karditsas -1.5", altUstBet: "Alt (145.5)", handikapOdd: 2.10, altUstOdd: 1.95, risk: "yüksek", confidence: 70 }, 
-    
-    // 19:00 BLOKU
-    { title: "Vef Riga vs Levicki Patrioti", date: "14 Ekim Salı", time: "19:00", handikapBet: "Vef Riga -2.5", altUstBet: "Üst (152.5)", handikapOdd: 1.87, altUstOdd: 1.87, risk: "düşük", confidence: 82 }, 
-    { title: "Bursaspor vs Cholet", date: "14 Ekim Salı", time: "19:00", handikapBet: "Bursaspor -2.5", altUstBet: "Alt (158.5)", handikapOdd: 1.90, altUstOdd: 1.90, risk: "orta", confidence: 78 }, 
-    
-    // 19:30 ve Sonrası
-    { title: "O. Ljubljana vs Aris", date: "14 Ekim Salı", time: "19:30", handikapBet: "Olimpija -2.5", altUstBet: "Üst (150.5)", handikapOdd: 1.94, altUstOdd: 1.86, risk: "orta", confidence: 79 }, 
-    
-    // 20:00 BLOKU
-    { title: "Türk Telekom vs Buducnost", date: "14 Ekim Salı", time: "20:00", handikapBet: "Türk Telekom -3.5", altUstBet: "Üst (155.5)", handikapOdd: 1.95, altUstOdd: 1.92, risk: "orta", confidence: 79 },
-    { title: "Nymburk vs Chalon", date: "14 Ekim Salı", time: "20:00", handikapBet: "Nymburk -3.5", altUstBet: "Alt (164.5)", handikapOdd: 1.85, altUstOdd: 1.89, risk: "düşük", confidence: 83 }, 
-    { title: "Maccabi vs Barcelona", date: "14 Ekim Salı", time: "20:00", handikapBet: "Maccabi -2.5", altUstBet: "Üst (154.5)", handikapOdd: 2.05, altUstOdd: 1.93, risk: "yüksek", confidence: 75 }, 
-    
-    // 20:30 ve Sonrası
-    { title: "Hamburg vs Bahçeşehir", date: "14 Ekim Salı", time: "20:30", handikapBet: "Hamburg -2.5", altUstBet: "Alt (160.5)", handikapOdd: 1.90, altUstOdd: 1.88, risk: "orta", confidence: 78 }, 
-    { title: "Fenerbahçe vs BC Dubai", date: "14 Ekim Salı", time: "20:45", handikapBet: "Fenerbahçe -4.5", altUstBet: "Alt (172.5)", handikapOdd: 1.80, altUstOdd: 1.85, risk: "düşük", confidence: 85 },
-    
-    // 21:00 BLOKU
-    { title: "Rostock vs BC Tartu", date: "14 Ekim Salı", time: "21:00", handikapBet: "Rostock -1.5", altUstBet: "Üst (165.5)", handikapOdd: 1.98, altUstOdd: 1.91, risk: "orta", confidence: 77 }, 
-    { title: "Wurzburg vs Igokea", date: "14 Ekim Salı", time: "21:00", handikapBet: "Wurzburg -1.5", altUstBet: "Alt (157.5)", handikapOdd: 1.90, altUstOdd: 1.87, risk: "orta", confidence: 77 }, 
-    
-    { title: "Olympiakos vs Anadolu Efes", date: "14 Ekim Salı", time: "21:15", handikapBet: "Olympiakos -3.5", altUstBet: "Alt (160.5)", handikapOdd: 1.92, altUstOdd: 1.85, risk: "orta", confidence: 80 },
+// NBA MAÇ VERİLERİ (Girdiğiniz tabloya göre güncel ve doğru oranlarla)
+const NBA_DATE = "15 Ekim 2025 Çarşamba";
+
+// Risk ve Güven Düzeyi Belirleme Fonksiyonu (Yüzdeye göre)
+// Not: Taraf için %80+, diğerleri için %75 kullanılmıştı. Buna uygun ayarlandı.
+function getRisk(confidence) {
+    if (confidence >= 80) return "düşük";
+    if (confidence >= 75) return "orta";
+    return "yüksek"; 
+}
+
+// Taraf Tahmini Listesi
+const HANDIKAP_PREDICTIONS = [
+    { title: "Milwaukee Bucks vs OKC Thunder", date: NBA_DATE, time: "03:00", bet: "Milwaukee (H) -4.5 Galibiyet", odd: 1.65, confidence: 80, risk: getRisk(80) },
+    { title: "Denver Nuggets vs Chicago Bulls", date: NBA_DATE, time: "04:00", bet: "Denver (H) -3.5 Galibiyet", odd: 1.60, confidence: 80, risk: getRisk(80) },
+    { title: "Phoenix Suns vs LA Lakers", date: NBA_DATE, time: "05:00", bet: "Phoenix -3.5 Galibiyet", odd: 1.72, confidence: 75, risk: getRisk(75) },
+    { title: "Golden State Warriors vs Portland Trail Blazers", date: NBA_DATE, time: "05:00", bet: "Golden State -5.5 Galibiyet", odd: 1.66, confidence: 75, risk: getRisk(75) },
 ];
 
+// Alt/Üst Tahmini Listesi
+const ALT_UST_PREDICTIONS = [
+    { title: "Milwaukee Bucks vs OKC Thunder", date: NBA_DATE, time: "03:00", bet: "Üst (222.5)", odd: 1.70, confidence: 80, risk: getRisk(80) },
+    { title: "Denver Nuggets vs Chicago Bulls", date: NBA_DATE, time: "04:00", bet: "Üst (226.5)", odd: 1.68, confidence: 80, risk: getRisk(80) },
+    { title: "Phoenix Suns vs LA Lakers", date: NBA_DATE, time: "05:00", bet: "Üst (227.5)", odd: 1.75, confidence: 75, risk: getRisk(75) },
+    { title: "Golden State Warriors vs Portland Trail Blazers", date: NBA_DATE, time: "05:00", bet: "Üst (228.5)", odd: 1.73, confidence: 75, risk: getRisk(75) },
+];
+
+
+// Kuponlar Listesi (Yeni oranlar ve tahminlerle güncellendi)
 const KUPONLAR = [
     {
-        title: "GÜNÜN KUPONU - Yüksek Güven",
+        title: "Kupon 1 – Taraf 2 Tahmin",
         risk: "düşük",
-        confidence: 88,
-        totalOdd: 3.45,
+        confidence: 80, 
+        totalOdd: 2.64, // 1.65 x 1.60 = 2.64
         matchTitles: [
-            "Fenerbahçe vs BC Dubai", 
-            "BK Uralmash vs A. Saratov", 
-            "Türk Telekom vs Buducnost"
+            "Milwaukee Bucks vs OKC Thunder", 
+            "Denver Nuggets vs Chicago Bulls", 
         ],
         bets: [
-            "Fenerbahçe -4.5", 
-            "Uralmash -2.5",    
-            "Üst (155.5)",      
+            "Milwaukee (H) -4.5 Galibiyet", 
+            "Denver (H) -3.5 Galibiyet",  
         ],
     },
     {
-        title: "SÜRPRİZ KOMBİNE",
-        risk: "orta",
-        confidence: 75,
-        totalOdd: 7.15,
+        title: "Kupon 2 – Alt/Üst 2 Tahmin",
+        risk: "düşük",
+        confidence: 80,
+        totalOdd: 2.86, // 1.70 x 1.68 = 2.856 -> 2.86
         matchTitles: [
-            "Bursaspor vs Cholet", 
-            "Maccabi vs Barcelona",
-            "Nymburk vs Chalon", 
-            "Rostock vs BC Tartu",
+            "Milwaukee Bucks vs OKC Thunder", 
+            "Denver Nuggets vs Chicago Bulls", 
         ],
         bets: [
-            "Bursaspor -2.5",   
-            "Maccabi -2.5",     
-            "Nymburk -3.5",     
-            "Üst (165.5)",      
+            "Üst (222.5)", 
+            "Üst (226.5)", 
         ],
     },
 ];
@@ -381,9 +287,16 @@ const KUPONLAR = [
 const contentEl = document.getElementById('content');
 const tabs = document.querySelectorAll('.tab');
 
-// Yardımcı Fonksiyon: Maç adına göre detayları bulur
-function getMatchDetailsByTitle(title) {
-    return MATCHES.find(m => m.title === title);
+// Yardımcı Fonksiyon: Kuponlar için maçı bulur (Kupon tarihi/saati için gereklidir)
+function getPredictionByTitle(title) {
+    // Taraf ve Alt/Üst listelerinde arama yapar. Sadece biri yeterli.
+    const hMatch = HANDIKAP_PREDICTIONS.find(m => m.title === title);
+    if (hMatch) return hMatch;
+    
+    const auMatch = ALT_UST_PREDICTIONS.find(m => m.title === title);
+    if (auMatch) return auMatch;
+
+    return null;
 }
 
 // Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
@@ -391,11 +304,11 @@ function getKuponStartTime(kupon) {
     if (kupon.matchTitles.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
     
     const matchDetails = kupon.matchTitles
-        .map(title => getMatchDetailsByTitle(title))
+        .map(title => getPredictionByTitle(title))
         .filter(d => d);
     
     if (matchDetails.length > 0) {
-        // HH:MM formatındaki string'leri güvenilir bir şekilde karşılaştırarak en erken saati bulur
+        // En erken başlayan maçı bulur (Saat alanına göre sıralar)
         const earliestMatch = matchDetails.sort((a, b) => {
             if (a.time < b.time) return -1;
             if (a.time > b.time) return 1;
@@ -408,7 +321,7 @@ function getKuponStartTime(kupon) {
     return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
 }
 
-// Risk rengini belirleyen yardımcı fonksiyon (Değişiklik yapılmadı, sadece risk için)
+// Risk rengini belirleyen yardımcı fonksiyon
 function getRiskColor(risk) {
     switch (risk) {
         case 'düşük': return '#28d07b'; 
@@ -418,82 +331,63 @@ function getRiskColor(risk) {
     }
 }
 
-// Kazanma etiketi için yeni HTML (CSS sınıfı ile stil verilmiş)
-const KAZANDI_LOGO_HTML = '<span class="kazandi-tag">WON ✅</span>';
+// TEMEL KART OLUŞTURMA İŞLEVİ
+function createMatchCardHtml(match, betType) {
+    // Kart başlığı sekme ismine göre dinamik olarak belirlendi
+    const oddTypeText = betType === 'handikap' ? 'Taraf Tahmini Oranı' : 'Alt/Üst Tahmini Oranı';
+    const riskColor = getRiskColor(match.risk);
+    const confidenceWidth = match.confidence;
 
-// Handikap İçeriği Oluşturma 
-function renderHandikap() {
-    let html = '';
-    MATCHES.forEach(match => {
-        const riskColor = getRiskColor(match.risk);
-        const confidenceWidth = match.confidence;
-
-        // Kazanma durumunu kontrol et
-        const winLogo = match.result === 'kazandı' ? KAZANDI_LOGO_HTML : '';
-        
-        // Risk gösterimi
-        const resultHtml = `
-            <div class="risk-ev-wrap">
-                <div class="risk-text">
-                    Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk.toUpperCase()}
+    return `
+        <div class="match-card">
+            <div class="match-head">
+                <div>
+                    <div class="match-title">${match.title}</div>
+                    <span class="match-datetime">${match.date} ${match.time}</span>
                 </div>
-            </div>
-        `;
-
-        html += `
-            <div class="match-card">
-                <div class="match-head">
-                    <div>
-                        <div class="match-title">${match.title}</div>
-                        <span class="match-datetime">${match.date} ${match.time}</span>
-                    </div>
-                    ${resultHtml}
-                </div>
-                <div class="bet-preference">Robot Tercihi: ${match.handikapBet}</div>
-                <div class="bet">
-                    <div class="type">MS Handikap - Tahmini Oran</div>
-                    <div class="odd">${match.handikapOdd.toFixed(2)} ${winLogo}</div> <div class="muted-small">Tavsiye edilen bahis tercihi</div>
-                    <div class="progress-wrap">
-                        <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
-                    </div>
-                    <div class="confidence-row">
-                        <span>Güven Düzeyi:</span>
-                        <span>%${match.confidence}</span>
+                <div class="risk-ev-wrap">
+                    <div class="risk-text">
+                        Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk.toUpperCase()}
                     </div>
                 </div>
             </div>
-        `;
-    });
-    contentEl.innerHTML = html;
-}
-
-// Alt/Üst İçeriği Oluşturma (Format Sadeleştirildi)
-function renderAltUst() {
-    let html = `
-        <div class="alt-ust-header">
-            <span>MAÇ</span>
-            <span>TAHMİN</span>
+            <div class="bet-preference">Robot Tercihi: ${match.bet}</div>
+            <div class="bet">
+                <div class="type">${oddTypeText}</div>
+                <div class="odd">${match.odd.toFixed(2)}</div>
+                <div class="muted-small">Tavsiye edilen bahis tercihi</div>
+                <div class="progress-wrap">
+                    <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
+                </div>
+                <div class="confidence-row">
+                    <span>Güven Düzeyi:</span>
+                    <span>%${match.confidence}</span>
+                </div>
+            </div>
         </div>
     `;
-    MATCHES.forEach(match => {
-        // Kazanma durumunu kontrol et
-        const altUstWinLogo = match.result === 'kazandı' ? KAZANDI_LOGO_HTML : '';
-        
-        html += `
-            <div class="total-card">
-                <div class="total-card-match-info">
-                    <div class="total-card-match">${match.title}</div>
-                    <div class="total-card-datetime">${match.date} ${match.time}</div>
-                </div>
-                <div class="total-card-bet">
-                    ${match.altUstBet} @${match.altUstOdd.toFixed(2)} ${altUstWinLogo} </div>
-            </div>
-        `;
+}
+
+// Taraf Tahmini İçeriği Oluşturma
+function renderHandikap() {
+    let html = '';
+    HANDIKAP_PREDICTIONS.forEach(match => {
+        html += createMatchCardHtml(match, 'handikap');
     });
     contentEl.innerHTML = html;
 }
 
-// Kuponlar İçeriği Oluşturma (Sonuç İbareleri Kaldırıldı)
+// Alt/Üst Tahmini İçeriği Oluşturma
+function renderAltUst() {
+    let html = '';
+    ALT_UST_PREDICTIONS.forEach(match => {
+        html += createMatchCardHtml(match, 'altust');
+    });
+    contentEl.innerHTML = html;
+}
+
+
+// Kuponlar İçeriği Oluşturma 
 function renderKuponlar() {
     let html = '';
     KUPONLAR.forEach(kupon => {
@@ -501,11 +395,8 @@ function renderKuponlar() {
         const confidenceWidth = kupon.confidence;
         const kuponStartTime = getKuponStartTime(kupon); 
         
-        // Kupon Sonuç İbaresi tamamen kaldırıldı
-
         let predictionsHtml = kupon.matchTitles.map((title, index) => {
             const bet = kupon.bets[index];
-            // Kupon içindeki tekli maç sonuç ibareleri de kaldırıldı
             return `<div>${title}: ${bet}</div>`;
         }).join('');
 
