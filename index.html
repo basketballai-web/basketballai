@@ -114,7 +114,15 @@
     border-radius:10px;padding:12px;margin-top:8px;border:1px solid rgba(255,255,255,0.02)
   }
   .bet .type{font-weight:700;color:var(--accent-start);font-size:13px;margin-bottom:8px}
-  .bet .odd{font-size:28px;font-weight:800;margin-bottom:6px;color:var(--warning);}
+  .bet .odd{
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:6px;
+    color:var(--warning);
+    display: flex; /* Flexbox ekledik */
+    align-items: center; /* Dikeyde hizalama */
+    gap: 12px; /* Oran ile logo arasına boşluk artırıldı */
+  }
   .muted-small{color:var(--muted);font-size:13px}
   .progress-wrap{background:rgba(255,255,255,0.04);height:10px;border-radius:999px;margin-top:12px;overflow:hidden}
   .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--success),#12b76a);transition:width 600ms ease}
@@ -201,7 +209,7 @@
       white-space: nowrap; 
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 6px; /* Alt/Üst için oran ile logo arasına boşluk */
       font-size: 14px; 
   }
   /* ALT/ÜST HEADER DÜZENLENDİ */
@@ -251,6 +259,22 @@
     width: 100%;
     text-align: center;
   }
+
+  /* WON ✅ logosunun yeni stili */
+  .kazandi-tag {
+    background-color: var(--success); /* Yeşil arka plan */
+    color: var(--panel); /* Koyu metin rengi */
+    font-size: 14px; /* Font boyutu biraz küçültüldü */
+    font-weight: 800;
+    padding: 4px 8px; /* İç boşluk */
+    border-radius: 6px; /* Köşe yuvarlama */
+    display: inline-flex;
+    align-items: center;
+    gap: 4px; /* WON ile ✅ arasına boşluk */
+    line-height: 1; /* Satır yüksekliği ayarı */
+    box-shadow: 0 2px 8px rgba(40, 208, 123, 0.4); /* Hafif gölge */
+    text-transform: uppercase; /* Metni büyük harf yap */
+  }
 </style>
 </head>
 <body>
@@ -288,8 +312,9 @@
 // *** TUTARLILIK İÇİN TEK ANA MAÇ LİSTESİ - TÜMÜ 14 EKİM SALI (Düzeltildi) ***
 const MATCHES = [
     // 14 Ekim (Bugün) Maçları - SAATLER KESİN OLARAK KONTROL EDİLDİ VE SIRALANDI
-    { title: "Mobis Phoebus vs Daegu Pegasus", date: "14 Ekim Salı", time: "13:00", handikapBet: "Mobis -3.5", altUstBet: "Alt (162.5)", handikapOdd: 1.85, altUstOdd: 1.88, risk: "düşük", confidence: 83 },
-    { title: "E. Krasnoyarsk vs Unics Kazan", date: "14 Ekim Salı", time: "15:30", handikapBet: "Unics -5.5", altUstBet: "Üst (148.5)", handikapOdd: 1.90, altUstOdd: 1.90, risk: "orta", confidence: 78 },
+    // Mobis ve Enisey maçlarına 'result: "kazandı"' eklendi
+    { title: "Mobis Phoebus vs Daegu Pegasus", date: "14 Ekim Salı", time: "13:00", handikapBet: "Mobis -3.5", altUstBet: "Alt (162.5)", handikapOdd: 1.85, altUstOdd: 1.88, risk: "düşük", confidence: 83, result: "kazandı" },
+    { title: "E. Krasnoyarsk vs Unics Kazan", date: "14 Ekim Salı", time: "15:30", handikapBet: "Unics -5.5", altUstBet: "Üst (148.5)", handikapOdd: 1.90, altUstOdd: 1.90, risk: "orta", confidence: 78, result: "kazandı" },
     { title: "BK Uralmash vs A. Saratov", date: "14 Ekim Salı", time: "17:30", handikapBet: "Uralmash -2.5", altUstBet: "Üst (152.5)", handikapOdd: 1.88, altUstOdd: 1.91, risk: "düşük", confidence: 81 },
     { title: "AS Karditsas vs U. Malaga", date: "14 Ekim Salı", time: "18:30", handikapBet: "AS Karditsas -1.5", altUstBet: "Alt (145.5)", handikapOdd: 2.10, altUstOdd: 1.95, risk: "yüksek", confidence: 70 }, 
     
@@ -383,7 +408,7 @@ function getKuponStartTime(kupon) {
     return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
 }
 
-// Risk rengini belirleyen yardımcı fonksiyon
+// Risk rengini belirleyen yardımcı fonksiyon (Değişiklik yapılmadı, sadece risk için)
 function getRiskColor(risk) {
     switch (risk) {
         case 'düşük': return '#28d07b'; 
@@ -393,6 +418,9 @@ function getRiskColor(risk) {
     }
 }
 
+// Kazanma etiketi için yeni HTML (CSS sınıfı ile stil verilmiş)
+const KAZANDI_LOGO_HTML = '<span class="kazandi-tag">WON ✅</span>';
+
 // Handikap İçeriği Oluşturma 
 function renderHandikap() {
     let html = '';
@@ -400,7 +428,10 @@ function renderHandikap() {
         const riskColor = getRiskColor(match.risk);
         const confidenceWidth = match.confidence;
 
-        // Sonuç ibareleri kaldırıldığı için sadece Risk gösteriliyor
+        // Kazanma durumunu kontrol et
+        const winLogo = match.result === 'kazandı' ? KAZANDI_LOGO_HTML : '';
+        
+        // Risk gösterimi
         const resultHtml = `
             <div class="risk-ev-wrap">
                 <div class="risk-text">
@@ -421,8 +452,7 @@ function renderHandikap() {
                 <div class="bet-preference">Robot Tercihi: ${match.handikapBet}</div>
                 <div class="bet">
                     <div class="type">MS Handikap - Tahmini Oran</div>
-                    <div class="odd">${match.handikapOdd.toFixed(2)}</div>
-                    <div class="muted-small">Tavsiye edilen bahis tercihi</div>
+                    <div class="odd">${match.handikapOdd.toFixed(2)} ${winLogo}</div> <div class="muted-small">Tavsiye edilen bahis tercihi</div>
                     <div class="progress-wrap">
                         <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
                     </div>
@@ -446,7 +476,9 @@ function renderAltUst() {
         </div>
     `;
     MATCHES.forEach(match => {
-        // Alt/Üst için sonuç gösterimi kaldırıldı
+        // Kazanma durumunu kontrol et
+        const altUstWinLogo = match.result === 'kazandı' ? KAZANDI_LOGO_HTML : '';
+        
         html += `
             <div class="total-card">
                 <div class="total-card-match-info">
@@ -454,8 +486,7 @@ function renderAltUst() {
                     <div class="total-card-datetime">${match.date} ${match.time}</div>
                 </div>
                 <div class="total-card-bet">
-                    ${match.altUstBet} @${match.altUstOdd.toFixed(2)}
-                </div>
+                    ${match.altUstBet} @${match.altUstOdd.toFixed(2)} ${altUstWinLogo} </div>
             </div>
         `;
     });
