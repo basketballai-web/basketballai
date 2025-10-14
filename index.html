@@ -93,16 +93,15 @@
   }
   .match-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}
   .match-title{font-weight:700;font-size:16px}
-  .match-meta{color:var(--muted);font-size:12px;margin-top:6px} /* Tarih/Saat stili */
-
+  
   /* GÜNCELLENEN VE İSTENEN TARİH/SAAT STİLİ */
   .match-datetime {
-    font-weight: 800; /* Daha kalın */
-    color: var(--warning); /* Sarı/Turuncu renk */
-    font-size: 14px; /* Daha büyük */
+    font-weight: 800; 
+    color: var(--warning); 
+    font-size: 14px; 
     display: block; 
     margin-top: 4px;
-    margin-bottom: 6px; /* Başlıkla tahmin arasına boşluk */
+    margin-bottom: 6px; 
   }
   /* GÜNCELLENEN TARİH/SAAT STİLİ BİTİŞ */
 
@@ -190,9 +189,9 @@
       font-size: 14px; 
   }
   .total-card-datetime {
-      font-size: 13px; /* Güncellendi */
-      color: var(--warning); /* Güncellendi */
-      font-weight: 700; /* Güncellendi */
+      font-size: 13px; 
+      color: var(--warning); 
+      font-weight: 700; 
       white-space: nowrap;
       margin-left: 10px;
   }
@@ -244,9 +243,9 @@
 
   /* KUPON KARTI İÇİN TARİH SAAT STİLİ */
   .kupon-date-time {
-    font-size: 13px; /* Güncellendi */
-    color: var(--warning); /* Güncellendi */
-    font-weight: 800; /* Güncellendi */
+    font-size: 13px; 
+    color: var(--warning); 
+    font-weight: 800; 
     margin-bottom: 10px;
     display: block;
     width: 100%;
@@ -286,72 +285,87 @@
 </div>
 
 <script>
-// Maç listesi, gerçekçi ve ardışık tarihlerle güncellendi. (Tarih: 14.10.2025'ten başlar)
-const HANDIKAP_TAHMINLERI = [
+// *** TUTARLILIK İÇİN TEK ANA MAÇ LİSTESİ ***
+const MATCHES = [
     // 14 Ekim (Bugün) Maçları
-    { title: "Mobis Phoebus vs Daegu Pegasus", date: "14 Ekim Salı", time: "13:00", bet: "Mobis -3.5", risk: "düşük", confidence: 83, odd: 1.85 },
-    { title: "E. Krasnoyarsk vs Unics Kazan", date: "14 Ekim Salı", time: "15:30", bet: "Unics -5.5", risk: "orta", confidence: 78, odd: 1.90 },
-    { title: "BK Uralmash vs A. Saratov", date: "14 Ekim Salı", time: "17:30", bet: "Uralmash -2.5", risk: "düşük", confidence: 81, odd: 1.88 },
-    { title: "Türk Telekom vs Buducnost", date: "14 Ekim Salı", time: "20:00", bet: "Türk Telekom -3.5", risk: "orta", confidence: 79, odd: 1.95 },
-    { title: "Fenerbahçe vs BC Dubai", date: "14 Ekim Salı", time: "20:45", bet: "Fenerbahçe -4.5", risk: "düşük", confidence: 85, odd: 1.80 },
-    { title: "Olympiakos vs Anadolu Efes", date: "14 Ekim Salı", time: "21:15", bet: "Olympiakos -3.5", risk: "orta", confidence: 80, odd: 1.92 },
+    { title: "Mobis Phoebus vs Daegu Pegasus", date: "14 Ekim Salı", time: "13:00", handikapBet: "Mobis -3.5", altUstBet: "Alt (162.5)", handikapOdd: 1.85, altUstOdd: 1.88, risk: "düşük", confidence: 83 },
+    { title: "E. Krasnoyarsk vs Unics Kazan", date: "14 Ekim Salı", time: "15:30", handikapBet: "Unics -5.5", altUstBet: "Üst (148.5)", handikapOdd: 1.90, altUstOdd: 1.90, risk: "orta", confidence: 78 },
+    { title: "BK Uralmash vs A. Saratov", date: "14 Ekim Salı", time: "17:30", handikapBet: "Uralmash -2.5", altUstBet: "Üst (152.5)", handikapOdd: 1.88, altUstOdd: 1.91, risk: "düşük", confidence: 81 },
+    { title: "Türk Telekom vs Buducnost", date: "14 Ekim Salı", time: "20:00", handikapBet: "Türk Telekom -3.5", altUstBet: "Üst (155.5)", handikapOdd: 1.95, altUstOdd: 1.92, risk: "orta", confidence: 79 },
+    { title: "Fenerbahçe vs BC Dubai", date: "14 Ekim Salı", time: "20:45", handikapBet: "Fenerbahçe -4.5", altUstBet: "Alt (172.5)", handikapOdd: 1.80, altUstOdd: 1.85, risk: "düşük", confidence: 85 },
+    { title: "Olympiakos vs Anadolu Efes", date: "14 Ekim Salı", time: "21:15", handikapBet: "Olympiakos -3.5", altUstBet: "Alt (160.5)", handikapOdd: 1.92, altUstOdd: 1.85, risk: "orta", confidence: 80 },
 
     // 15 Ekim Maçları
-    { title: "AS Karditsas vs U. Malaga", date: "15 Ekim Çarşamba", time: "18:30", bet: "AS Karditsas -1.5", risk: "yüksek", confidence: 70, odd: 2.10 },
-    { title: "Vef Riga vs Levicki Patrioti", date: "15 Ekim Çarşamba", time: "19:00", bet: "Vef Riga -2.5", risk: "düşük", confidence: 82, odd: 1.87 },
-    { title: "Bursaspor vs Cholet", date: "15 Ekim Çarşamba", time: "19:00", bet: "Bursaspor -2.5", risk: "orta", confidence: 78, odd: 1.90 },
-    { title: "O. Ljubljana vs Aris", date: "15 Ekim Çarşamba", time: "19:30", bet: "Olimpija -2.5", risk: "orta", confidence: 79, odd: 1.94 },
-    { title: "Nymburk vs Chalon", date: "15 Ekim Çarşamba", time: "20:00", bet: "Nymburk -3.5", risk: "düşük", confidence: 83, odd: 1.85 },
-    { title: "Maccabi vs Barcelona", date: "15 Ekim Çarşamba", time: "20:00", bet: "Maccabi -2.5", risk: "yüksek", confidence: 75, odd: 2.05 },
-    { title: "Hamburg vs Bahçeşehir", date: "15 Ekim Çarşamba", time: "20:30", bet: "Hamburg -2.5", risk: "orta", confidence: 78, odd: 1.90 },
-    { title: "Rostock vs BC Tartu", date: "15 Ekim Çarşamba", time: "21:00", bet: "Rostock -1.5", risk: "orta", confidence: 77, odd: 1.98 },
-    { title: "Wurzburg vs Igokea", date: "15 Ekim Çarşamba", time: "21:00", bet: "Wurzburg -1.5", risk: "orta", confidence: 77, odd: 1.90 },
-];
-
-const ALT_UST_TAHMINLERI = [
-    { title: "Mobis Phoebus vs Daegu Pegasus", date: "14 Ekim Salı", time: "13:00", bet: "Alt (162.5)", limit: 162.5, odd: 1.88 },
-    { title: "E. Krasnoyarsk vs Unics Kazan", date: "14 Ekim Salı", time: "15:30", bet: "Üst (148.5)", limit: 148.5, odd: 1.90 },
-    { title: "Türk Telekom vs Buducnost", date: "14 Ekim Salı", time: "20:00", bet: "Üst (155.5)", limit: 155.5, odd: 1.92 },
-    { title: "Olympiakos vs Anadolu Efes", date: "14 Ekim Salı", time: "21:15", bet: "Alt (160.5)", limit: 160.5, odd: 1.85 },
-    { title: "AS Karditsas vs U. Malaga", date: "15 Ekim Çarşamba", time: "18:30", bet: "Alt (145.5)", limit: 145.5, odd: 1.95 },
-    { title: "Vef Riga vs Levicki Patrioti", date: "15 Ekim Çarşamba", time: "19:00", bet: "Üst (152.5)", limit: 152.5, odd: 1.87 },
-    { title: "Bursaspor vs Cholet", date: "15 Ekim Çarşamba", time: "19:00", bet: "Alt (158.5)", limit: 158.5, odd: 1.90 },
-    { title: "Maccabi vs Barcelona", date: "15 Ekim Çarşamba", time: "20:00", bet: "Üst (154.5)", limit: 154.5, odd: 1.93 },
-    { title: "Hamburg vs Bahçeşehir", date: "15 Ekim Çarşamba", time: "20:30", bet: "Alt (160.5)", limit: 160.5, odd: 1.88 },
+    { title: "AS Karditsas vs U. Malaga", date: "15 Ekim Çarşamba", time: "18:30", handikapBet: "AS Karditsas -1.5", altUstBet: "Alt (145.5)", handikapOdd: 2.10, altUstOdd: 1.95, risk: "yüksek", confidence: 70 },
+    { title: "Vef Riga vs Levicki Patrioti", date: "15 Ekim Çarşamba", time: "19:00", handikapBet: "Vef Riga -2.5", altUstBet: "Üst (152.5)", handikapOdd: 1.87, altUstOdd: 1.87, risk: "düşük", confidence: 82 },
+    { title: "Bursaspor vs Cholet", date: "15 Ekim Çarşamba", time: "19:00", handikapBet: "Bursaspor -2.5", altUstBet: "Alt (158.5)", handikapOdd: 1.90, altUstOdd: 1.90, risk: "orta", confidence: 78 },
+    { title: "O. Ljubljana vs Aris", date: "15 Ekim Çarşamba", time: "19:30", handikapBet: "Olimpija -2.5", altUstBet: "Üst (150.5)", handikapOdd: 1.94, altUstOdd: 1.86, risk: "orta", confidence: 79 },
+    { title: "Nymburk vs Chalon", date: "15 Ekim Çarşamba", time: "20:00", handikapBet: "Nymburk -3.5", altUstBet: "Alt (164.5)", handikapOdd: 1.85, altUstOdd: 1.89, risk: "düşük", confidence: 83 },
+    { title: "Maccabi vs Barcelona", date: "15 Ekim Çarşamba", time: "20:00", handikapBet: "Maccabi -2.5", altUstBet: "Üst (154.5)", handikapOdd: 2.05, altUstOdd: 1.93, risk: "yüksek", confidence: 75 },
+    { title: "Hamburg vs Bahçeşehir", date: "15 Ekim Çarşamba", time: "20:30", handikapBet: "Hamburg -2.5", altUstBet: "Alt (160.5)", handikapOdd: 1.90, altUstOdd: 1.88, risk: "orta", confidence: 78 },
+    { title: "Rostock vs BC Tartu", date: "15 Ekim Çarşamba", time: "21:00", handikapBet: "Rostock -1.5", altUstBet: "Üst (165.5)", handikapOdd: 1.98, altUstOdd: 1.91, risk: "orta", confidence: 77 },
+    { title: "Wurzburg vs Igokea", date: "15 Ekim Çarşamba", time: "21:00", handikapBet: "Wurzburg -1.5", altUstBet: "Alt (157.5)", handikapOdd: 1.90, altUstOdd: 1.87, risk: "orta", confidence: 77 },
 ];
 
 const KUPONLAR = [
     {
         title: "GÜNÜN KUPONU - Yüksek Güven",
-        date: "14 Ekim Salı", 
-        time: "21:15 (Son Maç Saati)", // Son maçın saati olarak güncellendi
         risk: "düşük",
         confidence: 88,
         totalOdd: 3.45,
-        matches: [
-            { title: "Fenerbahçe vs BC Dubai", bet: "Fenerbahçe -4.5" },
-            { title: "BK Uralmash vs A. Saratov", bet: "Uralmash -2.5" },
-            { title: "Türk Telekom vs Buducnost", bet: "Üst (155.5)" },
+        matchTitles: [
+            "Fenerbahçe vs BC Dubai", 
+            "BK Uralmash vs A. Saratov", 
+            "Türk Telekom vs Buducnost"
+        ],
+        bets: [
+            "Fenerbahçe -4.5", // Handikap
+            "Uralmash -2.5",    // Handikap
+            "Üst (155.5)",      // Alt/Üst
         ]
     },
     {
         title: "ÇARŞAMBA KOMBİNESİ - Sürpriz",
-        date: "15 Ekim Çarşamba", 
-        time: "21:00 (Son Maç Saati)",
         risk: "orta",
         confidence: 75,
         totalOdd: 7.15,
-        matches: [
-            { title: "Maccabi vs Barcelona", bet: "Maccabi -2.5" },
-            { title: "Bursaspor vs Cholet", bet: "Bursaspor -2.5" },
-            { title: "Nymburk vs Chalon", bet: "Nymburk -3.5" },
-            { title: "Rostock vs BC Tartu", bet: "Alt (150.5)" },
+        matchTitles: [
+            "Maccabi vs Barcelona",
+            "Bursaspor vs Cholet",
+            "Nymburk vs Chalon",
+            "Rostock vs BC Tartu",
+        ],
+        bets: [
+            "Maccabi -2.5",     // Handikap
+            "Bursaspor -2.5",   // Handikap
+            "Nymburk -3.5",     // Handikap
+            "Üst (165.5)",      // Alt/Üst
         ]
     },
 ];
 
 const contentEl = document.getElementById('content');
 const tabs = document.querySelectorAll('.tab');
+
+// Yardımcı Fonksiyon: Maç adına göre detayları bulur
+function getMatchDetailsByTitle(title) {
+    return MATCHES.find(m => m.title === title);
+}
+
+// Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
+function getKuponStartTime(kupon) {
+    if (kupon.matchTitles.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
+    
+    // Kupondaki ilk maçı bul
+    const firstMatchTitle = kupon.matchTitles[0];
+    const firstMatchDetails = getMatchDetailsByTitle(firstMatchTitle);
+    
+    if (firstMatchDetails) {
+        return { date: firstMatchDetails.date, time: firstMatchDetails.time };
+    }
+    
+    return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
+}
 
 // Risk rengini belirleyen yardımcı fonksiyon
 function getRiskColor(risk) {
@@ -366,7 +380,8 @@ function getRiskColor(risk) {
 // Handikap İçeriği Oluşturma (Tarih ve Saat BÜYÜK ve BELİRGİN)
 function renderHandikap() {
     let html = '';
-    HANDIKAP_TAHMINLERI.forEach(match => {
+    // Sadece Handikap tahmini olan maçları filtreleyip gösteriyoruz
+    MATCHES.filter(m => m.handikapBet).forEach(match => {
         const riskColor = getRiskColor(match.risk);
         const confidenceWidth = match.confidence;
 
@@ -383,10 +398,10 @@ function renderHandikap() {
                         </div>
                     </div>
                 </div>
-                <div class="bet-preference">Robot Tercihi: ${match.bet}</div>
+                <div class="bet-preference">Robot Tercihi: ${match.handikapBet}</div>
                 <div class="bet">
                     <div class="type">MS Handikap - Tahmini Oran</div>
-                    <div class="odd">${match.odd.toFixed(2)}</div>
+                    <div class="odd">${match.handikapOdd.toFixed(2)}</div>
                     <div class="muted-small">Tavsiye edilen bahis tercihi</div>
                     <div class="progress-wrap">
                         <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
@@ -402,15 +417,16 @@ function renderHandikap() {
     contentEl.innerHTML = html;
 }
 
-// Alt/Üst İçeriği Oluşturma (Tarih ve Saat Eklendi)
+// Alt/Üst İçeriği Oluşturma (Alt/Üst Formatı Sadeleştirildi)
 function renderAltUst() {
     let html = `
         <div class="alt-ust-header">
             <span>MAÇ</span>
-            <span>LİMİT</span>
+            <span>TAHMİN</span>
         </div>
     `;
-    ALT_UST_TAHMINLERI.forEach(match => {
+    // Sadece Alt/Üst tahmini olan maçları filtreleyip gösteriyoruz
+    MATCHES.filter(m => m.altUstBet).forEach(match => {
         html += `
             <div class="total-card">
                 <div class="total-card-match-info">
@@ -418,7 +434,7 @@ function renderAltUst() {
                     <div class="total-card-datetime">${match.date} ${match.time}</div>
                 </div>
                 <div class="total-card-bet">
-                    ${match.bet} (${match.limit}) @${match.odd.toFixed(2)}
+                    ${match.altUstBet} @${match.altUstOdd.toFixed(2)}
                 </div>
             </div>
         `;
@@ -426,22 +442,24 @@ function renderAltUst() {
     contentEl.innerHTML = html;
 }
 
-// Kuponlar İçeriği Oluşturma (Tarih ve Saat Eklendi)
+// Kuponlar İçeriği Oluşturma (İlk Maç Saati Eklendi)
 function renderKuponlar() {
     let html = '';
     KUPONLAR.forEach(kupon => {
         const riskColor = getRiskColor(kupon.risk);
         const confidenceWidth = kupon.confidence;
+        const kuponStartTime = getKuponStartTime(kupon); // İlk maç saatini çek
 
-        let predictionsHtml = kupon.matches.map(m => 
-            `<div>${m.title}: ${m.bet}</div>`
-        ).join('');
+        let predictionsHtml = kupon.matchTitles.map((title, index) => {
+            const bet = kupon.bets[index];
+            return `<div>${title}: ${bet}</div>`;
+        }).join('');
 
         html += `
             <div class="match-card">
                 <div class="kupon-card-content">
                     <div class="match-title" style="margin-bottom: 5px;">${kupon.title}</div>
-                    <div class="kupon-date-time">${kupon.date} ${kupon.time}</div> 
+                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time}</div> 
                     
                     <div class="kupon-risk-indicator">
                         <div class="risk-text">
