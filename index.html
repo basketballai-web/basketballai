@@ -236,48 +236,48 @@
 <script>
 // --- VERİ PARÇALAMA VE DÖNÜŞÜM ---
 
+// NOT: Tüm saatler UTC+3'e (İstanbul Saati) göre ayarlanmıştır.
 const RAW_DATA = [
-    // Yeni eklenen kupon maçları için eklenen veya güncellenen veriler
-    ["09:15", "Meralco vs Blackwater", "Ev", 65, "Alt", 64, 1.10, 168.5, 1.16], 
-    ["10:30", "Perth Wildcats vs Brisbane Bullets", "Ev", 80, "Alt", 80, 1.18, 180.5, 1.06], 
-    // Orijinal veriler
-    ["11:30", "TNT Katropa vs Barangay Ginebra", "Ev", 68, "Üst", 62, 1.47, 175.5, 1.56],
-    ["14:30", "Parma Perm vs Lokomotiv Kuban", "Dep", 77, "Üst", 65, 1.27, 167.5, 1.59],
-    ["15:00", "Petkim Spor vs CSM Corona Brasov", "Dep", 83, "Alt", 69, 1.66, 164.5, 1.60],
-    ["15:00", "BC Kutaisi vs Basket Brno", "Ev", 64, "Alt", 58, 1.75, 166.5, 1.62],
-    ["16:00", "Lietkabelis vs Ulm", "Dep", 74, "Üst", 68, 1.57, 172.5, 1.70],
-    ["16:00", "Sabah Baku vs Alba Berlin", "Dep", 87, "Üst", 79, 1.59, 167.5, 1.59],
-    ["16:00", "CSM Oradea vs AEK Larnaca", "Dep", 88, "Üst", 80, 1.64, 155.5, 1.63],
-    ["16:00", "CS Valcea 1924 vs Rasta Vechta", "Dep", 73, "Üst", 66, 1.33, 168.5, 1.65],
-    ["16:30", "AEK Athens vs Szolnoki Olaj KK", "Dep", 85, "Üst", 72, 1.59, 163.5, 1.59],
-    ["16:30", "Start Lublin vs KK Bosna Royal", "Ev", 65, "Alt", 57, 1.37, 165.5, 1.67],
-    ["16:30", "Braunschweig vs Anwil Wloclawek", "Ev", 62, "Alt", 56, 1.66, 166.5, 1.66],
-    ["16:30", "Bakken Bears vs Anorthosis Famagusta", "Dep", 86, "Üst", 74, 1.64, 166.5, 1.63],
-    ["16:30", "Panionios vs JL Bourg", "Dep", 80, "Üst", 68, 1.26, 166.5, 1.71],
-    ["16:30", "CSKA Moskova vs Nizhny Novgorod", "Ev", 92, "Alt", 82, 1.14, 165.5, 1.65], 
-    ["16:30", "Heidelberg vs Rytas Vilnius", "Dep", 70, "Üst", 63, 1.38, 176.5, 1.59],
-    ["17:00", "Slask Wroclaw vs Cluj Napoca", "Dep", 71, "Üst", 64, 1.36, 176.5, 1.68],
-    ["17:00", "Beşiktaş vs Chemnitz", "Ev", 76, "Alt", 59, 1.11, 167.5, 1.56],
-    ["17:00", "Reyer Venezia vs Neptunas", "Ev", 74, "Alt", 61, 1.15, 176.5, 1.69],
-    ["17:00", "Legia Warszawa vs Promitheas", "Ev", 68, "Alt", 58, 1.40, 168.5, 1.71],
-    ["17:00", "Zaragoza vs Falco Szombathely", "Dep", 86, "Üst", 72, 1.26, 173.5, 1.64],
-    ["17:00", "Dijon vs Reggiana", "Ev", 65, "Alt", 54, 1.19, 161.5, 1.65],
-    ["17:00", "BC Prievidza vs Keravnos", "Dep", 88, "Üst", 74, 3.58, 160.5, 1.63],
-    ["17:00", "Cedevita Zagreb vs Pelister Bitola", "Ev", 63, "Alt", 57, 1.25, 168.5, 1.65],
-    ["17:00", "USK Prag (K) vs UNI Girona (K)", "Dep", 85, "Üst", 72, 1.60, 148.5, 1.67],
-    ["17:00", "Flammes (K) vs Galatasaray (K)", "Ev", 66, "Alt", 54, 1.78, 142.5, 1.63],
-    ["17:15", "PAOK vs KB Trepca", "Dep", 88, "Üst", 73, 1.60, 161.5, 1.66],
-    ["18:00", "Trefl Sopot vs Neftchi IK", "Dep", 87, "Üst", 71, 1.64, 165.5, 1.63],
-    ["18:15", "Panathinaikos vs ASVEL", "Dep", 88, "Üst", 72, 1.57, 170.5, 1.70],
-    ["18:30", "Valencia vs Hapoel Tel Aviv", "Ev", 72, "Alt", 61, 1.57, 180.5, 1.69],
-    ["18:30", "Virtus Bologna vs AS Monaco", "Dep", 81, "Üst", 70, 1.32, 165.5, 1.58],
-    ["18:30", "Murcia vs Rilski Sportist", "Ev", 93, "Alt", 83, 1.75, 164.5, 1.64],
-    ["18:30", "Sporting CP vs Dinamo Sassari", "Ev", 74, "Alt", 62, 2.50, 168.5, 1.66],
-    ["18:30", "Basket 1971 vs Pesaro", "Ev", 71, "Alt", 60, 1.55, 159.5, 1.70],
-    ["18:45", "Paris vs Baskonia", "Ev", 67, "Alt", 58, 1.22, 181.5, 1.59],
-    ["18:45", "Real Madrid vs Partizan", "Ev", 91, "Alt", 81, 1.11, 166.5, 1.70],
-    ["18:45", "Manresa vs Hapoel Jerusalem", "Ev", 68, "Alt", 57, 1.46, 167.5, 1.59],
-    ["19:00", "Trieste vs Galatasaray", "Dep", 79, "Üst", 68, 1.37, 171.5, 1.70]
+    // [SAAT(UTC+3), "MAÇ ADI", TarafTahmini, TarafGüven, AltÜstTahmini, AltÜstGüven, TarafOran, BaremSayi, AltÜstOran]
+    ["12:15", "Meralco vs Blackwater", "Ev", 65, "Alt", 64, 1.10, 168.5, 1.16], 
+    ["13:30", "Perth Wildcats vs Brisbane Bullets", "Ev", 80, "Alt", 80, 1.18, 180.5, 1.06], 
+    ["14:30", "TNT Katropa vs Barangay Ginebra", "Ev", 68, "Üst", 62, 1.47, 175.5, 1.56],
+    ["17:30", "Parma Perm vs Lokomotiv Kuban", "Dep", 77, "Üst", 65, 1.27, 167.5, 1.59],
+    ["18:00", "Petkim Spor vs CSM Corona Brasov", "Dep", 83, "Alt", 69, 1.66, 164.5, 1.60],
+    ["18:00", "BC Kutaisi vs Basket Brno", "Ev", 64, "Alt", 58, 1.75, 166.5, 1.62],
+    ["19:00", "Lietkabelis vs Ulm", "Dep", 74, "Üst", 68, 1.57, 172.5, 1.70],
+    ["19:00", "Sabah Baku vs Alba Berlin", "Dep", 87, "Üst", 79, 1.59, 167.5, 1.59],
+    ["19:00", "CSM Oradea vs AEK Larnaca", "Dep", 88, "Üst", 80, 1.64, 155.5, 1.63],
+    ["19:00", "CS Valcea 1924 vs Rasta Vechta", "Dep", 73, "Üst", 66, 1.33, 168.5, 1.65],
+    ["19:30", "AEK Athens vs Szolnoki Olaj KK", "Dep", 85, "Üst", 72, 1.59, 163.5, 1.59],
+    ["19:30", "Start Lublin vs KK Bosna Royal", "Ev", 65, "Alt", 57, 1.37, 165.5, 1.67],
+    ["19:30", "Braunschweig vs Anwil Wloclawek", "Ev", 62, "Alt", 56, 1.66, 166.5, 1.66],
+    ["19:30", "Bakken Bears vs Anorthosis Famagusta", "Dep", 86, "Üst", 74, 1.64, 166.5, 1.63],
+    ["19:30", "Panionios vs JL Bourg", "Dep", 80, "Üst", 68, 1.26, 166.5, 1.71],
+    ["19:30", "CSKA Moskova vs Nizhny Novgorod", "Ev", 92, "Alt", 82, 1.14, 165.5, 1.65], 
+    ["19:30", "Heidelberg vs Rytas Vilnius", "Dep", 70, "Üst", 63, 1.38, 176.5, 1.59],
+    ["20:00", "Slask Wroclaw vs Cluj Napoca", "Dep", 71, "Üst", 64, 1.36, 176.5, 1.68],
+    ["20:00", "Beşiktaş vs Chemnitz", "Ev", 76, "Alt", 59, 1.11, 167.5, 1.56],
+    ["20:00", "Reyer Venezia vs Neptunas", "Ev", 74, "Alt", 61, 1.15, 176.5, 1.69],
+    ["20:00", "Legia Warszawa vs Promitheas", "Ev", 68, "Alt", 58, 1.40, 168.5, 1.71],
+    ["20:00", "Zaragoza vs Falco Szombathely", "Dep", 86, "Üst", 72, 1.26, 173.5, 1.64],
+    ["20:00", "Dijon vs Reggiana", "Ev", 65, "Alt", 54, 1.19, 161.5, 1.65],
+    ["20:00", "BC Prievidza vs Keravnos", "Dep", 88, "Üst", 74, 3.58, 160.5, 1.63],
+    ["20:00", "Cedevita Zagreb vs Pelister Bitola", "Ev", 63, "Alt", 57, 1.25, 168.5, 1.65],
+    ["20:00", "USK Prag (K) vs UNI Girona (K)", "Dep", 85, "Üst", 72, 1.60, 148.5, 1.67],
+    ["20:00", "Flammes (K) vs Galatasaray (K)", "Ev", 66, "Alt", 54, 1.78, 142.5, 1.63],
+    ["20:15", "PAOK vs KB Trepca", "Dep", 88, "Üst", 73, 1.60, 161.5, 1.66],
+    ["21:00", "Trefl Sopot vs Neftchi IK", "Dep", 87, "Üst", 71, 1.64, 165.5, 1.63],
+    ["21:15", "Panathinaikos vs ASVEL", "Dep", 88, "Üst", 72, 1.57, 170.5, 1.70],
+    ["21:30", "Valencia vs Hapoel Tel Aviv", "Ev", 72, "Alt", 61, 1.57, 180.5, 1.69],
+    ["21:30", "Virtus Bologna vs AS Monaco", "Dep", 81, "Üst", 70, 1.32, 165.5, 1.58],
+    ["21:30", "Murcia vs Rilski Sportist", "Ev", 93, "Alt", 83, 1.75, 164.5, 1.64],
+    ["21:30", "Sporting CP vs Dinamo Sassari", "Ev", 74, "Alt", 62, 2.50, 168.5, 1.66],
+    ["21:30", "Basket 1971 vs Pesaro", "Ev", 71, "Alt", 60, 1.55, 159.5, 1.70],
+    ["21:45", "Paris vs Baskonia", "Ev", 67, "Alt", 58, 1.22, 181.5, 1.59],
+    ["21:45", "Real Madrid vs Partizan", "Ev", 91, "Alt", 81, 1.11, 166.5, 1.70],
+    ["21:45", "Manresa vs Hapoel Jerusalem", "Ev", 68, "Alt", 57, 1.46, 167.5, 1.59],
+    ["22:00", "Trieste vs Galatasaray", "Dep", 79, "Üst", 68, 1.37, 171.5, 1.70]
 ];
 
 const NBA_DATE = "15.10.2025 Çarşamba"; 
@@ -333,25 +333,25 @@ const NEW_KUPONLAR = [
     {
         title: "⭐ PREMİUM KUPON (DÜŞÜK RİSK)",
         matches: [
-            { title: "Perth Wildcats vs Brisbane Bullets", time: "10:30", bet: "Alt (180.5)", confidence: 80, odd: 1.06 },
-            { title: "Meralco vs Blackwater", time: "09:15", bet: "Alt (168.5)", confidence: 64, odd: 1.16 },
-            { title: "TNT Katropa vs Barangay Ginebra", time: "11:30", bet: "Üst (175.5)", confidence: 62, odd: 1.56 },
+            { title: "Perth Wildcats vs Brisbane Bullets", time: "13:30", bet: "Alt (180.5)", confidence: 80, odd: 1.06 },
+            { title: "Meralco vs Blackwater", time: "12:15", bet: "Alt (168.5)", confidence: 64, odd: 1.16 },
+            { title: "TNT Katropa vs Barangay Ginebra", time: "14:30", bet: "Üst (175.5)", confidence: 62, odd: 1.56 },
         ]
     },
     {
         title: "🏆 STANDART KUPON (ORTA RİSK)",
         matches: [
-            { title: "Parma Perm vs Lokomotiv Kuban", time: "14:30", bet: "Üst (167.5)", confidence: 65, odd: 1.59 },
-            { title: "BC Kutaisi vs Basket Brno", time: "15:00", bet: "Alt (166.5)", confidence: 58, odd: 1.62 },
-            { title: "Braunschweig vs Anwil Wloclawek", time: "16:30", bet: "Alt (166.5)", confidence: 56, odd: 1.66 },
+            { title: "Parma Perm vs Lokomotiv Kuban", time: "17:30", bet: "Üst (167.5)", confidence: 65, odd: 1.59 },
+            { title: "BC Kutaisi vs Basket Brno", time: "18:00", bet: "Alt (166.5)", confidence: 58, odd: 1.62 },
+            { title: "Braunschweig vs Anwil Wloclawek", time: "19:30", bet: "Alt (166.5)", confidence: 56, odd: 1.66 },
         ]
     },
     {
         title: "🚀 HİGH VALUE KUPON (YÜKSEK KAZANÇ)",
         matches: [
-            { title: "CSKA Moskova vs Nizhny Novgorod", time: "16:30", bet: "Alt (165.5)", confidence: 82, odd: 1.65 },
-            { title: "Murcia vs Rilski Sportist", time: "18:30", bet: "Alt (164.5)", confidence: 83, odd: 1.64 },
-            { title: "Panathinaikos vs ASVEL", time: "18:15", bet: "Üst (170.5)", confidence: 72, odd: 1.70 },
+            { title: "CSKA Moskova vs Nizhny Novgorod", time: "19:30", bet: "Alt (165.5)", confidence: 82, odd: 1.65 },
+            { title: "Murcia vs Rilski Sportist", time: "21:30", bet: "Alt (164.5)", confidence: 83, odd: 1.64 },
+            { title: "Panathinaikos vs ASVEL", time: "21:15", bet: "Üst (170.5)", confidence: 72, odd: 1.70 },
         ]
     },
 ];
@@ -416,7 +416,7 @@ function createMatchCardHtml(match, betType) {
             <div class="match-head">
                 <div>
                     <div class="match-title">${match.title}</div>
-                    <span class="match-datetime">${match.date} ${match.time} (UTC)</span>
+                    <span class="match-datetime">${match.date} ${match.time} (UTC+3)</span>
                 </div>
                 <div class="risk-ev-wrap">
                     <div class="risk-text">
@@ -477,7 +477,7 @@ function renderKuponlar() {
             <div class="match-card">
                 <div class="kupon-card-content">
                     <div class="match-title" style="margin-bottom: 5px;">${kupon.title}</div>
-                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time} (UTC)</div> 
+                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time} (UTC+3)</div> 
                     
                     <div class="kupon-risk-indicator">
                         <div class="risk-text">
@@ -540,7 +540,7 @@ tabs.forEach(tab => {
 });
 
 // Başlangıçta varsayılan sekmeyi yükle
-setActiveTab('handikap'); // Başlangıç sekmesi Taraf Tahmini olarak ayarlandı
+setActiveTab('handikap'); 
 
 </script>
 </body>
