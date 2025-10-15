@@ -40,7 +40,7 @@
     overflow:hidden;
     background:linear-gradient(90deg,var(--accent-start),var(--accent-end));
     padding:14px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    box-shadow:0 10px 30px rgba(0 0,0,0.6);
   }
   .inner{
     border-radius:16px;
@@ -102,6 +102,18 @@
     display: block; 
     margin-top: 4px;
     margin-bottom: 6px; 
+  }
+  /* BAREM SAYILARI İÇİN YENİ STİL */
+  .barem-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-top: 8px;
+  }
+  .barem-sayi {
+      color: var(--orange);
+      font-weight: 800;
+      margin-left: 5px;
   }
   /* GÜNCELLENEN TARİH/SAAT STİLİ BİTİŞ */
 
@@ -287,56 +299,55 @@
 <script>
 // *** TUTARLILIK İÇİN TEK ANA MAÇ LİSTESİ - TÜMÜ 15 EKİM ÇARŞAMBA ***
 const MATCHES = [
-    // Veri yapısı: title, date, time, altUstBet, altUstConfidence, altUstOdd, msBet, msConfidence, msOdd, risk
-    // Risk, Güven %'ye göre belirlenir. MS Tahmininin güvenini baz alalım.
-    // %85+ = düşük (low risk), %70-84 = orta (medium risk), %69- = yüksek (high risk)
-    
+    // Yeni Veri Yapısı: ..., msOdd, risk, handikapBaremi, altUstBaremi
+    // Not: Barem sayıları (Handikap Baremi ve Alt/Üst Baremi) tahmini olarak eklenmiştir.
+
     // 15.10.2025 Maçları
-    { title: "Sh. Susanoo - Saga Ballooners", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.60, msBet: "MS1", msConfidence: 90, msOdd: 1.15, risk: "düşük" },
-    { title: "Gunma Crane - Levanga Hokkaido", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 88, altUstOdd: 1.63, msBet: "MS1", msConfidence: 92, msOdd: 1.12, risk: "düşük" },
-    { title: "Utsunomiya Brex - Chiba Jets", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.59, msBet: "MS1", msConfidence: 65, msOdd: 1.67, risk: "yüksek" },
-    { title: "Shiga Lake Stars - R.G.K.Okinawa", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.62, msBet: "MS2", msConfidence: 85, msOdd: 1.05, risk: "düşük" },
-    { title: "San-En Neophoenix - Altiri Chiba", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 90, altUstOdd: 1.65, msBet: "MS1", msConfidence: 95, msOdd: 1.11, risk: "düşük" },
-    { title: "Yokohama B Corsairs - Koshigaya Alpha", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 80, altUstOdd: 1.62, msBet: "MS1", msConfidence: 92, msOdd: 1.14, risk: "düşük" },
-    { title: "Toyama Grous - Diamond Dolphins", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.65, msBet: "MS2", msConfidence: 88, msOdd: 1.06, risk: "düşük" },
-    { title: "Kyoto Hannarizu - Hiroshima Dr.", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 70, altUstOdd: 1.65, msBet: "MS2", msConfidence: 80, msOdd: 1.26, risk: "orta" },
-    { title: "Fighting Eagle - Osaka Evessa", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.59, msBet: "MS1", msConfidence: 65, msOdd: 1.59, risk: "yüksek" },
-    { title: "Nagasaki Velca - Aisin Seahorses", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.68, msBet: "MS1", msConfidence: 70, msOdd: 1.39, risk: "orta" },
-    { title: "Brave Thunders - Sendai 89ers", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.63, msBet: "MS1", msConfidence: 68, msOdd: 1.80, risk: "yüksek" },
-    { title: "Tasmania J. - Sydney Kings", date: "15 Ekim Çarşamba", time: "11:30", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.70, msBet: "MS1", msConfidence: 75, msOdd: 1.80, risk: "orta" },
-    { title: "Meralco - Blackwater", date: "15 Ekim Çarşamba", time: "12:15", altUstBet: "Üst", altUstConfidence: 90, altUstOdd: 1.70, msBet: "MS1", msConfidence: 95, msOdd: 1.16, risk: "düşük" },
-    { title: "LG Sakers - Anyang KGC", date: "15 Ekim Çarşamba", time: "13:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.57, msBet: "MS1", msConfidence: 60, msOdd: 1.28, risk: "yüksek" },
-    { title: "Alvark Tokyo - Akita Northern H.", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.60, msBet: "MS1", msConfidence: 65, msOdd: 1.45, risk: "yüksek" },
-    { title: "Ibaraki Robots - SR Shibuya", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.68, msBet: "MS2", msConfidence: 90, msOdd: 1.10, risk: "düşük" },
-    { title: "Perth W. - Brisbane Bullets", date: "15 Ekim Çarşamba", time: "13:30", altUstBet: "Üst", altUstConfidence: 95, altUstOdd: 1.69, msBet: "MS1", msConfidence: 98, msOdd: 1.06, risk: "düşük" },
-    { title: "TNT Katropa - Barangay Ginebra", date: "15 Ekim Çarşamba", time: "14:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.56, msBet: "MS1", msConfidence: 65, msOdd: 1.47, risk: "yüksek" },
-    { title: "Parma Permsk - L. Kuban", date: "15 Ekim Çarşamba", time: "17:30", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.59, msBet: "MS2", msConfidence: 70, msOdd: 2.28, risk: "orta" },
-    { title: "Petkim Spor - Csm Corona Brasov", date: "15 Ekim Çarşamba", time: "18:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.60, msBet: "MS2", msConfidence: 50, msOdd: 6.19, risk: "yüksek" },
-    { title: "BC Kutaisi - Basket Brno", date: "15 Ekim Çarşamba", time: "18:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.62, msBet: "MS1", msConfidence: 65, msOdd: 1.75, risk: "yüksek" },
-    { title: "Lietkabelis - Ulm", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.70, msBet: "MS1", msConfidence: 60, msOdd: 1.71, risk: "yüksek" },
-    { title: "Sabah Baku - Alba Berlin", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.59, msBet: "MS2", msConfidence: 85, msOdd: 3.95, risk: "düşük" },
-    { title: "CSM Oradea - AEK Larnaca", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.63, msBet: "MS2", msConfidence: 90, msOdd: 1.64, risk: "düşük" },
-    { title: "CS Valcea 1924 - Rasta Vechta", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.65, msBet: "MS2", msConfidence: 70, msOdd: 1.33, risk: "orta" },
-    { title: "AEK Athens - Szolnoki Olaj K.", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.59, msBet: "MS2", msConfidence: 85, msOdd: 1.59, risk: "düşük" },
-    { title: "Start Lublin - KK Bosna Royal", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.67, msBet: "MS1", msConfidence: 65, msOdd: 1.37, risk: "yüksek" },
-    { title: "Braunschweig - A. Wloclawek", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.66, msBet: "MS1", msConfidence: 60, msOdd: 1.66, risk: "yüksek" },
-    { title: "Bakken Bears - Anorthosis Fam.", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.63, msBet: "MS2", msConfidence: 90, msOdd: 1.64, risk: "düşük" },
-    { title: "Panionios - Bourg", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.71, msBet: "MS2", msConfidence: 65, msOdd: 1.26, risk: "yüksek" },
-    { title: "CSKA Moskova - N. Novgorod", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.65, msBet: "MS2", msConfidence: 90, msOdd: 1.56, risk: "düşük" },
-    { title: "Heidelberg - Rytas Vilnius", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.59, msBet: "MS2", msConfidence: 70, msOdd: 1.38, risk: "orta" },
-    { title: "Slask Wroclaw - Cluj Napoca", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.68, msBet: "MS2", msConfidence: 65, msOdd: 1.36, risk: "yüksek" },
-    { title: "Beşiktaş - Chemnitz", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.56, msBet: "MS1", msConfidence: 95, msOdd: 1.11, risk: "düşük" },
-    { title: "Reyer Venezia - Neptunas", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.69, msBet: "MS1", msConfidence: 90, msOdd: 1.15, risk: "düşük" },
-    { title: "Legia Warsz. - Promitheas", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.71, msBet: "MS1", msConfidence: 70, msOdd: 1.40, risk: "orta" },
-    { title: "Zaragoza - F. Szombathely", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.64, msBet: "MS2", msConfidence: 85, msOdd: 1.63, risk: "düşük" },
-    { title: "Dijon - Reggiana", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.65, msBet: "MS1", msConfidence: 80, msOdd: 1.19, risk: "orta" },
-    { title: "BC Prievidza - Keravnos", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.63, msBet: "MS1", msConfidence: 95, msOdd: 1.05, risk: "düşük" },
-    { title: "Kk Cedevita Zag. - Pelister Bitola", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.65, msBet: "MS1", msConfidence: 70, msOdd: 1.25, risk: "orta" },
-    { title: "USK Prag (K) - UNI Girona (K)", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.67, msBet: "MS2", msConfidence: 85, msOdd: 1.60, risk: "düşük" },
-    { title: "Flammes (K) - G.Saray (K)", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.63, msBet: "MS1", msConfidence: 75, msOdd: 1.78, risk: "orta" },
-    { title: "PAOK - KB Trepca", date: "15 Ekim Çarşamba", time: "20:15", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.66, msBet: "MS2", msConfidence: 70, msOdd: 1.60, risk: "orta" },
-    { title: "Trefl Sopot - Neftchi IK", date: "15 Ekim Çarşamba", time: "21:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.63, msBet: "MS2", msConfidence: 85, msOdd: 1.64, risk: "düşük" },
-    { title: "Panathinaikos - Asvel", date: "15 Ekim Çarşamba", time: "21:15", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.70, msBet: "MS2", msConfidence: 90, msOdd: 1.57, risk: "düşük" },
+    { title: "Sh. Susanoo - Saga Ballooners", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.60, msBet: "MS1", msConfidence: 90, msOdd: 1.15, risk: "düşük", handikapBaremi: "-6.5", altUstBaremi: "168.5" },
+    { title: "Gunma Crane - Levanga Hokkaido", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 88, altUstOdd: 1.63, msBet: "MS1", msConfidence: 92, msOdd: 1.12, risk: "düşük", handikapBaremi: "-7.5", altUstBaremi: "165.5" },
+    { title: "Utsunomiya Brex - Chiba Jets", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.59, msBet: "MS1", msConfidence: 65, msOdd: 1.67, risk: "yüksek", handikapBaremi: "-2.5", altUstBaremi: "155.5" },
+    { title: "Shiga Lake Stars - R.G.K.Okinawa", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.62, msBet: "MS2", msConfidence: 85, msOdd: 1.05, risk: "düşük", handikapBaremi: "+12.5", altUstBaremi: "161.5" },
+    { title: "San-En Neophoenix - Altiri Chiba", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 90, altUstOdd: 1.65, msBet: "MS1", msConfidence: 95, msOdd: 1.11, risk: "düşük", handikapBaremi: "-8.5", altUstBaremi: "172.5" },
+    { title: "Yokohama B Corsairs - Koshigaya Alpha", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 80, altUstOdd: 1.62, msBet: "MS1", msConfidence: 92, msOdd: 1.14, risk: "düşük", handikapBaremi: "-5.5", altUstBaremi: "174.5" },
+    { title: "Toyama Grous - Diamond Dolphins", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.65, msBet: "MS2", msConfidence: 88, msOdd: 1.06, risk: "düşük", handikapBaremi: "+10.5", altUstBaremi: "159.5" },
+    { title: "Kyoto Hannarizu - Hiroshima Dr.", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 70, altUstOdd: 1.65, msBet: "MS2", msConfidence: 80, msOdd: 1.26, risk: "orta", handikapBaremi: "+4.5", altUstBaremi: "163.5" },
+    { title: "Fighting Eagle - Osaka Evessa", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.59, msBet: "MS1", msConfidence: 65, msOdd: 1.59, risk: "yüksek", handikapBaremi: "-1.5", altUstBaremi: "157.5" },
+    { title: "Nagasaki Velca - Aisin Seahorses", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.68, msBet: "MS1", msConfidence: 70, msOdd: 1.39, risk: "orta", handikapBaremi: "-3.5", altUstBaremi: "162.5" },
+    { title: "Brave Thunders - Sendai 89ers", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.63, msBet: "MS1", msConfidence: 68, msOdd: 1.80, risk: "yüksek", handikapBaremi: "-0.5", altUstBaremi: "158.5" },
+    { title: "Tasmania J. - Sydney Kings", date: "15 Ekim Çarşamba", time: "11:30", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.70, msBet: "MS1", msConfidence: 75, msOdd: 1.80, risk: "orta", handikapBaremi: "-1.5", altUstBaremi: "180.5" },
+    { title: "Meralco - Blackwater", date: "15 Ekim Çarşamba", time: "12:15", altUstBet: "Üst", altUstConfidence: 90, altUstOdd: 1.70, msBet: "MS1", msConfidence: 95, msOdd: 1.16, risk: "düşük", handikapBaremi: "-7.5", altUstBaremi: "192.5" },
+    { title: "LG Sakers - Anyang KGC", date: "15 Ekim Çarşamba", time: "13:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.57, msBet: "MS1", msConfidence: 60, msOdd: 1.28, risk: "yüksek", handikapBaremi: "-3.5", altUstBaremi: "155.5" },
+    { title: "Alvark Tokyo - Akita Northern H.", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.60, msBet: "MS1", msConfidence: 65, msOdd: 1.45, risk: "yüksek", handikapBaremi: "-3.5", altUstBaremi: "150.5" },
+    { title: "Ibaraki Robots - SR Shibuya", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.68, msBet: "MS2", msConfidence: 90, msOdd: 1.10, risk: "düşük", handikapBaremi: "+8.5", altUstBaremi: "170.5" },
+    { title: "Perth W. - Brisbane Bullets", date: "15 Ekim Çarşamba", time: "13:30", altUstBet: "Üst", altUstConfidence: 95, altUstOdd: 1.69, msBet: "MS1", msConfidence: 98, msOdd: 1.06, risk: "düşük", handikapBaremi: "-8.5", altUstBaremi: "185.5" },
+    { title: "TNT Katropa - Barangay Ginebra", date: "15 Ekim Çarşamba", time: "14:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.56, msBet: "MS1", msConfidence: 65, msOdd: 1.47, risk: "yüksek", handikapBaremi: "-2.5", altUstBaremi: "178.5" },
+    { title: "Parma Permsk - L. Kuban", date: "15 Ekim Çarşamba", time: "17:30", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.59, msBet: "MS2", msConfidence: 70, msOdd: 2.28, risk: "orta", handikapBaremi: "+2.5", altUstBaremi: "148.5" },
+    { title: "Petkim Spor - Csm Corona Brasov", date: "15 Ekim Çarşamba", time: "18:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.60, msBet: "MS2", msConfidence: 50, msOdd: 6.19, risk: "yüksek", handikapBaremi: "+8.5", altUstBaremi: "152.5" },
+    { title: "BC Kutaisi - Basket Brno", date: "15 Ekim Çarşamba", time: "18:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.62, msBet: "MS1", msConfidence: 65, msOdd: 1.75, risk: "yüksek", handikapBaremi: "-1.5", altUstBaremi: "158.5" },
+    { title: "Lietkabelis - Ulm", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.70, msBet: "MS1", msConfidence: 60, msOdd: 1.71, risk: "yüksek", handikapBaremi: "-1.5", altUstBaremi: "163.5" },
+    { title: "Sabah Baku - Alba Berlin", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.59, msBet: "MS2", msConfidence: 85, msOdd: 3.95, risk: "düşük", handikapBaremi: "+4.5", altUstBaremi: "145.5" },
+    { title: "CSM Oradea - AEK Larnaca", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.63, msBet: "MS2", msConfidence: 90, msOdd: 1.64, risk: "düşük", handikapBaremi: "+1.5", altUstBaremi: "154.5" },
+    { title: "CS Valcea 1924 - Rasta Vechta", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.65, msBet: "MS2", msConfidence: 70, msOdd: 1.33, risk: "orta", handikapBaremi: "+4.5", altUstBaremi: "157.5" },
+    { title: "AEK Athens - Szolnoki Olaj K.", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.59, msBet: "MS2", msConfidence: 85, msOdd: 1.59, risk: "düşük", handikapBaremi: "+2.5", altUstBaremi: "156.5" },
+    { title: "Start Lublin - KK Bosna Royal", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.67, msBet: "MS1", msConfidence: 65, msOdd: 1.37, risk: "yüksek", handikapBaremi: "-3.5", altUstBaremi: "159.5" },
+    { title: "Braunschweig - A. Wloclawek", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.66, msBet: "MS1", msConfidence: 60, msOdd: 1.66, risk: "yüksek", handikapBaremi: "-1.5", altUstBaremi: "161.5" },
+    { title: "Bakken Bears - Anorthosis Fam.", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.63, msBet: "MS2", msConfidence: 90, msOdd: 1.64, risk: "düşük", handikapBaremi: "+1.5", altUstBaremi: "154.5" },
+    { title: "Panionios - Bourg", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.71, msBet: "MS2", msConfidence: 65, msOdd: 1.26, risk: "yüksek", handikapBaremi: "+4.5", altUstBaremi: "165.5" },
+    { title: "CSKA Moskova - N. Novgorod", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.65, msBet: "MS2", msConfidence: 90, msOdd: 1.56, risk: "düşük", handikapBaremi: "+2.5", altUstBaremi: "162.5" },
+    { title: "Heidelberg - Rytas Vilnius", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.59, msBet: "MS2", msConfidence: 70, msOdd: 1.38, risk: "orta", handikapBaremi: "+3.5", altUstBaremi: "158.5" },
+    { title: "Slask Wroclaw - Cluj Napoca", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.68, msBet: "MS2", msConfidence: 65, msOdd: 1.36, risk: "yüksek", handikapBaremi: "+3.5", altUstBaremi: "156.5" },
+    { title: "Beşiktaş - Chemnitz", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.56, msBet: "MS1", msConfidence: 95, msOdd: 1.11, risk: "düşük", handikapBaremi: "-6.5", altUstBaremi: "159.5" },
+    { title: "Reyer Venezia - Neptunas", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.69, msBet: "MS1", msConfidence: 90, msOdd: 1.15, risk: "düşük", handikapBaremi: "-5.5", altUstBaremi: "155.5" },
+    { title: "Legia Warsz. - Promitheas", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.71, msBet: "MS1", msConfidence: 70, msOdd: 1.40, risk: "orta", handikapBaremi: "-2.5", altUstBaremi: "161.5" },
+    { title: "Zaragoza - F. Szombathely", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.64, msBet: "MS2", msConfidence: 85, msOdd: 1.63, risk: "düşük", handikapBaremi: "+2.5", altUstBaremi: "150.5" },
+    { title: "Dijon - Reggiana", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.65, msBet: "MS1", msConfidence: 80, msOdd: 1.19, risk: "orta", handikapBaremi: "-4.5", altUstBaremi: "153.5" },
+    { title: "BC Prievidza - Keravnos", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.63, msBet: "MS1", msConfidence: 95, msOdd: 1.05, risk: "düşük", handikapBaremi: "-7.5", altUstBaremi: "148.5" },
+    { title: "Kk Cedevita Zag. - Pelister Bitola", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.65, msBet: "MS1", msConfidence: 70, msOdd: 1.25, risk: "orta", handikapBaremi: "-3.5", altUstBaremi: "151.5" },
+    { title: "USK Prag (K) - UNI Girona (K)", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.67, msBet: "MS2", msConfidence: 85, msOdd: 1.60, risk: "düşük", handikapBaremi: "+2.5", altUstBaremi: "145.5" },
+    { title: "Flammes (K) - G.Saray (K)", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.63, msBet: "MS1", msConfidence: 75, msOdd: 1.78, risk: "orta", handikapBaremi: "-1.5", altUstBaremi: "138.5" },
+    { title: "PAOK - KB Trepca", date: "15 Ekim Çarşamba", time: "20:15", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.66, msBet: "MS2", msConfidence: 70, msOdd: 1.60, risk: "orta", handikapBaremi: "+2.5", altUstBaremi: "155.5" },
+    { title: "Trefl Sopot - Neftchi IK", date: "15 Ekim Çarşamba", time: "21:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.63, msBet: "MS2", msConfidence: 85, msOdd: 1.64, risk: "düşük", handikapBaremi: "+2.5", altUstBaremi: "157.5" },
+    { title: "Panathinaikos - Asvel", date: "15 Ekim Çarşamba", time: "21:15", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.70, msBet: "MS2", msConfidence: 90, msOdd: 1.57, risk: "düşük", handikapBaremi: "+3.5", altUstBaremi: "150.5" },
 ];
 
 // Kupon toplam oran hesaplama fonksiyonu (Kupondaki tüm tahminlerin oranlarının çarpımı)
@@ -354,8 +365,6 @@ function calculateTotalOdd(kupon) {
         if (betStr.includes("Alt") || betStr.includes("Üst")) {
             totalOdd *= match.altUstOdd;
         } else {
-            // Kupon tahminleri formattaki gibi MS1/MS2 içeriyorsa
-            // Not: Kupon verisi "MS1 (1.16)" şeklinde oran içeriyor, ancak biz MATCHES dizisindeki oranı kullanıyoruz.
             totalOdd *= match.msOdd;
         }
     });
@@ -375,9 +384,9 @@ const KUPONLAR = [
             "Perth W. - Brisbane Bullets",
         ],
         bets: [
-            "San-En Neophoenix - Altiri Chiba: Üst (1.65)", // Oran: 1.65
-            "Meralco - Blackwater: MS1 (1.16)",             // Oran: 1.16
-            "Perth W. - Brisbane Bullets: Üst (1.69)",      // Oran: 1.69
+            "San-En Neophoenix - Altiri Chiba: Üst (1.65)", 
+            "Meralco - Blackwater: MS1 (1.16)",             
+            "Perth W. - Brisbane Bullets: Üst (1.69)",      
         ],
         // Total Oran: 1.65 * 1.16 * 1.69 = 3.23076
         totalOdd: 3.23076, 
@@ -392,9 +401,9 @@ const KUPONLAR = [
             "Nagasaki Velca - Aisin Seahorses",
         ],
         bets: [
-            "Sh. Susanoo - Saga Ballooners: Üst (1.60)", // Oran: 1.60
-            "Gunma Crane - Levanga Hokkaido: Üst (1.63)",// Oran: 1.63
-            "Nagasaki Velca - Aisin Seahorses: Alt (1.68)", // Oran: 1.68
+            "Sh. Susanoo - Saga Ballooners: Üst (1.60)", 
+            "Gunma Crane - Levanga Hokkaido: Üst (1.63)",
+            "Nagasaki Velca - Aisin Seahorses: Alt (1.68)", 
         ],
         // Total Oran: 1.60 * 1.63 * 1.68 = 4.3824
         totalOdd: 4.3824, 
@@ -409,9 +418,9 @@ const KUPONLAR = [
             "Parma Permsk - L. Kuban", 
         ],
         bets: [
-            "Petkim Spor - Csm Corona Brasov: MS2 (6.19)", // Oran: 6.19
-            "Sabah Baku - Alba Berlin: MS2 (3.95)",        // Oran: 3.95
-            "Parma Permsk - L. Kuban: MS2 (2.28)",         // Oran: 2.28
+            "Petkim Spor - Csm Corona Brasov: MS2 (6.19)", 
+            "Sabah Baku - Alba Berlin: MS2 (3.95)",        
+            "Parma Permsk - L. Kuban: MS2 (2.28)",         
         ],
         // Total Oran: 6.19 * 3.95 * 2.28 = 55.77666
         totalOdd: 55.77666, 
@@ -419,7 +428,6 @@ const KUPONLAR = [
 ];
 
 // Kupon toplam oranlarını tekrar hesapla (MATCHES verisindeki oranları kullan)
-// Kupon verisinde totalOdd elle hesaplanmıştır, kod ile de kontrol edelim.
 KUPONLAR.forEach(kupon => {
     kupon.totalOdd = calculateTotalOdd(kupon); 
 });
@@ -466,7 +474,7 @@ function getRiskColor(risk) {
     }
 }
 
-// MS (Maç Sonucu) İçeriği Oluşturma (Eski Handikap sekmesi yerine)
+// MS (Maç Sonucu) İçeriği Oluşturma (Handikap baremini gösterir)
 function renderMS() {
     let html = '';
     // MS (Maç Sonucu) tahmin güvenine göre sıralama
@@ -493,6 +501,9 @@ function renderMS() {
                     </div>
                     ${resultHtml}
                 </div>
+                
+                <div class="barem-text">Handikap Baremi: <span class="barem-sayi">${match.handikapBaremi}</span></div>
+
                 <div class="bet-preference">Robot Tercihi: ${match.msBet}</div>
                 <div class="bet">
                     <div class="type">MAÇ SONUCU - Tahmini Oran</div>
@@ -512,7 +523,7 @@ function renderMS() {
     contentEl.innerHTML = html;
 }
 
-// Alt/Üst İçeriği Oluşturma (Format Sadeleştirildi)
+// Alt/Üst İçeriği Oluşturma (Alt/Üst baremini gösterir)
 function renderAltUst() {
     let html = `
         <div class="alt-ust-header">
@@ -524,14 +535,17 @@ function renderAltUst() {
     const sortedMatches = [...MATCHES].sort((a, b) => b.altUstConfidence - a.altUstConfidence);
 
     sortedMatches.forEach(match => {
-        // Alt/Üst için sonuç gösterimi kaldırıldı
+        
         html += `
             <div class="total-card">
                 <div class="total-card-match-info">
                     <div class="total-card-match">${match.title}</div>
                     <div class="total-card-datetime">${match.date} ${match.time}</div>
                 </div>
-                <div class="total-card-bet" style="color:var(--warning);">
+                
+                <div class="barem-text" style="margin-top: 0; font-size: 13px;">Alt/Üst Baremi: <span class="barem-sayi">${match.altUstBaremi}</span></div>
+
+                <div class="total-card-bet" style="color:var(--success); margin-top: 8px;">
                     ${match.altUstBet} @${match.altUstOdd.toFixed(2)} 
                     <span style="font-weight: 500; color: var(--muted); margin-left: 8px;">(%${match.altUstConfidence})</span>
                 </div>
@@ -553,9 +567,22 @@ function renderKuponlar() {
             // Kupon listesindeki her bir tahmin satırını göster
             const parts = betStr.split(': ');
             const matchTitle = parts[0];
-            const betDetail = parts.length > 1 ? parts[1] : betStr; // Eğer ayraç yoksa, tüm stringi göster
+            const betDetail = parts.length > 1 ? parts[1] : betStr; 
             
-            return `<div>${matchTitle}: ${betDetail}</div>`;
+            // Maç detaylarını alıp baremi ekle
+            const match = getMatchDetailsByTitle(matchTitle);
+            let barem = "";
+            if(match) {
+                // Tahmin türüne göre baremi göster (basitleştirilmiş)
+                if (betStr.includes("Alt") || betStr.includes("Üst")) {
+                    barem = ` (${match.altUstBaremi})`;
+                } else {
+                    barem = ` (${match.handikapBaremi})`;
+                }
+            }
+
+
+            return `<div>${matchTitle}: ${betDetail}${barem}</div>`;
         }).join('');
 
         html += `
@@ -603,7 +630,7 @@ function setActiveTab(tabName) {
     });
 
     switch (tabName) {
-        case 'ms': // Handikap yerine 'ms' kullanıldı
+        case 'ms': 
             renderMS();
             break;
         case 'altust':
@@ -625,7 +652,7 @@ tabs.forEach(tab => {
 });
 
 // Başlangıçta varsayılan sekmeyi yükle
-setActiveTab('ms'); // Artık MS Tahminleri sekmesi açılacak
+setActiveTab('ms'); 
 
 </script>
 </body>
