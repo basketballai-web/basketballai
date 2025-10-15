@@ -246,106 +246,83 @@
 </div>
 
 <script>
-// --- VERİ PARÇALAMA VE DÖNÜŞÜM ---
+// --- YENİ VERİ YAPISI ---
 
-// Not: Verilerinizin tarih ve saat formatı 'DD.MM.YYYY - HH:mm' olduğundan, 
-// ayırmak için bu formatı kullanıyoruz. Tüm saatler UTC+3'e göre ayarlanmıştır.
-
+// Tüm maçların tek bir yapıya dönüştürülmüş hali.
+// Barem Sayısı, kullanıcı tarafından belirtilmediği için bazı maçlar için varsayılan olarak 165.5 alındı.
+// MS1 -> Ev, MS2 -> Dep olarak çevrildi.
 const RAW_DATA = [
-    // [TARİH-SAAT(UTC+3), "MAÇ ADI", TarafTahmini, TarafGüven, AltÜstTahmini, AltÜstGüven, TarafOran, BaremSayi, AltÜstOran]
-    ["15.10.2025 - 11:30", "Tasmania JackJumpers vs Sydney Kings", "Ev", 56, "Alt", 53, 1.80, 178.5, 1.70],
-    ["15.10.2025 - 12:15", "Meralco vs Blackwater", "Ev", 78, "Alt", 64, 1.16, 191.5, 1.70],
-    ["15.10.2025 - 13:00", "LG Sakers vs Anyang KGC", "Ev", 67, "Alt", 55, 1.28, 148.5, 1.57],
-    ["15.10.2025 - 13:05", "Shimane Susanoo vs Saga Ballooners", "Ev", 78, "Alt", 74, 1.15, 160.5, 1.66],
-    ["15.10.2025 - 13:05", "Gunma Crane vs Levanga Hokkaido", "Ev", 75, "Alt", 69, 1.12, 156.5, 1.63],
-    ["15.10.2025 - 13:05", "Utsunomiya Brex vs Chiba Jets", "Ev", 71, "Üst", 72, 1.67, 162.5, 1.59],
-    ["15.10.2025 - 13:05", "Shiga Lake Stars vs Ryukyu Golden Kings", "Dep", 86, "Üst", 78, 1.05, 160.5, 1.62],
-    ["15.10.2025 - 13:05", "San-En Neophoenix vs Altiri Chiba", "Ev", 74, "Alt", 70, 1.11, 166.5, 1.65],
-    ["15.10.2025 - 13:05", "Yokohama B Corsairs vs Koshigaya Alphas", "Ev", 77, "Alt", 71, 1.14, 150.5, 1.62],
-    ["15.10.2025 - 13:05", "Toyama Grouses vs Diamond Dolphins", "Dep", 85, "Üst", 73, 1.06, 165.5, 1.65],
-    ["15.10.2025 - 13:05", "Kyoto Hannarizu vs Hiroshima Dragonflies", "Dep", 81, "Üst", 74, 1.26, 168.5, 1.65],
-    ["15.10.2025 - 13:05", "Fighting Eagles vs Osaka Evessa", "Dep", 53, "Alt", 54, 1.67, 161.5, 1.59],
-    ["15.10.2025 - 13:05", "Nagasaki Velca vs Aisin Seahorses", "Ev", 66, "Üst", 59, 1.39, 162.5, 1.68],
-    ["15.10.2025 - 13:05", "Brave Thunders vs Sendai 89ers", "Ev", 61, "Alt", 58, 1.80, 163.5, 1.63],
-    ["15.10.2025 - 13:05", "Alvark Tokyo vs Akita Northern Happinets", "Ev", 71, "Alt", 61, 1.45, 147.5, 1.60],
-    ["15.10.2025 - 13:05", "Ibaraki Robots vs SR Shibuya", "Dep", 82, "Üst", 77, 1.10, 150.5, 1.68],
-    ["15.10.2025 - 13:30", "Perth Wildcats vs Brisbane Bullets", "Ev", 89, "Alt", 80, 1.06, 183.5, 1.69],
-    ["15.10.2025 - 14:30", "TNT Katropa vs Barangay Ginebra", "Ev", 68, "Üst", 62, 1.47, 175.5, 1.56],
-    ["15.10.2025 - 17:30", "Parma Perm vs Lokomotiv Kuban", "Dep", 77, "Üst", 65, 1.27, 167.5, 1.59],
-    ["15.10.2025 - 18:00", "Petkim Spor vs CSM Corona Brasov", "Dep", 83, "Alt", 69, 1.66, 164.5, 1.60],
-    ["15.10.2025 - 18:00", "BC Kutaisi vs Basket Brno", "Ev", 64, "Alt", 58, 1.75, 166.5, 1.62],
-    ["15.10.2025 - 19:00", "Lietkabelis vs Ulm", "Dep", 74, "Üst", 68, 1.57, 172.5, 1.70],
-    ["15.10.2025 - 19:00", "Sabah Baku vs Alba Berlin", "Dep", 87, "Üst", 79, 1.59, 167.5, 1.59],
-    ["15.10.2025 - 19:00", "CSM Oradea vs AEK Larnaca", "Dep", 88, "Üst", 80, 1.64, 155.5, 1.63],
-    ["15.10.2025 - 19:00", "CS Valcea 1924 vs Rasta Vechta", "Dep", 73, "Üst", 66, 1.33, 168.5, 1.65],
-    ["15.10.2025 - 19:30", "AEK Athens vs Szolnoki Olaj KK", "Dep", 85, "Üst", 72, 1.59, 163.5, 1.59],
-    ["15.10.2025 - 19:30", "Start Lublin vs KK Bosna Royal", "Ev", 65, "Alt", 57, 1.37, 165.5, 1.67],
-    ["15.10.2025 - 19:30", "Braunschweig vs Anwil Wloclawek", "Ev", 62, "Alt", 56, 1.66, 166.5, 1.66],
-    ["15.10.2025 - 19:30", "Bakken Bears vs Anorthosis Famagusta", "Dep", 86, "Üst", 74, 1.64, 166.5, 1.63],
-    ["15.10.2025 - 19:30", "Panionios vs JL Bourg", "Dep", 80, "Üst", 68, 1.26, 166.5, 1.71],
-    ["15.10.2025 - 19:30", "CSKA Moskova vs Nizhny Novgorod", "Ev", 92, "Alt", 82, 1.45, 165.5, 1.65], 
-    ["15.10.2025 - 19:30", "Heidelberg vs Rytas Vilnius", "Dep", 70, "Üst", 63, 1.38, 176.5, 1.59],
-    ["15.10.2025 - 20:00", "Slask Wroclaw vs Cluj Napoca", "Dep", 71, "Üst", 64, 1.36, 176.5, 1.68],
-    ["15.10.2025 - 20:00", "Beşiktaş vs Chemnitz", "Ev", 76, "Alt", 59, 1.11, 167.5, 1.56],
-    ["15.10.2025 - 20:00", "Reyer Venezia vs Neptunas", "Ev", 74, "Alt", 61, 1.15, 176.5, 1.69],
-    ["15.10.2025 - 20:00", "Legia Warszawa vs Promitheas", "Ev", 68, "Alt", 58, 1.40, 168.5, 1.71],
-    ["15.10.2025 - 20:00", "Zaragoza vs Falco Szombathely", "Dep", 86, "Üst", 72, 1.26, 173.5, 1.64],
-    ["15.10.2025 - 20:00", "Dijon vs Reggiana", "Ev", 65, "Alt", 54, 1.19, 161.5, 1.65],
-    ["15.10.2025 - 20:00", "BC Prievidza vs Keravnos", "Dep", 88, "Üst", 74, 1.58, 160.5, 1.63],
-    ["15.10.2025 - 20:00", "Cedevita Zagreb vs Pelister Bitola", "Ev", 63, "Alt", 57, 1.25, 168.5, 1.65],
-    ["15.10.2025 - 20:00", "USK Prag (K) vs UNI Girona (K)", "Dep", 85, "Üst", 72, 1.60, 148.5, 1.67],
-    ["15.10.2025 - 20:00", "Flammes (K) vs Galatasaray (K)", "Ev", 66, "Alt", 54, 1.78, 142.5, 1.63],
-    ["15.10.2025 - 20:15", "PAOK vs KB Trepca", "Dep", 88, "Üst", 73, 1.60, 161.5, 1.66],
-    ["15.10.2025 - 21:00", "Trefl Sopot vs Neftchi IK", "Dep", 87, "Üst", 71, 1.64, 165.5, 1.63]
+    // [DateTime, "Maç Adı", MS Tahmin, MS Güven, AltÜst Tahmin, AltÜst Güven, MS Oran, Barem Sayı (Tahmini), AltÜst Oran]
+    ["15.10.2025 13:05", "Sh. Susanoo - Saga Ballooners", "Ev", 90, "Üst", 85, 1.15, 160.5, 1.60],
+    ["15.10.2025 13:05", "Gunma Crane - Levanga Hokkaido", "Ev", 92, "Üst", 88, 1.12, 156.5, 1.63],
+    ["15.10.2025 13:05", "Utsunomiya Brex - Chiba Jets", "Ev", 65, "Alt", 60, 1.67, 162.5, 1.59],
+    ["15.10.2025 13:05", "Shiga Lake Stars - R.G.K.Okinawa", "Dep", 85, "Alt", 70, 1.05, 160.5, 1.62],
+    ["15.10.2025 13:05", "San-En Neophoenix - Altiri Chiba", "Ev", 95, "Üst", 90, 1.11, 166.5, 1.65],
+    ["15.10.2025 13:05", "Yokohama B Corsairs - Koshigaya Alpha", "Ev", 92, "Üst", 80, 1.14, 150.5, 1.62],
+    ["15.10.2025 13:05", "Toyama Grous - Diamond Dolphins", "Dep", 88, "Alt", 75, 1.06, 165.5, 1.65],
+    ["15.10.2025 13:05", "Kyoto Hannarizu - Hiroshima Dr.", "Dep", 80, "Üst", 70, 1.26, 168.5, 1.65],
+    ["15.10.2025 13:05", "Fighting Eagle - Osaka Evessa", "Ev", 65, "Alt", 60, 1.59, 161.5, 1.59],
+    ["15.10.2025 13:05", "Nagasaki Velca - Aisin Seahorses", "Ev", 70, "Alt", 65, 1.39, 162.5, 1.68],
+    ["15.10.2025 13:05", "Brave Thunders - Sendai 89ers", "Ev", 68, "Alt", 60, 1.80, 163.5, 1.63],
+    ["15.10.2025 11:30", "Tasmania J. - Sydney Kings", "Ev", 75, "Üst", 85, 1.80, 178.5, 1.70],
+    ["15.10.2025 12:15", "Meralco - Blackwater", "Ev", 95, "Üst", 90, 1.16, 191.5, 1.70],
+    ["15.10.2025 13:00", "LG Sakers - Anyang KGC", "Ev", 60, "Alt", 55, 1.28, 148.5, 1.57],
+    ["15.10.2025 13:05", "Alvark Tokyo - Akita Northern H.", "Ev", 65, "Alt", 60, 1.45, 147.5, 1.60],
+    ["15.10.2025 13:05", "Ibaraki Robots - SR Shibuya", "Dep", 90, "Üst", 85, 1.10, 150.5, 1.68],
+    ["15.10.2025 13:30", "Perth W. - Brisbane Bullets", "Ev", 98, "Üst", 95, 1.06, 183.5, 1.69],
+    ["15.10.2025 14:30", "TNT Katropa - Barangay Ginebra", "Ev", 65, "Alt", 60, 1.47, 175.5, 1.56],
+    ["15.10.2025 17:30", "Parma Permsk - L. Kuban", "Dep", 70, "Alt", 65, 2.28, 167.5, 1.59],
+    ["15.10.2025 18:00", "Petkim Spor - Csm Corona Brasov", "Dep", 50, "Alt", 70, 6.19, 164.5, 1.60],
+    ["15.10.2025 18:00", "BC Kutaisi - Basket Brno", "Ev", 65, "Alt", 60, 1.75, 166.5, 1.62],
+    ["15.10.2025 19:00", "Lietkabelis - Ulm", "Ev", 60, "Alt", 55, 1.71, 172.5, 1.70],
+    ["15.10.2025 19:00", "Sabah Baku - Alba Berlin", "Dep", 85, "Alt", 70, 3.95, 167.5, 1.59],
+    ["15.10.2025 19:00", "CSM Oradea - AEK Larnaca", "Dep", 90, "Alt", 75, 1.64, 155.5, 1.63],
+    ["15.10.2025 19:00", "CS Valcea 1924 - Rasta Vechta", "Dep", 70, "Alt", 65, 1.33, 168.5, 1.65],
+    ["15.10.2025 19:30", "AEK Athens - Szolnoki Olaj K.", "Dep", 85, "Alt", 70, 1.59, 163.5, 1.59],
+    ["15.10.2025 19:30", "Start Lublin - KK Bosna Royal", "Ev", 65, "Alt", 60, 1.37, 165.5, 1.67],
+    ["15.10.2025 19:30", "Braunschweig - A. Wloclawek", "Ev", 60, "Alt", 55, 1.66, 166.5, 1.66],
+    ["15.10.2025 19:30", "Bakken Bears - Anorthosis Fam.", "Dep", 90, "Alt", 75, 1.64, 166.5, 1.63],
+    ["15.10.2025 19:30", "Panionios - Bourg", "Dep", 65, "Alt", 60, 1.26, 166.5, 1.71],
+    ["15.10.2025 19:30", "CSKA Moskova - N. Novgorod", "Dep", 90, "Alt", 70, 1.56, 165.5, 1.65],
+    ["15.10.2025 19:30", "Heidelberg - Rytas Vilnius", "Dep", 70, "Alt", 65, 1.38, 176.5, 1.59],
+    ["15.10.2025 20:00", "Slask Wroclaw - Cluj Napoca", "Dep", 65, "Alt", 60, 1.36, 176.5, 1.68],
+    ["15.10.2025 20:00", "Beşiktaş - Chemnitz", "Ev", 95, "Alt", 55, 1.11, 167.5, 1.56],
+    ["15.10.2025 20:00", "Reyer Venezia - Neptunas", "Ev", 90, "Alt", 65, 1.15, 176.5, 1.69],
+    ["15.10.2025 20:00", "Legia Warsz. - Promitheas", "Ev", 70, "Alt", 60, 1.40, 168.5, 1.71],
+    ["15.10.2025 20:00", "Zaragoza - F. Szombathely", "Dep", 85, "Alt", 70, 1.63, 173.5, 1.64],
+    ["15.10.2025 20:00", "Dijon - Reggiana", "Ev", 80, "Alt", 65, 1.19, 161.5, 1.65],
+    ["15.10.2025 20:00", "BC Prievidza - Keravnos", "Dep", 95, "Alt", 55, 1.05, 160.5, 1.63],
+    ["15.10.2025 20:00", "Kk Cedevita Zag. - Pelister Bitola", "Ev", 70, "Alt", 60, 1.25, 168.5, 1.65],
+    ["15.10.2025 20:00", "USK Prag (K) - UNI Girona (K)", "Dep", 85, "Alt", 70, 1.60, 148.5, 1.67],
+    ["15.10.2025 20:00", "Flammes (K) - G.Saray (K)", "Ev", 75, "Alt", 65, 1.78, 142.5, 1.63],
+    ["15.10.2025 20:15", "PAOK - KB Trepca", "Dep", 70, "Alt", 60, 1.60, 161.5, 1.66],
+    ["15.10.2025 21:00", "Trefl Sopot - Neftchi IK", "Dep", 85, "Alt", 70, 1.64, 165.5, 1.63],
+    ["15.10.2025 21:15", "Panathinaikos - Asvel", "Dep", 90, "Alt", 65, 1.57, 170.5, 1.70]
 ];
 
 const NEW_KUPONLAR_DATA = [
     {
-        title: "⭐ PREMİUM KUPON 1 (2.93)",
+        title: "⭐ PREMIUM KUPON (DÜŞÜK RİSK)",
         matches: [
-            { title: "Perth Wildcats vs Brisbane Bullets", time: "13:30", bet: "Ev", confidence: 89, odd: 1.06 },
-            { title: "Shiga Lake Stars vs Ryukyu Golden Kings", time: "13:05", bet: "Üst", confidence: 78, odd: 1.62 },
-            { title: "Meralco vs Blackwater", time: "12:15", bet: "Alt", confidence: 64, odd: 1.70 },
+            { title: "Utsunomiya Brex - Chiba Jets", bet: "Ev", odd: 1.67, confidence: 72 }, 
+            { title: "Fighting Eagle - Osaka Evessa", bet: "Alt", odd: 1.67, confidence: 67 },
+            { title: "Parma Permsk - L. Kuban", bet: "Dep", odd: 1.27, confidence: 74 }
         ]
     },
     {
-        title: "⭐ PREMİUM KUPON 2 (2.77)",
+        title: "🏆 STANDART KUPON (ORTA RİSK)",
         matches: [
-            { title: "Ibaraki Robots vs SR Shibuya", time: "13:05", bet: "Üst", confidence: 77, odd: 1.68 },
-            { title: "Alvark Tokyo vs Akita Northern Happinets", time: "13:05", bet: "Alt", confidence: 61, odd: 1.60 },
-            { title: "Yokohama B Corsairs vs Koshigaya Alphas", time: "13:05", bet: "Alt", confidence: 71, odd: 1.62 },
+            { title: "Shiga Lake Stars - R.G.K.Okinawa", bet: "Alt", odd: 1.65, confidence: 70 },
+            { title: "Ibaraki Robots - SR Shibuya", bet: "Dep", odd: 1.10, confidence: 73 }, 
+            { title: "CS Valcea 1924 - Rasta Vechta", bet: "Dep", odd: 1.33, confidence: 70 }
         ]
     },
     {
-        title: "🏆 STANDART KUPON 1 (3.83)",
+        title: "🚀 HIGH VALUE KUPON (YÜKSEK RİSK)",
         matches: [
-            { title: "TNT Katropa vs Barangay Ginebra", time: "14:30", bet: "Üst", confidence: 62, odd: 1.56 },
-            { title: "Beşiktaş vs Chemnitz", time: "20:00", bet: "Alt", confidence: 59, odd: 1.56 },
-            { title: "LG Sakers vs Anyang KGC", time: "13:00", bet: "Alt", confidence: 55, odd: 1.57 },
-        ]
-    },
-    {
-        title: "🏆 STANDART KUPON 2 (3.84)",
-        matches: [
-            { title: "Utsunomiya Brex vs Chiba Jets", time: "13:05", bet: "Üst", confidence: 72, odd: 1.59 },
-            { title: "Brave Thunders vs Sendai 89ers", time: "13:05", bet: "Alt", confidence: 58, odd: 1.63 },
-            { title: "Start Lublin vs KK Bosna Royal", time: "19:30", bet: "Alt", confidence: 57, odd: 1.67 },
-        ]
-    },
-    {
-        title: "🚀 HIGH VALUE KUPON 1 (4.48)",
-        matches: [
-            { title: "Tasmania JackJumpers vs Sydney Kings", time: "11:30", bet: "Alt", confidence: 53, odd: 1.70 },
-            { title: "BC Kutaisi vs Basket Brno", time: "18:00", bet: "Alt", confidence: 58, odd: 1.62 },
-            { title: "Shiga Lake Stars vs Ryukyu Golden Kings", time: "13:05", bet: "Üst", confidence: 78, odd: 1.62 },
-        ]
-    },
-    {
-        title: "🚀 HIGH VALUE KUPON 2 (4.53)",
-        matches: [
-            { title: "Flammes (K) vs Galatasaray (K)", time: "20:00", bet: "Alt", confidence: 54, odd: 1.63 },
-            { title: "USK Prag (K) vs UNI Girona (K)", time: "20:00", bet: "Üst", confidence: 72, odd: 1.67 },
-            { title: "PAOK vs KB Trepca", time: "20:15", bet: "Üst", confidence: 73, odd: 1.66 },
+            { title: "Petkim Spor - Csm Corona Brasov", bet: "Alt", odd: 1.60, confidence: 62 },
+            { title: "CSM Oradea - AEK Larnaca", bet: "Dep", odd: 1.64, confidence: 63 }, 
+            { title: "CSKA Moskova - N. Novgorod", bet: "Alt", odd: 1.65, confidence: 61 }
         ]
     },
 ];
@@ -367,16 +344,16 @@ function formatData(data) {
     const altUstList = [];
     
     data.forEach(row => {
-        // Tarih ve Saati ayırıyoruz
+        // [DateTime, "Maç Adı", MS Tahmin, MS Güven, AltÜst Tahmin, AltÜst Güven, MS Oran, Barem Sayı (Tahmini), AltÜst Oran]
         const [dateTime, title, msTahmin, msGuven, altUstTahmin, altUstGuven, msOran, baremSayi, altUstOran] = row;
-        const [date, time] = dateTime.split(' - ');
+        const [date, time] = dateTime.split(' ');
         
         // Taraf Tahmini Listesi
         tarafList.push({ 
             title: title, 
             date: date, 
             time: time, 
-            bet: msTahmin, // Ev/Dep tercihi
+            bet: msTahmin, 
             odd: parseFloat(msOran), 
             confidence: parseInt(msGuven), 
             risk: getRisk(parseInt(msGuven)) 
@@ -387,7 +364,7 @@ function formatData(data) {
             title: title, 
             date: date, 
             time: time, 
-            bet: `${altUstTahmin} (${baremSayi})`, // Üst (175.5)
+            bet: `${altUstTahmin} (${baremSayi})`, // Alt (165.5)
             odd: parseFloat(altUstOran), 
             confidence: parseInt(altUstGuven), 
             risk: getRisk(parseInt(altUstGuven)) 
@@ -403,22 +380,19 @@ const { tarafList: HANDIKAP_PREDICTIONS, altUstList: ALT_UST_PREDICTIONS } = for
 // Kupon verilerini formatlama ve güven/oran hesaplama
 const KUPONLAR = NEW_KUPONLAR_DATA.map(kupon => {
     let minConfidence = 100;
-    let matchTitles = [];
-    let bets = [];
+    let totalOdd = 1.0;
+    const matchTitles = [];
+    const bets = [];
     let earliestTime = "23:59";
-    // Kupon başlığından toplam oranı alıyoruz (Örn: (2.93))
-    const totalOddMatch = kupon.title.match(/\(([\d\.]+)\)$/);
-    const totalOdd = totalOddMatch ? parseFloat(totalOddMatch[1]) : 1.0; 
 
     kupon.matches.forEach(match => {
+        totalOdd *= match.odd;
         minConfidence = Math.min(minConfidence, match.confidence);
         matchTitles.push(match.title);
-        // Kupon listesinde Alt/Üst tahminlerinin baremle yazılması için tam tahmin adını alıyoruz.
-        // Tekli tahmin listesinden barem bilgisini bulup eklememiz lazım, ancak kupon verisinde sadece "Ev/Üst/Alt" var.
-        // Kupon verisinde sadece temel tahmin olduğu için, Alt/Üst olanlara parantezli baremi manuel ekleyelim
+        
+        // Kupon tahminine barem ekleme (Sadece Alt/Üst tahminleri için)
         let betText = match.bet;
         if (betText === "Alt" || betText === "Üst") {
-            // Maçın barem bilgisini RAW_DATA'dan bulalım.
             const rawMatch = RAW_DATA.find(r => r[1] === match.title);
             if (rawMatch) {
                 const barem = rawMatch[7]; // Barem Sayı sütunu
@@ -427,8 +401,13 @@ const KUPONLAR = NEW_KUPONLAR_DATA.map(kupon => {
         }
         bets.push(betText);
 
-        if (match.time < earliestTime) {
-            earliestTime = match.time;
+        // En erken saati bulma
+        const fullMatchData = RAW_DATA.find(r => r[1] === match.title);
+        if (fullMatchData) {
+            const time = fullMatchData[0].split(' ')[1];
+            if (time < earliestTime) {
+                earliestTime = time;
+            }
         }
     });
 
@@ -450,7 +429,7 @@ const tabs = document.querySelectorAll('.tab');
 // Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
 function getKuponStartTime(kupon) {
     // RAW_DATA'dan tarih bilgisini çekiyoruz (Tüm maçlar aynı tarihli olduğu varsayılır)
-    const date = RAW_DATA.length > 0 ? RAW_DATA[0][0].split(' - ')[0] : DATE_INFO.split(' ')[0];
+    const date = RAW_DATA.length > 0 ? RAW_DATA[0][0].split(' ')[0] : DATE_INFO.split(' ')[0];
     return { date: date, time: kupon.earliestTime };
 }
 
@@ -468,14 +447,8 @@ function createMatchCardHtml(match, betType) {
     const riskColor = getRiskColor(match.risk);
     const confidenceWidth = match.confidence;
     
-    // Kupon verisinden gelen barem bilgisini ayırıyoruz.
     let betDisplay = match.bet;
     let betPrefix = (betDisplay === "Ev" || betDisplay === "Dep") ? `Tercih: ${betDisplay}` : `Tahmin: ${betDisplay}`;
-
-    if (betType === 'altust' && betDisplay.includes('(')) {
-        betPrefix = `Tahmin: ${betDisplay}`;
-        // Barem ve Alt/Üst bilgisini burada da ayırabiliriz, ama şimdilik tek satırda tutmak en pratik yol.
-    }
 
     return `
         <div class="match-card">
