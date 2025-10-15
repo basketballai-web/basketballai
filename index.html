@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex, nofollow"> 
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>BasketbolAi - Robot Tahminleri</title>
+<title>BasketbolAi - Tahminler</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -44,12 +44,16 @@
   }
   .inner{
     border-radius:16px;
+    /* BASKETBOL DOKUNUŞU: PARKET ZEMİN ETKİSİ */
     background: 
+      /* Yatay ve dikey çizgiler (çok ince, koyu kahverengi) */
       repeating-linear-gradient(90deg, #111e2b, #111e2b 1px, transparent 1px, transparent 100px),
       repeating-linear-gradient(0deg, #111e2b, #111e2b 1px, transparent 1px, transparent 100px),
+      /* Ana Koyu Tema Rengi */
       var(--panel); 
     background-blend-mode: overlay; 
     background-size: 100% 100%, 100% 100%, 100% 100%;
+    
     padding:14px;
   }
   .header{
@@ -74,37 +78,15 @@
     opacity: 0.8;
   }
   /* SEKME DÜZENLEMESİ */
-  .tabs{
-    display:flex;
-    gap:6px;
-    margin:14px 0; 
-    justify-content: space-between;
-    overflow: hidden; 
-  } 
+  .tabs{display:flex;gap:6px;margin:14px 0; justify-content: space-between;} 
   .tab{
-    flex:1;
-    padding:10px 4px; /* Sekme yazılarını sığdırmak için padding daraltıldı */
-    border-radius:12px;
-    text-align:center;
-    font-weight:700;
-    cursor:pointer;
-    font-size:12px; 
-    /* Pasif Sekme Stili (Hafif Şeffaf Koyu Zemin) */
-    background:rgba(255,255,255,0.08); 
+    flex:1;padding:10px 6px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;font-size:12px; 
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     color:var(--text);
     white-space: nowrap; 
     min-width: 0; 
-    transition: background-color 0.3s, box-shadow 0.3s, background 0.3s;
   }
-  /* Aktif Sekme Stili (Mavili Morlu Geçiş) */
-  .tab.active{
-    background: linear-gradient(90deg, var(--accent-start), var(--accent-end)); 
-    color: #fff; 
-    box-shadow:0 6px 18px rgba(0,0,0,0.6); 
-    border:2px solid rgba(255,255,255,0.03);
-    position: relative;
-    z-index: 1; 
-  }
+  .tab.active{box-shadow:0 6px 18px rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.03)}
   .content{padding-bottom:18px}
   .match-card{
     background:var(--card-bg);border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)
@@ -112,6 +94,7 @@
   .match-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}
   .match-title{font-weight:700;font-size:16px}
   
+  /* GÜNCELLENEN VE İSTENEN TARİH/SAAT STİLİ */
   .match-datetime {
     font-weight: 800; 
     color: var(--warning); 
@@ -120,6 +103,7 @@
     margin-top: 4px;
     margin-bottom: 6px; 
   }
+  /* GÜNCELLENEN TARİH/SAAT STİLİ BİTİŞ */
 
   .risk-ev-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
   .risk-text{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;} 
@@ -182,6 +166,61 @@
       font-size: 13px;
       padding-top: 8px;
   }
+  /* Eklenen Total/Alt-Üst Listesi Kartı Stili */
+  .total-card{
+      display: flex;
+      flex-direction: column; 
+      align-items: flex-start; 
+      padding: 10px;
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.03); 
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-end);
+  }
+  .total-card-match-info{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 4px;
+  }
+  .total-card-match{
+      flex: 1;
+      font-weight: 600;
+      font-size: 14px; 
+  }
+  .total-card-datetime {
+      font-size: 13px; 
+      color: var(--warning); 
+      font-weight: 700; 
+      white-space: nowrap;
+      margin-left: 10px;
+  }
+  .total-card-bet{
+      font-weight: 800;
+      color: var(--success); 
+      white-space: nowrap; 
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px; 
+  }
+  /* ALT/ÜST HEADER DÜZENLENDİ */
+  .alt-ust-header {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  /* MAÇ VE TAHMİN başlığı için */
+  .alt-ust-header span:nth-child(1) {
+    flex: 1; 
+  }
+  .alt-ust-header span:nth-child(2) {
+    width: 65px; 
+    text-align: right;
+  }
   /* SİSTEM ONLİNE GÖSTERGESİ */
   @keyframes pulse-online {
     0% { box-shadow: 0 0 0 0 rgba(40, 208, 123, 0.7); }
@@ -234,8 +273,8 @@
     </div>
 
     <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
-      <div class="tab" data-tab="handikap">🎯 Taraf Tahmini</div> 
-      <div class="tab" data-tab="altust">📊 Alt/Üst Tahmini</div> 
+      <div class="tab" data-tab="ms">🏀 MS Tahminleri</div> 
+      <div class="tab" data-tab="altust">📊 Alt/Üst</div> 
       <div class="tab" data-tab="kuponlar">🔥 Kuponlar</div> 
     </div>
 
@@ -246,258 +285,261 @@
 </div>
 
 <script>
-// --- YENİ VERİ YAPISI ---
-
-// Tüm maçların tek bir yapıya dönüştürülmüş hali.
-// Barem Sayısı, kullanıcı tarafından belirtilmediği için bazı maçlar için varsayılan olarak 165.5 alındı.
-// MS1 -> Ev, MS2 -> Dep olarak çevrildi.
-const RAW_DATA = [
-    // [DateTime, "Maç Adı", MS Tahmin, MS Güven, AltÜst Tahmin, AltÜst Güven, MS Oran, Barem Sayı (Tahmini), AltÜst Oran]
-    ["15.10.2025 13:05", "Sh. Susanoo - Saga Ballooners", "Ev", 90, "Üst", 85, 1.15, 160.5, 1.60],
-    ["15.10.2025 13:05", "Gunma Crane - Levanga Hokkaido", "Ev", 92, "Üst", 88, 1.12, 156.5, 1.63],
-    ["15.10.2025 13:05", "Utsunomiya Brex - Chiba Jets", "Ev", 65, "Alt", 60, 1.67, 162.5, 1.59],
-    ["15.10.2025 13:05", "Shiga Lake Stars - R.G.K.Okinawa", "Dep", 85, "Alt", 70, 1.05, 160.5, 1.62],
-    ["15.10.2025 13:05", "San-En Neophoenix - Altiri Chiba", "Ev", 95, "Üst", 90, 1.11, 166.5, 1.65],
-    ["15.10.2025 13:05", "Yokohama B Corsairs - Koshigaya Alpha", "Ev", 92, "Üst", 80, 1.14, 150.5, 1.62],
-    ["15.10.2025 13:05", "Toyama Grous - Diamond Dolphins", "Dep", 88, "Alt", 75, 1.06, 165.5, 1.65],
-    ["15.10.2025 13:05", "Kyoto Hannarizu - Hiroshima Dr.", "Dep", 80, "Üst", 70, 1.26, 168.5, 1.65],
-    ["15.10.2025 13:05", "Fighting Eagle - Osaka Evessa", "Ev", 65, "Alt", 60, 1.59, 161.5, 1.59],
-    ["15.10.2025 13:05", "Nagasaki Velca - Aisin Seahorses", "Ev", 70, "Alt", 65, 1.39, 162.5, 1.68],
-    ["15.10.2025 13:05", "Brave Thunders - Sendai 89ers", "Ev", 68, "Alt", 60, 1.80, 163.5, 1.63],
-    ["15.10.2025 11:30", "Tasmania J. - Sydney Kings", "Ev", 75, "Üst", 85, 1.80, 178.5, 1.70],
-    ["15.10.2025 12:15", "Meralco - Blackwater", "Ev", 95, "Üst", 90, 1.16, 191.5, 1.70],
-    ["15.10.2025 13:00", "LG Sakers - Anyang KGC", "Ev", 60, "Alt", 55, 1.28, 148.5, 1.57],
-    ["15.10.2025 13:05", "Alvark Tokyo - Akita Northern H.", "Ev", 65, "Alt", 60, 1.45, 147.5, 1.60],
-    ["15.10.2025 13:05", "Ibaraki Robots - SR Shibuya", "Dep", 90, "Üst", 85, 1.10, 150.5, 1.68],
-    ["15.10.2025 13:30", "Perth W. - Brisbane Bullets", "Ev", 98, "Üst", 95, 1.06, 183.5, 1.69],
-    ["15.10.2025 14:30", "TNT Katropa - Barangay Ginebra", "Ev", 65, "Alt", 60, 1.47, 175.5, 1.56],
-    ["15.10.2025 17:30", "Parma Permsk - L. Kuban", "Dep", 70, "Alt", 65, 2.28, 167.5, 1.59],
-    ["15.10.2025 18:00", "Petkim Spor - Csm Corona Brasov", "Dep", 50, "Alt", 70, 6.19, 164.5, 1.60],
-    ["15.10.2025 18:00", "BC Kutaisi - Basket Brno", "Ev", 65, "Alt", 60, 1.75, 166.5, 1.62],
-    ["15.10.2025 19:00", "Lietkabelis - Ulm", "Ev", 60, "Alt", 55, 1.71, 172.5, 1.70],
-    ["15.10.2025 19:00", "Sabah Baku - Alba Berlin", "Dep", 85, "Alt", 70, 3.95, 167.5, 1.59],
-    ["15.10.2025 19:00", "CSM Oradea - AEK Larnaca", "Dep", 90, "Alt", 75, 1.64, 155.5, 1.63],
-    ["15.10.2025 19:00", "CS Valcea 1924 - Rasta Vechta", "Dep", 70, "Alt", 65, 1.33, 168.5, 1.65],
-    ["15.10.2025 19:30", "AEK Athens - Szolnoki Olaj K.", "Dep", 85, "Alt", 70, 1.59, 163.5, 1.59],
-    ["15.10.2025 19:30", "Start Lublin - KK Bosna Royal", "Ev", 65, "Alt", 60, 1.37, 165.5, 1.67],
-    ["15.10.2025 19:30", "Braunschweig - A. Wloclawek", "Ev", 60, "Alt", 55, 1.66, 166.5, 1.66],
-    ["15.10.2025 19:30", "Bakken Bears - Anorthosis Fam.", "Dep", 90, "Alt", 75, 1.64, 166.5, 1.63],
-    ["15.10.2025 19:30", "Panionios - Bourg", "Dep", 65, "Alt", 60, 1.26, 166.5, 1.71],
-    ["15.10.2025 19:30", "CSKA Moskova - N. Novgorod", "Dep", 90, "Alt", 70, 1.56, 165.5, 1.65],
-    ["15.10.2025 19:30", "Heidelberg - Rytas Vilnius", "Dep", 70, "Alt", 65, 1.38, 176.5, 1.59],
-    ["15.10.2025 20:00", "Slask Wroclaw - Cluj Napoca", "Dep", 65, "Alt", 60, 1.36, 176.5, 1.68],
-    ["15.10.2025 20:00", "Beşiktaş - Chemnitz", "Ev", 95, "Alt", 55, 1.11, 167.5, 1.56],
-    ["15.10.2025 20:00", "Reyer Venezia - Neptunas", "Ev", 90, "Alt", 65, 1.15, 176.5, 1.69],
-    ["15.10.2025 20:00", "Legia Warsz. - Promitheas", "Ev", 70, "Alt", 60, 1.40, 168.5, 1.71],
-    ["15.10.2025 20:00", "Zaragoza - F. Szombathely", "Dep", 85, "Alt", 70, 1.63, 173.5, 1.64],
-    ["15.10.2025 20:00", "Dijon - Reggiana", "Ev", 80, "Alt", 65, 1.19, 161.5, 1.65],
-    ["15.10.2025 20:00", "BC Prievidza - Keravnos", "Dep", 95, "Alt", 55, 1.05, 160.5, 1.63],
-    ["15.10.2025 20:00", "Kk Cedevita Zag. - Pelister Bitola", "Ev", 70, "Alt", 60, 1.25, 168.5, 1.65],
-    ["15.10.2025 20:00", "USK Prag (K) - UNI Girona (K)", "Dep", 85, "Alt", 70, 1.60, 148.5, 1.67],
-    ["15.10.2025 20:00", "Flammes (K) - G.Saray (K)", "Ev", 75, "Alt", 65, 1.78, 142.5, 1.63],
-    ["15.10.2025 20:15", "PAOK - KB Trepca", "Dep", 70, "Alt", 60, 1.60, 161.5, 1.66],
-    ["15.10.2025 21:00", "Trefl Sopot - Neftchi IK", "Dep", 85, "Alt", 70, 1.64, 165.5, 1.63],
-    ["15.10.2025 21:15", "Panathinaikos - Asvel", "Dep", 90, "Alt", 65, 1.57, 170.5, 1.70]
-];
-
-const NEW_KUPONLAR_DATA = [
-    {
-        title: "⭐ PREMIUM KUPON (DÜŞÜK RİSK)",
-        matches: [
-            { title: "Utsunomiya Brex - Chiba Jets", bet: "Ev", odd: 1.67, confidence: 72 }, 
-            { title: "Fighting Eagle - Osaka Evessa", bet: "Alt", odd: 1.67, confidence: 67 },
-            { title: "Parma Permsk - L. Kuban", bet: "Dep", odd: 1.27, confidence: 74 }
-        ]
-    },
-    {
-        title: "🏆 STANDART KUPON (ORTA RİSK)",
-        matches: [
-            { title: "Shiga Lake Stars - R.G.K.Okinawa", bet: "Alt", odd: 1.65, confidence: 70 },
-            { title: "Ibaraki Robots - SR Shibuya", bet: "Dep", odd: 1.10, confidence: 73 }, 
-            { title: "CS Valcea 1924 - Rasta Vechta", bet: "Dep", odd: 1.33, confidence: 70 }
-        ]
-    },
-    {
-        title: "🚀 HIGH VALUE KUPON (YÜKSEK RİSK)",
-        matches: [
-            { title: "Petkim Spor - Csm Corona Brasov", bet: "Alt", odd: 1.60, confidence: 62 },
-            { title: "CSM Oradea - AEK Larnaca", bet: "Dep", odd: 1.64, confidence: 63 }, 
-            { title: "CSKA Moskova - N. Novgorod", bet: "Alt", odd: 1.65, confidence: 61 }
-        ]
-    },
-];
-
-// Genel başarı oranını belirlemek için örnek bir tarih kullanıyoruz
-const DATE_INFO = "15.10.2025 Çarşamba"; 
-
-// Risk ve Güven Düzeyi Belirleme Fonksiyonu
-function getRisk(confidence) {
-    if (confidence >= 85) return "DÜŞÜK (A+)";
-    if (confidence >= 80) return "DÜŞÜK (A)";
-    if (confidence >= 70) return "ORTA (B)";
-    return "YÜKSEK (C)"; 
-}
-
-// Veriyi formatlama işlevi 
-function formatData(data) {
-    const tarafList = [];
-    const altUstList = [];
+// *** TUTARLILIK İÇİN TEK ANA MAÇ LİSTESİ - TÜMÜ 15 EKİM ÇARŞAMBA ***
+const MATCHES = [
+    // Veri yapısı: title, date, time, altUstBet, altUstConfidence, altUstOdd, msBet, msConfidence, msOdd, risk
+    // Risk, Güven %'ye göre belirlenir. MS Tahmininin güvenini baz alalım.
+    // %85+ = düşük (low risk), %70-84 = orta (medium risk), %69- = yüksek (high risk)
     
-    data.forEach(row => {
-        // [DateTime, "Maç Adı", MS Tahmin, MS Güven, AltÜst Tahmin, AltÜst Güven, MS Oran, Barem Sayı (Tahmini), AltÜst Oran]
-        const [dateTime, title, msTahmin, msGuven, altUstTahmin, altUstGuven, msOran, baremSayi, altUstOran] = row;
-        const [date, time] = dateTime.split(' ');
-        
-        // Taraf Tahmini Listesi
-        tarafList.push({ 
-            title: title, 
-            date: date, 
-            time: time, 
-            bet: msTahmin, 
-            odd: parseFloat(msOran), 
-            confidence: parseInt(msGuven), 
-            risk: getRisk(parseInt(msGuven)) 
-        });
+    // 15.10.2025 Maçları
+    { title: "Sh. Susanoo - Saga Ballooners", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.60, msBet: "MS1", msConfidence: 90, msOdd: 1.15, risk: "düşük" },
+    { title: "Gunma Crane - Levanga Hokkaido", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 88, altUstOdd: 1.63, msBet: "MS1", msConfidence: 92, msOdd: 1.12, risk: "düşük" },
+    { title: "Utsunomiya Brex - Chiba Jets", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.59, msBet: "MS1", msConfidence: 65, msOdd: 1.67, risk: "yüksek" },
+    { title: "Shiga Lake Stars - R.G.K.Okinawa", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.62, msBet: "MS2", msConfidence: 85, msOdd: 1.05, risk: "düşük" },
+    { title: "San-En Neophoenix - Altiri Chiba", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 90, altUstOdd: 1.65, msBet: "MS1", msConfidence: 95, msOdd: 1.11, risk: "düşük" },
+    { title: "Yokohama B Corsairs - Koshigaya Alpha", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 80, altUstOdd: 1.62, msBet: "MS1", msConfidence: 92, msOdd: 1.14, risk: "düşük" },
+    { title: "Toyama Grous - Diamond Dolphins", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.65, msBet: "MS2", msConfidence: 88, msOdd: 1.06, risk: "düşük" },
+    { title: "Kyoto Hannarizu - Hiroshima Dr.", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 70, altUstOdd: 1.65, msBet: "MS2", msConfidence: 80, msOdd: 1.26, risk: "orta" },
+    { title: "Fighting Eagle - Osaka Evessa", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.59, msBet: "MS1", msConfidence: 65, msOdd: 1.59, risk: "yüksek" },
+    { title: "Nagasaki Velca - Aisin Seahorses", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.68, msBet: "MS1", msConfidence: 70, msOdd: 1.39, risk: "orta" },
+    { title: "Brave Thunders - Sendai 89ers", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.63, msBet: "MS1", msConfidence: 68, msOdd: 1.80, risk: "yüksek" },
+    { title: "Tasmania J. - Sydney Kings", date: "15 Ekim Çarşamba", time: "11:30", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.70, msBet: "MS1", msConfidence: 75, msOdd: 1.80, risk: "orta" },
+    { title: "Meralco - Blackwater", date: "15 Ekim Çarşamba", time: "12:15", altUstBet: "Üst", altUstConfidence: 90, altUstOdd: 1.70, msBet: "MS1", msConfidence: 95, msOdd: 1.16, risk: "düşük" },
+    { title: "LG Sakers - Anyang KGC", date: "15 Ekim Çarşamba", time: "13:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.57, msBet: "MS1", msConfidence: 60, msOdd: 1.28, risk: "yüksek" },
+    { title: "Alvark Tokyo - Akita Northern H.", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.60, msBet: "MS1", msConfidence: 65, msOdd: 1.45, risk: "yüksek" },
+    { title: "Ibaraki Robots - SR Shibuya", date: "15 Ekim Çarşamba", time: "13:05", altUstBet: "Üst", altUstConfidence: 85, altUstOdd: 1.68, msBet: "MS2", msConfidence: 90, msOdd: 1.10, risk: "düşük" },
+    { title: "Perth W. - Brisbane Bullets", date: "15 Ekim Çarşamba", time: "13:30", altUstBet: "Üst", altUstConfidence: 95, altUstOdd: 1.69, msBet: "MS1", msConfidence: 98, msOdd: 1.06, risk: "düşük" },
+    { title: "TNT Katropa - Barangay Ginebra", date: "15 Ekim Çarşamba", time: "14:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.56, msBet: "MS1", msConfidence: 65, msOdd: 1.47, risk: "yüksek" },
+    { title: "Parma Permsk - L. Kuban", date: "15 Ekim Çarşamba", time: "17:30", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.59, msBet: "MS2", msConfidence: 70, msOdd: 2.28, risk: "orta" },
+    { title: "Petkim Spor - Csm Corona Brasov", date: "15 Ekim Çarşamba", time: "18:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.60, msBet: "MS2", msConfidence: 50, msOdd: 6.19, risk: "yüksek" },
+    { title: "BC Kutaisi - Basket Brno", date: "15 Ekim Çarşamba", time: "18:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.62, msBet: "MS1", msConfidence: 65, msOdd: 1.75, risk: "yüksek" },
+    { title: "Lietkabelis - Ulm", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.70, msBet: "MS1", msConfidence: 60, msOdd: 1.71, risk: "yüksek" },
+    { title: "Sabah Baku - Alba Berlin", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.59, msBet: "MS2", msConfidence: 85, msOdd: 3.95, risk: "düşük" },
+    { title: "CSM Oradea - AEK Larnaca", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.63, msBet: "MS2", msConfidence: 90, msOdd: 1.64, risk: "düşük" },
+    { title: "CS Valcea 1924 - Rasta Vechta", date: "15 Ekim Çarşamba", time: "19:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.65, msBet: "MS2", msConfidence: 70, msOdd: 1.33, risk: "orta" },
+    { title: "AEK Athens - Szolnoki Olaj K.", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.59, msBet: "MS2", msConfidence: 85, msOdd: 1.59, risk: "düşük" },
+    { title: "Start Lublin - KK Bosna Royal", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.67, msBet: "MS1", msConfidence: 65, msOdd: 1.37, risk: "yüksek" },
+    { title: "Braunschweig - A. Wloclawek", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.66, msBet: "MS1", msConfidence: 60, msOdd: 1.66, risk: "yüksek" },
+    { title: "Bakken Bears - Anorthosis Fam.", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 75, altUstOdd: 1.63, msBet: "MS2", msConfidence: 90, msOdd: 1.64, risk: "düşük" },
+    { title: "Panionios - Bourg", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.71, msBet: "MS2", msConfidence: 65, msOdd: 1.26, risk: "yüksek" },
+    { title: "CSKA Moskova - N. Novgorod", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.65, msBet: "MS2", msConfidence: 90, msOdd: 1.56, risk: "düşük" },
+    { title: "Heidelberg - Rytas Vilnius", date: "15 Ekim Çarşamba", time: "19:30", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.59, msBet: "MS2", msConfidence: 70, msOdd: 1.38, risk: "orta" },
+    { title: "Slask Wroclaw - Cluj Napoca", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.68, msBet: "MS2", msConfidence: 65, msOdd: 1.36, risk: "yüksek" },
+    { title: "Beşiktaş - Chemnitz", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.56, msBet: "MS1", msConfidence: 95, msOdd: 1.11, risk: "düşük" },
+    { title: "Reyer Venezia - Neptunas", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.69, msBet: "MS1", msConfidence: 90, msOdd: 1.15, risk: "düşük" },
+    { title: "Legia Warsz. - Promitheas", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.71, msBet: "MS1", msConfidence: 70, msOdd: 1.40, risk: "orta" },
+    { title: "Zaragoza - F. Szombathely", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.64, msBet: "MS2", msConfidence: 85, msOdd: 1.63, risk: "düşük" },
+    { title: "Dijon - Reggiana", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.65, msBet: "MS1", msConfidence: 80, msOdd: 1.19, risk: "orta" },
+    { title: "BC Prievidza - Keravnos", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 55, altUstOdd: 1.63, msBet: "MS1", msConfidence: 95, msOdd: 1.05, risk: "düşük" },
+    { title: "Kk Cedevita Zag. - Pelister Bitola", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.65, msBet: "MS1", msConfidence: 70, msOdd: 1.25, risk: "orta" },
+    { title: "USK Prag (K) - UNI Girona (K)", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.67, msBet: "MS2", msConfidence: 85, msOdd: 1.60, risk: "düşük" },
+    { title: "Flammes (K) - G.Saray (K)", date: "15 Ekim Çarşamba", time: "20:00", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.63, msBet: "MS1", msConfidence: 75, msOdd: 1.78, risk: "orta" },
+    { title: "PAOK - KB Trepca", date: "15 Ekim Çarşamba", time: "20:15", altUstBet: "Alt", altUstConfidence: 60, altUstOdd: 1.66, msBet: "MS2", msConfidence: 70, msOdd: 1.60, risk: "orta" },
+    { title: "Trefl Sopot - Neftchi IK", date: "15 Ekim Çarşamba", time: "21:00", altUstBet: "Alt", altUstConfidence: 70, altUstOdd: 1.63, msBet: "MS2", msConfidence: 85, msOdd: 1.64, risk: "düşük" },
+    { title: "Panathinaikos - Asvel", date: "15 Ekim Çarşamba", time: "21:15", altUstBet: "Alt", altUstConfidence: 65, altUstOdd: 1.70, msBet: "MS2", msConfidence: 90, msOdd: 1.57, risk: "düşük" },
+];
 
-        // Alt/Üst Tahmini Listesi
-        altUstList.push({ 
-            title: title, 
-            date: date, 
-            time: time, 
-            bet: `${altUstTahmin} (${baremSayi})`, // Alt (165.5)
-            odd: parseFloat(altUstOran), 
-            confidence: parseInt(altUstGuven), 
-            risk: getRisk(parseInt(altUstGuven)) 
-        });
+// Kupon toplam oran hesaplama fonksiyonu (Kupondaki tüm tahminlerin oranlarının çarpımı)
+function calculateTotalOdd(kupon) {
+    let totalOdd = 1.0;
+    
+    // Kupondaki her bir bahsi gez
+    kupon.matchTitles.forEach((matchTitle, index) => {
+        const match = MATCHES.find(m => m.title === matchTitle);
+        if (!match) return;
+
+        const betStr = kupon.bets[index];
+        
+        // Basitçe: Eğer Alt veya Üst içeriyorsa Alt/Üst oranını kullan, aksi halde MS oranını kullan.
+        if (betStr.includes("Alt") || betStr.includes("Üst")) {
+            totalOdd *= match.altUstOdd;
+        } else {
+            // Kupon tahminleri formattaki gibi MS1/MS2 içeriyorsa
+            // Not: Kupon verisi "MS1 (1.16)" şeklinde oran içeriyor, ancak biz MATCHES dizisindeki oranı kullanıyoruz.
+            totalOdd *= match.msOdd;
+        }
     });
 
-    return { tarafList, altUstList };
+    return totalOdd;
 }
 
-const { tarafList: HANDIKAP_PREDICTIONS, altUstList: ALT_UST_PREDICTIONS } = formatData(RAW_DATA);
 
+const KUPONLAR = [
+    {
+        title: "1️⃣ PREMIUM KUPON - Yüksek Güven (3 MAÇ)",
+        risk: "düşük", 
+        confidence: 90, 
+        matchTitles: [
+            "San-En Neophoenix - Altiri Chiba", 
+            "Meralco - Blackwater", 
+            "Perth W. - Brisbane Bullets",
+        ],
+        bets: [
+            "San-En Neophoenix - Altiri Chiba: Üst (1.65)", // Oran: 1.65
+            "Meralco - Blackwater: MS1 (1.16)",             // Oran: 1.16
+            "Perth W. - Brisbane Bullets: Üst (1.69)",      // Oran: 1.69
+        ],
+        // Total Oran: 1.65 * 1.16 * 1.69 = 3.23076
+        totalOdd: 3.23076, 
+    },
+    {
+        title: "2️⃣ STANDART KUPON - Dengeli (3 MAÇ)",
+        risk: "orta", 
+        confidence: 78,
+        matchTitles: [
+            "Sh. Susanoo - Saga Ballooners", 
+            "Gunma Crane - Levanga Hokkaido", 
+            "Nagasaki Velca - Aisin Seahorses",
+        ],
+        bets: [
+            "Sh. Susanoo - Saga Ballooners: Üst (1.60)", // Oran: 1.60
+            "Gunma Crane - Levanga Hokkaido: Üst (1.63)",// Oran: 1.63
+            "Nagasaki Velca - Aisin Seahorses: Alt (1.68)", // Oran: 1.68
+        ],
+        // Total Oran: 1.60 * 1.63 * 1.68 = 4.3824
+        totalOdd: 4.3824, 
+    },
+    {
+        title: "3️⃣ YÜKSEK ORAN KUPON - Yüksek Risk (3 MAÇ)",
+        risk: "yüksek", 
+        confidence: 70, 
+        matchTitles: [
+            "Petkim Spor - Csm Corona Brasov", 
+            "Sabah Baku - Alba Berlin",
+            "Parma Permsk - L. Kuban", 
+        ],
+        bets: [
+            "Petkim Spor - Csm Corona Brasov: MS2 (6.19)", // Oran: 6.19
+            "Sabah Baku - Alba Berlin: MS2 (3.95)",        // Oran: 3.95
+            "Parma Permsk - L. Kuban: MS2 (2.28)",         // Oran: 2.28
+        ],
+        // Total Oran: 6.19 * 3.95 * 2.28 = 55.77666
+        totalOdd: 55.77666, 
+    },
+];
 
-// Kupon verilerini formatlama ve güven/oran hesaplama
-const KUPONLAR = NEW_KUPONLAR_DATA.map(kupon => {
-    let minConfidence = 100;
-    let totalOdd = 1.0;
-    const matchTitles = [];
-    const bets = [];
-    let earliestTime = "23:59";
-
-    kupon.matches.forEach(match => {
-        totalOdd *= match.odd;
-        minConfidence = Math.min(minConfidence, match.confidence);
-        matchTitles.push(match.title);
-        
-        // Kupon tahminine barem ekleme (Sadece Alt/Üst tahminleri için)
-        let betText = match.bet;
-        if (betText === "Alt" || betText === "Üst") {
-            const rawMatch = RAW_DATA.find(r => r[1] === match.title);
-            if (rawMatch) {
-                const barem = rawMatch[7]; // Barem Sayı sütunu
-                betText = `${match.bet} (${barem})`;
-            }
-        }
-        bets.push(betText);
-
-        // En erken saati bulma
-        const fullMatchData = RAW_DATA.find(r => r[1] === match.title);
-        if (fullMatchData) {
-            const time = fullMatchData[0].split(' ')[1];
-            if (time < earliestTime) {
-                earliestTime = time;
-            }
-        }
-    });
-
-    return {
-        title: kupon.title,
-        risk: getRisk(minConfidence), // En düşük güvene göre risk belirlenir
-        confidence: minConfidence, // En düşük güven kuponun güvenidir
-        totalOdd: totalOdd,
-        matchTitles: matchTitles,
-        bets: bets,
-        earliestTime: earliestTime
-    };
+// Kupon toplam oranlarını tekrar hesapla (MATCHES verisindeki oranları kullan)
+// Kupon verisinde totalOdd elle hesaplanmıştır, kod ile de kontrol edelim.
+KUPONLAR.forEach(kupon => {
+    kupon.totalOdd = calculateTotalOdd(kupon); 
 });
 
 
 const contentEl = document.getElementById('content');
 const tabs = document.querySelectorAll('.tab');
 
+// Yardımcı Fonksiyon: Maç adına göre detayları bulur
+function getMatchDetailsByTitle(title) {
+    return MATCHES.find(m => m.title === title);
+}
+
 // Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
 function getKuponStartTime(kupon) {
-    // RAW_DATA'dan tarih bilgisini çekiyoruz (Tüm maçlar aynı tarihli olduğu varsayılır)
-    const date = RAW_DATA.length > 0 ? RAW_DATA[0][0].split(' ')[0] : DATE_INFO.split(' ')[0];
-    return { date: date, time: kupon.earliestTime };
+    if (kupon.matchTitles.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
+    
+    const matchDetails = kupon.matchTitles
+        .map(title => getMatchDetailsByTitle(title))
+        .filter(d => d);
+    
+    if (matchDetails.length > 0) {
+        // HH:MM formatındaki string'leri güvenilir bir şekilde karşılaştırarak en erken saati bulur
+        const earliestMatch = matchDetails.sort((a, b) => {
+            // Önce saat/dakika karşılaştır
+            if (a.time < b.time) return -1;
+            if (a.time > b.time) return 1;
+            return 0;
+        })[0];
+        
+        return { date: earliestMatch.date, time: earliestMatch.time };
+    }
+    
+    return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
 }
 
 // Risk rengini belirleyen yardımcı fonksiyon
 function getRiskColor(risk) {
-    if (risk.includes('DÜŞÜK')) return '#28d07b'; 
-    if (risk.includes('ORTA')) return '#ffd460'; 
-    if (risk.includes('YÜKSEK')) return '#ff7a00'; 
-    return '#96a0b5';
+    switch (risk) {
+        case 'düşük': return '#28d07b'; 
+        case 'orta': return '#ffd460'; 
+        case 'yüksek': return '#ff7a00'; 
+        default: return '#96a0b5';
+    }
 }
 
-// TEMEL KART OLUŞTURMA İŞLEVİ (Taraf ve Alt/Üst için)
-function createMatchCardHtml(match, betType) {
-    const oddTypeText = betType === 'handikap' ? 'Taraf (MS) Oranı' : 'Alt/Üst Oranı';
-    const riskColor = getRiskColor(match.risk);
-    const confidenceWidth = match.confidence;
-    
-    let betDisplay = match.bet;
-    let betPrefix = (betDisplay === "Ev" || betDisplay === "Dep") ? `Tercih: ${betDisplay}` : `Tahmin: ${betDisplay}`;
+// MS (Maç Sonucu) İçeriği Oluşturma (Eski Handikap sekmesi yerine)
+function renderMS() {
+    let html = '';
+    // MS (Maç Sonucu) tahmin güvenine göre sıralama
+    const sortedMatches = [...MATCHES].sort((a, b) => b.msConfidence - a.msConfidence); 
 
-    return `
-        <div class="match-card">
-            <div class="match-head">
-                <div>
-                    <div class="match-title">${match.title}</div>
-                    <span class="match-datetime">${match.date} ${match.time} (UTC+3)</span>
+    sortedMatches.forEach(match => {
+        const riskColor = getRiskColor(match.risk);
+        const confidenceWidth = match.msConfidence;
+
+        const resultHtml = `
+            <div class="risk-ev-wrap">
+                <div class="risk-text">
+                    MS Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk.toUpperCase()}
                 </div>
-                <div class="risk-ev-wrap">
-                    <div class="risk-text">
-                        Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk}
+            </div>
+        `;
+
+        html += `
+            <div class="match-card">
+                <div class="match-head">
+                    <div>
+                        <div class="match-title">${match.title}</div>
+                        <span class="match-datetime">${match.date} ${match.time}</span>
+                    </div>
+                    ${resultHtml}
+                </div>
+                <div class="bet-preference">Robot Tercihi: ${match.msBet}</div>
+                <div class="bet">
+                    <div class="type">MAÇ SONUCU - Tahmini Oran</div>
+                    <div class="odd">${match.msOdd.toFixed(2)}</div>
+                    <div class="muted-small">Tavsiye edilen MS bahis tercihi</div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
+                    </div>
+                    <div class="confidence-row">
+                        <span>Güven Düzeyi:</span>
+                        <span>%${match.msConfidence}</span>
                     </div>
                 </div>
             </div>
-            <div class="bet-preference">Robot ${betPrefix}</div>
-            <div class="bet">
-                <div class="type">${oddTypeText}</div>
-                <div class="odd">${match.odd.toFixed(2)}</div>
-                <div class="muted-small">Tavsiye edilen bahis tercihi</div>
-                <div class="progress-wrap">
-                    <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
-                </div>
-                <div class="confidence-row">
-                    <span>Güven Düzeyi:</span>
-                    <span>%${match.confidence}</span>
-                </div>
-            </div>
+        `;
+    });
+    contentEl.innerHTML = html;
+}
+
+// Alt/Üst İçeriği Oluşturma (Format Sadeleştirildi)
+function renderAltUst() {
+    let html = `
+        <div class="alt-ust-header">
+            <span>MAÇ</span>
+            <span>TAHMİN</span>
         </div>
     `;
-}
+    // Alt/Üst tahmin güvenine göre sıralama
+    const sortedMatches = [...MATCHES].sort((a, b) => b.altUstConfidence - a.altUstConfidence);
 
-// Taraf Tahmini İçeriği Oluşturma
-function renderHandikap() {
-    let html = '';
-    HANDIKAP_PREDICTIONS.forEach(match => {
-        html += createMatchCardHtml(match, 'handikap');
+    sortedMatches.forEach(match => {
+        // Alt/Üst için sonuç gösterimi kaldırıldı
+        html += `
+            <div class="total-card">
+                <div class="total-card-match-info">
+                    <div class="total-card-match">${match.title}</div>
+                    <div class="total-card-datetime">${match.date} ${match.time}</div>
+                </div>
+                <div class="total-card-bet" style="color:var(--warning);">
+                    ${match.altUstBet} @${match.altUstOdd.toFixed(2)} 
+                    <span style="font-weight: 500; color: var(--muted); margin-left: 8px;">(%${match.altUstConfidence})</span>
+                </div>
+            </div>
+        `;
     });
     contentEl.innerHTML = html;
 }
-
-// Alt/Üst Tahmini İçeriği Oluşturma
-function renderAltUst() {
-    let html = '';
-    ALT_UST_PREDICTIONS.forEach(match => {
-        html += createMatchCardHtml(match, 'altust');
-    });
-    contentEl.innerHTML = html;
-}
-
 
 // Kuponlar İçeriği Oluşturma 
 function renderKuponlar() {
@@ -507,20 +549,24 @@ function renderKuponlar() {
         const confidenceWidth = kupon.confidence;
         const kuponStartTime = getKuponStartTime(kupon); 
         
-        let predictionsHtml = kupon.matchTitles.map((title, index) => {
-            const bet = kupon.bets[index];
-            return `<div>${title}: **${bet}**</div>`;
+        let predictionsHtml = kupon.bets.map((betStr) => {
+            // Kupon listesindeki her bir tahmin satırını göster
+            const parts = betStr.split(': ');
+            const matchTitle = parts[0];
+            const betDetail = parts.length > 1 ? parts[1] : betStr; // Eğer ayraç yoksa, tüm stringi göster
+            
+            return `<div>${matchTitle}: ${betDetail}</div>`;
         }).join('');
 
         html += `
             <div class="match-card">
                 <div class="kupon-card-content">
                     <div class="match-title" style="margin-bottom: 5px;">${kupon.title}</div>
-                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time} (UTC+3)</div> 
+                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time}</div> 
                     
                     <div class="kupon-risk-indicator">
                         <div class="risk-text">
-                            Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${kupon.risk}
+                            Risk Seviyesi: <span class="risk-dot" style="background-color:${riskColor};"></span> ${kupon.risk.toUpperCase()}
                         </div>
                     </div>
                     
@@ -557,8 +603,8 @@ function setActiveTab(tabName) {
     });
 
     switch (tabName) {
-        case 'handikap':
-            renderHandikap();
+        case 'ms': // Handikap yerine 'ms' kullanıldı
+            renderMS();
             break;
         case 'altust':
             renderAltUst();
@@ -567,7 +613,7 @@ function setActiveTab(tabName) {
             renderKuponlar();
             break;
         default:
-            renderHandikap();
+            renderMS();
     }
 }
 
@@ -579,7 +625,7 @@ tabs.forEach(tab => {
 });
 
 // Başlangıçta varsayılan sekmeyi yükle
-setActiveTab('handikap'); 
+setActiveTab('ms'); // Artık MS Tahminleri sekmesi açılacak
 
 </script>
 </body>
