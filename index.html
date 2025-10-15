@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="robots" content="noindex, nofollow"> 
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>BasketbolAi - NBA Tahminleri</title>
+<title>BasketbolAi - Robot Tahminleri</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -77,12 +77,22 @@
   .tabs{display:flex;gap:6px;margin:14px 0; justify-content: space-between;} 
   .tab{
     flex:1;padding:10px 6px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;font-size:12px; 
+    /* Pasif sekmeler için orijinal arka plan */
     background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     color:var(--text);
     white-space: nowrap; 
     min-width: 0; 
+    transition: background-color 0.3s, box-shadow 0.3s;
   }
-  .tab.active{box-shadow:0 6px 18px rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.03)}
+  /* Aktif sekmeler için yeni gradient geçişi */
+  .tab.active{
+    background: linear-gradient(90deg, var(--accent-start), var(--accent-end)); 
+    color: #fff; /* Yazıyı daha okunur yapmak için */
+    box-shadow:0 6px 18px rgba(0,0,0,0.6); 
+    border:2px solid rgba(255,255,255,0.03);
+    position: relative;
+    z-index: 1; /* Diğerlerinden biraz daha önde görünmesi için */
+  }
   .content{padding-bottom:18px}
   .match-card{
     background:var(--card-bg);border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)
@@ -224,134 +234,197 @@
 </div>
 
 <script>
-// NBA MAÇ VERİLERİ (Girdiğiniz tabloya göre güncel ve doğru oranlarla)
-const NBA_DATE = "15 Ekim 2025 Çarşamba";
+// --- VERİ PARÇALAMA VE DÖNÜŞÜM ---
 
-// Risk ve Güven Düzeyi Belirleme Fonksiyonu (Yüzdeye göre)
-// Not: Taraf için %80+, diğerleri için %75 kullanılmıştı. Buna uygun ayarlandı.
+const RAW_DATA = [
+    // Yeni eklenen kupon maçları için eklenen veya güncellenen veriler
+    ["09:15", "Meralco vs Blackwater", "Ev", 65, "Alt", 64, 1.10, 168.5, 1.16], 
+    ["10:30", "Perth Wildcats vs Brisbane Bullets", "Ev", 80, "Alt", 80, 1.18, 180.5, 1.06], 
+    // Orijinal veriler
+    ["11:30", "TNT Katropa vs Barangay Ginebra", "Ev", 68, "Üst", 62, 1.47, 175.5, 1.56],
+    ["14:30", "Parma Perm vs Lokomotiv Kuban", "Dep", 77, "Üst", 65, 1.27, 167.5, 1.59],
+    ["15:00", "Petkim Spor vs CSM Corona Brasov", "Dep", 83, "Alt", 69, 1.66, 164.5, 1.60],
+    ["15:00", "BC Kutaisi vs Basket Brno", "Ev", 64, "Alt", 58, 1.75, 166.5, 1.62],
+    ["16:00", "Lietkabelis vs Ulm", "Dep", 74, "Üst", 68, 1.57, 172.5, 1.70],
+    ["16:00", "Sabah Baku vs Alba Berlin", "Dep", 87, "Üst", 79, 1.59, 167.5, 1.59],
+    ["16:00", "CSM Oradea vs AEK Larnaca", "Dep", 88, "Üst", 80, 1.64, 155.5, 1.63],
+    ["16:00", "CS Valcea 1924 vs Rasta Vechta", "Dep", 73, "Üst", 66, 1.33, 168.5, 1.65],
+    ["16:30", "AEK Athens vs Szolnoki Olaj KK", "Dep", 85, "Üst", 72, 1.59, 163.5, 1.59],
+    ["16:30", "Start Lublin vs KK Bosna Royal", "Ev", 65, "Alt", 57, 1.37, 165.5, 1.67],
+    ["16:30", "Braunschweig vs Anwil Wloclawek", "Ev", 62, "Alt", 56, 1.66, 166.5, 1.66],
+    ["16:30", "Bakken Bears vs Anorthosis Famagusta", "Dep", 86, "Üst", 74, 1.64, 166.5, 1.63],
+    ["16:30", "Panionios vs JL Bourg", "Dep", 80, "Üst", 68, 1.26, 166.5, 1.71],
+    ["16:30", "CSKA Moskova vs Nizhny Novgorod", "Ev", 92, "Alt", 82, 1.14, 165.5, 1.65], 
+    ["16:30", "Heidelberg vs Rytas Vilnius", "Dep", 70, "Üst", 63, 1.38, 176.5, 1.59],
+    ["17:00", "Slask Wroclaw vs Cluj Napoca", "Dep", 71, "Üst", 64, 1.36, 176.5, 1.68],
+    ["17:00", "Beşiktaş vs Chemnitz", "Ev", 76, "Alt", 59, 1.11, 167.5, 1.56],
+    ["17:00", "Reyer Venezia vs Neptunas", "Ev", 74, "Alt", 61, 1.15, 176.5, 1.69],
+    ["17:00", "Legia Warszawa vs Promitheas", "Ev", 68, "Alt", 58, 1.40, 168.5, 1.71],
+    ["17:00", "Zaragoza vs Falco Szombathely", "Dep", 86, "Üst", 72, 1.26, 173.5, 1.64],
+    ["17:00", "Dijon vs Reggiana", "Ev", 65, "Alt", 54, 1.19, 161.5, 1.65],
+    ["17:00", "BC Prievidza vs Keravnos", "Dep", 88, "Üst", 74, 3.58, 160.5, 1.63],
+    ["17:00", "Cedevita Zagreb vs Pelister Bitola", "Ev", 63, "Alt", 57, 1.25, 168.5, 1.65],
+    ["17:00", "USK Prag (K) vs UNI Girona (K)", "Dep", 85, "Üst", 72, 1.60, 148.5, 1.67],
+    ["17:00", "Flammes (K) vs Galatasaray (K)", "Ev", 66, "Alt", 54, 1.78, 142.5, 1.63],
+    ["17:15", "PAOK vs KB Trepca", "Dep", 88, "Üst", 73, 1.60, 161.5, 1.66],
+    ["18:00", "Trefl Sopot vs Neftchi IK", "Dep", 87, "Üst", 71, 1.64, 165.5, 1.63],
+    ["18:15", "Panathinaikos vs ASVEL", "Dep", 88, "Üst", 72, 1.57, 170.5, 1.70],
+    ["18:30", "Valencia vs Hapoel Tel Aviv", "Ev", 72, "Alt", 61, 1.57, 180.5, 1.69],
+    ["18:30", "Virtus Bologna vs AS Monaco", "Dep", 81, "Üst", 70, 1.32, 165.5, 1.58],
+    ["18:30", "Murcia vs Rilski Sportist", "Ev", 93, "Alt", 83, 1.75, 164.5, 1.64],
+    ["18:30", "Sporting CP vs Dinamo Sassari", "Ev", 74, "Alt", 62, 2.50, 168.5, 1.66],
+    ["18:30", "Basket 1971 vs Pesaro", "Ev", 71, "Alt", 60, 1.55, 159.5, 1.70],
+    ["18:45", "Paris vs Baskonia", "Ev", 67, "Alt", 58, 1.22, 181.5, 1.59],
+    ["18:45", "Real Madrid vs Partizan", "Ev", 91, "Alt", 81, 1.11, 166.5, 1.70],
+    ["18:45", "Manresa vs Hapoel Jerusalem", "Ev", 68, "Alt", 57, 1.46, 167.5, 1.59],
+    ["19:00", "Trieste vs Galatasaray", "Dep", 79, "Üst", 68, 1.37, 171.5, 1.70]
+];
+
+const NBA_DATE = "15.10.2025 Çarşamba"; 
+
+// Risk ve Güven Düzeyi Belirleme Fonksiyonu
 function getRisk(confidence) {
-    if (confidence >= 80) return "düşük";
-    if (confidence >= 75) return "orta";
-    return "yüksek"; 
+    if (confidence >= 85) return "DÜŞÜK (A+)";
+    if (confidence >= 80) return "DÜŞÜK (A)";
+    if (confidence >= 70) return "ORTA (B)";
+    return "YÜKSEK (C)"; 
 }
 
-// Taraf Tahmini Listesi
-const HANDIKAP_PREDICTIONS = [
-    { title: "Milwaukee Bucks vs OKC Thunder", date: NBA_DATE, time: "03:00", bet: "Milwaukee (H) -4.5 Galibiyet", odd: 1.65, confidence: 80, risk: getRisk(80) },
-    { title: "Denver Nuggets vs Chicago Bulls", date: NBA_DATE, time: "04:00", bet: "Denver (H) -3.5 Galibiyet", odd: 1.60, confidence: 80, risk: getRisk(80) },
-    { title: "Phoenix Suns vs LA Lakers", date: NBA_DATE, time: "05:00", bet: "Phoenix -3.5 Galibiyet", odd: 1.72, confidence: 75, risk: getRisk(75) },
-    { title: "Golden State Warriors vs Portland Trail Blazers", date: NBA_DATE, time: "05:00", bet: "Golden State -5.5 Galibiyet", odd: 1.66, confidence: 75, risk: getRisk(75) },
-];
+// Veriyi formatlama işlevi (RAW_DATA'daki tüm maçları hem taraf hem alt/üst olarak hazırlar)
+function formatData(data) {
+    const tarafList = [];
+    const altUstList = [];
+    
+    data.forEach(row => {
+        const [time, title, msTahmin, msGuven, altUstTahmin, altUstGuven, msOran, baremSayi, altUstOran] = row;
+        
+        // Taraf Tahmini Listesi
+        tarafList.push({ 
+            title: title, 
+            date: NBA_DATE, 
+            time: time, 
+            bet: msTahmin, // Ev/Dep tercihi
+            odd: parseFloat(msOran), 
+            confidence: parseInt(msGuven), 
+            risk: getRisk(parseInt(msGuven)) 
+        });
 
-// Alt/Üst Tahmini Listesi
-const ALT_UST_PREDICTIONS = [
-    { title: "Milwaukee Bucks vs OKC Thunder", date: NBA_DATE, time: "03:00", bet: "Üst (222.5)", odd: 1.70, confidence: 80, risk: getRisk(80) },
-    { title: "Denver Nuggets vs Chicago Bulls", date: NBA_DATE, time: "04:00", bet: "Üst (226.5)", odd: 1.68, confidence: 80, risk: getRisk(80) },
-    { title: "Phoenix Suns vs LA Lakers", date: NBA_DATE, time: "05:00", bet: "Üst (227.5)", odd: 1.75, confidence: 75, risk: getRisk(75) },
-    { title: "Golden State Warriors vs Portland Trail Blazers", date: NBA_DATE, time: "05:00", bet: "Üst (228.5)", odd: 1.73, confidence: 75, risk: getRisk(75) },
-];
+        // Alt/Üst Tahmini Listesi
+        altUstList.push({ 
+            title: title, 
+            date: NBA_DATE, 
+            time: time, 
+            bet: `${altUstTahmin} (${baremSayi})`, // Üst (175.5)
+            odd: parseFloat(altUstOran), 
+            confidence: parseInt(altUstGuven), 
+            risk: getRisk(parseInt(altUstGuven)) 
+        });
+    });
+
+    return { tarafList, altUstList };
+}
+
+const { tarafList: HANDIKAP_PREDICTIONS, altUstList: ALT_UST_PREDICTIONS } = formatData(RAW_DATA);
 
 
-// Kuponlar Listesi (Yeni oranlar ve tahminlerle güncellendi)
-const KUPONLAR = [
+// --- KUPON TANIMLAMA (GÜNCEL MANUEL KUPONLAR) ---
+
+const NEW_KUPONLAR = [
     {
-        title: "Kupon 1 – Taraf 2 Tahmin",
-        risk: "düşük",
-        confidence: 80, 
-        totalOdd: 2.64, // 1.65 x 1.60 = 2.64
-        matchTitles: [
-            "Milwaukee Bucks vs OKC Thunder", 
-            "Denver Nuggets vs Chicago Bulls", 
-        ],
-        bets: [
-            "Milwaukee (H) -4.5 Galibiyet", 
-            "Denver (H) -3.5 Galibiyet",  
-        ],
+        title: "⭐ PREMİUM KUPON (DÜŞÜK RİSK)",
+        matches: [
+            { title: "Perth Wildcats vs Brisbane Bullets", time: "10:30", bet: "Alt (180.5)", confidence: 80, odd: 1.06 },
+            { title: "Meralco vs Blackwater", time: "09:15", bet: "Alt (168.5)", confidence: 64, odd: 1.16 },
+            { title: "TNT Katropa vs Barangay Ginebra", time: "11:30", bet: "Üst (175.5)", confidence: 62, odd: 1.56 },
+        ]
     },
     {
-        title: "Kupon 2 – Alt/Üst 2 Tahmin",
-        risk: "düşük",
-        confidence: 80,
-        totalOdd: 2.86, // 1.70 x 1.68 = 2.856 -> 2.86
-        matchTitles: [
-            "Milwaukee Bucks vs OKC Thunder", 
-            "Denver Nuggets vs Chicago Bulls", 
-        ],
-        bets: [
-            "Üst (222.5)", 
-            "Üst (226.5)", 
-        ],
+        title: "🏆 STANDART KUPON (ORTA RİSK)",
+        matches: [
+            { title: "Parma Perm vs Lokomotiv Kuban", time: "14:30", bet: "Üst (167.5)", confidence: 65, odd: 1.59 },
+            { title: "BC Kutaisi vs Basket Brno", time: "15:00", bet: "Alt (166.5)", confidence: 58, odd: 1.62 },
+            { title: "Braunschweig vs Anwil Wloclawek", time: "16:30", bet: "Alt (166.5)", confidence: 56, odd: 1.66 },
+        ]
+    },
+    {
+        title: "🚀 HİGH VALUE KUPON (YÜKSEK KAZANÇ)",
+        matches: [
+            { title: "CSKA Moskova vs Nizhny Novgorod", time: "16:30", bet: "Alt (165.5)", confidence: 82, odd: 1.65 },
+            { title: "Murcia vs Rilski Sportist", time: "18:30", bet: "Alt (164.5)", confidence: 83, odd: 1.64 },
+            { title: "Panathinaikos vs ASVEL", time: "18:15", bet: "Üst (170.5)", confidence: 72, odd: 1.70 },
+        ]
     },
 ];
+
+// Kupon verilerini formatlama ve güven/oran hesaplama
+const KUPONLAR = NEW_KUPONLAR.map(kupon => {
+    let minConfidence = 100;
+    let totalOdd = 1.0;
+    const matchTitles = [];
+    const bets = [];
+    let earliestTime = "23:59";
+
+    kupon.matches.forEach(match => {
+        totalOdd *= match.odd;
+        minConfidence = Math.min(minConfidence, match.confidence);
+        matchTitles.push(match.title);
+        // Kupon listesinde Alt/Üst tahminlerinin baremle yazılmasını sağlıyorum
+        bets.push(match.bet);
+        
+        if (match.time < earliestTime) {
+            earliestTime = match.time;
+        }
+    });
+
+    return {
+        title: kupon.title,
+        risk: getRisk(minConfidence), // En düşük güvene göre risk belirlenir
+        confidence: minConfidence, // En düşük güven kuponun güvenidir
+        totalOdd: totalOdd,
+        matchTitles: matchTitles,
+        bets: bets,
+        earliestTime: earliestTime
+    };
+});
+
 
 const contentEl = document.getElementById('content');
 const tabs = document.querySelectorAll('.tab');
 
-// Yardımcı Fonksiyon: Kuponlar için maçı bulur (Kupon tarihi/saati için gereklidir)
-function getPredictionByTitle(title) {
-    // Taraf ve Alt/Üst listelerinde arama yapar. Sadece biri yeterli.
-    const hMatch = HANDIKAP_PREDICTIONS.find(m => m.title === title);
-    if (hMatch) return hMatch;
-    
-    const auMatch = ALT_UST_PREDICTIONS.find(m => m.title === title);
-    if (auMatch) return auMatch;
-
-    return null;
-}
-
 // Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
 function getKuponStartTime(kupon) {
-    if (kupon.matchTitles.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
-    
-    const matchDetails = kupon.matchTitles
-        .map(title => getPredictionByTitle(title))
-        .filter(d => d);
-    
-    if (matchDetails.length > 0) {
-        // En erken başlayan maçı bulur (Saat alanına göre sıralar)
-        const earliestMatch = matchDetails.sort((a, b) => {
-            if (a.time < b.time) return -1;
-            if (a.time > b.time) return 1;
-            return 0;
-        })[0];
-        
-        return { date: earliestMatch.date, time: earliestMatch.time };
-    }
-    
-    return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
+    return { date: NBA_DATE, time: kupon.earliestTime };
 }
 
 // Risk rengini belirleyen yardımcı fonksiyon
 function getRiskColor(risk) {
-    switch (risk) {
-        case 'düşük': return '#28d07b'; 
-        case 'orta': return '#ffd460'; 
-        case 'yüksek': return '#ff7a00'; 
-        default: return '#96a0b5';
-    }
+    if (risk.includes('DÜŞÜK')) return '#28d07b'; 
+    if (risk.includes('ORTA')) return '#ffd460'; 
+    if (risk.includes('YÜKSEK')) return '#ff7a00'; 
+    return '#96a0b5';
 }
 
-// TEMEL KART OLUŞTURMA İŞLEVİ
+// TEMEL KART OLUŞTURMA İŞLEVİ (Taraf ve Alt/Üst için)
 function createMatchCardHtml(match, betType) {
-    // Kart başlığı sekme ismine göre dinamik olarak belirlendi
-    const oddTypeText = betType === 'handikap' ? 'Taraf Tahmini Oranı' : 'Alt/Üst Tahmini Oranı';
+    const oddTypeText = betType === 'handikap' ? 'Taraf (MS) Oranı' : 'Alt/Üst Oranı';
     const riskColor = getRiskColor(match.risk);
     const confidenceWidth = match.confidence;
+    const betPrefix = (match.bet === "Ev" || match.bet === "Dep") ? `Tercih: ${match.bet}` : `Tahmin: ${match.bet}`;
 
     return `
         <div class="match-card">
             <div class="match-head">
                 <div>
                     <div class="match-title">${match.title}</div>
-                    <span class="match-datetime">${match.date} ${match.time}</span>
+                    <span class="match-datetime">${match.date} ${match.time} (UTC)</span>
                 </div>
                 <div class="risk-ev-wrap">
                     <div class="risk-text">
-                        Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk.toUpperCase()}
+                        Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk}
                     </div>
                 </div>
             </div>
-            <div class="bet-preference">Robot Tercihi: ${match.bet}</div>
+            <div class="bet-preference">Robot ${betPrefix}</div>
             <div class="bet">
                 <div class="type">${oddTypeText}</div>
                 <div class="odd">${match.odd.toFixed(2)}</div>
@@ -397,18 +470,18 @@ function renderKuponlar() {
         
         let predictionsHtml = kupon.matchTitles.map((title, index) => {
             const bet = kupon.bets[index];
-            return `<div>${title}: ${bet}</div>`;
+            return `<div>${title}: **${bet}**</div>`;
         }).join('');
 
         html += `
             <div class="match-card">
                 <div class="kupon-card-content">
                     <div class="match-title" style="margin-bottom: 5px;">${kupon.title}</div>
-                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time}</div> 
+                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time} (UTC)</div> 
                     
                     <div class="kupon-risk-indicator">
                         <div class="risk-text">
-                            Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${kupon.risk.toUpperCase()}
+                            Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${kupon.risk}
                         </div>
                     </div>
                     
@@ -467,7 +540,7 @@ tabs.forEach(tab => {
 });
 
 // Başlangıçta varsayılan sekmeyi yükle
-setActiveTab('handikap');
+setActiveTab('handikap'); // Başlangıç sekmesi Taraf Tahmini olarak ayarlandı
 
 </script>
 </body>
