@@ -79,11 +79,11 @@
     color: var(--tech-blue); 
     opacity: 0.8;
   }
-  /* SEKME DÜZENLEMESİ */
-  .tabs{display:flex;gap:6px;margin:14px 0; justify-content: space-between;} 
+  /* SEKME DÜZENLEMESİ - Metin taşmasını azaltmak için ayarlandı */
+  .tabs{display:flex;gap:4px;margin:14px 0; justify-content: space-between;} 
   .tab{
-    flex:1;padding:10px 6px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;font-size:12px; 
-    background:rgba(255,255,255,0.05); /* Pasif sekmeler daha opak yapıldı */
+    flex:1;padding:8px 4px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;font-size:11px; /* Font küçültüldü */
+    background:rgba(255,255,255,0.05); 
     color:var(--text);
     white-space: nowrap; 
     min-width: 0; 
@@ -222,21 +222,11 @@
       gap: 6px;
       font-size: 14px; 
   }
+  /* ALT ÜST HEADER KALDIRILDI */
   .alt-ust-header {
-    font-weight: 700;
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+    display: none; /* Bu başlık kaldırıldı */
   }
-  .alt-ust-header span:nth-child(1) {
-    flex: 1; 
-  }
-  .alt-ust-header span:nth-child(2) {
-    width: 65px; 
-    text-align: right;
-  }
+
   /* SİSTEM ONLİNE GÖSTERGESİ */
   @keyframes pulse-online {
     0% { box-shadow: 0 0 0 0 rgba(40, 208, 123, 0.7); }
@@ -280,7 +270,7 @@
     <div class="success-rates"> 
       <div class="success-rate-item">
         <div style="font-size:12px;color:var(--muted)">Başarı Oranı</div>
-        <div style="font-weight:800;font-size:18px;margin-top:4px">%89</div>
+        <div style="font-weight:800;font-size:18px;margin-top:4px">%81</div>
       </div>
       <div class="success-rate-item system-online-indicator">
         <div style="font-size:12px;color:var(--success); font-weight:700;">SİSTEM ONLİNE</div>
@@ -304,10 +294,9 @@
 // *** YENİ MAÇ VERİLERİ (15 EKİM ÇARŞAMBA) ***
 const MATCHES = [
     // title, date, time, msBet, msOdd, msConfidence, altUstBet, altUstBaremi, altUstOdd, altUstConfidence, risk
-    // Handikap baremi, MS'in taraf tahmini (MS1/MS2) için kullanılan varsayılan barem olarak kabul edilmiştir.
     { title: "Valencia vs Hapoel Tel Aviv", date: "15 Ekim Çarşamba", time: "21:30", msBet: "MS1", msOdd: 1.50, msConfidence: 72, altUstBet: "ÜST", altUstBaremi: "179.5", altUstOdd: 1.75, altUstConfidence: 78, risk: "düşük", handikapBaremi: "-2.5" },
     { title: "Virtus Bologna vs Monaco", date: "15 Ekim Çarşamba", time: "21:30", msBet: "MS2", msOdd: 1.63, msConfidence: 68, altUstBet: "ALT", altUstBaremi: "162.5", altUstOdd: 1.65, altUstConfidence: 72, risk: "orta", handikapBaremi: "+1.5" },
-    { title: "Murcia vs Rilski", date: "15 Ekim Çarşamba", time: "21:30", msBet: "MS1", msOdd: 1.05, msConfidence: 45, altUstBet: "SKIP", altUstBaremi: "164.5", altUstOdd: 0.00, altUstConfidence: 35, risk: "yüksek", handikapBaremi: "-8.5" }, // SKIP için altUstOdd 0.00
+    { title: "Murcia vs Rilski", date: "15 Ekim Çarşamba", time: "21:30", msBet: "MS1", msOdd: 1.05, msConfidence: 45, altUstBet: "SKIP", altUstBaremi: "164.5", altUstOdd: 0.00, altUstConfidence: 35, risk: "yüksek", handikapBaremi: "-8.5" }, 
     { title: "Sporting CP vs Sassari", date: "15 Ekim Çarşamba", time: "21:30", msBet: "MS2", msOdd: 1.36, msConfidence: 71, altUstBet: "ALT", altUstBaremi: "163.5", altUstOdd: 1.65, altUstConfidence: 68, risk: "orta", handikapBaremi: "+3.5" },
     { title: "Basket 1971 vs Pesaro", date: "15 Ekim Çarşamba", time: "21:30", msBet: "MS2", msOdd: 1.80, msConfidence: 62, altUstBet: "ÜST", altUstBaremi: "160.5", altUstOdd: 1.65, altUstConfidence: 64, risk: "orta", handikapBaremi: "+0.5" },
     { title: "Real Madrid vs Partizan", date: "15 Ekim Çarşamba", time: "21:45", msBet: "MS1", msOdd: 1.15, msConfidence: 76, altUstBet: "ALT", altUstBaremi: "166.5", altUstOdd: 1.86, altUstConfidence: 82, risk: "düşük", handikapBaremi: "-5.5" },
@@ -319,58 +308,26 @@ const MATCHES = [
     { title: "Benfica vs Spartak Subotica", date: "15 Ekim Çarşamba", time: "22:30", msBet: "MS1", msOdd: 2.02, msConfidence: 58, altUstBet: "ÜST", altUstBaremi: "161.5", altUstOdd: 1.75, altUstConfidence: 62, risk: "orta", handikapBaremi: "-0.5" },
 ];
 
-// Kupon toplam oran hesaplama fonksiyonu (Kupondaki tüm tahminlerin oranlarının çarpımı)
-function calculateTotalOdd(kupon) {
-    let totalOdd = 1.0;
-    
-    // Kupondaki her bir bahsi gez
-    kupon.matchTitles.forEach((matchTitle, index) => {
-        const match = MATCHES.find(m => m.title === matchTitle);
-        if (!match) return;
-
-        const betStr = kupon.bets[index];
-        
-        // Tahmin türüne göre oranı kullan
-        if (betStr.includes("ALT") || betStr.includes("ÜST")) {
-            // SKIP tahminini (oranı 0.00 olan) çarpmamaya dikkat et
-            if(match.altUstOdd > 0) {
-                totalOdd *= match.altUstOdd;
-            } else {
-                // SKIP/Bilinmeyen oranları 1.0 olarak kabul et (etkisiz bırak)
-                totalOdd *= 1.0; 
-            }
-        } else {
-            totalOdd *= match.msOdd;
-        }
-    });
-
-    return totalOdd;
-}
-
 
 const KUPONLAR = [
     {
-        title: "🏆 PREMIUM KUPON - En Yüksek Güvenilirlik (3 MAÇ)",
+        // İstenen değişiklik: Kupon başlığı sadeleştirildi
+        title: "🏆 PREMIUM KUPON (3 MAÇ)",
         risk: "düşük", 
-        confidence: 79, // Ortalama Güven
+        confidence: 79, 
         matchTitles: [
             "Real Madrid vs Partizan", 
             "Valencia vs Hapoel Tel Aviv", 
             "Oostende vs Mersin",
         ],
         bets: [
-            "Real Madrid vs Partizan: ALT 166.5 (1.86)",    // Alt/Üst Tahmini
-            "Valencia vs Hapoel Tel Aviv: ÜST 179.5 (1.75)", // Alt/Üst Tahmini
-            "Oostende vs Mersin: MS 1 (1.90)",              // MS Tahmini
+            "Real Madrid vs Partizan: ALT 166.5 (1.86)",    
+            "Valencia vs Hapoel Tel Aviv: ÜST 179.5 (1.75)", 
+            "Oostende vs Mersin: MS 1 (1.90)",              
         ],
-        // Hesaplanan Oran: 1.86 * 1.75 * 1.90 = 6.1815
         totalOdd: 6.18, 
     },
 ];
-
-// Kupon toplam oranlarını tekrar hesapla (MATCHES verisindeki oranları kullan)
-// Not: Kullanıcı tarafından verilen oranlar MATCHES listesiyle tutarlı olduğu için yeniden hesaplamaya gerek yok, 6.18 kullanıldı.
-
 
 const contentEl = document.getElementById('content');
 const tabs = document.querySelectorAll('.tab');
@@ -412,19 +369,19 @@ function getRiskColor(risk) {
     }
 }
 
-// MS (Maç Sonucu) İçeriği Oluşturma (Handikap baremini gösterir)
+// MS (Maç Sonucu) İçeriği Oluşturma (Saat sırasına göre)
 function renderMS() {
     let html = '';
-    // MS (Maç Sonucu) tahmin güvenine göre sıralama
-    const sortedMatches = [...MATCHES].sort((a, b) => b.msConfidence - a.msConfidence); 
+    // MS (Maç Sonucu) tahminini SAAT sırasına göre sıralama
+    const sortedMatches = [...MATCHES].sort((a, b) => {
+        if (a.time < b.time) return -1;
+        if (a.time > b.time) return 1;
+        return 0;
+    }); 
 
     sortedMatches.forEach(match => {
         const riskColor = getRiskColor(match.risk);
         const confidenceWidth = match.msConfidence;
-        const handikapBaremiDisplay = match.msBet === "MS1" ? match.handikapBaremi : (match.handikapBaremi.includes('-') ? match.handikapBaremi.replace('-', '+') : match.handikapBaremi.replace('+', '-'));
-        const handikapLabel = match.msBet === "MS1" ? `MS1 (${match.handikapBaremi} HT)` : `MS2 (${match.handikapBaremi} HT)`;
-
-
         const resultHtml = `
             <div class="risk-ev-wrap">
                 <div class="risk-text">
@@ -433,7 +390,6 @@ function renderMS() {
             </div>
         `;
         
-        // Risk Düşük ise başlık rengi başarı yeşili yapıldı
         const titleColor = match.risk.toLowerCase() === 'düşük' ? 'var(--success)' : 'var(--text)';
 
         html += `
@@ -450,9 +406,8 @@ function renderMS() {
 
                 <div class="bet-preference">Robot Tercihi: ${match.msBet}</div>
                 <div class="bet">
-                    <div class="type">TARAF TAHMİNİ - Tahmini Oran</div>
+                    <div class="type">TARAF TAHMİNİ - ORAN</div>
                     <div class="odd">${match.msOdd.toFixed(2)}</div>
-                    <div class="muted-small">Tavsiye edilen taraf bahis tercihi</div>
                     <div class="progress-wrap">
                         <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
                     </div>
@@ -467,22 +422,23 @@ function renderMS() {
     contentEl.innerHTML = html;
 }
 
-// Alt/Üst İçeriği Oluşturma (Alt/Üst baremini gösterir)
+// Alt/Üst İçeriği Oluşturma (Saat sırasına göre)
 function renderAltUst() {
     let html = `
         <div class="alt-ust-header">
-            <span>MAÇ</span>
-            <span>TAHMİN</span>
         </div>
     `;
-    // Alt/Üst tahmin güvenine göre sıralama
-    const sortedMatches = [...MATCHES].sort((a, b) => b.altUstConfidence - a.altUstConfidence);
+    // Alt/Üst tahminini SAAT sırasına göre sıralama
+    const sortedMatches = [...MATCHES].sort((a, b) => {
+        if (a.time < b.time) return -1;
+        if (a.time > b.time) return 1;
+        return 0;
+    });
 
     sortedMatches.forEach(match => {
         // Alt/Üst tahmin yoksa (SKIP) kartı gösterme
         if (match.altUstBet === "SKIP") return;
         
-        // Risk Düşük ise başlık rengi başarı yeşili yapıldı
         const titleColor = match.risk.toLowerCase() === 'düşük' ? 'var(--success)' : 'var(--text)';
 
         html += `
@@ -513,25 +469,19 @@ function renderKuponlar() {
         const kuponStartTime = getKuponStartTime(kupon); 
         
         let predictionsHtml = kupon.bets.map((betStr) => {
-            // Kupon listesindeki her bir tahmin satırını göster
             const parts = betStr.split(': ');
             const matchTitle = parts[0];
             const betDetail = parts.length > 1 ? parts[1] : betStr; 
             
-            // Maç detaylarını alıp baremi ekle
             const match = getMatchDetailsByTitle(matchTitle);
             let barem = "";
             if(match) {
-                // Tahmin türüne göre baremi göster
                 if (betStr.includes("ALT") || betStr.includes("ÜST")) {
                     barem = ` (Barem: ${match.altUstBaremi})`;
                 } else {
-                    // MS tahmini için handikap baremini göster
                     barem = ` (Baremi: ${match.handikapBaremi})`;
                 }
             }
-
-
             return `<div>${matchTitle}: ${betDetail}${barem}</div>`;
         }).join('');
 
@@ -554,7 +504,7 @@ function renderKuponlar() {
                     <div class="bet" style="width: 100%; text-align: center;">
                         <div class="type">TOPLAM ORAN</div>
                         <div class="odd">${kupon.totalOdd.toFixed(2)}</div>
-                        <div class="muted-small">Robot Tahmini Kombinesi</div>
+                        <div class="muted-small">ROBOT TAHMİN</div> 
                         <div class="progress-wrap">
                             <div class="progress-bar" style="width:${confidenceWidth}%;"></div>
                         </div>
