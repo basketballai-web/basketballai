@@ -74,24 +74,40 @@
     opacity: 0.8;
   }
   /* SEKME DÜZENLEMESİ */
-  .tabs{display:flex;gap:6px;margin:14px 0; justify-content: space-between;} 
+  .tabs{
+    display:flex;
+    gap:6px;
+    margin:14px 0; 
+    justify-content: space-between;
+    /* Dış çerçeveye taşmayı önlemek için */
+    overflow: hidden; 
+  } 
   .tab{
-    flex:1;padding:10px 6px;border-radius:12px;text-align:center;font-weight:700;cursor:pointer;font-size:12px; 
-    /* Pasif sekmeler için orijinal arka plan */
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    flex:1;
+    padding:10px 6px;
+    border-radius:12px;
+    text-align:center;
+    font-weight:700;
+    cursor:pointer;
+    font-size:12px; 
+    /* Pasif Sekme Stili (Hafif Şeffaf Koyu Zemin) */
+    background:rgba(255,255,255,0.08); /* Pasif sekme zeminini biraz daha belirginleştirdim */
     color:var(--text);
     white-space: nowrap; 
     min-width: 0; 
-    transition: background-color 0.3s, box-shadow 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s, background 0.3s;
+    /* Metnin sığmasını sağlamak için padding'i daralttık */
+    padding-left: 4px;
+    padding-right: 4px;
   }
-  /* Aktif sekmeler için yeni gradient geçişi */
+  /* Aktif Sekme Stili (Mavili Morlu Geçiş) */
   .tab.active{
     background: linear-gradient(90deg, var(--accent-start), var(--accent-end)); 
-    color: #fff; /* Yazıyı daha okunur yapmak için */
+    color: #fff; 
     box-shadow:0 6px 18px rgba(0,0,0,0.6); 
     border:2px solid rgba(255,255,255,0.03);
     position: relative;
-    z-index: 1; /* Diğerlerinden biraz daha önde görünmesi için */
+    z-index: 1; 
   }
   .content{padding-bottom:18px}
   .match-card{
