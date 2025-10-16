@@ -86,50 +86,44 @@
     margin-bottom: 4px; 
   }
   .powered-by-ai {
-    font-size: 12px; 
-    font-weight: 600;
+    font-size: 14px; 
+    font-weight: 600; 
     color: var(--tech-blue); 
-    opacity: 0.8;
+    opacity: 1; 
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
   
   /* YENİ SEKME DÜZENLEMESİ: İLK SIRAYA SIĞDIRMA */
   .tabs{
     display:flex;
     flex-wrap: wrap; 
-    gap: 6px; /* Sekmeler arası boşluk azaltıldı */
+    gap: 6px; 
     margin: 14px 0; 
     justify-content: space-between;
   } 
   .tab{
     /* 5 sekmenin ilk sıraya sığması için yaklaşık %19 genişlik */
     flex: 1 1 19%; 
-    padding: 8px 3px; /* İç boşluklar azaltıldı */
+    padding: 8px 3px; 
     border-radius: 10px;
     text-align: center;
     font-weight: 700;
     cursor: pointer;
-    font-size: 10px; /* Font boyutu daha da küçültüldü */
+    font-size: 10px; 
     background: var(--tab-default-bg); 
     color: var(--text);
     white-space: nowrap; 
     transition: all 0.2s ease;
     min-width: 0; 
   }
-  /* Kuponlar sekmesi, ayrı sırada kalması istenirse bu ayar kullanılabilir */
+  /* Kuponlar sekmesi, tam genişlikte alt sırada kalması için */
   .tab[data-tab="kuponlar"] {
-    flex: 1 1 100%; /* Tam genişlikte alt sırada kalması için */
+    flex: 1 1 100%; 
     margin-top: 4px;
     font-size: 12px;
   }
   
-  /* Eğer kuponlar da ilk sıraya sığdırılmak istenirse (çok dar puntolarla) */
-  /*
-  .tab[data-tab="kuponlar"] {
-    flex: 1 1 15%; 
-    margin-top: 0; 
-  }
-  */
-
   .tab.active{
     background: var(--tab-active-bg);
     color: #fff;
@@ -138,6 +132,38 @@
   }
   .content{padding-bottom:18px}
   
+  /* GÜVEN ORANLARININ OLDUĞU ALAN DÜZENLEMESİ */
+  .success-rates {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 5px 0;
+  }
+  /* TEK BİR İSTATİSTİK KALDIĞI İÇİN HİZALAMA */
+  .success-rate-item {
+      flex-grow: 1;
+      text-align: left; /* Ortalama Başarı sola yanaştı */
+  }
+  .success-rate-item:nth-child(2) {
+      flex-grow: 0;
+      text-align: right; /* Sistem Online sağa yanaştı */
+  }
+  .rate-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .rate-value {
+    font-weight: 900;
+    font-size: 18px;
+    margin-top: 4px;
+    color: var(--success); /* Yeşil renk korundu */
+    display: block;
+    line-height: 1;
+  }
+
   /* MATCH CARD */
   .match-card{
     background:var(--card-bg);border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)
@@ -333,16 +359,16 @@
   <div class="inner">
     <div class="header">
         <div class="title">🏀 BASKETBOL AI BOT v5.0</div>
-        <div class="powered-by-ai">MONTE CARLO 100K ANALİZ | 16 EKİM 2025</div>
+        <div class="powered-by-ai">POWERED BY AI</div>
     </div>
 
     <div class="success-rates"> 
       <div class="success-rate-item">
-        <div style="font-size:12px;color:var(--muted)">MS TOPLAM Güven</div>
-        <div style="font-weight:800;font-size:18px;margin-top:4px; color: var(--success);">%83+</div>
+        <span class="rate-label">Ortalama Başarı</span>
+        <span class="rate-value" style="color: var(--success);">%79</span> 
       </div>
       <div class="success-rate-item system-online-indicator">
-        <div style="font-size:12px;color:var(--success); font-weight:700;">SİSTEM ONLİNE</div>
+        <div style="font-size:12px;color:var(--success); font-weight:700; white-space: nowrap;">SİSTEM ONLİNE</div>
         <div class="online-dot"></div>
       </div>
     </div>
