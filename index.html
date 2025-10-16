@@ -189,14 +189,17 @@
       color: var(--tech-blue);
       text-align: right;
   }
-  /* RİSK YAZISI - Robot tercih satırına hizalı */
+  /* RİSK YAZISI - Burası güncellendi */
   .risk-text{
       font-size:13px; 
       color:var(--muted);
       display:flex;
       align-items:center;
       gap:6px;
-      margin-top: 10px; 
+      /* ROBOT TERCİHİ satırına hizalanacak şekilde ayarlandı */
+      margin-top: 19px; 
+      position: absolute;
+      bottom: 0px; /* Alttan hizalama */
   } 
   .risk-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
 
@@ -221,7 +224,7 @@
   }
   .bet .odd{font-size:26px;font-weight:800;margin-bottom:4px;color:var(--warning);} 
   
-  /* SİM / GÜVEN ALANI (Altlı Üstlü ve Çubuklu) */
+  /* SİM / GÜVEN ALANI (Altlı Üstlü ve Çubuklu) - Normal Sekmeler İçin */
   .confidence-area {
       margin-top: 8px;
       padding-top: 8px;
@@ -258,35 +261,49 @@
   /* Kupon Düzenlemeleri */
   .kupon-predictions {
       width: 100%;
-      text-align: left; 
-      font-size: 14px; 
+      text-align: center; 
+      font-size: 13px; 
       font-weight: 600;
       margin-bottom: 16px; 
-      line-height: 1.8; 
       padding: 0 10px; 
   }
-  /* Kupon Başlıkları (Premium/Alternatif) - Gri yapıldı */
+  /* Kupon Başlıkları (Premium/Alternatif) - Gri */
   .kupon-title-bold {
-    font-size: 18px;
+    font-size: 16px; 
     font-weight: 800;
-    margin-bottom: 8px;
-    color: var(--muted); /* Gri */
+    margin-bottom: 4px; 
+    color: var(--muted); 
   }
-  /* Kupon İlk Maç Saati - Kalın ve Sarı yapıldı */
+  /* Kupon İlk Maç Saati - Kalın ve Sarı */
   .kupon-date-time {
-    margin-bottom: 12px; 
-    color: var(--warning); /* Sarı */
-    font-weight: 800; /* Kalın */
-    font-size: 14px;
+    margin-top: 8px; 
+    margin-bottom: 16px; 
+    color: var(--warning); 
+    font-weight: 800; 
+    font-size: 13px; 
+    text-align: center; 
+    width: 100%;
   }
-  /* Kupon Satırları İçindeki Takım Adı (Yeşil) ve Tahmin Detayları (Mavi) için CSS sınıfları eklendi */
+  /* Kupon Satırları */
+  .kupon-match-row {
+      margin-bottom: 14px; 
+      display: flex;
+      flex-direction: column; 
+      align-items: center; 
+      padding: 0 5px;
+      line-height: 1.3;
+      text-align: center;
+  }
+  /* Kupon Satırları İçindeki Takım Adı (Yeşil) ve Tahmin Detayları (Mavi) */
   .kupon-match-title {
-    color: var(--success); /* Yeşil */
+    color: var(--success); 
     font-weight: 700;
   }
   .kupon-bet-detail {
-    color: var(--tech-blue); /* Mavi */
+    color: var(--tech-blue); 
     font-weight: 700;
+    font-size: 14px; 
+    margin-top: 4px; 
   }
 
   /* KUPON RİSK/GÜVEN KARTI */
@@ -317,7 +334,7 @@
       color: var(--muted);
   }
   .kupon-extra-info .item:last-child {
-      color: var(--success);
+      color: var(--text); 
   }
   .kupon-total-odd-bet {
       width: 100%; 
@@ -607,11 +624,11 @@ function renderKuponlar() {
                 odd = matchResult[2].trim();
             }
             
-            // Karşılaşma adını yeşil, tahmini mavi yap
+            // Karşılaşma adını yeşil, tahmini mavi yap ve alt alta diz
             return `
-                <div style="text-align: left; padding-left: 10px;">
-                    <span class="kupon-match-title">${matchTitle}:</span> 
-                    <span class="kupon-bet-detail">${betInfo} ${odd}</span>
+                <div class="kupon-match-row">
+                    <div class="kupon-match-title">${matchTitle}</div> 
+                    <div class="kupon-bet-detail">${betInfo} ${odd}</div>
                 </div>
             `;
         }).join('');
@@ -622,6 +639,7 @@ function renderKuponlar() {
             <div class="match-card">
                 <div class="kupon-card-content">
                     <div class="kupon-title-bold">${kupon.title}</div>
+                    
                     <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time}</div> 
                     
                     <div class="kupon-extra-info">
