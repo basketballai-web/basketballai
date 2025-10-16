@@ -6,32 +6,36 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>BasketbolAi - Tahminler</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+  /*
+  *** GÜZELLEŞTİRİLMİŞ RENK VE YAZI PALETİ ***
+  */
   :root{
-    --bg:#0f1720;
-    --panel:#0b1620;
-    --card-bg:#0f2230;
-    --accent-start:#7b2ff7;
-    --accent-end:#3b8dff;
-    --orange:#ff7a00;
-    --tech-blue:#3ba4ff;
-    --success:#28d07b;
-    --warning:#ffd460;
-    --high-risk:#ff5733; /* Yeni Kırmızı Risk Tonu */
-    --muted:#96a0b5;
-    --text:#e6eef8;
-    --radius:18px;
+    --bg: #0d131c; /* Daha derin, daha az mavimsi arka plan */
+    --panel: #131b25; /* Kontrast artırıldı */
+    --card-bg: #192533; /* Hafif koyu mavi kart tonu */
+    --accent-start: #8a4efc; /* Mor vurgu parlatıldı */
+    --accent-end: #4a9bff; /* Mavi vurgu parlatıldı */
+    --orange: #ff7a00;
+    --tech-blue: #3ba4ff;
+    --success: #3cbe91; /* Yeşil yumuşatıldı */
+    --warning: #ffd460;
+    --high-risk: #ff5733; 
+    --muted: #b0bac9; /* İkincil yazı rengi açıldı */
+    --text: #f0f8ff; /* Ana yazı rengi daha saf beyaza yaklaştırıldı */
+    --radius: 18px;
     --tab-active-bg: linear-gradient(90deg, #6c27e0, #2f79f0); 
     --tab-bg-gradient: linear-gradient(180deg, #181d28 0%, #10161f 100%);
     
-    /* Yeni Sekme Gradient Renkleri */
-    --ms-tab-bg: linear-gradient(90deg, #1abc9c, #2ecc71); /* Yeşil Tonları */
-    --iy-tab-bg: linear-gradient(90deg, #3498db, #5dade2); /* Mavi Tonları */
-    --ev-tab-bg: linear-gradient(90deg, #f39c12, #f5b041); /* Turuncu Tonları */
-    --dep-tab-bg: linear-gradient(90deg, #9b59b6, #af7ac5); /* Mor Tonları */
-    --kupon-tab-bg: linear-gradient(90deg, #e74c3c, #ec7063); /* Kırmızı Tonları */
+    /* Sekme Gradient Renkleri - Doygunluk Artırıldı */
+    --ms-tab-bg: linear-gradient(90deg, #16a085, #27ae60); 
+    --iy-tab-bg: linear-gradient(90deg, #2980b9, #3498db); 
+    --ev-tab-bg: linear-gradient(90deg, #e67e22, #f39c12); 
+    --dep-tab-bg: linear-gradient(90deg, #8e44ad, #9b59b6); 
+    --kupon-tab-bg: linear-gradient(90deg, #c0392b, #e74c3c); 
   }
+  
   /* Risk Rengine Göre Bar Gradientleri */
   .risk-bar-low { background: linear-gradient(90deg, var(--success), #12b76a); }
   .risk-bar-medium { background: linear-gradient(90deg, var(--warning), #f6b43d); }
@@ -40,11 +44,13 @@
   *{box-sizing:border-box}
   body{
     margin:0;
-    font-family:'Inter',system-ui,Segoe UI,Roboto,-apple-system,Helvetica,Arial;
-    background: linear-gradient(180deg, rgba(23,12,37,0.9), rgba(12,12,20,1));
+    /* Font listesi modernleştirildi ve keskinleştirme eklendi */
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg, rgba(16,8,26,0.9), rgba(8,8,12,1)); /* Arka plan koyuluğu artırıldı */
     color:var(--text);
     -webkit-font-smoothing:antialiased;
-    -moz-osx-smoothing:grayscale;
+    -moz-osx-font-smoothing:grayscale;
+    text-shadow: 0 0 1px rgba(0,0,0,0.01); /* Metin keskinliği artırıldı */
     padding:18px;
     display:flex;justify-content:center;
   }
@@ -96,6 +102,7 @@
     white-space: nowrap; 
     margin-bottom: 4px; 
     position: relative; 
+    letter-spacing: -0.5px; /* Kalın yazı keskinliği */
   }
   
   /* BAŞARI ORANI VE SİSTEM ONLİNE KAPSAYICISI */
@@ -119,6 +126,9 @@
     align-items: center;
     gap: 8px;
     justify-content: flex-end; 
+  }
+  .success-rate-item div:nth-child(2) {
+    letter-spacing: -0.5px; /* Başarı oranı yazısı keskinliği */
   }
 
   /* SEKME DÜZENLEMESİ */
@@ -161,9 +171,17 @@
     border: 1px solid rgba(255,255,255,0.1); 
   }
   
-  .match-card{background:var(--card-bg);border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)}
+  /* KART VE GÖLGE İYİLEŞTİRMESİ */
+  .match-card{
+    background:var(--card-bg);
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:12px;
+    border:1px solid rgba(255,255,255,0.05); /* Daha belirgin kenarlık */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+  }
   .match-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;} 
-  .match-title{font-weight:700;font-size:16px}
+  .match-title{font-weight:700;font-size:16px; letter-spacing: -0.5px;} /* Yazı keskinliği */
   .match-datetime {
     font-weight: 800; 
     color: var(--warning); 
@@ -189,17 +207,16 @@
       color: var(--tech-blue);
       text-align: right;
   }
-  /* RİSK YAZISI - Burası güncellendi */
+  /* RİSK YAZISI */
   .risk-text{
       font-size:13px; 
       color:var(--muted);
       display:flex;
       align-items:center;
       gap:6px;
-      /* ROBOT TERCİHİ satırına hizalanacak şekilde ayarlandı */
       margin-top: 19px; 
       position: absolute;
-      bottom: 0px; /* Alttan hizalama */
+      bottom: 0px; 
   } 
   .risk-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
 
@@ -222,7 +239,15 @@
     background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.1));
     border-radius:10px;padding:10px;margin-top:6px;border:1px solid rgba(255,255,255,0.02) 
   }
-  .bet .odd{font-size:26px;font-weight:800;margin-bottom:4px;color:var(--warning);} 
+  /* ORAN İYİLEŞTİRMESİ */
+  .bet .odd{
+    font-size:28px; /* Büyütme */
+    font-weight:900; /* Ekstra kalınlık */
+    margin-bottom:4px;
+    color:var(--orange);
+    text-shadow: 0 0 8px rgba(255, 122, 0, 0.4); /* Işıltı */
+    letter-spacing: -0.5px;
+  } 
   
   /* SİM / GÜVEN ALANI (Altlı Üstlü ve Çubuklu) - Normal Sekmeler İçin */
   .confidence-area {
@@ -269,10 +294,11 @@
   }
   /* Kupon Başlıkları (Premium/Alternatif) - Gri */
   .kupon-title-bold {
-    font-size: 16px; 
+    font-size: 17px; /* Başlığı biraz büyütme */
     font-weight: 800;
     margin-bottom: 4px; 
     color: var(--muted); 
+    letter-spacing: -0.5px;
   }
   /* Kupon İlk Maç Saati - Kalın ve Sarı */
   .kupon-date-time {
@@ -301,9 +327,10 @@
   }
   .kupon-bet-detail {
     color: var(--tech-blue); 
-    font-weight: 700;
-    font-size: 14px; 
+    font-weight: 800; /* Daha kalın */
+    font-size: 15px; /* Biraz büyütme */
     margin-top: 4px; 
+    letter-spacing: -0.2px;
   }
 
   /* KUPON RİSK/GÜVEN KARTI */
@@ -333,8 +360,11 @@
       font-weight: 500;
       color: var(--muted);
   }
-  .kupon-extra-info .item:last-child {
+  .kupon-extra-info .item span:last-child {
       color: var(--text); 
+      font-size: 15px; /* Değerler büyütüldü */
+      font-weight: 800; /* Daha tok font */
+      letter-spacing: -0.2px;
   }
   .kupon-total-odd-bet {
       width: 100%; 
@@ -366,21 +396,21 @@
       </div>
       <div class="success-rate-item system-online-indicator">
         <div style="font-size:12px;color:var(--success); font-weight:700;">SİSTEM ONLİNE</div>
-        <div class="online-dot"></div>
+        <div class="online-dot" style="width:12px; height:12px; border-radius:50%; background-color:var(--success); animation: pulse-online 1.5s infinite;"></div>
       </div>
     </div>
     
     <div class="tabs-wrapper">
         <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
-            <div class="tab" data-tab="ms_toplam">MS TOPLAM</div> 
-            <div class="tab" data-tab="iy_toplam">İY TOPLAM</div> 
-            <div class="tab" data-tab="ev_toplam">EV TOPLAM</div> 
-            <div class="tab" data-tab="dep_toplam">DEP TOPLAM</div> 
-            <div class="tab" data-tab="kuponlar">KUPONLAR</div> 
+            <div class="tab" data-tab="ms_toplam" role="tab" aria-controls="content" aria-selected="true">MS TOPLAM</div> 
+            <div class="tab" data-tab="iy_toplam" role="tab" aria-controls="content">İY TOPLAM</div> 
+            <div class="tab" data-tab="ev_toplam" role="tab" aria-controls="content">EV TOPLAM</div> 
+            <div class="tab" data-tab="dep_toplam" role="tab" aria-controls="content">DEP TOPLAM</div> 
+            <div class="tab" data-tab="kuponlar" role="tab" aria-controls="content">KUPONLAR</div> 
         </div>
     </div>
 
-    <div class="content" id="content">
+    <div class="content" id="content" role="region" aria-live="polite">
       </div>
 
   </div>
@@ -405,10 +435,10 @@ function getRiskClass(risk) {
 // Risk rengini belirleyen yardımcı fonksiyon (nokta ve metin için)
 function getRiskColor(risk) {
     switch (risk.toLowerCase()) {
-        case 'düşük': return '#28d07b'; 
+        case 'düşük': return '#3cbe91'; // Yeni başarı rengi
         case 'orta': return '#ffd460'; 
         case 'yüksek': return '#ff5733'; 
-        default: return '#96a0b5';
+        default: return '#b0bac9'; // Yeni muted rengi
     }
 }
 
@@ -527,6 +557,7 @@ function renderAltUst(betType) {
     let html = '';
     
     const sortedMatches = [...MATCHES].sort((a, b) => {
+        // Saate göre sıralama
         if (a.time < b.time) return -1;
         if (a.time > b.time) return 1;
         return 0;
@@ -541,7 +572,8 @@ function renderAltUst(betType) {
         const simWidth = betData.sim;
         const confWidth = betData.conf;
         const riskClass = getRiskClass(match.risk);
-        const titleColor = match.risk.toLowerCase() === 'düşük' ? 'var(--success)' : 'var(--text)';
+        // Düşük riskli maçlarda başlık yeşil, diğerlerinde normal renk
+        const titleColor = match.risk.toLowerCase() === 'düşük' ? 'var(--success)' : 'var(--text)'; 
         const projScore = ceilProj(match.proj);
 
         let typeText = "";
@@ -561,8 +593,8 @@ function renderAltUst(betType) {
                     </div>
                     <div class="risk-ev-wrap">
                         <div class="proj-score">PROJ: ${projScore}</div>
-                        <div class="risk-text" style="color:${riskColor}">
-                            Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> ${match.risk.toUpperCase()}
+                        <div class="risk-text">
+                            Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> <span style="color:${riskColor};">${match.risk.toUpperCase()}</span>
                         </div>
                     </div>
                 </div>
@@ -576,8 +608,8 @@ function renderAltUst(betType) {
                     
                     <div class="confidence-area">
                         <div class="confidence-row">
-                            <span>SİM:</span>
-                            <span class="sim-rate-value" style="color:${riskColor}">%${betData.sim.toFixed(1)}</span>
+                            <span>SİMÜLASYON ORANI:</span>
+                            <span class="sim-rate-value">%${betData.sim.toFixed(1)}</span>
                         </div>
                         <div class="progress-wrap-double">
                             <div class="progress-bar-line">
@@ -586,7 +618,7 @@ function renderAltUst(betType) {
                         </div>
                         
                         <div class="confidence-row" style="margin-top: 6px;">
-                            <span>GÜVEN:</span>
+                            <span>GÜVEN ORANI:</span>
                             <span class="confidence-rate-value">%${betData.conf}%</span>
                         </div>
                         <div class="progress-wrap-double">
@@ -595,7 +627,6 @@ function renderAltUst(betType) {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         `;
@@ -603,65 +634,51 @@ function renderAltUst(betType) {
     contentEl.innerHTML = html;
 }
 
-// Kuponlar İçeriği Oluşturma 
+// Kuponları render eden fonksiyon
 function renderKuponlar() {
     let html = '';
+    
     KUPONLAR.forEach(kupon => {
         const riskColor = getRiskColor(kupon.risk);
+        const startTime = getKuponStartTime(kupon);
+        const totalOdd = kupon.totalOdd.toFixed(2);
         
-        let predictionsHtml = kupon.bets.map((betStr) => {
-            const parts = betStr.split(':');
-            const matchTitle = parts[0].trim();
-            const betDetail = parts.length > 1 ? parts[1].trim() : betStr; 
-            
-            // Tahmin detaylarından (@oran) kısmını ayır
-            const matchResult = betDetail.match(/(.*)\s\((@[\d\.]+)\)/);
-            let betInfo = betDetail;
-            let odd = '';
-            
-            if (matchResult && matchResult.length >= 3) {
-                betInfo = matchResult[1].trim(); 
-                odd = matchResult[2].trim();
-            }
-            
-            // Karşılaşma adını yeşil, tahmini mavi yap ve alt alta diz
+        let betsHtml = kupon.bets.map(betDetail => {
+            const [matchTitle, betAndOdd] = betDetail.split(': ');
             return `
                 <div class="kupon-match-row">
-                    <div class="kupon-match-title">${matchTitle}</div> 
-                    <div class="kupon-bet-detail">${betInfo} ${odd}</div>
+                    <div class="kupon-match-title">${matchTitle}</div>
+                    <div class="kupon-bet-detail">${betAndOdd}</div>
                 </div>
             `;
         }).join('');
-        
-        const kuponStartTime = getKuponStartTime(kupon); 
         
         html += `
             <div class="match-card">
                 <div class="kupon-card-content">
                     <div class="kupon-title-bold">${kupon.title}</div>
                     
-                    <div class="kupon-date-time">İlk Maç Saati: ${kuponStartTime.date} ${kuponStartTime.time}</div> 
-                    
                     <div class="kupon-extra-info">
                         <div class="item">
                             <span>Risk Seviyesi</span>
-                            <div><span class="risk-dot" style="background-color:${riskColor};"></span> ${kupon.risk.toUpperCase()}</div>
+                            <span style="color:${riskColor}">${kupon.risk.toUpperCase()}</span>
                         </div>
                         <div class="item">
-                            <span>Ortalama Güven</span>
-                            <div style="color:var(--text);">${kupon.confidence.toFixed(1)}%</div>
+                            <span>Güven Oranı</span>
+                            <span style="color:var(--success)">%${kupon.confidence.toFixed(1)}</span>
                         </div>
                     </div>
-
-                    <div class="kupon-predictions">
-                        ${predictionsHtml}
-                    </div>
-
-                    <div class="bet kupon-total-odd-bet">
-                        <div class="type">TOPLAM ORAN</div>
-                        <div class="odd">${kupon.totalOdd.toFixed(2)}</div>
-                    </div>
                     
+                    <div class="kupon-date-time">${startTime.date} ${startTime.time} Başlangıçlı</div>
+                    
+                    <div class="kupon-predictions">
+                        ${betsHtml}
+                    </div>
+
+                    <div class="kupon-total-odd-bet">
+                        <div style="font-size:14px; color:var(--muted); font-weight:600;">TOPLAM KUPON ORANI</div>
+                        <div class="odd" style="font-size:32px; margin-top:4px;">${totalOdd}</div>
+                    </div>
                 </div>
             </div>
         `;
@@ -669,56 +686,41 @@ function renderKuponlar() {
     contentEl.innerHTML = html;
 }
 
-// Sekme değiştirme işlevi
-function setActiveTab(tabName) {
-    tabs.forEach(tab => {
-        tab.classList.remove('active');
-        // Sekme renklerini sadece aktiflik durumunda ayarla
-        tab.style.background = '';
-        if (tab.getAttribute('data-tab') === tabName) {
-            tab.classList.add('active');
-        } else {
-            // Aktif olmayan sekmelerin kendi gradient rengini korumasını sağla
-            switch(tab.getAttribute('data-tab')) {
-                case 'ms_toplam': tab.style.background = 'var(--ms-tab-bg)'; break;
-                case 'iy_toplam': tab.style.background = 'var(--iy-tab-bg)'; break;
-                case 'ev_toplam': tab.style.background = 'var(--ev-tab-bg)'; break;
-                case 'dep_toplam': tab.style.background = 'var(--dep-tab-bg)'; break;
-                case 'kuponlar': tab.style.background = 'var(--kupon-tab-bg)'; break;
-            }
-        }
-    });
+// SEKME İŞLEVSELLİĞİ
+function handleTabClick(e) {
+    const tabElement = e.target.closest('.tab');
+    if (!tabElement) return;
 
-    switch (tabName) {
-        case 'ms_toplam': 
-            renderAltUst('ms');
-            break;
-        case 'iy_toplam':
-            renderAltUst('iy');
-            break;
-        case 'ev_toplam':
-            renderAltUst('ev');
-            break;
-        case 'dep_toplam':
-            renderAltUst('dep');
-            break;
-        case 'kuponlar':
-            renderKuponlar();
-            break;
-        default:
-            renderAltUst('ms');
+    // Aktif sekmeyi kaldır
+    tabs.forEach(t => t.classList.remove('active'));
+    
+    // Yeni sekmeyi aktif yap
+    tabElement.classList.add('active');
+    
+    const tabType = tabElement.dataset.tab;
+
+    // İçeriği render et
+    if (tabType === 'kuponlar') {
+        renderKuponlar();
+    } else {
+        // Toplam sekme tipleri için ('ms_toplam' -> 'ms')
+        const betType = tabType.split('_')[0]; 
+        renderAltUst(betType);
     }
 }
 
-// Olay dinleyicilerini ekle
 tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        setActiveTab(tab.getAttribute('data-tab'));
-    });
+    tab.addEventListener('click', handleTabClick);
 });
 
-// Başlangıçta varsayılan sekmeyi yükle
-setActiveTab('ms_toplam'); 
+// Sayfa yüklendiğinde varsayılan olarak MS TOPLAM sekmesini göster
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultTab = document.querySelector('.tab[data-tab="ms_toplam"]');
+    if (defaultTab) {
+        defaultTab.classList.add('active');
+        renderAltUst('ms'); 
+    }
+});
 
 </script>
 </body>
