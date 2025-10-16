@@ -3,54 +3,49 @@
 <head>
 <meta charset="utf-8" />
 <meta name="robots" content="noindex, nofollow"> 
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="viewport" content="width-device-width,initial-scale=1,viewport-fit=cover" />
 <title>BasketbolAi - Tahminler</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   /*
-  *** GÜZELLEŞTİRİLMİŞ RENK VE YAZI PALETİ ***
+  *** STİL TANIMLARI - İSTENEN GÖRSEL İYİLEŞTİRMELER UYGULANDI ***
   */
   :root{
-    --bg: #0d131c; /* Daha derin, daha az mavimsi arka plan */
-    --panel: #131b25; /* Kontrast artırıldı */
-    --card-bg: #192533; /* Hafif koyu mavi kart tonu */
-    --accent-start: #8a4efc; /* Mor vurgu parlatıldı */
-    --accent-end: #4a9bff; /* Mavi vurgu parlatıldı */
-    --orange: #ff7a00;
-    --tech-blue: #3ba4ff;
-    --success: #3cbe91; /* Yeşil yumuşatıldı */
-    --warning: #ffd460;
-    --high-risk: #ff5733; 
-    --muted: #b0bac9; /* İkincil yazı rengi açıldı */
-    --text: #f0f8ff; /* Ana yazı rengi daha saf beyaza yaklaştırıldı */
-    --radius: 18px;
-    --tab-active-bg: linear-gradient(90deg, #6c27e0, #2f79f0); 
-    --tab-bg-gradient: linear-gradient(180deg, #181d28 0%, #10161f 100%);
-    
-    /* Sekme Gradient Renkleri - Doygunluk Artırıldı */
-    --ms-tab-bg: linear-gradient(90deg, #16a085, #27ae60); 
-    --iy-tab-bg: linear-gradient(90deg, #2980b9, #3498db); 
-    --ev-tab-bg: linear-gradient(90deg, #e67e22, #f39c12); 
-    --dep-tab-bg: linear-gradient(90deg, #8e44ad, #9b59b6); 
-    --kupon-tab-bg: linear-gradient(90deg, #c0392b, #e74c3c); 
+    --bg:#0f1720;
+    --panel:#0b1620;
+    --card-bg:#0f2230;
+    --accent-start:#7b2ff7;
+    --accent-end:#3b8dff;
+    --orange:#ff7a00;
+    --tech-blue:#3ba4ff;
+    --success:#28d07b;
+    --warning:#ffd460;
+    --high-risk:#ff7a00; 
+    --muted:#96a0b5;
+    --text:#e6eef8; 
+    --gold-text: #ffd460; 
+    --radius:18px;
+    /* YENİ SOFT SEKME RENKLERİ */
+    --tab-default-bg: #1c3042; 
+    --tab-active-start: #3ba4ff; 
+    --tab-active-end: #7b2ff7; 
+    --tab-active-bg: linear-gradient(90deg, var(--tab-active-start), var(--tab-active-end)); 
   }
   
-  /* Risk Rengine Göre Bar Gradientleri */
-  .risk-bar-low { background: linear-gradient(90deg, var(--success), #12b76a); }
-  .risk-bar-medium { background: linear-gradient(90deg, var(--warning), #f6b43d); }
-  .risk-bar-high { background: linear-gradient(90deg, var(--high-risk), #e74c3c); }
-  
+  /* Risk Renk Eşleşmeleri */
+  .risk-low { background-color: var(--success); color: var(--success); }
+  .risk-medium { background-color: var(--warning); color: var(--warning); }
+  .risk-high { background-color: var(--high-risk); color: var(--high-risk); }
+
   *{box-sizing:border-box}
   body{
     margin:0;
-    /* Font listesi modernleştirildi ve keskinleştirme eklendi */
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(180deg, rgba(16,8,26,0.9), rgba(8,8,12,1)); /* Arka plan koyuluğu artırıldı */
+    font-family:'Inter',system-ui,Segoe UI,Roboto,-apple-system,Helvetica,Arial;
+    background: linear-gradient(180deg, rgba(23,12,37,0.9), rgba(12,12,20,1));
     color:var(--text);
     -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    text-shadow: 0 0 1px rgba(0,0,0,0.01); /* Metin keskinliği artırıldı */
+    -moz-osx-smoothing:grayscale;
     padding:18px;
     display:flex;justify-content:center;
   }
@@ -65,34 +60,22 @@
   }
   .inner{
     border-radius:16px;
+    /* BASKETBOL DOKUNUŞU: PARKET ZEMİN ETKİSİ */
     background: 
       repeating-linear-gradient(90deg, #111e2b, #111e2b 1px, transparent 1px, transparent 100px),
       repeating-linear-gradient(0deg, #111e2b, #111e2b 1px, transparent 1px, transparent 100px),
       var(--panel); 
     background-blend-mode: overlay; 
     background-size: 100% 100%, 100% 100%, 100% 100%;
+    
     padding:14px;
   }
   .header{
-    position: relative; 
     display:flex;
     flex-direction: column; 
     align-items:center;
     justify-content:center; 
     margin-bottom:12px;
-  }
-  .header::before {
-      content: '';
-      position: absolute;
-      top: -15px; 
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150px; 
-      height: 75px; 
-      background: rgba(255, 127, 80, 0.15); 
-      border-radius: 100px 100px 0 0; 
-      filter: blur(20px); 
-      z-index: 0;
   }
   .title{
     font-weight:800;
@@ -101,21 +84,230 @@
     color:var(--text);
     white-space: nowrap; 
     margin-bottom: 4px; 
-    position: relative; 
-    letter-spacing: -0.5px; /* Kalın yazı keskinliği */
+  }
+  .powered-by-ai {
+    font-size: 12px; 
+    font-weight: 600;
+    color: var(--tech-blue); 
+    opacity: 0.8;
   }
   
-  /* BAŞARI ORANI VE SİSTEM ONLİNE KAPSAYICISI */
-  .success-rates{
+  /* YENİ SEKME DÜZENLEMESİ: İLK SIRAYA SIĞDIRMA */
+  .tabs{
     display:flex;
+    flex-wrap: wrap; 
+    gap: 6px; /* Sekmeler arası boşluk azaltıldı */
+    margin: 14px 0; 
     justify-content: space-between;
-    align-items: center; 
-    margin-top: 5px; 
-    margin-bottom: 10px; 
-    padding: 0 5px; 
+  } 
+  .tab{
+    /* 5 sekmenin ilk sıraya sığması için yaklaşık %19 genişlik */
+    flex: 1 1 19%; 
+    padding: 8px 3px; /* İç boşluklar azaltıldı */
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 10px; /* Font boyutu daha da küçültüldü */
+    background: var(--tab-default-bg); 
+    color: var(--text);
+    white-space: nowrap; 
+    transition: all 0.2s ease;
+    min-width: 0; 
+  }
+  /* Kuponlar sekmesi, ayrı sırada kalması istenirse bu ayar kullanılabilir */
+  .tab[data-tab="kuponlar"] {
+    flex: 1 1 100%; /* Tam genişlikte alt sırada kalması için */
+    margin-top: 4px;
+    font-size: 12px;
+  }
+  
+  /* Eğer kuponlar da ilk sıraya sığdırılmak istenirse (çok dar puntolarla) */
+  /*
+  .tab[data-tab="kuponlar"] {
+    flex: 1 1 15%; 
+    margin-top: 0; 
+  }
+  */
+
+  .tab.active{
+    background: var(--tab-active-bg);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
+    border: 1px solid rgba(255,255,255,0.2); 
+  }
+  .content{padding-bottom:18px}
+  
+  /* MATCH CARD */
+  .match-card{
+    background:var(--card-bg);border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02)
+  }
+  .match-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}
+  .match-title{font-weight:800;font-size:16px; line-height: 1.3;}
+  .match-datetime {
+    font-weight: 600; 
+    color: var(--warning); 
+    font-size: 13px; 
+    display: block; 
+    margin-top: 4px;
+  }
+  .risk-ev-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+  /* RİSK METNİ İÇİN YENİ RENK UYGULAMASI */
+  .risk-text {
+      font-size: 14px; 
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+  }
+  .risk-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+  /* TAHMİN BİLGİLERİ */
+  .bet-preference{
+    font-weight:800;
+    color:var(--tech-blue);
+    font-size:14px;
+    margin-top:8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .bet-preference span.barem-value {
+    font-weight: 700;
+    color: var(--orange);
+    font-size: 16px;
+  }
+  .bet{
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.1));
+    border-radius:10px;padding:12px;margin-top:8px;border:1px solid rgba(255,255,255,0.02)
+  }
+  .bet-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+  }
+  .bet-detail-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+  }
+  /* TOPLAM TAHMİN YAZAN YERLER SARI */
+  .bet-col-left {
+    font-weight:800;
+    color:var(--gold-text); 
+    font-size:15px;
+  }
+  .bet-col-right {
+    text-align: right;
+  }
+  /* ORANLAR BEYAZ YAPILDI */
+  .bet .odd{font-size:28px;font-weight:900;margin-bottom:2px;color:var(--text);}
+  .muted-small{color:var(--muted);font-size:11px; font-weight: 500;}
+  
+  /* PROGRESS BAR */
+  .progress-wrap{background:rgba(255,255,255,0.04);height:10px;border-radius:999px;margin-top:8px;overflow:hidden}
+  .progress-bar{height:100%;width:0%;transition:width 600ms ease}
+  .progress-bar.sim { background: var(--tech-blue); }
+  .progress-bar.conf { background: var(--success); }
+  .confidence-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;color:var(--muted);font-size:13px}
+  .confidence-row span:last-child {
+      font-weight: 700;
+      color: var(--text);
   }
 
-  /* SİSTEM ONLİNE GÖSTERGESİ */
+  /* KUPON STİLLERİ */
+  .kupon-title-bold {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--warning); 
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  .kupon-match-row {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid var(--accent-end);
+  }
+  .kupon-match-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+  }
+  .kupon-bet-detail {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--success);
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+  }
+  /* ORANLAR BEYAZ YAPILDI */
+  .kupon-odd-value {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 900;
+  }
+  .kupon-risk-indicator {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 15px;
+      padding: 8px 15px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+  }
+  .kupon-date-time {
+    font-size: 13px; 
+    color: var(--muted); 
+    font-weight: 600; 
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* TOPLAM ORAN ALANI */
+  .total-odd-area {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 2px dashed rgba(255,255,255,0.1);
+      width: 100%;
+      text-align: center;
+  }
+  .total-odd-value {
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+      display: block;
+  }
+  .kupon-confidence-row {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+  }
+  .kupon-confidence-row span:last-child {
+      color: var(--success);
+      font-weight: 800;
+      margin-left: 5px;
+  }
+  .kupon-extra-info {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 0;
+  }
+
+  /* Sistem Online Göstergesi */
   @keyframes pulse-online {
     0% { box-shadow: 0 0 0 0 rgba(40, 208, 123, 0.7); }
     70% { box-shadow: 0 0 0 10px rgba(40, 208, 123, 0); }
@@ -127,257 +319,12 @@
     gap: 8px;
     justify-content: flex-end; 
   }
-  .success-rate-item div:nth-child(2) {
-    letter-spacing: -0.5px; /* Başarı oranı yazısı keskinliği */
-  }
-
-  /* SEKME DÜZENLEMESİ */
-  .tabs-wrapper {
-      background: var(--tab-bg-gradient); 
-      border-radius: 12px;
-      padding: 8px;
-      margin: 10px 0;
-  }
-  .tabs{display:flex;flex-wrap: wrap; gap: 4px; justify-content: space-between;} 
-  .tab{
-    flex: 0 0 calc(33.33% - 4px); 
-    padding:7px 3px;
-    border-radius:8px;
-    text-align:center;
-    font-weight:700;
-    cursor:pointer;
-    font-size:9px; 
-    background:rgba(255,255,255,0.05); 
-    color:var(--text);
-    white-space: nowrap; 
-    min-width: 0; 
-    transition: all 0.2s ease;
-  }
-  /* Sekme Renkleri */
-  .tabs [data-tab="ms_toplam"] { background: var(--ms-tab-bg); }
-  .tabs [data-tab="iy_toplam"] { background: var(--iy-tab-bg); }
-  .tabs [data-tab="ev_toplam"] { background: var(--ev-tab-bg); }
-  .tabs [data-tab="dep_toplam"] { background: var(--dep-tab-bg); }
-  .tabs [data-tab="kuponlar"] { background: var(--kupon-tab-bg); }
-  
-  .tabs .tab:nth-child(4), .tabs .tab:nth-child(5) {
-      flex: 0 0 calc(50% - 2px); 
-      margin-top: 4px; 
-  }
-  .tab.active{
-    background: var(--tab-active-bg);
-    color: #fff;
-    box-shadow:0 4px 12px rgba(0,0,0,0.6); 
-    border: 1px solid rgba(255,255,255,0.1); 
-  }
-  
-  /* KART VE GÖLGE İYİLEŞTİRMESİ */
-  .match-card{
-    background:var(--card-bg);
-    border-radius:12px;
-    padding:12px;
-    margin-bottom:12px;
-    border:1px solid rgba(255,255,255,0.05); /* Daha belirgin kenarlık */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Hafif gölge */
-  }
-  .match-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;} 
-  .match-title{font-weight:700;font-size:16px; letter-spacing: -0.5px;} /* Yazı keskinliği */
-  .match-datetime {
-    font-weight: 800; 
-    color: var(--warning); 
-    font-size: 14px; 
-    display: block; 
-    margin-top: 4px;
-    margin-bottom: 4px; 
-  }
-  /* PROJ ve RİSK KAPSAYICISI */
-  .risk-ev-wrap{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-end;
-      gap: 0; 
-      position: relative; 
-      top: 5px; 
-      height: 40px; 
-  }
-  /* PROJ SKORU */
-  .proj-score {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--tech-blue);
-      text-align: right;
-  }
-  /* RİSK YAZISI */
-  .risk-text{
-      font-size:13px; 
-      color:var(--muted);
-      display:flex;
-      align-items:center;
-      gap:6px;
-      margin-top: 19px; 
-      position: absolute;
-      bottom: 0px; 
-  } 
-  .risk-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
-
-  .barem-text {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--muted);
-      margin-top: 4px;
-      margin-bottom: 8px; 
-  }
-
-  .bet-preference{
-      font-weight:700;
-      color:var(--accent-end);
-      font-size:14px;
-      margin-top:6px;
-      margin-bottom: 10px; 
-  } 
-  .bet{
-    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.1));
-    border-radius:10px;padding:10px;margin-top:6px;border:1px solid rgba(255,255,255,0.02) 
-  }
-  /* ORAN İYİLEŞTİRMESİ */
-  .bet .odd{
-    font-size:28px; /* Büyütme */
-    font-weight:900; /* Ekstra kalınlık */
-    margin-bottom:4px;
-    color:var(--orange);
-    text-shadow: 0 0 8px rgba(255, 122, 0, 0.4); /* Işıltı */
-    letter-spacing: -0.5px;
-  } 
-  
-  /* SİM / GÜVEN ALANI (Altlı Üstlü ve Çubuklu) - Normal Sekmeler İçin */
-  .confidence-area {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed rgba(255,255,255,0.1);
-  }
-  .confidence-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 2px;
-      color: var(--muted);
-      font-size: 12px;
-  }
-  .progress-wrap-double {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px; 
-  }
-  .progress-bar-line {
-      height: 8px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.04);
-  }
-  .progress-bar-line .bar {
-      height: 100%;
-      width: 0%;
-      transition: width 600ms ease;
-  }
-  .sim-rate-value { color: var(--tech-blue); font-weight: 700; }
-  .confidence-rate-value { color: var(--success); font-weight: 700; }
-  
-  /* Kupon Düzenlemeleri */
-  .kupon-predictions {
-      width: 100%;
-      text-align: center; 
-      font-size: 13px; 
-      font-weight: 600;
-      margin-bottom: 16px; 
-      padding: 0 10px; 
-  }
-  /* Kupon Başlıkları (Premium/Alternatif) - Gri */
-  .kupon-title-bold {
-    font-size: 17px; /* Başlığı biraz büyütme */
-    font-weight: 800;
-    margin-bottom: 4px; 
-    color: var(--muted); 
-    letter-spacing: -0.5px;
-  }
-  /* Kupon İlk Maç Saati - Kalın ve Sarı */
-  .kupon-date-time {
-    margin-top: 8px; 
-    margin-bottom: 16px; 
-    color: var(--warning); 
-    font-weight: 800; 
-    font-size: 13px; 
-    text-align: center; 
-    width: 100%;
-  }
-  /* Kupon Satırları */
-  .kupon-match-row {
-      margin-bottom: 14px; 
-      display: flex;
-      flex-direction: column; 
-      align-items: center; 
-      padding: 0 5px;
-      line-height: 1.3;
-      text-align: center;
-  }
-  /* Kupon Satırları İçindeki Takım Adı (Yeşil) ve Tahmin Detayları (Mavi) */
-  .kupon-match-title {
-    color: var(--success); 
-    font-weight: 700;
-  }
-  .kupon-bet-detail {
-    color: var(--tech-blue); 
-    font-weight: 800; /* Daha kalın */
-    font-size: 15px; /* Biraz büyütme */
-    margin-top: 4px; 
-    letter-spacing: -0.2px;
-  }
-
-  /* KUPON RİSK/GÜVEN KARTI */
-  .kupon-extra-info {
-      order: -1; 
-      background: rgba(255, 122, 0, 0.1); 
-      border: 2px solid var(--orange); 
-      border-radius: 8px;
-      padding: 10px; 
-      margin-bottom: 16px; 
-      width: 100%;
-      display: flex;
-      justify-content: space-around; 
-      align-items: center;
-      font-size: 14px;
-      font-weight: 700;
-      text-align: center;
-  }
-  .kupon-extra-info .item {
-      display: flex;
-      flex-direction: column; 
-      align-items: center;
-      gap: 4px;
-  }
-  .kupon-extra-info .item span:first-child {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-  }
-  .kupon-extra-info .item span:last-child {
-      color: var(--text); 
-      font-size: 15px; /* Değerler büyütüldü */
-      font-weight: 800; /* Daha tok font */
-      letter-spacing: -0.2px;
-  }
-  .kupon-total-odd-bet {
-      width: 100%; 
-      text-align: center;
-      margin-top: 16px; 
-  }
-
-  /* KUPON KARTI İÇİ - Ferahlatma ve Hizalama */
-  .kupon-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    text-align: center; 
+  .online-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--success);
+    border-radius: 50%;
+    animation: pulse-online 1.5s infinite;
   }
 </style>
 </head>
@@ -385,158 +332,107 @@
 <div class="container" role="application" aria-label="BasketballAi WebApp">
   <div class="inner">
     <div class="header">
-        <div class="title">BasketbolAi - Robot Tahminleri</div>
-        <div class="powered-by-ai">Powered by AI</div>
+        <div class="title">🏀 BASKETBOL AI BOT v5.0</div>
+        <div class="powered-by-ai">MONTE CARLO 100K ANALİZ | 16 EKİM 2025</div>
     </div>
 
     <div class="success-rates"> 
       <div class="success-rate-item">
-        <div style="font-size:12px;color:var(--muted)">Başarı Oranı</div>
-        <div style="font-weight:800;font-size:18px;margin-top:4px">%76</div>
+        <div style="font-size:12px;color:var(--muted)">MS TOPLAM Güven</div>
+        <div style="font-weight:800;font-size:18px;margin-top:4px; color: var(--success);">%83+</div>
       </div>
       <div class="success-rate-item system-online-indicator">
         <div style="font-size:12px;color:var(--success); font-weight:700;">SİSTEM ONLİNE</div>
-        <div class="online-dot" style="width:12px; height:12px; border-radius:50%; background-color:var(--success); animation: pulse-online 1.5s infinite;"></div>
+        <div class="online-dot"></div>
       </div>
     </div>
-    
-    <div class="tabs-wrapper">
-        <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
-            <div class="tab" data-tab="ms_toplam" role="tab" aria-controls="content" aria-selected="true">MS TOPLAM</div> 
-            <div class="tab" data-tab="iy_toplam" role="tab" aria-controls="content">İY TOPLAM</div> 
-            <div class="tab" data-tab="ev_toplam" role="tab" aria-controls="content">EV TOPLAM</div> 
-            <div class="tab" data-tab="dep_toplam" role="tab" aria-controls="content">DEP TOPLAM</div> 
-            <div class="tab" data-tab="kuponlar" role="tab" aria-controls="content">KUPONLAR</div> 
-        </div>
+
+    <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
+      <div class="tab" data-tab="ms_toplam" role="tab" aria-selected="true">MS TOPLAM</div> 
+      <div class="tab" data-tab="iy_toplam" role="tab" aria-selected="false">İY TOPLAM</div> 
+      <div class="tab" data-tab="ev_toplam" role="tab" aria-selected="false">EV TOPLAM</div> 
+      <div class="tab" data-tab="dep_toplam" role="tab" aria-selected="false">DEP TOPLAM</div> 
+      <div class="tab" data-tab="kuponlar" role="tab" aria-selected="false">🔥 KUPONLAR</div> 
     </div>
 
-    <div class="content" id="content" role="region" aria-live="polite">
+    <div class="content" id="content">
       </div>
 
   </div>
 </div>
 
 <script>
-// PROJ Değerini yukarı yuvarlayan fonksiyon
+// *** GÜNCEL MAÇ VERİLERİ ***
+const MATCHES = [
+    { title: "Adelaide 36ers vs SE Melbourne Phoenix", date: "16.10.2025", time: "11:30", msBet: "ÜST", msBaremi: "185.5", msOdd: 1.83, msSim: 88.0, msConf: 87, iyBet: "ÜST", iyBaremi: "89.5", iyOdd: 1.90, iySim: 84.0, iyConf: 83, evBet: "ÜST", evBaremi: "89.5", evOdd: 1.83, evSim: 81.0, evConf: 80, depBet: "ÜST", depBaremi: "93.5", depOdd: 2.10, depSim: 77.0, depConf: 76, risk: "DÜŞÜK", proj: 191.2 }, 
+    { title: "Dongbu Promy vs KCC Egis", date: "16.10.2025", time: "13:00", msBet: "ÜST", msBaremi: "154.5", msOdd: 1.58, msSim: 86.0, msConf: 85, iyBet: "ÜST", iyBaremi: "75.5", iyOdd: 1.61, iySim: 82.0, iyConf: 81, evBet: "ÜST", evBaremi: "75.5", evOdd: 1.61, evSim: 80.0, evConf: 79, depBet: "ÜST", depBaremi: "78.5", depOdd: 1.62, depSim: 78.0, depConf: 77, risk: "ORTA", proj: 149.8 },
+    { title: "BC Dubai vs FC Barcelona", date: "16.10.2025", time: "19:00", msBet: "ÜST", msBaremi: "172.5", msOdd: 1.82, msSim: 87.0, msConf: 86, iyBet: "ÜST", iyBaremi: "86.5", iyOdd: 1.54, iySim: 83.0, iyConf: 82, evBet: "ÜST", evBaremi: "86.5", evOdd: 1.44, evSim: 81.0, evConf: 80, depBet: "ÜST", depBaremi: "84.5", depOdd: 1.48, depSim: 79.0, depConf: 78, risk: "DÜŞÜK", proj: 186.8 },
+    { title: "Zalgiris Kaunas vs Olimpia Milano", date: "16.10.2025", time: "20:00", msBet: "ÜST", msBaremi: "162.5", msOdd: 1.65, msSim: 82.0, msConf: 81, iyBet: "ÜST", iyBaremi: "81.5", iyOdd: 1.54, iySim: 78.0, iyConf: 77, evBet: "ALT", evBaremi: "79.5", evOdd: 1.69, evSim: 75.0, evConf: 74, depBet: "ÜST", depBaremi: "81.5", depOdd: 1.66, depSim: 77.0, depConf: 76, risk: "DÜŞÜK", proj: 171.4 },
+    { title: "Fenerbahçe Beko vs Bayern Münih", date: "16.10.2025", time: "20:45", msBet: "ÜST", msBaremi: "165.5", msOdd: 1.66, msSim: 84.0, msConf: 83, iyBet: "ÜST", iyBaremi: "83.5", iyOdd: 1.41, iySim: 80.0, iyConf: 79, evBet: "ALT", evBaremi: "79.5", evOdd: 1.69, evSim: 76.0, evConf: 75, depBet: "ÜST", depBaremi: "82.5", depOdd: 1.66, depSim: 78.0, depConf: 77, risk: "DÜŞÜK", proj: 175.8 },
+    { title: "London Lions vs Aquila Trento", date: "16.10.2025", time: "21:30", msBet: "ALT", msBaremi: "164.5", msOdd: 1.61, msSim: 82.0, msConf: 81, iyBet: "ALT", iyBaremi: "80.5", iyOdd: 1.61, iySim: 78.0, iyConf: 77, evBet: "ALT", evBaremi: "80.5", evOdd: 1.61, evSim: 75.0, evConf: 74, depBet: "ALT", depBaremi: "82.5", depOdd: 1.71, depSim: 80.0, depConf: 79, risk: "ORTA", proj: 172.4 },
+    { title: "Maccabi Tel Aviv vs Olympiakos Piraeus", date: "16.10.2025", time: "22:00", msBet: "ÜST", msBaremi: "175.5", msOdd: 1.52, msSim: 78.0, msConf: 77, iyBet: "ÜST", iyBaremi: "85.5", iyOdd: 1.78, iySim: 75.0, iyConf: 74, evBet: "ÜST", evBaremi: "88.5", evOdd: 1.64, evSim: 72.0, evConf: 71, depBet: "ÜST", depBaremi: "86.5", depOdd: 1.98, depSim: 77.0, depConf: 76, risk: "ORTA", proj: 171.8 },
+];
+
+// *** GÜNCEL KUPON VERİLERİ (BAREM ve ORANLAR GÜNCELLENDİ) ***
+const KUPONLAR = [
+    {
+        title: "💎 PREMİUM KUPON - 3'LÜ (EN YÜKSEK GÜVENİLİRLİK)",
+        risk: "DÜŞÜK", 
+        confidence: 83.3, 
+        bets: [
+            { matchTitle: "BC Dubai vs FC Barcelona", betType: "MS ÜST", barem: "172.5", odd: 1.82, conf: 86 },    
+            { matchTitle: "Zalgiris Kaunas vs Olimpia Milano", betType: "MS ÜST", barem: "162.5", odd: 1.65, conf: 81 }, 
+            { matchTitle: "Fenerbahçe Beko vs Bayern Münih", betType: "MS ÜST", barem: "165.5", odd: 1.66, conf: 83 },              
+        ],
+        totalOdd: 4.99, 
+        stake: "3-4% bankroll",
+        roi: "+58%"
+    },
+    {
+        title: "🔥 ALTERNATİF KUPON - 4'LÜ (YÜKSEK ORAN)",
+        risk: "DÜŞÜK",
+        confidence: 84.3, 
+        bets: [
+            { matchTitle: "BC Dubai vs FC Barcelona", betType: "MS ÜST", barem: "172.5", odd: 1.82, conf: 86 },    
+            { matchTitle: "Zalgiris Kaunas vs Olimpia Milano", betType: "MS ÜST", barem: "162.5", odd: 1.65, conf: 81 }, 
+            { matchTitle: "Adelaide 36ers vs SE Melbourne Phoenix", betType: "MS ÜST", barem: "185.5", odd: 1.83, conf: 87 },
+            { matchTitle: "Fenerbahçe Beko vs Bayern Münih", betType: "MS ÜST", barem: "165.5", odd: 1.66, conf: 83 },              
+        ],
+        totalOdd: 9.10, 
+        stake: "2-3% bankroll",
+        roi: "" 
+    }
+];
+
+// Yardımcı Fonksiyon: Risk sınıfını ve rengini döndürür
+function getRiskInfo(risk) {
+    const riskLower = risk.toLowerCase();
+    let colorVar;
+    if (riskLower === 'düşük') colorVar = '--success';
+    else if (riskLower === 'orta') colorVar = '--warning';
+    else if (riskLower === 'yüksek') colorVar = '--high-risk';
+    else colorVar = '--muted';
+    
+    const color = getComputedStyle(document.documentElement).getPropertyValue(colorVar);
+    return { class: `risk-${riskLower}`, color: color };
+}
+
+// Yardımcı Fonksiyon: Projeksiyonu tam sayıya yuvarlar
 function ceilProj(proj) {
     return Math.ceil(parseFloat(proj));
 }
 
-// Risk Rengine Göre Sınıf Döndüren Fonksiyon
-function getRiskClass(risk) {
-    switch (risk.toLowerCase()) {
-        case 'düşük': return 'risk-bar-low'; 
-        case 'orta': return 'risk-bar-medium'; 
-        case 'yüksek': return 'risk-bar-high'; 
-        default: return 'risk-bar-low';
-    }
-}
-
-// Risk rengini belirleyen yardımcı fonksiyon (nokta ve metin için)
-function getRiskColor(risk) {
-    switch (risk.toLowerCase()) {
-        case 'düşük': return '#3cbe91'; // Yeni başarı rengi
-        case 'orta': return '#ffd460'; 
-        case 'yüksek': return '#ff5733'; 
-        default: return '#b0bac9'; // Yeni muted rengi
-    }
-}
-
-// *** MAÇ VERİLERİ ***
-const MATCHES = [
-    { 
-        title: "Adelaide vs Melbourne Phoenix", date: "16 Ekim Perşembe", time: "11:30", risk: "DÜŞÜK", proj: "191.2",
-        ms: { bet: "ÜST", barem: "185.5", odd: 1.83, sim: 76.8, conf: 81 },
-        iy: { bet: "ÜST", barem: "93.5", odd: 2.10, sim: 71.2, conf: 74 },
-        ev: { bet: "ÜST", barem: "89.5", odd: 1.90, sim: 68.4, conf: 71 },
-        dep: { bet: "ÜST", barem: "89.5", odd: 1.83, sim: 72.1, conf: 75 }
-    },
-    { 
-        title: "DB Promy vs KCC Egis", date: "16 Ekim Perşembe", time: "13:00", risk: "ORTA", proj: "149.8",
-        ms: { bet: "ALT", barem: "154.5", odd: 1.65, sim: 64.3, conf: 68 },
-        iy: { bet: "ALT", barem: "78.5", odd: 1.62, sim: 61.8, conf: 65 },
-        ev: { bet: "ALT", barem: "75.5", odd: 1.61, sim: 63.2, conf: 66 },
-        dep: { bet: "ALT", barem: "75.5", odd: 1.61, sim: 62.7, conf: 65 }
-    },
-    { 
-        title: "BC Dubai vs Barcelona", date: "16 Ekim Perşembe", time: "19:00", risk: "DÜŞÜK", proj: "186.8",
-        ms: { bet: "ÜST", barem: "177.5", odd: 1.95, sim: 82.4, conf: 86 },
-        iy: { bet: "ÜST", barem: "87.5", odd: 1.54, sim: 78.6, conf: 82 },
-        ev: { bet: "ÜST", barem: "88.5", odd: 1.34, sim: 73.9, conf: 77 },
-        dep: { bet: "ÜST", barem: "92.5", odd: 1.44, sim: 81.2, conf: 84 }
-    },
-    { 
-        title: "Zalgiris vs Olimpia Milano", date: "16 Ekim Perşembe", time: "20:00", risk: "DÜŞÜK", proj: "171.4",
-        ms: { bet: "ÜST", barem: "165.5", odd: 1.48, sim: 79.1, conf: 83 },
-        iy: { bet: "ÜST", barem: "82.5", odd: 1.66, sim: 76.4, conf: 80 },
-        ev: { bet: "ÜST", barem: "83.5", odd: 2.82, sim: 74.8, conf: 78 },
-        dep: { bet: "ÜST", barem: "79.5", odd: 1.98, sim: 71.3, conf: 75 }
-    },
-    { 
-        title: "Fenerbahçe vs Bayern", date: "16 Ekim Perşembe", time: "20:45", risk: "DÜŞÜK", proj: "175.8",
-        ms: { bet: "ÜST", barem: "169.5", odd: 1.66, sim: 77.5, conf: 81 },
-        iy: { bet: "ÜST", barem: "84.5", odd: 1.90, sim: 73.2, conf: 77 },
-        ev: { bet: "ÜST", barem: "87.5", odd: 1.41, sim: 71.8, conf: 75 },
-        dep: { bet: "ÜST", barem: "80.5", odd: 2.02, sim: 69.4, conf: 73 }
-    },
-    { 
-        title: "London Lions vs Trento", date: "16 Ekim Perşembe", time: "21:30", risk: "ORTA", proj: "172.4",
-        ms: { bet: "ÜST", barem: "167.5", odd: 1.29, sim: 71.6, conf: 75 },
-        iy: { bet: "ÜST", barem: "83.5", odd: 1.61, sim: 68.9, conf: 72 },
-        ev: { bet: "ÜST", barem: "80.5", odd: 1.34, sim: 66.2, conf: 70 },
-        dep: { bet: "ÜST", barem: "80.5", odd: 1.34, sim: 67.5, conf: 71 }
-    },
-    { 
-        title: "Maccabi vs Olympiakos", date: "16 Ekim Perşembe", time: "22:00", risk: "ORTA", proj: "171.8",
-        ms: { bet: "ALT", barem: "177.5", odd: 2.15, sim: 68.4, conf: 72 },
-        iy: { bet: "ÜST", barem: "85.5", odd: 1.78, sim: 63.2, conf: 67 },
-        ev: { bet: "ALT", barem: "82.5", odd: 1.54, sim: 61.8, conf: 65 },
-        dep: { bet: "ALT", barem: "83.5", odd: 1.90, sim: 64.7, conf: 68 }
-    },
-];
-
-const KUPONLAR = [
-    {
-        title: "🏆 PREMIUM KUPON (3 MAÇ)",
-        risk: "DÜŞÜK", 
-        confidence: 83.3, 
-        matchTitles: ["BC Dubai vs Barcelona", "Zalgiris vs Olimpia Milano", "Fenerbahçe vs Bayern"],
-        bets: [
-            "BC Dubai vs Barcelona: MS ÜST 177.5 (@1.95)",    
-            "Zalgiris vs Olimpia Milano: MS ÜST 165.5 (@1.48)", 
-            "Fenerbahçe vs Bayern: MS ÜST 169.5 (@1.66)",              
-        ],
-        totalOdd: 1.95 * 1.48 * 1.66, 
-    },
-    {
-        title: "🔥 ALTERNATİF KUPON (4 MAÇ)",
-        risk: "DÜŞÜK", 
-        confidence: 82.8, 
-        matchTitles: ["BC Dubai vs Barcelona", "Zalgiris vs Olimpia Milano", "Adelaide vs Melbourne Phoenix", "Fenerbahçe vs Bayern"],
-        bets: [
-            "BC Dubai vs Barcelona: MS ÜST 177.5 (@1.95)",    
-            "Zalgiris vs Olimpia Milano: MS ÜST 165.5 (@1.48)", 
-            "Adelaide vs Melbourne Phoenix: MS ÜST 185.5 (@1.83)",
-            "Fenerbahçe vs Bayern: MS ÜST 169.5 (@1.66)",
-        ],
-        totalOdd: 1.95 * 1.48 * 1.83 * 1.66, 
-    },
-];
-
-const contentEl = document.getElementById('content');
-const tabs = document.querySelectorAll('.tab');
-
 // Yardımcı Fonksiyon: Maç adına göre detayları bulur
 function getMatchDetailsByTitle(title) {
-    return MATCHES.find(m => m.title === title);
+    return MATCHES.find(m => m.title.includes(title));
 }
 
 // Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
 function getKuponStartTime(kupon) {
-    if (kupon.matchTitles.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
+    if (kupon.bets.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
     
-    const matchDetails = kupon.matchTitles
-        .map(title => getMatchDetailsByTitle(title))
+    const matchDetails = kupon.bets
+        .map(bet => getMatchDetailsByTitle(bet.matchTitle))
         .filter(d => d);
     
     if (matchDetails.length > 0) {
@@ -552,176 +448,186 @@ function getKuponStartTime(kupon) {
     return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
 }
 
-// Genel render fonksiyonu (Tüm Toplam Sekmeleri için)
-function renderAltUst(betType) {
-    let html = '';
-    
-    const sortedMatches = [...MATCHES].sort((a, b) => {
-        // Saate göre sıralama
+// Ana Render Fonksiyonu
+function renderMatches(tabKey) {
+    const contentDiv = document.getElementById('content');
+    contentDiv.innerHTML = ''; 
+
+    const keyMap = {
+        'ms_toplam': { key: 'ms', title: 'MS TOPLAM' }, 
+        'iy_toplam': { key: 'iy', title: 'İY TOPLAM' },
+        'ev_toplam': { key: 'ev', title: 'EV TOPLAM' },
+        'dep_toplam': { key: 'dep', title: 'DEP TOPLAM' },
+    };
+    const currentData = keyMap[tabKey]; 
+
+    if (!currentData) {
+         contentDiv.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px;">Kategori Seçimi Yapınız.</p>';
+         return;
+    }
+
+    const filteredMatches = [...MATCHES].sort((a, b) => {
         if (a.time < b.time) return -1;
         if (a.time > b.time) return 1;
         return 0;
-    }); 
+    });
 
-    sortedMatches.forEach(match => {
-        const betData = match[betType];
+    if (filteredMatches.length === 0) {
+        contentDiv.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px;">Bu kategori için tahmin bulunmamaktadır.</p>';
+        return;
+    }
+
+    filteredMatches.forEach(match => {
+        const betData = {
+            betType: match[`${currentData.key}Bet`],
+            barem: match[`${currentData.key}Baremi`],
+            odd: match[`${currentData.key}Odd`],
+            sim: match[`${currentData.key}Sim`],
+            conf: match[`${currentData.key}Conf`],
+        };
         
-        if (!betData || betData.bet === "SKIP") return;
-        
-        const riskColor = getRiskColor(match.risk);
-        const simWidth = betData.sim;
-        const confWidth = betData.conf;
-        const riskClass = getRiskClass(match.risk);
-        // Düşük riskli maçlarda başlık yeşil, diğerlerinde normal renk
-        const titleColor = match.risk.toLowerCase() === 'düşük' ? 'var(--success)' : 'var(--text)'; 
-        const projScore = ceilProj(match.proj);
+        // Tahminin olmadığı durumda kartı atla
+        if (betData.odd === 0 || betData.barem === undefined || betData.betType === undefined) return;
 
-        let typeText = "";
-        switch(betType) {
-            case 'ms': typeText = "MS TOPLAM"; break;
-            case 'iy': typeText = "İY TOPLAM"; break;
-            case 'ev': typeText = "EV SAHİBİ TOPLAM"; break;
-            case 'dep': typeText = "DEPLASMAN TOPLAM"; break;
-        }
+        const riskInfo = getRiskInfo(match.risk);
+        const riskColor = riskInfo.color;
+        const riskClass = riskInfo.class;
 
-        html += `
+        const matchCard = `
             <div class="match-card">
                 <div class="match-head">
-                    <div>
-                        <div class="match-title" style="color:${titleColor};">${match.title}</div>
+                    <div class="match-info">
+                        <div class="match-title">${match.title}</div>
                         <span class="match-datetime">${match.date} ${match.time}</span>
                     </div>
                     <div class="risk-ev-wrap">
-                        <div class="proj-score">PROJ: ${projScore}</div>
-                        <div class="risk-text">
-                            Risk: <span class="risk-dot" style="background-color:${riskColor};"></span> <span style="color:${riskColor};">${match.risk.toUpperCase()}</span>
+                        <div class="risk-text" style="color: ${riskColor};">
+                            <span class="risk-dot ${riskClass}"></span>
+                            ${match.risk.toUpperCase()} RİSK
                         </div>
+                        <div style="font-size: 14px; font-weight: 700; color: var(--tech-blue); margin-top: 5px;">Proj: ${ceilProj(match.proj)}</div>
                     </div>
                 </div>
-                
-                <div class="barem-text">Önerilen Barem: <span class="barem-sayi">${betData.barem}</span></div>
 
-                <div class="bet-preference">Robot Tercihi: ${betData.bet}</div>
+                <div class="bet-preference">
+                    <div>Robot Tercihi: <span style="font-size: 18px; font-weight: 900; color: var(--success); margin-left: 5px;">${betData.betType}</span></div>
+                    <div>Barem: <span class="barem-value">${betData.barem}</span></div>
+                </div>
+
                 <div class="bet">
-                    <div class="type">${typeText} - ORAN</div>
-                    <div class="odd">${betData.odd.toFixed(2)}</div>
+                    <div class="bet-detail-row">
+                        <div class="bet-col-left">${currentData.title}</div>
+                        <div class="bet-col-right">
+                            <span class="odd">${betData.odd.toFixed(2)}</span>
+                            <span class="muted-small" style="display:block;">ORAN</span>
+                        </div>
+                    </div>
                     
-                    <div class="confidence-area">
-                        <div class="confidence-row">
-                            <span>SİMÜLASYON ORANI:</span>
-                            <span class="sim-rate-value">%${betData.sim.toFixed(1)}</span>
-                        </div>
-                        <div class="progress-wrap-double">
-                            <div class="progress-bar-line">
-                                <div class="bar ${riskClass}" style="width:${simWidth}%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="confidence-row" style="margin-top: 6px;">
-                            <span>GÜVEN ORANI:</span>
-                            <span class="confidence-rate-value">%${betData.conf}%</span>
-                        </div>
-                        <div class="progress-wrap-double">
-                            <div class="progress-bar-line">
-                                <div class="bar risk-bar-low" style="width:${confWidth}%;"></div>
-                            </div>
-                        </div>
+                    <div class="confidence-row">
+                        <span>AI Simülasyon Oranı:</span>
+                        <span style="color: var(--tech-blue);">${betData.sim.toFixed(1)}%</span>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar sim" style="width:${betData.sim}%;"></div>
+                    </div>
+
+                    <div class="confidence-row">
+                        <span>Robot Güven Değeri:</span>
+                        <span style="color: var(--success);">${betData.conf}%</span>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar conf" style="width:${betData.conf}%;"></div>
                     </div>
                 </div>
             </div>
         `;
+        contentDiv.innerHTML += matchCard;
     });
-    contentEl.innerHTML = html;
 }
 
-// Kuponları render eden fonksiyon
+// Kupon Render Fonksiyonu
 function renderKuponlar() {
-    let html = '';
-    
+    const contentDiv = document.getElementById('content');
+    contentDiv.innerHTML = '';
+
     KUPONLAR.forEach(kupon => {
-        const riskColor = getRiskColor(kupon.risk);
-        const startTime = getKuponStartTime(kupon);
-        const totalOdd = kupon.totalOdd.toFixed(2);
+        const riskInfo = getRiskInfo(kupon.risk);
+        const riskColor = riskInfo.color;
+        const riskClass = riskInfo.class;
+        const kuponStartTime = getKuponStartTime(kupon); 
         
-        let betsHtml = kupon.bets.map(betDetail => {
-            const [matchTitle, betAndOdd] = betDetail.split(': ');
+        let matchesHTML = kupon.bets.map(bet => {
             return `
                 <div class="kupon-match-row">
-                    <div class="kupon-match-title">${matchTitle}</div>
-                    <div class="kupon-bet-detail">${betAndOdd}</div>
+                    <div class="kupon-match-title">${bet.matchTitle}</div>
+                    <div class="kupon-bet-detail">
+                        <span>${bet.betType} ${bet.barem} (Güven: ${bet.conf}%)</span>
+                        <span class="kupon-odd-value">@${bet.odd.toFixed(2)}</span>
+                    </div>
                 </div>
             `;
         }).join('');
-        
-        html += `
+
+        const kuponCard = `
             <div class="match-card">
-                <div class="kupon-card-content">
+                <div style="text-align: center;">
                     <div class="kupon-title-bold">${kupon.title}</div>
+                    <div class="kupon-date-time">${kuponStartTime.date} - İlk Maç: ${kuponStartTime.time}</div> 
                     
-                    <div class="kupon-extra-info">
-                        <div class="item">
-                            <span>Risk Seviyesi</span>
-                            <span style="color:${riskColor}">${kupon.risk.toUpperCase()}</span>
-                        </div>
-                        <div class="item">
-                            <span>Güven Oranı</span>
-                            <span style="color:var(--success)">%${kupon.confidence.toFixed(1)}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="kupon-date-time">${startTime.date} ${startTime.time} Başlangıçlı</div>
-                    
-                    <div class="kupon-predictions">
-                        ${betsHtml}
+                    <div class="kupon-risk-indicator" style="color: ${riskColor}; border: 1px solid ${riskColor};">
+                        Risk Seviyesi: <span class="risk-dot ${riskClass}" style="width:12px; height:12px;"></span> <span style="font-weight: 900; color: ${riskColor};">${kupon.risk.toUpperCase()}</span>
                     </div>
 
-                    <div class="kupon-total-odd-bet">
-                        <div style="font-size:14px; color:var(--muted); font-weight:600;">TOPLAM KUPON ORANI</div>
-                        <div class="odd" style="font-size:32px; margin-top:4px;">${totalOdd}</div>
+                    <div style="margin-top: 15px; margin-bottom: 15px;">${matchesHTML}</div>
+
+                    <div class="total-odd-area">
+                        <div class="kupon-title-bold" style="font-size: 16px;">TOPLAM ORAN</div>
+                        <span class="total-odd-value">x${kupon.totalOdd.toFixed(2)}</span>
+                        
+                        <div class="kupon-extra-info">
+                            <div>Ortalama Güven: <span style="color: var(--success);">${kupon.confidence.toFixed(1)}%</span></div>
+                            <div>Önerilen Stake: <span style="color: var(--tech-blue);">${kupon.stake}</span></div>
+                        </div>
+
+                        ${kupon.roi ? `<div style="font-size: 14px; font-weight: 700; color: var(--orange); margin-top: 10px;">BEKLENEN ROI: ${kupon.roi}</div>` : ''}
                     </div>
                 </div>
             </div>
         `;
+        contentDiv.innerHTML += kuponCard;
     });
-    contentEl.innerHTML = html;
 }
 
-// SEKME İŞLEVSELLİĞİ
-function handleTabClick(e) {
-    const tabElement = e.target.closest('.tab');
-    if (!tabElement) return;
-
-    // Aktif sekmeyi kaldır
-    tabs.forEach(t => t.classList.remove('active'));
-    
-    // Yeni sekmeyi aktif yap
-    tabElement.classList.add('active');
-    
-    const tabType = tabElement.dataset.tab;
-
-    // İçeriği render et
-    if (tabType === 'kuponlar') {
-        renderKuponlar();
-    } else {
-        // Toplam sekme tipleri için ('ms_toplam' -> 'ms')
-        const betType = tabType.split('_')[0]; 
-        renderAltUst(betType);
-    }
-}
-
-tabs.forEach(tab => {
-    tab.addEventListener('click', handleTabClick);
-});
-
-// Sayfa yüklendiğinde varsayılan olarak MS TOPLAM sekmesini göster
+// Sekme Yönetimi ve Başlangıç Yüklemesi
 document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            
+            const tabKey = tab.getAttribute('data-tab');
+            if (tabKey === 'kuponlar') {
+                renderKuponlar();
+            } else {
+                renderMatches(tabKey); 
+            }
+        });
+    });
+
+    // Sayfa yüklendiğinde varsayılan olarak MS TOPLAM tahminlerini göster
     const defaultTab = document.querySelector('.tab[data-tab="ms_toplam"]');
     if (defaultTab) {
         defaultTab.classList.add('active');
-        renderAltUst('ms'); 
+        defaultTab.setAttribute('aria-selected', 'true');
+        renderMatches('ms_toplam');
     }
 });
-
 </script>
 </body>
 </html>
