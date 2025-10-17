@@ -16,8 +16,8 @@
     --accent-end:#3b8dff;   /* Mavi */
     --orange:#ff7a00;       /* Turuncu (Kupon ve Risk için) */
     --tech-blue:#3ba4ff;
-    --success:#28d07b;      /* Yeşil */
-    --warning:#ffd460;      /* Hafif Sarı/Turuncu */
+    --success:#28d07b;      /* Yeşil (AI Data Success) */
+    --warning:#ffd460;      
     --muted:#96a0b5;
     --text:#e6eef8;
     --radius:18px;
@@ -47,19 +47,7 @@
     box-shadow:none;
   }
   .inner{
-    padding:0 14px 14px 14px;
-  }
-  
-  /* APP BAR STİLİ */
-  .app-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
-      background: #111;
-      color: var(--text);
-      font-weight: 700;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding:0 14px 14px 14px; 
   }
   
   /* BAŞLIK KARTI STİLİ */
@@ -67,7 +55,7 @@
       background: linear-gradient(135deg, #1f0d3a, #0b1a2e);
       padding: 18px 14px;
       border-radius: 18px;
-      margin-top: 14px;
+      margin-top: 14px; 
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
       border: 1px solid rgba(123, 47, 247, 0.3);
       margin-bottom: 20px;
@@ -84,18 +72,16 @@
       color: var(--text);
       margin-bottom: 5px;
   }
-  .main-title-icon {
-      display: inline-block;
-      margin-right: 8px;
-      font-size: 20px;
-  }
   .powered-by-ai {
       font-size: 12px;
       font-weight: 600;
-      color: var(--tech-blue);
-      opacity: 0.8;
+      /* AI temalı daha vurgulu mavi */
+      color: var(--tech-blue); 
+      opacity: 1;
+      text-shadow: 0 0 5px rgba(59, 164, 255, 0.5);
       margin-bottom: 15px;
   }
+  /* ORTALAMA BAŞARI VE SİSTEM ONLINE STİLİ */
   .stats-row {
       display: flex;
       justify-content: space-between;
@@ -104,7 +90,8 @@
   .avg-success {
       font-size: 24px;
       font-weight: 800;
-      color: var(--accent-start);
+      color: var(--success); /* AI temasında başarı rengini yeşil yaptık */
+      text-shadow: 0 0 8px rgba(40, 208, 123, 0.8); /* Yeşil glow */
   }
   .stats-label {
       font-size: 11px;
@@ -130,12 +117,17 @@
       font-size: 12px;
       color: var(--success);
       font-weight: 700;
+      text-shadow: 0 0 5px rgba(40, 208, 123, 0.5);
   }
   .system-online-indicator {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: flex-end;
+    flex-direction: column; 
+    align-items: flex-end;
+  }
+  .system-online-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
   }
 
   /* 2 SEKMELİ YAPI */
@@ -164,7 +156,7 @@
     box-shadow:0 4px 15px rgba(123, 47, 247, 0.4);
   }
   
-  /* ****************** GÜVENLİ TAHMİN STİLLERİ ****************** */
+  /* ****************** GÜVENLİ TAHMİN (SAFE) STİLLERİ ****************** */
   .safe-list-header {
       font-size: 16px;
       font-weight: 800;
@@ -181,56 +173,101 @@
     margin-bottom:12px;
     border:1px solid rgba(255,255,255,0.05);
     border-left: 4px solid var(--success);
+    /* Ekstra gölge ekleyerek daha derin bir AI hissi verin */
+    box-shadow: 0 0 10px rgba(40, 208, 123, 0.15); 
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; 
   }
   .safe-info-group {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
   }
   .safe-match-title {
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 1.3;
+    font-weight: 800;
+    font-size: 16px;
     color: var(--text);
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+  }
+  .safe-match-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .safe-league-time {
+    display: flex;
+    gap: 10px;
+  }
+  .safe-match-time {
+    color: var(--text);
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  .safe-prediction-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(40, 208, 123, 0.3); /* AI Çerçevesi */
   }
   .safe-prediction-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
+    font-weight: 700;
+    color: var(--text);
+    font-size: 14px;
+    text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); /* Tahmin metnine hafif glow */
   }
   .safe-confidence-tag {
     font-size: 14px;
     font-weight: 700;
     color: var(--success); 
-    margin-left: 10px;
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); /* Güven yüzdesi glow */
   }
   .safe-odd-value {
     font-weight: 800;
-    font-size: 24px;
+    font-size: 28px;
     color: var(--warning);
     margin-left: 15px;
     flex-shrink: 0;
+    align-self: center; 
   }
 
-  /* ****************** KUPON STİLLERİ (YENİ) ****************** */
-  .kupon-card {padding: 15px;text-align: center;}
-  .kupon-title-box {
-      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
-      padding: 10px 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+  /* ****************** KUPON STİLLERİ ****************** */
+  .kupon-card {
+    padding: 15px;
+    text-align: center;
+    padding-top: 0;
   }
-  .kupon-title {font-weight: 800;font-size: 16px;color: var(--warning);margin-bottom: 4px;display: flex;align-items: center;justify-content: center;gap: 8px;}
-  .kupon-subtitle {font-size: 12px;font-weight: 600;color: var(--text);opacity: 0.9;}
-  .kupon-date-time {font-size: 12px;font-weight: 600;color: var(--muted);margin-top: 5px;}
-  .risk-level-box {background-color: var(--risk-düşük);color: var(--bg);font-weight: 800;font-size: 14px;padding: 8px 20px;border-radius: 8px;margin-bottom: 15px;display: inline-block;box-shadow: 0 4px 10px rgba(40, 208, 123, 0.4);}
+  .kupon-date-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-top: 5px;
+    margin-bottom: 15px; 
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .risk-level-box {
+    background-color: var(--risk-düşük);
+    color: var(--bg);
+    font-weight: 800;
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(40, 208, 123, 0.4);
+    text-shadow: 0 0 5px rgba(0,0,0,0.3);
+  }
   .kupon-match-item {
       background: rgba(255, 255, 255, 0.05);
       border-radius: 10px;
@@ -238,32 +275,61 @@
       margin-bottom: 10px;
       border-left: 4px solid var(--accent-end);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      /* Kupon Maçlarına AI Glow Efekti */
+      box-shadow: 0 0 10px rgba(59, 141, 255, 0.1); 
       text-align: left;
   }
-  .kupon-match-title-text {font-weight: 700;font-size: 15px; color: var(--text); margin-bottom: 3px;}
-  .kupon-prediction-info {display: flex;justify-content: space-between;align-items: center;font-size: 14px;}
-  .kupon-prediction-text {font-weight: 800;color: var(--text);}
+  .kupon-match-title-text {font-weight: 700;font-size: 15px; color: var(--text); margin-bottom: 5px;}
+  .kupon-match-meta-row {font-size: 12px; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between;}
+  .kupon-meta-time {
+    color: var(--text);
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-left: 8px;
+  }
+  .kupon-prediction-info {display: flex;justify-content: space-between;align-items: center;font-size: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.1); padding-top: 8px;}
+  .kupon-prediction-text {
+    font-weight: 800;
+    color: var(--text);
+    text-shadow: 0 0 4px rgba(59, 141, 255, 0.4); /* Kupon tahminine mavi glow */
+  }
   .kupon-odd-text {font-weight: 600;color: var(--warning); margin-left: 5px;}
   .kupon-confidence-tag {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--success); 
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--success);
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); /* Kupon güven yüzdesi glow */
   }
-  .total-odd-value {font-size: 48px;font-weight: 900;color: var(--orange);line-height: 1;margin-bottom: 15px;}
+  
+  /* TOPLAM ORAN */
+  .total-odd-value {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 15px;
+    display: block;
+    text-shadow: 0 0 10px rgba(255, 122, 0, 0.8); /* Turuncu glow */
+  }
+
   .total-odd-label {font-size: 13px; color: var(--muted); font-weight: 600;}
   .kupon-stats-row {display: flex;justify-content: space-between;font-size: 13px;font-weight: 600;color: var(--muted);margin-top: 8px;}
-  .expected-roi {font-size: 16px;font-weight: 800;color: var(--success);margin-top: 15px;padding-top: 10px;border-top: 1px dashed rgba(255, 255, 255, 0.1);}
+  .expected-roi {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--success);
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.5); /* ROI glow */
+  }
 </style>
 </head>
 <body>
 <div class="container" role="application" aria-label="BASKETBALL AI ROB...">
   
-  <div class="app-bar">
-    <span class="icon">×</span>
-    <span class="app-bar-title">BASKETBALL AI ROB...</span>
-    <span class="icon">⋁</span>
-  </div>
-
   <div class="inner">
     
     <div class="main-header-card">
@@ -280,8 +346,11 @@
                 <div class="avg-success">%81</div>
             </div>
             <div class="system-online-indicator">
-                <div class="online-text">SİSTEM ONLİNE</div>
-                <div class="online-dot"></div>
+                <div class="stats-label">SİSTEM DURUMU</div>
+                <div class="system-online-status">
+                    <div class="online-text">ONLİNE</div>
+                    <div class="online-dot"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -298,32 +367,39 @@
 </div>
 
 <script>
-// GÜVENLİ TAHMİN VERİLERİ (Önceki istekten korundu)
+// GÜVENLİ TAHMİN VERİLERİ 
 const SAFE_PREDICTIONS_DATA = [
-    { title: "Paris Basketbol vs Hapoel", prediction: "Paris Basketbol -3.5", odd: 1.65, confidence: 92 },
-    { title: "Paris Basketbol vs Hapoel", prediction: "Paris Basketbol İY -2.5", odd: 1.62, confidence: 88 },
-    { title: "Bahçeşehir Koleji vs Büyükçekmece", prediction: "Bahçeşehir Koleji -8.5", odd: 1.80, confidence: 85 },
-    { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.75, confidence: 84 },
-    { title: "Aix Maurienne vs Orléans", prediction: "Aix Maurienne -2.5", odd: 1.60, confidence: 81 },
+    { title: "Paris Basketbol vs Hapoel Tel Aviv", prediction: "MS 1 - 1.5 H", odd: 1.81, confidence: 92, time: "21:30", league: "EuroCup / Hazırlık Maçı" },
+    { title: "Anadolu Efes vs Panathinaikos", prediction: "MS 1 - 2.5 H", odd: 1.75, confidence: 88, time: "20:30", league: "EuroLeague" },
+    { title: "Kızılyıldız vs Real Madrid", prediction: "MS 2 - 2.5 H", odd: 1.47, confidence: 85, time: "22:00", league: "EuroLeague" }, 
+    { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.60, confidence: 84, time: "21:30", league: "EuroLeague" },
+    { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 5.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
-// YENİ KUPON VERİ YAPISI (Kullanıcının verdiği 3 maç entegre edildi)
+// KUPON VERİ YAPISI 
+const KUPON_MATCHES = [
+    SAFE_PREDICTIONS_DATA[0], // Paris (1.81)
+    SAFE_PREDICTIONS_DATA[1], // Efes (1.75)
+    SAFE_PREDICTIONS_DATA[3]  // Baskonia (1.60)
+];
+const CALCULATED_TOTAL_ODD_FULL = KUPON_MATCHES.reduce((acc, match) => acc * match.odd, 1);
+const CALCULATED_TOTAL_ODD_ROUNDED = CALCULATED_TOTAL_ODD_FULL.toFixed(2); 
+
+// ORTALAMA GÜVEN HESAPLAMASI
+const AVG_CONFIDENCE = KUPON_MATCHES.reduce((acc, match) => acc + match.confidence, 0) / KUPON_MATCHES.length;
+
 const KUPON_DATA = {
-    title: "BANKO KUPON - 3'LÜ",
+    title: "🔥 COMBO GÜVEN KUPONU", 
     subtitle: "(EN YÜKSEK GÜVENİLİRLİK)",
     date: "17.10.2025",
-    time: "20:00",
+    time: KUPON_MATCHES[1].time, 
     risk: "DÜŞÜK",
     riskColor: "var(--risk-düşük)",
-    matches: [
-        { title: "Paris vs Hapoel", prediction: "Paris -3.5", odd: 1.65, confidence: 92 },
-        { title: "Bahçeşehir vs Büyükçekmece", prediction: "Bahçeşehir -8.5", odd: 1.80, confidence: 85 },
-        { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.75, confidence: 84 }
-    ],
-    // TOPLAM ORAN BİLGİSİ DOĞRUDAN KULLANICIDAN ALINDI VE GÖSTERİLECEK.
-    totalOdd: 5.20, 
-    avgConfidence: 87.0, // (92+85+84)/3 = 87
-    suggestedStake: "3-4%",
+    matches: KUPON_MATCHES,
+    totalOddFull: CALCULATED_TOTAL_ODD_FULL, 
+    totalOddRounded: CALCULATED_TOTAL_ODD_ROUNDED, 
+    avgConfidence: AVG_CONFIDENCE,
+    suggestedStake: "3-5%",
     expectedROI: "+65%",
 };
 
@@ -340,15 +416,22 @@ function renderSafePredictions() {
     `;
     
     SAFE_PREDICTIONS_DATA.forEach(p => {
-        const matchTeams = p.title.includes(' vs ') ? p.title.split(' vs ') : p.title.split('-'); 
-        const title = matchTeams.join(' - ');
+        const title = p.title.replace(' vs ', ' - ');
         
         html += `
             <div class="safe-match-item">
                 <div class="safe-info-group">
                     <div class="safe-match-title">${title}</div>
-                    <div class="safe-prediction-text">
-                        <span>${p.prediction}</span>
+                    
+                    <div class="safe-match-meta">
+                        <div class="safe-league-time">
+                            <span>${p.league}</span>
+                            <span class="safe-match-time">🕒 ${p.time} TSİ</span>
+                        </div>
+                    </div>
+
+                    <div class="safe-prediction-section">
+                        <span class="safe-prediction-text">${p.prediction}</span>
                         <span class="safe-confidence-tag">Güven: ${p.confidence}%</span>
                     </div>
                 </div>
@@ -365,11 +448,19 @@ function renderSafePredictions() {
 function renderKupon() {
     const kupon = KUPON_DATA;
     
-    const calculatedTotalOdd = kupon.totalOdd.toFixed(2); // Doğrudan 5.20'yi kullanıyoruz.
+    // TEK SATIR TOPLAM ORAN GÖSTERİMİ
+    const totalOddHtml = `X${kupon.totalOddRounded}`;
+
 
     let matchItemsHtml = kupon.matches.map(m => `
         <div class="kupon-match-item">
-            <div class="kupon-match-title-text">${m.title}</div>
+            <div class="kupon-match-title-text">${m.title.replace(' vs ', ' - ')}</div>
+            
+            <div class="kupon-match-meta-row">
+                <span>${m.league}</span>
+                <span class="kupon-meta-time">🕒 ${m.time} TSİ</span>
+            </div>
+
             <div class="kupon-prediction-info">
                 <div class="kupon-prediction-text">${m.prediction} <span class="kupon-odd-text">@${m.odd.toFixed(2)}</span></div>
                 <div class="kupon-confidence-tag">Güven: ${m.confidence}%</div> 
@@ -380,13 +471,7 @@ function renderKupon() {
     let html = `
         <div class="match-card kupon-card">
             
-            <div class="kupon-title-box">
-                <div class="kupon-title">
-                    <span style="font-size: 20px;">💎</span> ${kupon.title}
-                </div>
-                <div class="kupon-subtitle">${kupon.subtitle}</div>
-                <div class="kupon-date-time">Tahmin Tarihi: ${kupon.date}</div>
-            </div>
+            <div class="kupon-date-time">Tahmin Tarihi: ${kupon.date} (İlk Maç: 🕒 ${kupon.time} TSİ)</div>
             
             <div class="risk-level-box" style="background-color: ${kupon.riskColor}; color: var(--bg);">
                 Risk Seviyesi: ${kupon.risk}
@@ -396,7 +481,9 @@ function renderKupon() {
             
             <div class="total-odd-box">
                 <div class="total-odd-label">TOPLAM ORAN</div>
-                <div class="total-odd-value">X${calculatedTotalOdd}</div>
+                <div class="total-odd-value">
+                    ${totalOddHtml}
+                </div>
             </div>
             
             <div style="padding: 0 10px;">
