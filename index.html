@@ -16,7 +16,8 @@
     --accent-end:#3b8dff;   /* Mavi */
     --orange:#ff7a00;       /* Turuncu (Kupon ve Risk için) */
     --tech-blue:#3ba4ff;
-    --success:#28d07b;      /* Yeşil (AI Data Success) */
+    --success:#28d07b;      /* Yeşil (AI Data Success - Yüksek Güven) */
+    --medium-risk: #ffd460; /* Orta Güven Sarı/Turuncu */
     --warning:#ffd460;      
     --muted:#96a0b5;
     --text:#e6eef8;
@@ -90,8 +91,8 @@
   .avg-success {
       font-size: 24px;
       font-weight: 800;
-      color: var(--success); /* AI temasında başarı rengini yeşil yaptık */
-      text-shadow: 0 0 8px rgba(40, 208, 123, 0.8); /* Yeşil glow */
+      color: var(--success); 
+      text-shadow: 0 0 8px rgba(40, 208, 123, 0.8); 
   }
   .stats-label {
       font-size: 11px;
@@ -130,21 +131,21 @@
       gap: 8px;
   }
 
-  /* 2 SEKMELİ YAPI */
+  /* 3 SEKMELİ YAPI */
   .main-tabs{
       display:flex;
       justify-content: space-around;
-      gap: 10px;
+      gap: 5px; /* Sekme sayısının artması nedeniyle boşluk azaltıldı */
       margin-bottom:15px;
   }
   .main-tab{
     flex: 1;
-    padding:12px 10px;
+    padding:12px 6px; /* Padding azaltıldı */
     border-radius:10px;
     text-align:center;
     font-weight:800;
     cursor:pointer;
-    font-size:14px;
+    font-size:12px; /* Font boyutu azaltıldı */
     white-space: nowrap;
     background:rgba(255,255,255,0.08);
     color:var(--text);
@@ -156,7 +157,7 @@
     box-shadow:0 4px 15px rgba(123, 47, 247, 0.4);
   }
   
-  /* ****************** GÜVENLİ TAHMİN (SAFE) STİLLERİ ****************** */
+  /* ****************** TAHMİN STİLLERİ (Genel) ****************** */
   .safe-list-header {
       font-size: 16px;
       font-weight: 800;
@@ -172,13 +173,19 @@
     padding:14px;
     margin-bottom:12px;
     border:1px solid rgba(255,255,255,0.05);
-    border-left: 4px solid var(--success);
-    /* Ekstra gölge ekleyerek daha derin bir AI hissi verin */
+    /* Güvenli tahminler yeşil (success) kalacak */
+    border-left: 4px solid var(--success); 
     box-shadow: 0 0 10px rgba(40, 208, 123, 0.15); 
     display: flex;
     justify-content: space-between;
     align-items: flex-start; 
   }
+  /* Orta Seviye için renk ayarı */
+  .medium-match-item {
+      border-left: 4px solid var(--medium-risk); 
+      box-shadow: 0 0 10px rgba(255, 212, 96, 0.15); 
+  }
+
   .safe-info-group {
     flex-grow: 1;
     display: flex;
@@ -224,13 +231,26 @@
     font-weight: 700;
     color: var(--text);
     font-size: 14px;
-    text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); /* Tahmin metnine hafif glow */
+    text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); /* Tahmin metnine hafif glow (Güvenli) */
   }
+  /* Orta Seviye Tahmin Metin Glow'u */
+  .medium-prediction-text .safe-prediction-section {
+      border: 1px solid rgba(255, 212, 96, 0.3);
+  }
+  .medium-prediction-text {
+      text-shadow: 0 0 3px rgba(255, 212, 96, 0.5);
+  }
+
   .safe-confidence-tag {
     font-size: 14px;
     font-weight: 700;
     color: var(--success); 
-    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); /* Güven yüzdesi glow */
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); /* Güven yüzdesi glow (Güvenli) */
+  }
+   /* Orta Seviye Güven Etiketi */
+  .medium-confidence-tag {
+      color: var(--medium-risk);
+      text-shadow: 0 0 5px rgba(255, 212, 96, 0.7);
   }
   .safe-odd-value {
     font-weight: 800;
@@ -293,14 +313,14 @@
   .kupon-prediction-text {
     font-weight: 800;
     color: var(--text);
-    text-shadow: 0 0 4px rgba(59, 141, 255, 0.4); /* Kupon tahminine mavi glow */
+    text-shadow: 0 0 4px rgba(59, 141, 255, 0.4); 
   }
   .kupon-odd-text {font-weight: 600;color: var(--warning); margin-left: 5px;}
   .kupon-confidence-tag {
     font-size: 14px;
     font-weight: 700;
     color: var(--success);
-    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); /* Kupon güven yüzdesi glow */
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); 
   }
   
   /* TOPLAM ORAN */
@@ -311,7 +331,7 @@
     line-height: 1;
     margin-bottom: 15px;
     display: block;
-    text-shadow: 0 0 10px rgba(255, 122, 0, 0.8); /* Turuncu glow */
+    text-shadow: 0 0 10px rgba(255, 122, 0, 0.8); 
   }
 
   .total-odd-label {font-size: 13px; color: var(--muted); font-weight: 600;}
@@ -323,7 +343,7 @@
     margin-top: 15px;
     padding-top: 10px;
     border-top: 1px dashed rgba(255, 255, 255, 0.1);
-    text-shadow: 0 0 5px rgba(40, 208, 123, 0.5); /* ROI glow */
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.5); 
   }
 </style>
 </head>
@@ -357,6 +377,7 @@
 
     <div class="main-tabs" role="tablist" aria-label="Ana Sekmeler">
       <div class="main-tab active" data-tab="safe">🎯 GÜVENLİ TAHMİN</div>
+      <div class="main-tab" data-tab="medium">⭐ ORTA SEVİYE TAHMİN</div>
       <div class="main-tab" data-tab="kupon">🔥 KUPON</div>
     </div>
     
@@ -377,7 +398,9 @@ function sortMatchesByTime(matches) {
     });
 }
 
-// GÜVENLİ TAHMİN VERİLERİ (Sıralamadan önceki ham liste)
+// ****************************** VERİ YAPILARI ******************************
+
+// Güvenli Tahmin Verileri (Ham Liste)
 const RAW_SAFE_PREDICTIONS_DATA = [
     { title: "Paris Basketbol vs Hapoel Tel Aviv", prediction: "MS 1 - 1.5 H", odd: 1.81, confidence: 92, time: "21:30", league: "EuroCup / Hazırlık Maçı" },
     { title: "Anadolu Efes vs Panathinaikos", prediction: "MS 1 - 2.5 H", odd: 1.75, confidence: 88, time: "20:30", league: "EuroLeague" },
@@ -386,15 +409,25 @@ const RAW_SAFE_PREDICTIONS_DATA = [
     { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 5.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
-// SAAT SIRASINA GÖRE SIRALA
+// Orta Seviye Tahmin Verileri (GÜNCELLENDİ)
+const RAW_MEDIUM_PREDICTIONS_DATA = [
+    { title: "Büyükçekmece vs Bahçeşehir", prediction: "TS 169.5 ALT", odd: 1.62, confidence: 75, time: "19:00", league: "BSL", stars: "⭐⭐" }, // TS ve Oran güncellendi
+    { title: "Södertälje vs Umea", prediction: "TS 156.5 ALT", odd: 1.62, confidence: 70, time: "20:04", league: "İSV", stars: "⭐⭐" }, // Oran güncellendi
+    { title: "Monaco vs Valencia", prediction: "MS 2 +6.5", odd: 1.64, confidence: 72, time: "20:30", league: "AVL", stars: "⭐⭐" }, // Saat, Tahmin ve Oran güncellendi
+    // Lyon ve Zaragoza maçları listeden çıkarıldı.
+];
+
+// ****************************** SIRALANMIŞ LİSTELER ******************************
+
 const SAFE_PREDICTIONS_DATA = sortMatchesByTime(RAW_SAFE_PREDICTIONS_DATA);
+const MEDIUM_PREDICTIONS_DATA = sortMatchesByTime(RAW_MEDIUM_PREDICTIONS_DATA);
 
 
-// KUPON VERİ YAPISI (Sıralanmış listeden seçilip tekrar sıralanıyor)
+// KUPON İÇİN KULLANILACAK MAÇLAR (Güvenli listeden seçiliyor)
 const RAW_KUPON_MATCHES = [
-    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")), // 21:30
-    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    // 20:30
-    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Baskonia"))         // 21:30
+    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")),
+    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    
+    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Baskonia"))         
 ];
 const KUPON_MATCHES = sortMatchesByTime(RAW_KUPON_MATCHES);
 
@@ -402,13 +435,9 @@ const KUPON_MATCHES = sortMatchesByTime(RAW_KUPON_MATCHES);
 // Hesaplamalar
 const CALCULATED_TOTAL_ODD_FULL = KUPON_MATCHES.reduce((acc, match) => acc * match.odd, 1);
 const CALCULATED_TOTAL_ODD_ROUNDED = CALCULATED_TOTAL_ODD_FULL.toFixed(2); 
-
-// ORTALAMA GÜVEN HESAPLAMASI
 const AVG_CONFIDENCE = KUPON_MATCHES.reduce((acc, match) => acc + match.confidence, 0) / KUPON_MATCHES.length;
 
 const KUPON_DATA = {
-    title: "🔥 COMBO GÜVEN KUPONU", 
-    subtitle: "(EN YÜKSEK GÜVENİLİRLİK)",
     date: "17.10.2025",
     // İlk maç saati, sıralanmış kupon listesinin ilk elemanından alınıyor
     time: KUPON_MATCHES[0].time, 
@@ -422,6 +451,7 @@ const KUPON_DATA = {
     expectedROI: "+65%",
 };
 
+// ****************************** RENDER FONKSİYONLARI ******************************
 
 const contentEl = document.getElementById('content');
 const tabs = document.querySelectorAll('.main-tab');
@@ -434,7 +464,6 @@ function renderSafePredictions() {
         </div>
     `;
     
-    // SAFE_PREDICTIONS_DATA zaten saat sırasına göre sıralı
     SAFE_PREDICTIONS_DATA.forEach(p => {
         const title = p.title.replace(' vs ', ' - ');
         
@@ -464,15 +493,54 @@ function renderSafePredictions() {
     contentEl.innerHTML = html;
 }
 
-// 2. KUPON (Kupon Kartı)
+
+// 2. ORTA SEVİYE TAHMİN
+function renderMediumPredictions() {
+    let html = `
+        <div class="safe-list-header">
+            ORTA SEVİYE TAHMİNLER (${MEDIUM_PREDICTIONS_DATA.length > 0 ? MEDIUM_PREDICTIONS_DATA[0].stars : 'YOK'})
+        </div>
+    `;
+    
+    if (MEDIUM_PREDICTIONS_DATA.length === 0) {
+        html += `<p style="text-align:center; color: var(--muted); padding: 20px;">Bugün için Orta Seviye Tahmin bulunmamaktadır.</p>`;
+    } else {
+        MEDIUM_PREDICTIONS_DATA.forEach(p => {
+            const title = p.title.replace(' vs ', ' - ');
+            
+            html += `
+                <div class="safe-match-item medium-match-item">
+                    <div class="safe-info-group">
+                        <div class="safe-match-title">${title}</div>
+                        
+                        <div class="safe-match-meta">
+                            <div class="safe-league-time">
+                                <span>${p.league}</span>
+                                <span class="safe-match-time">🕒 ${p.time}</span>
+                            </div>
+                        </div>
+    
+                        <div class="safe-prediction-section medium-prediction-text">
+                            <span class="safe-prediction-text">${p.prediction}</span>
+                            <span class="safe-confidence-tag medium-confidence-tag">Güven: ${p.confidence}%</span>
+                        </div>
+                    </div>
+                    <div class="safe-odd-value">
+                        @${p.odd.toFixed(2)}
+                    </div>
+                </div>
+            `;
+        });
+    }
+    contentEl.innerHTML = html;
+}
+
+
+// 3. KUPON (Kupon Kartı)
 function renderKupon() {
     const kupon = KUPON_DATA;
-    
-    // TEK SATIR TOPLAM ORAN GÖSTERİMİ
     const totalOddHtml = `X${kupon.totalOddRounded}`;
 
-
-    // kupon.matches zaten saat sırasına göre sıralı
     let matchItemsHtml = kupon.matches.map(m => `
         <div class="kupon-match-item">
             <div class="kupon-match-title-text">${m.title.replace(' vs ', ' - ')}</div>
@@ -537,6 +605,8 @@ function setActiveTab(tabName) {
 
     if (tabName === 'kupon') {
         renderKupon();
+    } else if (tabName === 'medium') { // Orta Seviye Sekmesi
+        renderMediumPredictions();
     } else { // 'safe' (Güvenli Tahmin)
         renderSafePredictions();
     }
