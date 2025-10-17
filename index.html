@@ -131,27 +131,26 @@
       gap: 8px;
   }
 
-  /* 3 SEKMELİ YAPI İYİLEŞTİRMESİ */
+  /* 3 SEKMELİ YAPI İYİLEŞTİRMESİ - TAŞMA DÜZELTME */
   .main-tabs{
       display:flex;
       justify-content: space-around;
-      gap: 8px; /* Sekmeler arası boşluk artırıldı */
+      gap: 8px; 
       margin-bottom:15px;
   }
   .main-tab{
     flex: 1;
-    /* Padding dikeyde az, yatayda biraz daha fazla tutuldu */
-    padding:10px 4px; 
+    /* Dikey padding azaltıldı, font boyutu küçültüldü */
+    padding:8px 2px; 
     border-radius:10px;
     text-align:center;
     font-weight:800;
     cursor:pointer;
-    font-size:11px; /* Font boyutu biraz daha küçültülerek taşma önlendi */
+    font-size:10.5px; /* Küçültüldü */
     white-space: nowrap;
     background:rgba(255,255,255,0.08);
     color:var(--text);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    /* Eklenen satır: Metnin kaydırılmasını engelleyerek taşmayı önler */
     min-width: 0; 
   }
   .main-tab.active{
@@ -195,16 +194,17 @@
   }
   .safe-match-title {
     font-weight: 800;
-    font-size: 16px;
+    /* TAŞMA DÜZELTME: Maç başlığı fontu 15px'e düşürüldü */
+    font-size: 15px; 
     color: var(--text);
     margin-bottom: 5px;
   }
   
   /* YENİ SATIR ALTI TAHMİN STİLİ */
   .safe-title-prediction {
-      font-size: 11px; /* Küçük punto */
+      font-size: 11px; 
       font-weight: 600;
-      color: var(--success); /* Tahmin metni yeşil olsun */
+      color: var(--success); 
       margin-bottom: 8px;
       text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); 
   }
@@ -220,7 +220,6 @@
     align-items: center;
     font-size: 12px;
     color: var(--muted);
-    /* margin-bottom: 8px; kaldırıldı, tahmin artık üstte */
     font-weight: 600;
   }
   .safe-league-time {
@@ -234,7 +233,7 @@
     padding: 2px 5px;
     border-radius: 4px;
   }
-  /* ANA TAHMİN BÖLÜMÜNÜN STİLİ GÜNCELLENDİ (Sadece Güven ve Oran kalacak) */
+  /* ANA TAHMİN BÖLÜMÜNÜN STİLİ GÜNCEL */
   .safe-prediction-section {
     display: flex;
     justify-content: space-between;
@@ -242,16 +241,8 @@
     background: rgba(0,0,0,0.2);
     padding: 8px;
     border-radius: 8px;
-    border: 1px solid rgba(40, 208, 123, 0.3); /* AI Çerçevesi */
-    margin-top: 8px; /* Maç meta bilgisinden biraz boşluk */
-  }
-  /* Tahmin metni kaldırıldığı için bu stil artık sadece 'Güven' için kullanılacak */
-  .safe-prediction-text {
-    font-weight: 700;
-    font-size: 14px; 
-    color: var(--text);
-    /* Tahmin metni kaldırıldı, sadece yüzde bilgisi kalıyor. */
-    display: none; 
+    border: 1px solid rgba(40, 208, 123, 0.3); 
+    margin-top: 8px; 
   }
   
   .medium-match-item .safe-prediction-section {
@@ -271,7 +262,7 @@
   .safe-odd-value {
     font-weight: 800;
     font-size: 28px;
-    color: var(--warning);
+    color: var(--orange); /* Oran rengi turuncuya çekildi */
     margin-left: 15px;
     flex-shrink: 0;
     align-self: center; 
@@ -283,7 +274,7 @@
     text-align: center;
     padding-top: 0;
   }
-  .kupon-date-time {
+  #kupon-date-time {
     font-size: 12px;
     font-weight: 600;
     color: var(--muted);
@@ -330,7 +321,7 @@
     color: var(--text);
     text-shadow: 0 0 4px rgba(59, 141, 255, 0.4); 
   }
-  .kupon-odd-text {font-weight: 600;color: var(--warning); margin-left: 5px;}
+  .kupon-odd-text {font-weight: 600;color: var(--orange); margin-left: 5px;}
   .kupon-confidence-tag {
     font-size: 14px;
     font-weight: 700;
@@ -392,7 +383,7 @@
 
     <div class="main-tabs" role="tablist" aria-label="Ana Sekmeler">
       <div class="main-tab active" data-tab="safe">🎯 GÜVENLİ TAHMİN</div>
-      <div class="main-tab" data-tab="medium">⭐ ORTA SEVİYE TAHMİN</div>
+      <div class="main-tab" data-tab="medium">⭐ ORTA SEVİYE</div>
       <div class="main-tab" data-tab="kupon">🔥 KUPON</div>
     </div>
     
@@ -403,25 +394,40 @@
 </div>
 
 <script>
+// Yardımcı fonksiyon: Tarih/Saat formatlama
+function getFormattedDateTime() {
+    const now = new Date();
+    // Tarih: GG.AA.YYYY
+    const date = now.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    // Saat: SS:DD
+    const time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    return { date, time };
+}
+
 // Maçları saatlerine göre sıralayan yardımcı fonksiyon
 function sortMatchesByTime(matches) {
     // Saat alanını (XX:XX formatında) sayısal olarak karşılaştırır
     return matches.sort((a, b) => {
-        const timeA = a.time.replace(':', '');
-        const timeB = b.time.replace(':', '');
+        // "21:45" -> 2145
+        const timeA = parseInt(a.time.replace(':', ''), 10);
+        const timeB = parseInt(b.time.replace(':', ''), 10);
         return timeA - timeB;
     });
 }
 
 // ****************************** VERİ YAPILARI ******************************
 
-// Güvenli Tahmin Verileri (Ham Liste)
+// Güvenli Tahmin Verileri (Ham Liste) - SAATLER GÜNCELLENDİ
 const RAW_SAFE_PREDICTIONS_DATA = [
-    { title: "Paris Basketbol vs Hapoel Tel Aviv", prediction: "MS 1 - 1.5 H", odd: 1.81, confidence: 92, time: "21:30", league: "EuroCup / Hazırlık Maçı" },
+    // Paris Basketbol: 21:45
+    { title: "Paris Basketbol vs Hapoel Tel Aviv", prediction: "MS 1 - 1.5 H", odd: 1.81, confidence: 92, time: "21:45", league: "EuroCup / Hazırlık Maçı" },
+    // Anadolu Efes: 20:30 (Değişmedi)
     { title: "Anadolu Efes vs Panathinaikos", prediction: "MS 1 - 2.5 H", odd: 1.75, confidence: 88, time: "20:30", league: "EuroLeague" },
-    { title: "Kızılyıldız vs Real Madrid", prediction: "MS 2 - 2.5 H", odd: 1.47, confidence: 85, time: "22:00", league: "EuroLeague" }, 
-    { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.60, confidence: 84, time: "21:30", league: "EuroLeague" },
-    // Aix maçının handikapı 1.5 olarak güncellendi:
+    // Kızılyıldız vs Real Madrid: 20:00
+    { title: "Kızılyıldız vs Real Madrid", prediction: "MS 2 - 2.5 H", odd: 1.47, confidence: 85, time: "20:00", league: "EuroLeague" }, 
+    // Baskonia vs Partizan: 21:45
+    { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.60, confidence: 84, time: "21:45", league: "EuroLeague" },
+    // Aix Maurienne: 21:00 (Değişmedi)
     { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 1.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
@@ -434,16 +440,16 @@ const RAW_MEDIUM_PREDICTIONS_DATA = [
 
 // ****************************** SIRALANMIŞ LİSTELER ******************************
 
+// Maçlar yeni saatlere göre yeniden SIRALANDI
 const SAFE_PREDICTIONS_DATA = sortMatchesByTime(RAW_SAFE_PREDICTIONS_DATA);
 const MEDIUM_PREDICTIONS_DATA = sortMatchesByTime(RAW_MEDIUM_PREDICTIONS_DATA);
 
 
-// KUPON İÇİN KULLANILACAK MAÇLAR (Güvenli listeden seçiliyor)
-// Aix maçı 1.5 handikapla güncellendiği için Kupon match'lerini yeniden tanımlıyorum
+// KUPON İÇİN KULLANILACAK MAÇLAR
 const RAW_KUPON_MATCHES = [
-    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")),
-    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    
-    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Baskonia"))         
+    RAW_SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")),
+    RAW_SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    
+    RAW_SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Baskonia"))         
 ];
 const KUPON_MATCHES = sortMatchesByTime(RAW_KUPON_MATCHES);
 
@@ -453,10 +459,13 @@ const CALCULATED_TOTAL_ODD_FULL = KUPON_MATCHES.reduce((acc, match) => acc * mat
 const CALCULATED_TOTAL_ODD_ROUNDED = CALCULATED_TOTAL_ODD_FULL.toFixed(2); 
 const AVG_CONFIDENCE = KUPON_MATCHES.reduce((acc, match) => acc + match.confidence, 0) / KUPON_MATCHES.length;
 
+// Dinamik tarih/saat bilgisini al
+const { date: current_date, time: current_time } = getFormattedDateTime();
+
 const KUPON_DATA = {
-    date: "17.10.2025",
-    // İlk maç saati, sıralanmış kupon listesinin ilk elemanından alınıyor
-    time: KUPON_MATCHES[0].time, 
+    date: current_date, 
+    // Kuponun ilk maçının saati, sıralanmış listeden alınıyor
+    time: KUPON_MATCHES[0] ? KUPON_MATCHES[0].time : 'Bilinmiyor', 
     risk: "DÜŞÜK",
     riskColor: "var(--risk-düşük)",
     matches: KUPON_MATCHES,
@@ -476,10 +485,11 @@ const tabs = document.querySelectorAll('.main-tab');
 function renderSafePredictions() {
     let html = `
         <div class="safe-list-header">
-            EN GÜVENLİ 5 TAHMİN (⭐⭐⭐ Güven)
+            EN GÜVENLİ ${SAFE_PREDICTIONS_DATA.length} TAHMİN (⭐⭐⭐ Güven)
         </div>
     `;
     
+    // SAFE_PREDICTIONS_DATA artık saat sırasına göre düzenlenmiş durumda
     SAFE_PREDICTIONS_DATA.forEach(p => {
         const title = p.title.replace(' vs ', ' - ');
         
@@ -522,6 +532,7 @@ function renderMediumPredictions() {
     if (MEDIUM_PREDICTIONS_DATA.length === 0) {
         html += `<p style="text-align:center; color: var(--muted); padding: 20px;">Bugün için Orta Seviye Tahmin bulunmamaktadır.</p>`;
     } else {
+        // MEDIUM_PREDICTIONS_DATA saat sırasına göre düzenlenmiş durumda
         MEDIUM_PREDICTIONS_DATA.forEach(p => {
             const title = p.title.replace(' vs ', ' - ');
             
@@ -578,7 +589,7 @@ function renderKupon() {
     let html = `
         <div class="match-card kupon-card">
             
-            <div class="kupon-date-time">Tahmin Tarihi: ${kupon.date} (İlk Maç: 🕒 ${kupon.time})</div>
+            <div id="kupon-date-time">Tahmin Tarihi: ${kupon.date} (İlk Maç: 🕒 ${kupon.time})</div>
             
             <div class="risk-level-box" style="background-color: ${kupon.riskColor}; color: var(--bg);">
                 Risk Seviyesi: ${kupon.risk}
