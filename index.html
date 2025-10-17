@@ -367,8 +367,18 @@
 </div>
 
 <script>
-// GÜVENLİ TAHMİN VERİLERİ 
-const SAFE_PREDICTIONS_DATA = [
+// Maçları saatlerine göre sıralayan yardımcı fonksiyon
+function sortMatchesByTime(matches) {
+    // Saat alanını (XX:XX formatında) sayısal olarak karşılaştırır
+    return matches.sort((a, b) => {
+        const timeA = a.time.replace(':', '');
+        const timeB = b.time.replace(':', '');
+        return timeA - timeB;
+    });
+}
+
+// GÜVENLİ TAHMİN VERİLERİ (Sıralamadan önceki ham liste)
+const RAW_SAFE_PREDICTIONS_DATA = [
     { title: "Paris Basketbol vs Hapoel Tel Aviv", prediction: "MS 1 - 1.5 H", odd: 1.81, confidence: 92, time: "21:30", league: "EuroCup / Hazırlık Maçı" },
     { title: "Anadolu Efes vs Panathinaikos", prediction: "MS 1 - 2.5 H", odd: 1.75, confidence: 88, time: "20:30", league: "EuroLeague" },
     { title: "Kızılyıldız vs Real Madrid", prediction: "MS 2 - 2.5 H", odd: 1.47, confidence: 85, time: "22:00", league: "EuroLeague" }, 
@@ -376,12 +386,20 @@ const SAFE_PREDICTIONS_DATA = [
     { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 5.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
-// KUPON VERİ YAPISI 
-const KUPON_MATCHES = [
-    SAFE_PREDICTIONS_DATA[0], // Paris (1.81)
-    SAFE_PREDICTIONS_DATA[1], // Efes (1.75)
-    SAFE_PREDICTIONS_DATA[3]  // Baskonia (1.60)
+// SAAT SIRASINA GÖRE SIRALA
+const SAFE_PREDICTIONS_DATA = sortMatchesByTime(RAW_SAFE_PREDICTIONS_DATA);
+
+
+// KUPON VERİ YAPISI (Sıralanmış listeden seçilip tekrar sıralanıyor)
+const RAW_KUPON_MATCHES = [
+    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")), // 21:30
+    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    // 20:30
+    SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Baskonia"))         // 21:30
 ];
+const KUPON_MATCHES = sortMatchesByTime(RAW_KUPON_MATCHES);
+
+
+// Hesaplamalar
 const CALCULATED_TOTAL_ODD_FULL = KUPON_MATCHES.reduce((acc, match) => acc * match.odd, 1);
 const CALCULATED_TOTAL_ODD_ROUNDED = CALCULATED_TOTAL_ODD_FULL.toFixed(2); 
 
@@ -392,7 +410,8 @@ const KUPON_DATA = {
     title: "🔥 COMBO GÜVEN KUPONU", 
     subtitle: "(EN YÜKSEK GÜVENİLİRLİK)",
     date: "17.10.2025",
-    time: KUPON_MATCHES[1].time, 
+    // İlk maç saati, sıralanmış kupon listesinin ilk elemanından alınıyor
+    time: KUPON_MATCHES[0].time, 
     risk: "DÜŞÜK",
     riskColor: "var(--risk-düşük)",
     matches: KUPON_MATCHES,
@@ -415,6 +434,7 @@ function renderSafePredictions() {
         </div>
     `;
     
+    // SAFE_PREDICTIONS_DATA zaten saat sırasına göre sıralı
     SAFE_PREDICTIONS_DATA.forEach(p => {
         const title = p.title.replace(' vs ', ' - ');
         
@@ -426,7 +446,7 @@ function renderSafePredictions() {
                     <div class="safe-match-meta">
                         <div class="safe-league-time">
                             <span>${p.league}</span>
-                            <span class="safe-match-time">🕒 ${p.time} TSİ</span>
+                            <span class="safe-match-time">🕒 ${p.time}</span>
                         </div>
                     </div>
 
@@ -452,13 +472,14 @@ function renderKupon() {
     const totalOddHtml = `X${kupon.totalOddRounded}`;
 
 
+    // kupon.matches zaten saat sırasına göre sıralı
     let matchItemsHtml = kupon.matches.map(m => `
         <div class="kupon-match-item">
             <div class="kupon-match-title-text">${m.title.replace(' vs ', ' - ')}</div>
             
             <div class="kupon-match-meta-row">
                 <span>${m.league}</span>
-                <span class="kupon-meta-time">🕒 ${m.time} TSİ</span>
+                <span class="kupon-meta-time">🕒 ${m.time}</span>
             </div>
 
             <div class="kupon-prediction-info">
@@ -471,7 +492,7 @@ function renderKupon() {
     let html = `
         <div class="match-card kupon-card">
             
-            <div class="kupon-date-time">Tahmin Tarihi: ${kupon.date} (İlk Maç: 🕒 ${kupon.time} TSİ)</div>
+            <div class="kupon-date-time">Tahmin Tarihi: ${kupon.date} (İlk Maç: 🕒 ${kupon.time})</div>
             
             <div class="risk-level-box" style="background-color: ${kupon.riskColor}; color: var(--bg);">
                 Risk Seviyesi: ${kupon.risk}
