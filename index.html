@@ -208,6 +208,11 @@
       margin-bottom: 8px;
       text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); 
   }
+  /* Orta Seviye için tahmin rengi */
+  .medium-match-item .safe-title-prediction {
+      color: var(--medium-risk);
+      text-shadow: 0 0 3px rgba(255, 212, 96, 0.5);
+  }
 
   .safe-match-meta {
     display: flex;
@@ -416,7 +421,8 @@ const RAW_SAFE_PREDICTIONS_DATA = [
     { title: "Anadolu Efes vs Panathinaikos", prediction: "MS 1 - 2.5 H", odd: 1.75, confidence: 88, time: "20:30", league: "EuroLeague" },
     { title: "Kızılyıldız vs Real Madrid", prediction: "MS 2 - 2.5 H", odd: 1.47, confidence: 85, time: "22:00", league: "EuroLeague" }, 
     { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.60, confidence: 84, time: "21:30", league: "EuroLeague" },
-    { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 5.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
+    // Aix maçının handikapı 1.5 olarak güncellendi:
+    { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 1.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
 // Orta Seviye Tahmin Verileri (GÜNCELLENMİŞ)
@@ -433,6 +439,7 @@ const MEDIUM_PREDICTIONS_DATA = sortMatchesByTime(RAW_MEDIUM_PREDICTIONS_DATA);
 
 
 // KUPON İÇİN KULLANILACAK MAÇLAR (Güvenli listeden seçiliyor)
+// Aix maçı 1.5 handikapla güncellendiği için Kupon match'lerini yeniden tanımlıyorum
 const RAW_KUPON_MATCHES = [
     SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")),
     SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    
