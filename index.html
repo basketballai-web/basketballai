@@ -417,25 +417,21 @@ function sortMatchesByTime(matches) {
 
 // ****************************** VERİ YAPILARI ******************************
 
-// Güvenli Tahmin Verileri (Ham Liste) - SAATLER GÜNCELLENDİ
+// Güvenli Tahmin Verileri (Değişmedi)
 const RAW_SAFE_PREDICTIONS_DATA = [
-    // Paris Basketbol: 21:45
+    { title: "Lyon V. vs Virtus Bologna", prediction: "MS 2 H +5.5", odd: 1.47, confidence: 85, time: "20:00", league: "EuroLeague" },
     { title: "Paris Basketbol vs Hapoel Tel Aviv", prediction: "MS 1 - 1.5 H", odd: 1.81, confidence: 92, time: "21:45", league: "EuroCup / Hazırlık Maçı" },
-    // Anadolu Efes: 20:30 (Değişmedi)
     { title: "Anadolu Efes vs Panathinaikos", prediction: "MS 1 - 2.5 H", odd: 1.75, confidence: 88, time: "20:30", league: "EuroLeague" },
-    // Kızılyıldız vs Real Madrid: 20:00
-    { title: "Kızılyıldız vs Real Madrid", prediction: "MS 2 - 2.5 H", odd: 1.47, confidence: 85, time: "20:00", league: "EuroLeague" }, 
-    // Baskonia vs Partizan: 21:45
     { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.60, confidence: 84, time: "21:45", league: "EuroLeague" },
-    // Aix Maurienne: 21:00 (Değişmedi)
     { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 1.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
-// Orta Seviye Tahmin Verileri (GÜNCELLENMİŞ)
+// Orta Seviye Tahmin Verileri - MONACO YERİNE KIZILYILDIZ EKLENDİ
 const RAW_MEDIUM_PREDICTIONS_DATA = [
     { title: "Büyükçekmece vs Bahçeşehir", prediction: "TS 169.5 ALT", odd: 1.62, confidence: 75, time: "19:00", league: "BSL", stars: "⭐⭐" }, 
     { title: "Södertälje vs Umea", prediction: "TS 156.5 ALT", odd: 1.62, confidence: 70, time: "20:04", league: "İSV", stars: "⭐⭐" }, 
-    { title: "Monaco vs Valencia", prediction: "MS 2 +6.5", odd: 1.64, confidence: 72, time: "20:30", league: "AVL", stars: "⭐⭐" }, 
+    // Yeni eklenen maç (Monaco yerine)
+    { title: "Kızılyıldız vs Real Madrid", prediction: "TS 165 ALT", odd: 1.60, confidence: 72, time: "20:30", league: "EuroLeague", stars: "⭐⭐" },
 ];
 
 // ****************************** SIRALANMIŞ LİSTELER ******************************
@@ -445,7 +441,7 @@ const SAFE_PREDICTIONS_DATA = sortMatchesByTime(RAW_SAFE_PREDICTIONS_DATA);
 const MEDIUM_PREDICTIONS_DATA = sortMatchesByTime(RAW_MEDIUM_PREDICTIONS_DATA);
 
 
-// KUPON İÇİN KULLANILACAK MAÇLAR
+// KUPON İÇİN KULLANILACAK MAÇLAR (Güvenli listedeki 3 maç kullanılıyor)
 const RAW_KUPON_MATCHES = [
     RAW_SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Paris Basketbol")),
     RAW_SAFE_PREDICTIONS_DATA.find(p => p.title.includes("Anadolu Efes")),    
