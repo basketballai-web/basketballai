@@ -62,7 +62,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   
-  /* BAŞLIK KARTI STİLİ (Görsel 239) */
+  /* BAŞLIK KARTI STİLİ */
   .main-header-card {
       background: linear-gradient(135deg, #1f0d3a, #0b1a2e);
       padding: 18px 14px;
@@ -72,14 +72,13 @@
       border: 1px solid rgba(123, 47, 247, 0.3);
       margin-bottom: 20px;
   }
-  /* İSTENEN ORTALAMA BAŞLIK STİLİ */
   .header-content-group {
       text-align: center;
   }
   .main-title {
       display: flex;
       align-items: center;
-      justify-content: center; /* Ortalandı */
+      justify-content: center;
       font-weight: 800;
       font-size: 18px;
       color: var(--text);
@@ -165,7 +164,7 @@
     box-shadow:0 4px 15px rgba(123, 47, 247, 0.4);
   }
   
-  /* ****************** GÜVENLİ TAHMİN (TEKLİ MAÇ) YENİ STİL ****************** */
+  /* ****************** GÜVENLİ TAHMİN STİLLERİ ****************** */
   .safe-list-header {
       font-size: 16px;
       font-weight: 800;
@@ -202,13 +201,12 @@
     color: var(--muted);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Güven yüzdesi için hizalama */
+    justify-content: space-between; 
   }
-  /*!!! YENİ GÜVEN YÜZDESİ STİLİ (GÜVENLİ TAHMİN) !!!*/
   .safe-confidence-tag {
     font-size: 14px;
     font-weight: 700;
-    color: var(--success); /* Yeşil renk */
+    color: var(--success); 
     margin-left: 10px;
   }
   .safe-odd-value {
@@ -219,7 +217,7 @@
     flex-shrink: 0;
   }
 
-  /* ****************** KUPON STİLLERİ ****************** */
+  /* ****************** KUPON STİLLERİ (YENİ) ****************** */
   .kupon-card {padding: 15px;text-align: center;}
   .kupon-title-box {
       background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
@@ -231,7 +229,7 @@
   }
   .kupon-title {font-weight: 800;font-size: 16px;color: var(--warning);margin-bottom: 4px;display: flex;align-items: center;justify-content: center;gap: 8px;}
   .kupon-subtitle {font-size: 12px;font-weight: 600;color: var(--text);opacity: 0.9;}
-  .kupon-date-time {font-size: 12px;font-weight: 600;margin-top: 5px;}
+  .kupon-date-time {font-size: 12px;font-weight: 600;color: var(--muted);margin-top: 5px;}
   .risk-level-box {background-color: var(--risk-düşük);color: var(--bg);font-weight: 800;font-size: 14px;padding: 8px 20px;border-radius: 8px;margin-bottom: 15px;display: inline-block;box-shadow: 0 4px 10px rgba(40, 208, 123, 0.4);}
   .kupon-match-item {
       background: rgba(255, 255, 255, 0.05);
@@ -240,16 +238,19 @@
       margin-bottom: 10px;
       border-left: 4px solid var(--accent-end);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
   }
+  .kupon-match-title-text {font-weight: 700;font-size: 15px; color: var(--text); margin-bottom: 3px;}
   .kupon-prediction-info {display: flex;justify-content: space-between;align-items: center;font-size: 14px;}
   .kupon-prediction-text {font-weight: 800;color: var(--text);}
-  /* KUPON GÜVEN YÜZDESİ (YEŞİL) */
+  .kupon-odd-text {font-weight: 600;color: var(--warning); margin-left: 5px;}
   .kupon-confidence-tag {
       font-size: 14px;
       font-weight: 700;
       color: var(--success); 
   }
   .total-odd-value {font-size: 48px;font-weight: 900;color: var(--orange);line-height: 1;margin-bottom: 15px;}
+  .total-odd-label {font-size: 13px; color: var(--muted); font-weight: 600;}
   .kupon-stats-row {display: flex;justify-content: space-between;font-size: 13px;font-weight: 600;color: var(--muted);margin-top: 8px;}
   .expected-roi {font-size: 16px;font-weight: 800;color: var(--success);margin-top: 15px;padding-top: 10px;border-top: 1px dashed rgba(255, 255, 255, 0.1);}
 </style>
@@ -297,8 +298,7 @@
 </div>
 
 <script>
-// GÜVEN YÜZDELERİ EKLENMİŞ YENİ GÜVENLİ TAHMİN VERİLERİ
-// Notlar kaldırıldı, confidence eklendi.
+// GÜVENLİ TAHMİN VERİLERİ (Önceki istekten korundu)
 const SAFE_PREDICTIONS_DATA = [
     { title: "Paris Basketbol vs Hapoel", prediction: "Paris Basketbol -3.5", odd: 1.65, confidence: 92 },
     { title: "Paris Basketbol vs Hapoel", prediction: "Paris Basketbol İY -2.5", odd: 1.62, confidence: 88 },
@@ -307,27 +307,25 @@ const SAFE_PREDICTIONS_DATA = [
     { title: "Aix Maurienne vs Orléans", prediction: "Aix Maurienne -2.5", odd: 1.60, confidence: 81 },
 ];
 
-// KUPON VERİ YAPISI
+// YENİ KUPON VERİ YAPISI (Kullanıcının verdiği 3 maç entegre edildi)
 const KUPON_DATA = {
-    title: "PREMIUM KUPON - 3'LÜ",
+    title: "BANKO KUPON - 3'LÜ",
     subtitle: "(EN YÜKSEK GÜVENİLİRLİK)",
-    date: "16.10.2025",
-    time: "19:00",
+    date: "17.10.2025",
+    time: "20:00",
     risk: "DÜŞÜK",
     riskColor: "var(--risk-düşük)",
     matches: [
-        { title: "BC Dubai vs FC Barcelona", prediction: "MS ÜST 172.5", odd: 1.82, confidence: 86 },
-        { title: "Zalgiris Kaunas vs Olimpia Milano", prediction: "MS ÜST 162.5", odd: 1.65, confidence: 81 },
-        { title: "Fenerbahçe Beko vs Bayern Münih", prediction: "MS ÜST 165.5", odd: 1.66, confidence: 83 }
+        { title: "Paris vs Hapoel", prediction: "Paris -3.5", odd: 1.65, confidence: 92 },
+        { title: "Bahçeşehir vs Büyükçekmece", prediction: "Bahçeşehir -8.5", odd: 1.80, confidence: 85 },
+        { title: "Baskonia vs Partizan", prediction: "TS 176.5 ÜST", odd: 1.75, confidence: 84 }
     ],
-    totalOdd: 0, 
-    avgConfidence: 83.3,
+    // TOPLAM ORAN BİLGİSİ DOĞRUDAN KULLANICIDAN ALINDI VE GÖSTERİLECEK.
+    totalOdd: 5.20, 
+    avgConfidence: 87.0, // (92+85+84)/3 = 87
     suggestedStake: "3-4%",
-    expectedROI: "+58%",
+    expectedROI: "+65%",
 };
-
-// KUPON TOPLAM ORANINI HESAPLA
-KUPON_DATA.totalOdd = KUPON_DATA.matches.reduce((acc, match) => acc * match.odd, 1);
 
 
 const contentEl = document.getElementById('content');
@@ -342,7 +340,6 @@ function renderSafePredictions() {
     `;
     
     SAFE_PREDICTIONS_DATA.forEach(p => {
-        // Başlığı düzenle
         const matchTeams = p.title.includes(' vs ') ? p.title.split(' vs ') : p.title.split('-'); 
         const title = matchTeams.join(' - ');
         
@@ -352,7 +349,8 @@ function renderSafePredictions() {
                     <div class="safe-match-title">${title}</div>
                     <div class="safe-prediction-text">
                         <span>${p.prediction}</span>
-                        <span class="safe-confidence-tag">Güven: ${p.confidence}%</span> </div>
+                        <span class="safe-confidence-tag">Güven: ${p.confidence}%</span>
+                    </div>
                 </div>
                 <div class="safe-odd-value">
                     @${p.odd.toFixed(2)}
@@ -367,13 +365,13 @@ function renderSafePredictions() {
 function renderKupon() {
     const kupon = KUPON_DATA;
     
-    const calculatedTotalOdd = kupon.totalOdd.toFixed(2);
+    const calculatedTotalOdd = kupon.totalOdd.toFixed(2); // Doğrudan 5.20'yi kullanıyoruz.
 
     let matchItemsHtml = kupon.matches.map(m => `
         <div class="kupon-match-item">
-            <div class="kupon-match-title">${m.title}</div>
+            <div class="kupon-match-title-text">${m.title}</div>
             <div class="kupon-prediction-info">
-                <div class="kupon-prediction-text">${m.prediction} </div>
+                <div class="kupon-prediction-text">${m.prediction} <span class="kupon-odd-text">@${m.odd.toFixed(2)}</span></div>
                 <div class="kupon-confidence-tag">Güven: ${m.confidence}%</div> 
             </div>
         </div>
@@ -387,7 +385,7 @@ function renderKupon() {
                     <span style="font-size: 20px;">💎</span> ${kupon.title}
                 </div>
                 <div class="kupon-subtitle">${kupon.subtitle}</div>
-                <div class="kupon-date-time">${kupon.date} - İlk Maç: ${kupon.time}</div>
+                <div class="kupon-date-time">Tahmin Tarihi: ${kupon.date}</div>
             </div>
             
             <div class="risk-level-box" style="background-color: ${kupon.riskColor}; color: var(--bg);">
@@ -404,7 +402,7 @@ function renderKupon() {
             <div style="padding: 0 10px;">
                 <div class="kupon-stats-row">
                     <span>Ortalama Güven:</span>
-                    <strong>${kupon.avgConfidence}%</strong>
+                    <strong>${kupon.avgConfidence.toFixed(1)}%</strong>
                 </div>
                 <div class="kupon-stats-row">
                     <span>Önerilen Stake:</span>
