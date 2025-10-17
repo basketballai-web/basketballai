@@ -48,6 +48,7 @@
     box-shadow:none;
   }
   .inner{
+    /* Sağ ve soldaki boşluk ayarı */
     padding:0 14px 14px 14px; 
   }
   
@@ -76,7 +77,6 @@
   .powered-by-ai {
       font-size: 12px;
       font-weight: 600;
-      /* AI temalı daha vurgulu mavi */
       color: var(--tech-blue); 
       opacity: 1;
       text-shadow: 0 0 5px rgba(59, 164, 255, 0.5);
@@ -131,25 +131,28 @@
       gap: 8px;
   }
 
-  /* 3 SEKMELİ YAPI */
+  /* 3 SEKMELİ YAPI İYİLEŞTİRMESİ */
   .main-tabs{
       display:flex;
       justify-content: space-around;
-      gap: 5px; /* Sekme sayısının artması nedeniyle boşluk azaltıldı */
+      gap: 8px; /* Sekmeler arası boşluk artırıldı */
       margin-bottom:15px;
   }
   .main-tab{
     flex: 1;
-    padding:12px 6px; /* Padding azaltıldı */
+    /* Padding dikeyde az, yatayda biraz daha fazla tutuldu */
+    padding:10px 4px; 
     border-radius:10px;
     text-align:center;
     font-weight:800;
     cursor:pointer;
-    font-size:12px; /* Font boyutu azaltıldı */
+    font-size:11px; /* Font boyutu biraz daha küçültülerek taşma önlendi */
     white-space: nowrap;
     background:rgba(255,255,255,0.08);
     color:var(--text);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    /* Eklenen satır: Metnin kaydırılmasını engelleyerek taşmayı önler */
+    min-width: 0; 
   }
   .main-tab.active{
     background:linear-gradient(90deg, var(--accent-start), #9b5af8);
@@ -173,14 +176,12 @@
     padding:14px;
     margin-bottom:12px;
     border:1px solid rgba(255,255,255,0.05);
-    /* Güvenli tahminler yeşil (success) kalacak */
     border-left: 4px solid var(--success); 
     box-shadow: 0 0 10px rgba(40, 208, 123, 0.15); 
     display: flex;
     justify-content: space-between;
     align-items: flex-start; 
   }
-  /* Orta Seviye için renk ayarı */
   .medium-match-item {
       border-left: 4px solid var(--medium-risk); 
       box-shadow: 0 0 10px rgba(255, 212, 96, 0.15); 
@@ -198,13 +199,23 @@
     color: var(--text);
     margin-bottom: 5px;
   }
+  
+  /* YENİ SATIR ALTI TAHMİN STİLİ */
+  .safe-title-prediction {
+      font-size: 11px; /* Küçük punto */
+      font-weight: 600;
+      color: var(--success); /* Tahmin metni yeşil olsun */
+      margin-bottom: 8px;
+      text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); 
+  }
+
   .safe-match-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
     color: var(--muted);
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; kaldırıldı, tahmin artık üstte */
     font-weight: 600;
   }
   .safe-league-time {
@@ -218,6 +229,7 @@
     padding: 2px 5px;
     border-radius: 4px;
   }
+  /* ANA TAHMİN BÖLÜMÜNÜN STİLİ GÜNCELLENDİ (Sadece Güven ve Oran kalacak) */
   .safe-prediction-section {
     display: flex;
     justify-content: space-between;
@@ -226,28 +238,27 @@
     padding: 8px;
     border-radius: 8px;
     border: 1px solid rgba(40, 208, 123, 0.3); /* AI Çerçevesi */
+    margin-top: 8px; /* Maç meta bilgisinden biraz boşluk */
   }
+  /* Tahmin metni kaldırıldığı için bu stil artık sadece 'Güven' için kullanılacak */
   .safe-prediction-text {
     font-weight: 700;
+    font-size: 14px; 
     color: var(--text);
-    font-size: 14px;
-    text-shadow: 0 0 3px rgba(40, 208, 123, 0.5); /* Tahmin metnine hafif glow (Güvenli) */
+    /* Tahmin metni kaldırıldı, sadece yüzde bilgisi kalıyor. */
+    display: none; 
   }
-  /* Orta Seviye Tahmin Metin Glow'u */
-  .medium-prediction-text .safe-prediction-section {
+  
+  .medium-match-item .safe-prediction-section {
       border: 1px solid rgba(255, 212, 96, 0.3);
   }
-  .medium-prediction-text {
-      text-shadow: 0 0 3px rgba(255, 212, 96, 0.5);
-  }
-
+  
   .safe-confidence-tag {
-    font-size: 14px;
+    font-size: 14px; 
     font-weight: 700;
     color: var(--success); 
-    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); /* Güven yüzdesi glow (Güvenli) */
+    text-shadow: 0 0 5px rgba(40, 208, 123, 0.7); 
   }
-   /* Orta Seviye Güven Etiketi */
   .medium-confidence-tag {
       color: var(--medium-risk);
       text-shadow: 0 0 5px rgba(255, 212, 96, 0.7);
@@ -295,7 +306,6 @@
       margin-bottom: 10px;
       border-left: 4px solid var(--accent-end);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      /* Kupon Maçlarına AI Glow Efekti */
       box-shadow: 0 0 10px rgba(59, 141, 255, 0.1); 
       text-align: left;
   }
@@ -409,12 +419,11 @@ const RAW_SAFE_PREDICTIONS_DATA = [
     { title: "Aix Maurienne vs AS Denain", prediction: "MS 1 - 5.5 H", odd: 1.68, confidence: 81, time: "21:00", league: "Fransa Pro B" },
 ];
 
-// Orta Seviye Tahmin Verileri (GÜNCELLENDİ)
+// Orta Seviye Tahmin Verileri (GÜNCELLENMİŞ)
 const RAW_MEDIUM_PREDICTIONS_DATA = [
-    { title: "Büyükçekmece vs Bahçeşehir", prediction: "TS 169.5 ALT", odd: 1.62, confidence: 75, time: "19:00", league: "BSL", stars: "⭐⭐" }, // TS ve Oran güncellendi
-    { title: "Södertälje vs Umea", prediction: "TS 156.5 ALT", odd: 1.62, confidence: 70, time: "20:04", league: "İSV", stars: "⭐⭐" }, // Oran güncellendi
-    { title: "Monaco vs Valencia", prediction: "MS 2 +6.5", odd: 1.64, confidence: 72, time: "20:30", league: "AVL", stars: "⭐⭐" }, // Saat, Tahmin ve Oran güncellendi
-    // Lyon ve Zaragoza maçları listeden çıkarıldı.
+    { title: "Büyükçekmece vs Bahçeşehir", prediction: "TS 169.5 ALT", odd: 1.62, confidence: 75, time: "19:00", league: "BSL", stars: "⭐⭐" }, 
+    { title: "Södertälje vs Umea", prediction: "TS 156.5 ALT", odd: 1.62, confidence: 70, time: "20:04", league: "İSV", stars: "⭐⭐" }, 
+    { title: "Monaco vs Valencia", prediction: "MS 2 +6.5", odd: 1.64, confidence: 72, time: "20:30", league: "AVL", stars: "⭐⭐" }, 
 ];
 
 // ****************************** SIRALANMIŞ LİSTELER ******************************
@@ -472,6 +481,8 @@ function renderSafePredictions() {
                 <div class="safe-info-group">
                     <div class="safe-match-title">${title}</div>
                     
+                    <div class="safe-title-prediction">${p.prediction}</div>
+                    
                     <div class="safe-match-meta">
                         <div class="safe-league-time">
                             <span>${p.league}</span>
@@ -480,7 +491,6 @@ function renderSafePredictions() {
                     </div>
 
                     <div class="safe-prediction-section">
-                        <span class="safe-prediction-text">${p.prediction}</span>
                         <span class="safe-confidence-tag">Güven: ${p.confidence}%</span>
                     </div>
                 </div>
@@ -513,6 +523,8 @@ function renderMediumPredictions() {
                     <div class="safe-info-group">
                         <div class="safe-match-title">${title}</div>
                         
+                        <div class="safe-title-prediction" style="color: var(--medium-risk); text-shadow: 0 0 3px rgba(255, 212, 96, 0.5);">${p.prediction}</div>
+                        
                         <div class="safe-match-meta">
                             <div class="safe-league-time">
                                 <span>${p.league}</span>
@@ -520,8 +532,7 @@ function renderMediumPredictions() {
                             </div>
                         </div>
     
-                        <div class="safe-prediction-section medium-prediction-text">
-                            <span class="safe-prediction-text">${p.prediction}</span>
+                        <div class="safe-prediction-section">
                             <span class="safe-confidence-tag medium-confidence-tag">Güven: ${p.confidence}%</span>
                         </div>
                     </div>
