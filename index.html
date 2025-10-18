@@ -379,17 +379,27 @@ const RAW_ALL_PREDICTIONS = [
     
     // YÜKSEK DEĞERLİ ORANLAR / ÇOK YÜKSEK HANDİKAPLAR (Güven <70% -> MEDIUM CONFIDENCE)
     { title: "Reyer Venezia vs Trieste", prediction: "MS1 -5.5", odd: 1.62, confidence: 67, time: "21:00", league: "İtalya A1", type: "medium" },
-    { title: "Ufab 49 vs Basket Landes", prediction: "MS2 +1.5", odd: 1.58, confidence: 63, time: "21:00", league: "Fransa Kadınlar", type: "medium" },
-    { title: "Gipuzkoa vs Estepona", prediction: "MS2 +5.5", odd: 1.59, confidence: 60, time: "21:00", league: "İspanya FEB", type: "medium" },
+    
+    // GÜNCELLENDİ: Gipuzkoa vs Estepona -> MS1
+    { title: "Gipuzkoa vs Estepona", prediction: "MS1", odd: 1.59, confidence: 60, time: "21:00", league: "İspanya FEB", type: "medium" },
+    
     { title: "Orleans Loiret vs Chalons Reims", prediction: "MS2 +8.5", odd: 1.59, confidence: 60, time: "21:00", league: "Fransa Pro B", type: "medium" },
     { title: "Le Mans vs Bourg En Bresse", prediction: "MS2 +2.5", odd: 1.59, confidence: 62, time: "21:30", league: "Fransa Pro A", type: "medium" },
     { title: "Baskonia vs Bal", prediction: "MS2 +18.5", odd: 1.63, confidence: 64, time: "21:30", league: "Belçika", type: "medium", matchTitle: "Belfius Mons vs Bal" },
-    { title: "Virtus Imola vs Luiss Roma", prediction: "MS2 +15.5", odd: 1.65, confidence: 60, time: "20:30", league: "İtalya B", type: "medium" },
+    
+    // GÜNCELLENDİ: Virtus Imola vs Luiss Roma -> MS2 + -
+    { title: "Virtus Imola vs Luiss Roma", prediction: "MS2 + -", odd: 1.65, confidence: 60, time: "20:30", league: "İtalya B", type: "medium" },
+    
     { title: "Crailsheim vs Paderborn", prediction: "MS2 +15.5", odd: 1.61, confidence: 62, time: "21:00", league: "Almanya B", type: "medium" },
-    { title: "Ca Queluz vs Vitoria", prediction: "MS2 +1.5", odd: 1.65, confidence: 64, time: "20:45", league: "Portekiz", type: "medium" },
+    
+    // GÜNCELLENDİ: Ca Queluz vs Vitoria -> MS2 +4.5
+    { title: "Ca Queluz vs Vitoria", prediction: "MS2 +4.5", odd: 1.65, confidence: 64, time: "20:45", league: "Portekiz", type: "medium" },
+    
     { title: "Landerneau vs R. Vendee", prediction: "MS1 -4.5", odd: 1.60, confidence: 61, time: "21:00", league: "Fransa Kadınlar", type: "medium" },
     { title: "Ubc Münster vs Vfl Bochum", prediction: "MS1 -3.5", odd: 1.59, confidence: 61, time: "20:30", league: "Almanya B", type: "medium" },
     { title: "Basket Zaragoz vs Breogan", prediction: "MS2 +10.5", odd: 1.65, confidence: 61, time: "22:00", league: "ACB", type: "medium" },
+    
+    // KALDIRILDI: Ufab 49 vs Basket Landes (Kupon 2 ve 6'dan da çıkarılacak)
 ];
 
 // Maçları saatlerine göre sıralayan yardımcı fonksiyon
@@ -406,7 +416,7 @@ const SAFE_PREDICTIONS_DATA = sortMatchesByTime(RAW_ALL_PREDICTIONS.filter(p => 
 const MEDIUM_PREDICTIONS_DATA = sortMatchesByTime(RAW_ALL_PREDICTIONS.filter(p => p.type === 'medium'));
 
 
-// Kupon verileri (Kupon başlıklarını ve maç listesini koruyarak)
+// Kupon verileri (Ufab 49 çıkarıldı, Vitoria güncellendi, Roma güncellendi)
 const KUPON_DATA = [
     { 
         title: "KUPON 1: YÜKSEK GÜVEN (3'LÜ KÜÇÜK KUPON)", 
@@ -420,13 +430,13 @@ const KUPON_DATA = [
         ]
     },
     { 
-        title: "KUPON 2: DEĞER AVCI (4'LÜ HANDIKAP)", 
-        totalOdd: 6.50, 
+        title: "KUPON 2: DEĞER AVCI (3'LÜ HANDIKAP)", // MAÇ SAYISI 4'TEN 3'E DÜŞTÜ
+        totalOdd: 6.50 / 1.58 * 1.00, // Oran tahmini düzeltmesi (Ufab 1.58'di) - Yuvarlak değer bırakıldı
         risk: "ORTA", 
         riskColor: "var(--risk-orta-güven)",
         matches: [
-            { title: "Ufab 49 - Basket Landes", prediction: "MS2 (+1.5)", odd: 1.58, confidence: 63, time: "21:00" },
-            { title: "Ca Queluz - Vitoria", prediction: "MS2 (+1.5)", odd: 1.65, confidence: 64, time: "20:45" },
+            // Ufab 49 - Basket Landes KALDIRILDI
+            { title: "Ca Queluz - Vitoria", prediction: "MS2 (+4.5)", odd: 1.65, confidence: 64, time: "20:45" }, // GÜNCELLENDİ
             { title: "Belfius Mons - Bal", prediction: "MS2 (+18.5)", odd: 1.63, confidence: 64, time: "21:30" },
             { title: "Crailsheim - Paderborn", prediction: "MS2 (+15.5)", odd: 1.61, confidence: 62, time: "21:00" },
         ]
@@ -439,7 +449,7 @@ const KUPON_DATA = [
         matches: [
             { title: "Tenerife - Murcia", prediction: "MS1 (-7.5)", odd: 1.68, confidence: 72, time: "21:00" },
             { title: "Donar Groningen - Okapi", prediction: "MS1 (-6.5)", odd: 1.66, confidence: 70, time: "20:30" },
-            { title: "Ca Queluz - Vitoria", prediction: "MS2 (+1.5)", odd: 1.65, confidence: 64, time: "20:45" },
+            { title: "Ca Queluz - Vitoria", prediction: "MS2 (+4.5)", odd: 1.65, confidence: 64, time: "20:45" }, // GÜNCELLENDİ
             { title: "Belfius Mons - Bal", prediction: "MS2 (+18.5)", odd: 1.63, confidence: 64, time: "21:30" },
             { title: "Landerneau - R. Vendee", prediction: "MS1 (-4.5)", odd: 1.60, confidence: 61, time: "21:00" },
         ]
@@ -455,7 +465,7 @@ const KUPON_DATA = [
             { title: "Orleans Loiret - Chalons", prediction: "MS2 (+8.5)", odd: 1.59, confidence: 60, time: "21:00" },
             { title: "Le Mans - Bourg En Bresse", prediction: "MS2 (+2.5)", odd: 1.59, confidence: 62, time: "21:30" },
             { title: "Reyer Venezia - Trieste", prediction: "MS1 (-5.5)", odd: 1.62, confidence: 67, time: "21:00" },
-            { title: "Basket Zaragoz - Breogan", prediction: "MS2 (+10.5)", odd: 1.65, confidence: 61, time: "22:00" },
+            { title: "Basket Zaragoz - Breogan", prediction: "MS2 +10.5", odd: 1.65, confidence: 61, time: "22:00" },
         ]
     },
     { 
@@ -469,19 +479,18 @@ const KUPON_DATA = [
         ]
     },
     { 
-        title: "KUPON 6: ÖZEL SEÇİM (4'LÜ PREMIUM)", 
-        totalOdd: 7.10, 
+        title: "KUPON 6: ÖZEL SEÇİM (3'LÜ PREMIUM)", // MAÇ SAYISI 4'TEN 3'E DÜŞTÜ
+        totalOdd: 7.10 / 1.58 * 1.00, // Oran tahmini düzeltmesi (Ufab 1.58'di) - Yuvarlak değer bırakıldı
         risk: "ORTA", 
         riskColor: "var(--risk-orta-güven)",
         matches: [
             { title: "Tenerife - Murcia", prediction: "MS1 (-7.5)", odd: 1.68, confidence: 72, time: "21:00" },
-            { title: "Ufab 49 - Basket Landes", prediction: "MS2 (+1.5)", odd: 1.58, confidence: 63, time: "21:00" },
+            // Ufab 49 - Basket Landes KALDIRILDI
             { title: "Belfius Mons - Bal", prediction: "MS2 (+18.5)", odd: 1.63, confidence: 64, time: "21:30" },
             { title: "Reyer Venezia - Trieste", prediction: "MS1 (-5.5)", odd: 1.62, confidence: 67, time: "21:00" },
         ]
     },
 ];
-
 
 // ****************************** RENDER FONKSİYONLARI ******************************
 
@@ -571,6 +580,11 @@ function renderKupon() {
     `;
 
     KUPON_DATA.forEach(kupon => {
+        
+        // Kupon oranını maçların güncel oranlarına göre yeniden hesapla
+        let calculatedTotalOdd = kupon.matches.reduce((acc, match) => acc * match.odd, 1);
+        let calculatedTotalOddRounded = calculatedTotalOdd.toFixed(2);
+
         let matchItemsHtml = kupon.matches.map(m => `
             <div class="kupon-match-item">
                 <div class="kupon-match-title-text">${m.title.replace(' vs ', ' - ')} <span style="font-size:10px; color:var(--muted)">(${m.time})</span></div>
@@ -589,7 +603,7 @@ function renderKupon() {
                 <div class="kupon-stats-header">
                     <div>
                         <div class="kupon-total-odd-label" style="color:${kupon.riskColor};">RİSK: ${kupon.risk}</div>
-                        <div class="kupon-total-odd" style="color:var(--orange);">X${kupon.totalOdd.toFixed(2)}</div>
+                        <div class="kupon-total-odd" style="color:var(--orange);">X${calculatedTotalOddRounded}</div>
                     </div>
                     <div>
                         <div class="kupon-total-odd-label">MAÇ SAYISI</div>
