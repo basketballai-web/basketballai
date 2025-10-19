@@ -382,11 +382,11 @@
 <script>
 // ****************************** YARDIMCI FONKSİYONLAR ******************************
 
-// Maçın risk seviyesini (Yüksek Güven, Orta Güven, Yüksek Risk) belirler.
+// Maçın risk seviyesini (Yüksek Güven, Orta Güven, Risk) belirler.
 function getRiskByConfidence(risk_label_raw) {
     const risk_label = risk_label_raw.includes('Yüksek Güven') ? 'YÜKSEK GÜVEN' 
                      : risk_label_raw.includes('Orta Güven') ? 'ORTA GÜVEN'
-                     : risk_label_raw.includes('Yüksek Risk') ? 'RİSK' // İstenen değişiklik
+                     : risk_label_raw.includes('Yüksek Risk') ? 'RİSK'
                      : 'BELİRSİZ';
 
     const risk_class = risk_label_raw.includes('Yüksek Güven') ? 'risk-yüksek-güven' 
@@ -416,32 +416,6 @@ function getRiskInfo(risk_class) {
     return { class: risk_class, color: color }; 
 }
 
-// Yardımcı Fonksiyon: Kuponun toplam oranını ve ortalama güvenini hesaplar (Dinamik Hesaplama)
-function calculateKuponStats(kupon) {
-    let totalOdd = 1;
-    let totalConfidence = 0;
-    
-    if (kupon.matches.length === 0) {
-        return { totalOdd: 0, confidence: 0 };
-    }
-
-    kupon.matches.forEach(match => {
-        totalOdd *= match.odd;
-        // Kupon güven seviyesini kullanarak maçlara güven yüzdesi ata
-        if(kupon.risk_label_kupon.includes('Yüksek Güven')) totalConfidence += getConfidencePercentage('🥇 Yüksek Güven');
-        else if(kupon.risk_label_kupon.includes('Orta Güven')) totalConfidence += getConfidencePercentage('🥈 Orta Güven');
-        else if(kupon.risk_label_kupon.includes('Yüksek Risk')) totalConfidence += getConfidencePercentage('⚠️ Yüksek Risk');
-        else totalConfidence += 70; 
-    });
-
-    const averageConfidence = totalConfidence / kupon.matches.length;
-    
-    return { 
-        totalOdd: totalOdd, 
-        confidence: averageConfidence 
-    };
-}
-
 // Yardımcı Fonksiyon: Kuponun ilk maçının tarih ve saatini bulur
 function getKuponStartTime(kupon) {
     if (kupon.matches.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
@@ -462,7 +436,8 @@ const BASE_PREDICTIONS_RAW = [
     { title: "Paris Basket - Dijon", prediction: "MS1", handikap_value: "–10.5", odd: 1.67, time: "17:30", risk_label: "🥇 Yüksek Güven", note: "Paris evinde fark yaratır", league: "Fransa LNB" },
     { title: "Lleida - Valencia", prediction: "MS2", handikap_value: "-5.5", odd: 1.67, time: "18:00", risk_label: "🥇 Yüksek Güven", note: "Valencia kalite farkıyla geçer", league: "İspanya Kupası" },
     { title: "Alba Berlin - Ulm", prediction: "MS1", handikap_value: "–2.5", odd: 1.64, time: "17:30", risk_label: "🥇 Yüksek Güven", note: "Düşük handikap, iç saha avantajı", league: "Almanya BBL" },
-    { title: "Bc Dubai - Cluj Napoca", prediction: "MS2", handikap_value: "-10.5", odd: 1.50, time: "17:00", risk_label: "🥇 Yüksek Güven", note: "Cluj formda, Dubai handikaplı", league: "EuroCup" },
+    // *** DEĞİŞİKLİK BURADA ***
+    { title: "Bc Dubai - Cluj Napoca", prediction: "MS2", handikap_value: "+10.5", odd: 1.50, time: "17:00", risk_label: "🥇 Yüksek Güven", note: "Cluj formda, Dubai handikaplı", league: "EuroCup" },
     
     { title: "Cedevita - Zadar", prediction: "MS2", handikap_value: "+8.5", odd: 1.53, time: "18:00", risk_label: "🥈 Orta Güven", note: "Avantajlı ama ADL ligi değişken", league: "Adriyatik Ligi" },
     { title: "Miasto Szkla - Trefl Sopot", prediction: "MS2", handikap_value: "-7.5", odd: 1.63, time: "18:30", risk_label: "🥈 Orta Güven", note: "Sopot kaliteli ama deplasman", league: "Polonya EBL" },
@@ -497,7 +472,7 @@ const KUPON_DATA = [
         stake: "Ortalama Güven: %85+. ÇOK DÜŞÜK RİSK.",
         matches: [
             { title: "Paris Basket - Dijon", prediction: "MS1", odd: 1.67, barem_value: "–10.5" }, 
-            { title: "Lleida - Valencia", prediction: "MS2", odd: 1.62, barem_value: "-5.5" }, // Kupondaki handikap -5.5
+            { title: "Lleida - Valencia", prediction: "MS2", odd: 1.62, barem_value: "-5.5" }, 
         ]
     },
     { 
@@ -520,7 +495,8 @@ const KUPON_DATA = [
             { title: "Paris Basket - Dijon", prediction: "MS1", odd: 1.67, barem_value: "–10.5" }, 
             { title: "Lleida - Valencia", prediction: "MS2", odd: 1.62, barem_value: "-5.5" },
             { title: "Alba Berlin - Ulm", prediction: "MS1", odd: 1.64, barem_value: "–2.5" },
-            { title: "Bc Dubai - Cluj Napoca", prediction: "MS2", odd: 1.65, barem_value: "-10.5" }, // Bc Dubai maçı handikapı 1.50 oranıyla +10.5 Dubai idi. Kupona handikapı ve MS2 tercihini ekledim.
+            // *** DEĞİŞİKLİK BURADA ***
+            { title: "Bc Dubai - Cluj Napoca", prediction: "MS2", odd: 1.65, barem_value: "+10.5" }, 
         ]
     },
 ];
@@ -567,9 +543,6 @@ function renderMatches(filterType) {
         // Handikap değeri ve etiketi
         const baremText = 'Handikap'; 
         const baremValue = match.handikap_value; 
-
-        // Handikap tahmininin metnini ayarlama (Bu kısım kaldırıldı)
-        // const predictionText = `${match.prediction} Handikap`;
 
         const matchCard = `
             <div class="match-card">
@@ -651,8 +624,11 @@ function renderKuponlar() {
             kuponRiskText = 'ORTA RİSK';
             kuponRiskClass = 'risk-yüksek-risk';
         } else {
-            totalOdd = calculateKuponStats(kupon).totalOdd;
-            avgConfidence = calculateKuponStats(kupon).confidence;
+            // Statik olmayan kuponlar için dinamik hesaplama
+            const stats = calculateKuponStats(kupon);
+            totalOdd = stats.totalOdd;
+            avgConfidence = stats.confidence;
+            // Risk metnini ortalama güvene göre belirleyebiliriz, ancak bu kuponlar statik olduğu için elle bırakıyorum.
             kuponRiskText = 'BELİRSİZ RİSK';
             kuponRiskClass = 'risk-yüksek-risk';
         }
