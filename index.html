@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   /*
-  *** STİL TANIMLARI - İSTENEN GÖRSEL İYİLEŞTİRMELER UYGULANDI ***
+  *** STİL TANIMLARI - RİSKSİZ KOD ***
   */
   :root{
     --bg:#0f1720;
@@ -19,8 +19,8 @@
     --accent-end:#3b8dff;
     --orange:#ff7a00;
     --tech-blue:#3ba4ff;
-    --success:#28d07b;
-    --warning:#ffd460;
+    --success:#28d07b; 
+    --warning:#ffd460; 
     --high-risk:#ff7a00; 
     --muted:#96a0b5;
     --text:#e6eef8; 
@@ -33,11 +33,9 @@
     --tab-active-bg: linear-gradient(90deg, var(--tab-active-start), var(--tab-active-end)); 
   }
   
-  /* Risk Renk Eşleşmeleri */
-  .risk-düşük { background-color: var(--success); color: var(--success); }
-  .risk-orta { background-color: var(--warning); color: var(--warning); }
-  .risk-yüksek { background-color: var(--high-risk); color: var(--high-risk); }
-  .risk-çok-düşük { background-color: var(--success); color: var(--success); }
+  /* Risk Renk Eşleşmeleri - KOMPLE KALDIRILDI */
+  .risk-orta { background-color: var(--muted); color: var(--muted); }
+  .risk-yüksek { background-color: var(--muted); color: var(--muted); }
 
   *{box-sizing:border-box}
   body{
@@ -95,7 +93,7 @@
     text-transform: uppercase;
   }
   
-  /* YENİ SEKME DÜZENLEMESİ: İLK SIRAYA SIĞDIRMA */
+  /* YENİ SEKME DÜZENLEMESİ */
   .tabs{
     display:flex;
     flex-wrap: wrap; 
@@ -104,25 +102,18 @@
     justify-content: space-between;
   } 
   .tab{
-    /* 3 sekmenin ve Kuponlar sekmesinin düzenlenmesi */
-    flex: 1 1 29%; 
+    flex: 1 1 48%; 
     padding: 8px 3px; 
     border-radius: 10px;
     text-align: center;
     font-weight: 700;
     cursor: pointer;
-    font-size: 10px; 
+    font-size: 12px; 
     background: var(--tab-default-bg); 
     color: var(--text);
     white-space: nowrap; 
     transition: all 0.2s ease;
     min-width: 0; 
-  }
-  /* Kuponlar sekmesi, tam genişlikte alt sırada kalması için */
-  .tab[data-tab="kuponlar"] {
-    flex: 1 1 100%; 
-    margin-top: 4px;
-    font-size: 12px;
   }
   
   .tab.active{
@@ -141,14 +132,13 @@
       margin-bottom: 15px;
       padding: 5px 0;
   }
-  /* TEK BİR İSTATİSTİK KALDIĞI İÇİN HİZALAMA */
   .success-rate-item {
       flex-grow: 1;
-      text-align: left; /* Ortalama Başarı sola yanaştı */
+      text-align: left; 
   }
   .success-rate-item:nth-child(2) {
       flex-grow: 0;
-      text-align: right; /* Sistem Online sağa yanaştı */
+      text-align: right; 
   }
   .rate-label {
     font-size: 11px;
@@ -160,7 +150,7 @@
     font-weight: 900;
     font-size: 18px;
     margin-top: 4px;
-    color: var(--success); /* Yeşil renk korundu */
+    color: var(--success); 
     display: block;
     line-height: 1;
   }
@@ -178,8 +168,8 @@
     display: block; 
     margin-top: 4px;
   }
+  /* RİSK ALANI KALDIRILDI */
   .risk-ev-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-  /* RİSK METNİ İÇİN YENİ RENK UYGULAMASI */
   .risk-text {
       font-size: 14px; 
       font-weight: 700;
@@ -189,21 +179,6 @@
   }
   .risk-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
 
-  /* TAHMİN BİLGİLERİ */
-  .bet-preference{
-    font-weight:800;
-    color:var(--tech-blue);
-    font-size:14px;
-    margin-top:8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .bet-preference span.barem-value {
-    font-weight: 700;
-    color: var(--orange);
-    font-size: 16px;
-  }
   .bet{
     background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.1));
     border-radius:10px;padding:12px;margin-top:8px;border:1px solid rgba(255,255,255,0.02)
@@ -221,7 +196,7 @@
       margin-bottom: 0;
       padding-bottom: 0;
   }
-  /* TOPLAM TAHMİN YAZAN YERLER SARI */
+  /* TAHMİN BİLGİLERİ SARI KALDI (gold-text) */
   .bet-col-left {
     font-weight:800;
     color:var(--gold-text); 
@@ -267,7 +242,7 @@
   .kupon-bet-detail {
       font-weight: 800;
       font-size: 16px;
-      color: var(--success);
+      color: var(--gold-text); 
       margin-top: 4px;
       display: flex;
       justify-content: space-between;
@@ -278,6 +253,7 @@
       font-size: 18px;
       font-weight: 900;
   }
+  /* RİSK GÖSTERGESİ KOMPLE KALDIRILDI */
   .kupon-risk-indicator {
       font-size: 14px;
       font-weight: 700;
@@ -318,7 +294,7 @@
       color: var(--muted);
   }
   .kupon-confidence-row span:last-child {
-      color: var(--success);
+      color: var(--success); 
       font-weight: 800;
       margin-left: 5px;
   }
@@ -375,9 +351,7 @@
     </div>
 
     <div class="tabs" role="tablist" aria-label="Ana Sekmeler">
-      <div class="tab" data-tab="high_conf" role="tab" aria-selected="true">YÜKSEK GÜVEN</div> 
-      <div class="tab" data-tab="medium_conf" role="tab" aria-selected="false">ORTA GÜVEN</div> 
-      <div class="tab" data-tab="all_preds" role="tab" aria-selected="false">TÜM TAHMİNLER</div> 
+      <div class="tab active" data-tab="all_matches" role="tab" aria-selected="true">TÜM MAÇLAR</div> 
       <div class="tab" data-tab="kuponlar" role="tab" aria-selected="false">🔥 KUPONLAR</div> 
     </div>
 
@@ -388,135 +362,114 @@
 </div>
 
 <script>
-// ****************************** VERİ YAPILARI ******************************
-
-// Tüm maç verilerini tek bir listeye toplama ve sınıflama (High/Medium)
-const RAW_ALL_PREDICTIONS = [
-    // ÖNE ÇIKAN TAHMİNLER (Güven ≥70% -> HIGH CONFIDENCE)
-    { title: "Tenerife vs Murcia", prediction: "MS1 -7.5", odd: 1.68, confidence: 72, time: "21:00", date: "18.10.2025", league: "ACB", type: "high" },
-    { title: "Donar Groningen vs Okapi Aalstar", prediction: "MS1 -6.5", odd: 1.66, confidence: 70, time: "20:30", date: "18.10.2025", league: "BNXT", type: "high" },
-    
-    // YÜKSEK DEĞERLİ ORANLAR / ÇOK YÜKSEK HANDİKAPLAR (Güven <70% -> MEDIUM CONFIDENCE)
-    { title: "Reyer Venezia vs Trieste", prediction: "MS1 -5.5", odd: 1.62, confidence: 67, time: "21:00", date: "18.10.2025", league: "İtalya A1", type: "medium" },
-    
-    // GÜNCELLENDİ: Gipuzkoa vs Estepona -> MS1
-    { title: "Gipuzkoa vs Estepona", prediction: "MS1", odd: 1.59, confidence: 60, time: "21:00", date: "18.10.2025", league: "İspanya FEB", type: "medium" },
-    
-    { title: "Orleans Loiret vs Chalons Reims", prediction: "MS2 +8.5", odd: 1.59, confidence: 60, time: "21:00", date: "18.10.2025", league: "Fransa Pro B", type: "medium" },
-    { title: "Le Mans vs Bourg En Bresse", prediction: "MS2 +2.5", odd: 1.59, confidence: 62, time: "21:30", date: "18.10.2025", league: "Fransa Pro A", type: "medium" },
-    // matchTitle alanı kaldırıldı, title yeterli.
-    { title: "Baskonia vs Bal", prediction: "MS2 +18.5", odd: 1.63, confidence: 64, time: "21:30", date: "18.10.2025", league: "Belçika", type: "medium" },
-    
-    // !!! GÜNCEL TAHMİN (İstenen güncelleme) !!!
-    { title: "Virtus Imola vs Luiss Roma", prediction: "MS2 H -15.5", odd: 1.60, confidence: 65, time: "20:30", date: "18.10.2025", league: "İtalya B", type: "medium" },
-    
-    { title: "Crailsheim vs Paderborn", prediction: "MS2 +15.5", odd: 1.61, confidence: 62, time: "21:00", date: "18.10.2025", league: "Almanya B", type: "medium" },
-    
-    // GÜNCELLENDİ: Ca Queluz vs Vitoria -> MS2 +4.5
-    { title: "Ca Queluz vs Vitoria", prediction: "MS2 +4.5", odd: 1.65, confidence: 64, time: "20:45", date: "18.10.2025", league: "Portekiz", type: "medium" },
-    
-    { title: "Landerneau vs R. Vendee", prediction: "MS1 -4.5", odd: 1.60, confidence: 61, time: "21:00", date: "18.10.2025", league: "Fransa Kadınlar", type: "medium" },
-    { title: "Ubc Münster vs Vfl Bochum", prediction: "MS1 -3.5", odd: 1.59, confidence: 61, time: "20:30", date: "18.10.2025", league: "Almanya B", type: "medium" },
-    { title: "Basket Zaragoz vs Breogan", prediction: "MS2 +10.5", odd: 1.65, confidence: 61, time: "22:00", date: "18.10.2025", league: "ACB", type: "medium" },
-    
-];
-
-// Kupon verileri (Toplam Oran ve Güven değerleri dinamik olarak hesaplanacağı için statik değerler kaldırıldı)
-const KUPON_DATA = [
-    { 
-        title: "KUPON 1: YÜKSEK GÜVEN (3'LÜ KÜÇÜK KUPON)", 
-        risk: "DÜŞÜK", 
-        stake: "Belirtilmemiş",
-        matches: [
-            { title: "Tenerife - Murcia", prediction: "MS1 (-7.5)", odd: 1.68, confidence: 72, time: "21:00", date: "18.10.2025" },
-            { title: "Donar Groningen - Okapi", prediction: "MS1 (-6.5)", odd: 1.66, confidence: 70, time: "20:30", date: "18.10.2025" },
-            { title: "Reyer Venezia - Trieste", prediction: "MS1 (-5.5)", odd: 1.62, confidence: 67, time: "21:00", date: "18.10.2025" },
-        ]
-    },
-    { 
-        title: "KUPON 2: DEĞER AVCI (3'LÜ HANDIKAP)",
-        risk: "ORTA", 
-        stake: "Belirtilmemiş",
-        matches: [
-            { title: "Ca Queluz - Vitoria", prediction: "MS2 (+4.5)", odd: 1.65, confidence: 64, time: "20:45", date: "18.10.2025" }, 
-            { title: "Belfius Mons - Bal", prediction: "MS2 (+18.5)", odd: 1.63, confidence: 64, time: "21:30", date: "18.10.2025" },
-            { title: "Crailsheim - Paderborn", prediction: "MS2 (+15.5)", odd: 1.61, confidence: 62, time: "21:00", date: "18.10.2025" },
-        ]
-    },
-    { 
-        title: "KUPON 3: BALANCED MIX (5'LÜ ORTA)", 
-        risk: "ORTA", 
-        stake: "Belirtilmemiş",
-        matches: [
-            { title: "Tenerife - Murcia", prediction: "MS1 (-7.5)", odd: 1.68, confidence: 72, time: "21:00", date: "18.10.2025" },
-            { title: "Donar Groningen - Okapi", prediction: "MS1 (-6.5)", odd: 1.66, confidence: 70, time: "20:30", date: "18.10.2025" },
-            { title: "Ca Queluz - Vitoria", prediction: "MS2 (+4.5)", odd: 1.65, confidence: 64, time: "20:45", date: "18.10.2025" }, 
-            { title: "Belfius Mons - Bal", prediction: "MS2 (+18.5)", odd: 1.63, confidence: 64, time: "21:30", date: "18.10.2025" },
-            { title: "Landerneau - R. Vendee", prediction: "MS1 (-4.5)", odd: 1.60, confidence: 61, time: "21:00", date: "18.10.2025" },
-        ]
-    },
-    { 
-        title: "KUPON 4: RISK ALAN (6'LÜ YÜKSEK ORAN)", 
-        risk: "YÜKSEK", 
-        stake: "Belirtilmemiş",
-        matches: [
-            { title: "Ubc Münster - Vfl Bochum", prediction: "MS1 (-3.5)", odd: 1.59, confidence: 61, time: "20:30", date: "18.10.2025" },
-            { title: "Donar Groningen - Okapi", prediction: "MS1 (-6.5)", odd: 1.66, confidence: 70, time: "20:30", date: "18.10.2025" },
-            { title: "Orleans Loiret - Chalons", prediction: "MS2 (+8.5)", odd: 1.59, confidence: 60, time: "21:00", date: "18.10.2025" },
-            { title: "Le Mans - Bourg En Bresse", prediction: "MS2 (+2.5)", odd: 1.59, confidence: 62, time: "21:30", date: "18.10.2025" },
-            { title: "Reyer Venezia - Trieste", prediction: "MS1 (-5.5)", odd: 1.62, confidence: 67, time: "21:00", date: "18.10.2025" },
-            { title: "Basket Zaragoz - Breogan", prediction: "MS2 +10.5", odd: 1.65, confidence: 61, time: "22:00", date: "18.10.2025" },
-        ]
-    },
-    { 
-        title: "KUPON 5: GÜVENLİ LİMAN (2'LÜ BANKER)", 
-        risk: "ÇOK DÜŞÜK", 
-        stake: "Belirtilmemiş",
-        matches: [
-            { title: "Tenerife - Murcia", prediction: "MS1 (-7.5)", odd: 1.68, confidence: 72, time: "21:00", date: "18.10.2025" },
-            { title: "Donar Groningen - Okapi", prediction: "MS1 (-6.5)", odd: 1.66, confidence: 70, time: "20:30", date: "18.10.2025" },
-        ]
-    },
-    { 
-        title: "KUPON 6: ÖZEL SEÇİM (3'LÜ PREMIUM)", 
-        risk: "ORTA", 
-        stake: "Belirtilmemiş",
-        matches: [
-            { title: "Tenerife - Murcia", prediction: "MS1 (-7.5)", odd: 1.68, confidence: 72, time: "21:00", date: "18.10.2025" },
-            { title: "Belfius Mons - Bal", prediction: "MS2 (+18.5)", odd: 1.63, confidence: 64, time: "21:30", date: "18.10.2025" },
-            { title: "Reyer Venezia - Trieste", prediction: "MS1 (-5.5)", odd: 1.62, confidence: 67, time: "21:00", date: "18.10.2025" },
-        ]
-    },
-    // !!! GÜNCEL KUPON !!!
-    { 
-        title: "KUPON 7: ROMA ÖZEL HANDİKAP (3'LÜ)", 
-        risk: "ORTA", 
-        stake: "Belirtilmemiş",
-        matches: [
-            // İSTENEN GÜNCELLEME
-            { title: "Virtus Imola - Luiss Roma", prediction: "MS2 H (-15.5)", odd: 1.60, confidence: 65, time: "20:30", date: "18.10.2025" },
-            { title: "Reyer Venezia - Trieste", prediction: "MS1 (-5.5)", odd: 1.62, confidence: 67, time: "21:00", date: "18.10.2025" },
-            { title: "Crailsheim - Paderborn", prediction: "MS2 (+15.5)", odd: 1.61, confidence: 62, time: "21:00", date: "18.10.2025" },
-        ]
-    },
-];
-
 // ****************************** YARDIMCI FONKSİYONLAR ******************************
 
-// Yardımcı Fonksiyon: Risk sınıfını ve rengini döndürür
-function getRiskInfo(risk) {
-    const riskLower = risk.toLowerCase().replace('ç', 'c').replace('ö', 'o').replace('ü', 'u'); // 'çok düşük' için
-    let colorVar;
-    if (riskLower === 'düşük') colorVar = '--success';
-    else if (riskLower === 'orta') colorVar = '--warning';
-    else if (riskLower === 'yüksek') colorVar = '--high-risk';
-    else if (riskLower === 'çok düşük') colorVar = '--success';
-    else colorVar = '--muted';
-    
-    const color = getComputedStyle(document.documentElement).getPropertyValue(colorVar);
-    // CSS sınıfı için Türkçe karakterleri değiştir
-    return { class: `risk-${riskLower.replace(' ', '-')}`, color: color }; 
+// Rastgele Yüksek Güven Değeri Atar (75% ile 85% arası)
+function getRandomHighConfidence() {
+    return Math.floor(Math.random() * (85 - 75 + 1)) + 75;
 }
+
+// Kupon başlığına göre renk ataması (Risk yerine Güven seviyesi için)
+function getKuponConfidenceColor(kuponTitle) {
+    if (kuponTitle.includes("GÜVEN 1")) return getComputedStyle(document.documentElement).getPropertyValue('--tech-blue'); 
+    if (kuponTitle.includes("GÜVEN 2")) return getComputedStyle(document.documentElement).getPropertyValue('--warning'); 
+    if (kuponTitle.includes("GÜVEN 3")) return getComputedStyle(document.documentElement).getPropertyValue('--orange'); 
+    return getComputedStyle(document.documentElement).getPropertyValue('--text'); 
+}
+
+
+// ****************************** VERİ YAPILARI ******************************
+
+const BASE_PREDICTIONS = [
+    { title: "Jairis - Estudiantes (K)", prediction: "MS1", handikap_value: "H1 (-6.5)", odd: 1.64, time: "12:00", date: "Bugün", league: "İspanya Kadınlar", secondary_prediction: "ÜST 139.5" },
+    { title: "Alvark Tokyo - Ibaraki Robots", prediction: "MS1", handikap_value: "H1 (-4.5)", odd: 1.61, time: "12:05", date: "Bugün", league: "Japonya B1", secondary_prediction: "ÜST 149.5" },
+    { title: "Rain Or Shine - San Miguel", prediction: "MS2", handikap_value: "H2 (+8.5)", odd: 1.66, time: "12:15", date: "Bugün", league: "Filipinler PBA", secondary_prediction: "ÜST 200.5" },
+    { title: "Joventut - Bilbao", prediction: "MS1", handikap_value: "H1 (-7.5)", odd: 1.62, time: "13:00", date: "Bugün", league: "ACB", secondary_prediction: "ALT 166.5" },
+    { title: "Sassari - Milano", prediction: "MS2", handikap_value: "H2 (+4.5)", odd: 1.65, time: "13:00", date: "Bugün", league: "İtalya A1", secondary_prediction: "ALT 162.5" },
+    { title: "Chiba Jets - Gunma", prediction: "MS1", handikap_value: "H1 (-6.5)", odd: 1.58, time: "13:05", date: "Bugün", league: "Japonya B1", secondary_prediction: "ÜST 157.5" },
+    { title: "Legia - Czarni Slupsk", prediction: "MS1", handikap_value: "H1 (-8.5)", odd: 1.64, time: "13:30", date: "Bugün", league: "Polonya EBL", secondary_prediction: "ALT 163.5" },
+    { title: "Gernika - Zaragoza (K)", prediction: "MS2", handikap_value: "H2 (+3.5)", odd: 1.61, time: "13:30", date: "Bugün", league: "İspanya Kadınlar", secondary_prediction: "ALT 140.5" },
+    { title: "Real Madrid - Burgos", prediction: "MS1", handikap_value: "H1 (-18.5)", odd: 1.63, time: "13:30", date: "Bugün", league: "ACB", secondary_prediction: "ÜST 174.5" },
+    { title: "Botaş (K) - ÇBK Mersin (K)", prediction: "MS2", handikap_value: "H2 (+10.5)", odd: 1.66, time: "14:00", date: "Bugün", league: "Kadınlar Süper Lig", secondary_prediction: "ÜST (-)" },
+    { title: "Universitario - Araski (K)", prediction: "MS1", handikap_value: "H1 (-3.5)", odd: 1.64, time: "14:00", date: "Bugün", league: "İspanya Kadınlar", secondary_prediction: "ALT 136.5" },
+    { title: "Meralco - Magnolia", prediction: "MS2", handikap_value: "H2 (+5.5)", odd: 1.66, time: "14:30", date: "Bugün", league: "Filipinler PBA", secondary_prediction: "ÜST 187.5" },
+    { title: "Unics - Lokomotiv Kuban", prediction: "MS1", handikap_value: "H1 (-5.5)", odd: 1.59, time: "14:30", date: "Bugün", league: "VTB Ligi", secondary_prediction: "ALT 168.5" },
+];
+
+const RAW_ALL_PREDICTIONS = BASE_PREDICTIONS.map(match => ({
+    ...match,
+    confidence: getRandomHighConfidence(),
+}));
+
+const KUPON_MATCH_CONFIDENCE_OVERRIDES = {
+    "Alvark Tokyo - Ibaraki Robots": 85, 
+    "Chiba Jets - Gunma": 83, 
+    "Real Madrid - Burgos": 81, 
+    "Sassari - Milano": 79, 
+    "Jairis - Estudiantes (K)": 78, 
+    "Meralco - Magnolia": 78, 
+    "Rain Or Shine - San Miguel": 76, 
+    "Legia - Czarni Slupsk": 74, 
+    "Universitario - Araski (K)": 73, 
+};
+
+
+const KUPON_DATA = [
+    { 
+        title: "🥇 GÜVEN 1 (Ortalama Oran: ~3.50)", 
+        stake: "Yüksek Güvenli Seçimler.", 
+        matches: [
+            { title: "Alvark Tokyo - Ibaraki Robots", prediction: "MS1", odd: 1.61 }, 
+            { title: "Chiba Jets - Gunma", prediction: "ÜST 157.5", odd: 1.63 },
+            { title: "Real Madrid - Burgos", prediction: "MS1", odd: 1.63 },
+        ]
+    },
+    { 
+        title: "🥈 GÜVEN 2 (Ortalama Oran: ~6.00)",
+        stake: "Normal Güvenli Seçimler.",
+        matches: [
+            { title: "Sassari - Milano", prediction: "ALT 162.5", odd: 1.65 },
+            { title: "Jairis - Estudiantes (K)", prediction: "ÜST 139.5", odd: 1.64 },
+            { title: "Meralco - Magnolia", prediction: "MS2", odd: 1.66 },
+        ]
+    },
+    { 
+        title: "🥉 GÜVEN 3 (Ortalama Oran: ~10.00)", 
+        stake: "Yüksek Oranlı Seçimler.", 
+        matches: [
+            { title: "Rain Or Shine - San Miguel", prediction: "ÜST 200.5", odd: 1.66 },
+            { title: "Legia - Czarni Slupsk", prediction: "ALT 163.5", odd: 1.62 },
+            { title: "Universitario - Araski (K)", prediction: "MS1", odd: 1.64 },
+        ]
+    },
+];
+
+const MATCH_MAP = RAW_ALL_PREDICTIONS.reduce((acc, match) => {
+    acc[match.title] = match;
+    return acc;
+}, {});
+
+KUPON_DATA.forEach(kupon => {
+    kupon.matches.forEach(match => {
+        const fullMatch = MATCH_MAP[match.title];
+        
+        match.confidence = KUPON_MATCH_CONFIDENCE_OVERRIDES[match.title] || (fullMatch ? fullMatch.confidence : 75);
+
+        if (fullMatch) {
+            if (match.prediction.includes("ÜST") || match.prediction.includes("ALT")) {
+                const barem = fullMatch.secondary_prediction.split(' ')[1];
+                match.barem_value = barem;
+            } else {
+                match.barem_value = fullMatch.handikap_value; 
+            }
+        } else {
+            match.barem_value = 'N/A';
+        }
+    });
+});
+
+
+// ****************************** DİĞER YARDIMCI FONKSİYONLAR ******************************
 
 // Yardımcı Fonksiyon: Kuponun toplam oranını ve ortalama güvenini hesaplar (Dinamik Hesaplama)
 function calculateKuponStats(kupon) {
@@ -545,58 +498,25 @@ function calculateKuponStats(kupon) {
 function getKuponStartTime(kupon) {
     if (kupon.matches.length === 0) return { date: "Tarih Belirsiz", time: "Saat Belirsiz" };
     
-    // Tarih ve Saate göre sıralama ve en erken olanı bulma
     const earliestMatch = kupon.matches.reduce((earliest, current) => {
-        // TR formatındaki tarihi YYYY-MM-DD formatına çevir
-        const parseDate = (dateStr) => {
-            if (!dateStr) return null;
-            const parts = dateStr.split('.');
-            if (parts.length === 3) {
-                // YYYY-MM-DD
-                return `${parts[2]}-${parts[1]}-${parts[0]}`; 
-            }
-            return dateStr;
-        };
-        
-        // Güvenli tarih/saat kullanımı
-        const dateStrCurrent = current.date || '01.01.2099';
-        const timeStrCurrent = current.time || '00:00';
-        const currentDateTime = new Date(`${parseDate(dateStrCurrent)}T${timeStrCurrent}:00`);
-
-        const dateStrEarliest = earliest ? earliest.date || '01.01.2099' : dateStrCurrent;
-        const timeStrEarliest = earliest ? earliest.time || '00:00' : timeStrCurrent;
-        const earliestDateTime = earliest ? new Date(`${parseDate(dateStrEarliest)}T${timeStrEarliest}:00`) : currentDateTime;
-
-
-        if (isNaN(currentDateTime.getTime())) return earliest; 
-        if (earliest && isNaN(earliestDateTime.getTime())) return current;
-        if (!earliest || currentDateTime < earliestDateTime) {
-            return current;
-        }
-        return earliest;
+        const timeA = MATCH_MAP[current.title]?.time || '23:59';
+        const timeB = earliest ? MATCH_MAP[earliest.title]?.time || '23:59' : timeA;
+        return (timeA.localeCompare(timeB) < 0) ? current : earliest;
     }, kupon.matches[0]); 
     
-    return { date: earliestMatch.date || 'Belirsiz', time: earliestMatch.time || 'Belirsiz' };
+    return { date: 'Bugün', time: MATCH_MAP[earliestMatch.title]?.time || 'Belirsiz' };
 }
 
 
-// ****************************** RENDER FONKSİYONLARI ******************************
+// ****************************** RENDER FONKSİYONLARI - FORMAT GÜNCELLEMESİ ******************************
 
 // Maç Tahminlerini Listeler
-function renderMatches(filterType) {
+function renderMatches() {
     const contentDiv = document.getElementById('content');
     contentDiv.innerHTML = ''; 
 
     let filteredMatches = [...RAW_ALL_PREDICTIONS];
     
-    if (filterType === 'high_conf') {
-        filteredMatches = filteredMatches.filter(m => m.type === 'high');
-    } else if (filterType === 'medium_conf') {
-        filteredMatches = filteredMatches.filter(m => m.type === 'medium');
-    }
-    // 'all_preds' için filtreleme yok
-
-    // Saate göre sırala
     filteredMatches.sort((a, b) => {
         const timeA = a.time || '23:59';
         const timeB = b.time || '23:59';
@@ -604,58 +524,60 @@ function renderMatches(filterType) {
     });
 
     if (filteredMatches.length === 0) {
-        contentDiv.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px;">Bu kategori için tahmin bulunmamaktadır.</p>';
+        contentDiv.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px;">Bugün için yayınlanmış tahmin bulunmamaktadır.</p>';
         return;
     }
 
     filteredMatches.forEach(match => {
-        const risk = match.confidence >= 70 ? 'DÜŞÜK' : (match.confidence >= 65 ? 'ORTA' : 'YÜKSEK');
-        const riskInfo = getRiskInfo(risk);
-        const riskColor = riskInfo.color;
-        const riskClass = riskInfo.class;
         
-        // Baremi prediction string'inden ayıklama
-        let barem = 'YOK';
-        const baremMatch = match.prediction.match(/[\+\-]\d+\.\d+/);
-        if (baremMatch) {
-            barem = baremMatch[0];
-        }
+        // Sadece handikap değerini al (Örn: H1 (-6.5) -> (-6.5))
+        // Bu değer, handikap_value'dan sadece parantez içindeki kısmı alacak şekilde ayarlandı
+        const handikapValueOnly = match.handikap_value.match(/\(([^)]+)\)/)?.[1] || match.handikap_value; 
+        
+        // Handikap tahmininin MS1, MS2 gibi kısmını al (Örn: MS1)
+        const msPrediction = match.prediction; 
+
+        // YENİ FORMAT: MS1 HANDİKAP (-5.5)
+        const mainPredictionFormatted = `${msPrediction} HANDİKAP (${handikapValueOnly})`;
+
+
+        // Alt/Üst Tahmini
+        const secondaryPredictionText = match.secondary_prediction.includes("(-)") ? 'Yok' : match.secondary_prediction;
 
         const matchCard = `
             <div class="match-card">
                 <div class="match-head">
-                    <div class="match-info">
+                    <div>
                         <div class="match-title">${match.title}</div>
-                        <span class="match-datetime">${match.league} | ${match.time}</span>
+                        <span class="match-datetime">${match.date} ${match.time}</span>
                     </div>
                     <div class="risk-ev-wrap">
-                        <div class="risk-text" style="color: ${riskColor};">
-                            <span class="risk-dot ${riskClass}"></span>
-                            ${risk.toUpperCase()} RİSK
-                        </div>
+                        <span class="muted-small">${match.league}</span>
                     </div>
                 </div>
-
-                <div class="bet-preference">
-                    <div>Robot Tercihi: <span style="font-size: 18px; font-weight: 900; color: var(--success); margin-left: 5px;">${match.prediction}</span></div>
-                    <div>Handikap: <span class="barem-value">${barem}</span></div>
-                </div>
-
+                
                 <div class="bet">
                     <div class="bet-detail-row">
-                        <div class="bet-col-left">ROBOT TAHMİNİ</div>
+                        <div class="bet-col-left">${mainPredictionFormatted}</div>
                         <div class="bet-col-right">
-                            <span class="odd">${match.odd.toFixed(2)}</span>
-                            <span class="muted-small" style="display:block;">ORAN</span>
+                            <div class="odd">${match.odd.toFixed(2)}</div>
+                            <div class="muted-small">ORAN</div>
                         </div>
                     </div>
                     
-                    <div class="confidence-row">
-                        <span>Robot Güven Değeri:</span>
-                        <span style="color: var(--success);">${match.confidence}%</span>
+                    <div class="bet-detail-row">
+                        <div class="bet-col-left">Alternatif Tahmin</div>
+                        <div class="bet-col-right">
+                            <div class="odd" style="font-size: 20px;">${secondaryPredictionText}</div>
+                        </div>
                     </div>
+
                     <div class="progress-wrap">
-                        <div class="progress-bar conf" style="width:${match.confidence}%;"></div>
+                        <div class="progress-bar conf" style="width: ${match.confidence}%;"></div>
+                    </div>
+                    <div class="confidence-row">
+                        <span>AI Güven Seviyesi:</span>
+                        <span>%${match.confidence}</span>
                     </div>
                 </div>
             </div>
@@ -664,54 +586,66 @@ function renderMatches(filterType) {
     });
 }
 
-// Kuponları Listeler (Dinamik Hesaplama içerir)
+// Kuponları Listeler
 function renderKuponlar() {
     const contentDiv = document.getElementById('content');
     contentDiv.innerHTML = '';
 
     KUPON_DATA.forEach(kupon => {
-        // DÜZELTME: Toplam Oran ve Ortalama Güven dinamik olarak hesaplanıyor.
         const stats = calculateKuponStats(kupon);
-        const totalOdd = stats.totalOdd;
-        const confidence = stats.confidence;
-
-        const riskInfo = getRiskInfo(kupon.risk);
-        const riskColor = riskInfo.color;
-        const riskClass = riskInfo.class;
-        const kuponStartTime = getKuponStartTime(kupon); 
+        const avgConfidence = Math.round(stats.confidence);
+        const totalOdd = stats.totalOdd.toFixed(2);
         
-        let matchesHTML = kupon.matches.map(bet => {
+        const kuponColor = getKuponConfidenceColor(kupon.title); // Kupon başlığına göre renk al
+
+        const kuponStartTime = getKuponStartTime(kupon);
+
+        let matchesHtml = kupon.matches.map(match => {
+            let predictionText = match.prediction;
+            let detailSuffix = "";
+            let predictionColor = getComputedStyle(document.documentElement).getPropertyValue('--gold-text'); // Sabit renk
+
+            if (match.prediction.includes("ÜST") || match.prediction.includes("ALT")) {
+                detailSuffix = " Barem";
+            } else {
+                detailSuffix = " Handikap";
+                
+                const fullMatch = MATCH_MAP[match.title];
+                
+                // YENİ FORMAT İÇİN HANDİKAP DEĞERİNİ AL
+                const handikapValueOnly = fullMatch ? (fullMatch.handikap_value.match(/\(([^)]+)\)/)?.[1] || fullMatch.handikap_value) : ''; 
+                
+                // YENİ FORMAT: MS1 HANDİKAP (-5.5)
+                predictionText = `${match.prediction} HANDİKAP (${handikapValueOnly})`;
+            }
+
             return `
                 <div class="kupon-match-row">
-                    <div class="kupon-match-title">${bet.title}</div>
+                    <div class="kupon-match-title">${match.title}</div>
                     <div class="kupon-bet-detail">
-                        <span>${bet.prediction} (Güven: ${bet.confidence}%)</span>
-                        <span class="kupon-odd-value">@${bet.odd.toFixed(2)}</span>
+                        <span style="color: ${predictionColor};">${predictionText}</span>
+                        <span class="kupon-odd-value">@${match.odd.toFixed(2)}</span>
                     </div>
                 </div>
             `;
         }).join('');
 
         const kuponCard = `
-            <div class="match-card">
-                <div style="text-align: center;">
-                    <div class="kupon-title-bold">${kupon.title}</div>
-                    <div class="kupon-date-time">${kuponStartTime.date} - İlk Maç: ${kuponStartTime.time}</div> 
-                    
-                    <div class="kupon-risk-indicator" style="color: ${riskColor}; border: 1px solid ${riskColor};">
-                        Risk Seviyesi: <span class="risk-dot ${riskClass}" style="width:12px; height:12px;"></span> <span style="font-weight: 900; color: ${riskColor};">${kupon.risk.toUpperCase()}</span>
+            <div class="match-card" style="border: 1px solid rgba(255,255,255,0.1);">
+                <div class="kupon-title-bold" style="color: ${kuponColor};">${kupon.title}</div>
+                <span class="kupon-date-time">${kuponStartTime.date} - ${kuponStartTime.time}</span>
+                
+                ${matchesHtml}
+                
+                <div class="total-odd-area">
+                    <span class="muted-small">TOPLAM ORAN</span>
+                    <span class="total-odd-value">${totalOdd}</span>
+                    <div class="kupon-confidence-row">
+                        Ortalama Güven: <span style="color:var(--success);">%${avgConfidence}</span>
                     </div>
-
-                    <div style="margin-top: 15px; margin-bottom: 15px;">${matchesHTML}</div>
-
-                    <div class="total-odd-area">
-                        <div class="kupon-title-bold" style="font-size: 16px;">TOPLAM ORAN</div>
-                        <span class="total-odd-value">x${totalOdd.toFixed(2)}</span>
-                        
-                        <div class="kupon-extra-info">
-                            <div>Ortalama Güven: <span style="color: var(--success);">${confidence.toFixed(1)}%</span></div>
-                            <div>Önerilen Stake: <span style="color: var(--tech-blue);">${kupon.stake || 'Belirtilmemiş'}</span></div>
-                        </div>
+                    <div class="kupon-extra-info">
+                        <span>Tahmin Sayısı: ${kupon.matches.length}</span>
+                        <span>Maks. Kazanç: Hesapla</span>
                     </div>
                 </div>
             </div>
@@ -720,35 +654,28 @@ function renderKuponlar() {
     });
 }
 
-// Sekme Yönetimi ve Başlangıç Yüklemesi
+// ****************************** OLAY YÖNETİMİ ******************************
+
 document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab');
     
+    // Başlangıçta Tüm Maçları yükle
+    renderMatches();
+
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            tabs.forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-            });
+            tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            
-            const tabKey = tab.getAttribute('data-tab');
-            if (tabKey === 'kuponlar') {
+
+            const tabId = tab.getAttribute('data-tab');
+
+            if (tabId === 'all_matches') {
+                renderMatches();
+            } else if (tabId === 'kuponlar') {
                 renderKuponlar();
-            } else {
-                renderMatches(tabKey); 
             }
         });
     });
-
-    // Sayfa yüklendiğinde varsayılan olarak YÜKSEK GÜVEN tahminlerini göster
-    const defaultTab = document.querySelector('.tab[data-tab="high_conf"]');
-    if (defaultTab) {
-        defaultTab.classList.add('active');
-        defaultTab.setAttribute('aria-selected', 'true');
-        renderMatches('high_conf');
-    }
 });
 </script>
 </body>
