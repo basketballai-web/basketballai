@@ -133,36 +133,47 @@
     border-radius: 10px;
     text-align: center;
     font-weight: 700;
-    cursor: default; /* Artık tıklanabilir değil */
+    cursor: default;
     font-size: 12px; 
     background: var(--tab-default-bg); 
     color: var(--text);
     white-space: nowrap; 
     transition: all 0.2s ease;
     min-width: 0; 
-    height: 60px; /* Geri sayım için uygun yükseklik */
+    height: 70px; /* Metin sığması için yükseklik artırıldı */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    line-height: 1.1; /* Satır aralığı daraltıldı */
   }
+  
   /* Aktif/Pasif durumu kalktığı için stil düzenlemesi */
   .tab.active {
-    background: var(--tab-default-bg); /* Aktif stilini kaldırıyoruz */
+    background: var(--tab-default-bg);
     border: none;
     box-shadow: none;
   }
   
+  /* Geri sayım için ana başlık */
+  .countdown-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  
   /* GERİ SAYIM İÇİN ÖZEL STİLLER */
   .countdown-timer {
-      font-size: 18px; /* Sekmeye sığması için küçüldü */
+      font-size: 18px;
       font-weight: 900;
       color: var(--orange); 
       letter-spacing: 1px;
       line-height: 1.2;
   }
   .countdown-label-small {
-      font-size: 9px; /* Sekmeye sığması için küçüldü */
+      font-size: 9px;
       font-weight: 700;
       color: var(--muted);
       margin-top: 3px;
@@ -183,7 +194,7 @@
     text-align: center;
     color: var(--muted);
     font-weight: 600;
-    min-height: 100px; /* İçerik boşluğunu korumak için */
+    min-height: 100px;
     border-radius: 10px;
     background: rgba(255,255,255,0.02);
   }
@@ -211,12 +222,14 @@
     
     <div class="tabs" role="tablist" aria-label="Geri Sayım Sekmeleri">
       <div class="tab countdown-tab" id="countdown-matches" data-tab="all_matches" role="tab" aria-selected="true">
+        <div class="countdown-title">TÜM MAÇLAR</div>
         <div class="countdown-timer">--:--:--</div>
-        <span class="countdown-label-small">GÜNCEL TAHMİNLERE KALAN SÜRE</span>
+        <span class="countdown-label-small">PAYLAŞIMA KALAN SÜRE</span>
       </div> 
       <div class="tab countdown-tab" id="countdown-kupons" data-tab="kuponlar" role="tab" aria-selected="false">
+        <div class="countdown-title">🔥 KUPONLAR</div>
         <div class="countdown-timer">--:--:--</div>
-        <span class="countdown-label-small">KUPON PAYLAŞIMINA KALAN SÜRE</span>
+        <span class="countdown-label-small">PAYLAŞIMA KALAN SÜRE</span>
       </div> 
     </div>
 
@@ -255,6 +268,7 @@ function startCountdown() {
 
         const renderFinished = () => {
              const finishedHTML = `
+                <div class="countdown-title" style="color: var(--success);">TAMAMLANDI</div>
                 <div class="countdown-finished-small">
                     ✅ PAYLAŞIM ZAMANI!
                 </div>
@@ -274,14 +288,15 @@ function startCountdown() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
         const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         
-        const countdownHTML = (label) => `
+        const countdownHTML = (title) => `
+            <div class="countdown-title">${title}</div>
             <div class="countdown-timer">${hours}:${minutes}:${seconds}</div>
-            <span class="countdown-label-small">${label}</span>
+            <span class="countdown-label-small">PAYLAŞIMA KALAN SÜRE</span>
         `;
         
         // Sekmeleri dinamik olarak güncelle
-        matchCountdownElement.innerHTML = countdownHTML('GÜNCEL TAHMİNLERE KALAN SÜRE');
-        kuponCountdownElement.innerHTML = countdownHTML('KUPON PAYLAŞIMINA KALAN SÜRE');
+        matchCountdownElement.innerHTML = countdownHTML('TÜM MAÇLAR');
+        kuponCountdownElement.innerHTML = countdownHTML('🔥 KUPONLAR');
 
     }, 1000);
 }
@@ -291,8 +306,6 @@ function startCountdown() {
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Geri Sayımı Başlat
     startCountdown();
-    
-    // Not: Artık sekmeler tıklanabilir değil, sadece gösterim amaçlı duruyorlar.
 });
 </script>
 </body>
