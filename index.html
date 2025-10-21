@@ -31,7 +31,7 @@
         /* Başlık Alanı */
         header {
             background: linear-gradient(135deg, var(--dark-blue), #004d40);
-            padding: 20px 0 10px 0; /* Alttan boşluk azaltıldı */
+            padding: 20px 0 10px 0;
             text-align: center;
             border-bottom: 5px solid var(--primary-blue);
             box-shadow: 0 4px 15px var(--shadow-color);
@@ -155,50 +155,84 @@
             margin-top: 0;
         }
 
-        /* Tahmin Tablosu Stili */
-        .match-table-container {
-            overflow-x: auto;
+        /* ---------------------------------------------------- */
+        /* YENİ DETAYLI TAHMİNLER (KART) STİLİ */
+        /* ---------------------------------------------------- */
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .match-card {
+            background-color: #01356b;
+            border: 2px solid var(--primary-blue);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .match-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--light-yellow);
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .match-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 0.9em;
+            color: var(--off-white);
         }
         
-        .match-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
-            min-width: 800px;
+        .match-meta span {
+            background-color: rgba(0, 188, 212, 0.2);
+            padding: 3px 6px;
+            border-radius: 5px;
         }
 
-        .match-table th, .match-table td {
-            padding: 12px 8px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .prediction-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .match-table th {
-            background-color: var(--primary-blue);
-            color: var(--dark-blue);
-            font-weight: bold;
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-        }
-
-        .match-table tr:nth-child(even) {
+        .prediction-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-radius: 5px;
             background-color: rgba(0, 0, 0, 0.2);
         }
 
-        .match-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Tahmin Vurguları */
-        .prediction-cell {
+        .prediction-label {
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px; /* Tahmin ve oran arasını açar */
+            color: var(--secondary-orange);
+            flex: 1;
+            text-align: left;
         }
 
+        .prediction-detail {
+            flex: 2;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Tahmin Vurguları (Önceki stillerle aynı) */
         .prediction-ms, .prediction-ts, .odds-ms, .odds-ts {
             padding: 4px 8px;
             border-radius: 5px;
@@ -214,127 +248,23 @@
         .odds-ts { background-color: var(--light-yellow); color: var(--dark-blue); font-size: 0.9em; }
 
         /* Güven Derecesi */
-        .confidence-low { color: #f44336; font-weight: bold; } /* Kırmızı */
-        .confidence-medium { color: var(--light-yellow); font-weight: bold; } /* Sarı */
-        .confidence-high { color: #4CAF50; font-weight: bold; } /* Yeşil */
-
-        /* Kupon Alanı (Diğer bölümlerin stil kodları önceki ile aynı) */
-        .coupon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .coupon-card {
-            background-color: #01356b;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 8px 15px var(--shadow-color);
-            border: 2px solid var(--secondary-orange);
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .coupon-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-blue);
-        }
-
-        .coupon-card h3 {
-            margin-top: 0;
-            color: var(--primary-blue);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
-            padding-bottom: 10px;
-        }
-
-        .coupon-meta {
-            margin-top: 10px;
-            padding: 10px;
+        .confidence-cell {
+            padding: 4px 8px;
             border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.3);
         }
+        .confidence-low { background-color: rgba(244, 67, 54, 0.2); color: #f44336; font-weight: bold; }
+        .confidence-medium { background-color: rgba(255, 235, 59, 0.2); color: var(--light-yellow); font-weight: bold; }
+        .confidence-high { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; font-weight: bold; }
 
-        .coupon-meta p {
-            margin: 5px 0;
-            font-size: 0.9em;
-        }
-
-        .coupon-meta strong {
-            color: var(--light-yellow);
-        }
+        /* Diğer Sekmelerin Stilleri (Kupon, Yüksek Güven, İstatistik - Önceki ile aynı) */
+        .coupon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .coupon-card { background-color: #01356b; border-radius: 10px; padding: 20px; box-shadow: 0 8px 15px var(--shadow-color); border: 2px solid var(--secondary-orange); }
+        .coupon-card h3 { margin-top: 0; color: var(--primary-blue); display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed rgba(255, 255, 255, 0.3); padding-bottom: 10px; }
+        .coupon-meta { margin-top: 10px; padding: 10px; border-radius: 5px; background-color: rgba(0, 0, 0, 0.3); }
+        .coupon-bets ul { list-style: none; padding: 0; }
+        .coupon-bets li { background-color: rgba(255, 255, 255, 0.1); padding: 8px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .match-detail-card { background: #01356b; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--primary-blue); box-shadow: 2px 2px 10px var(--shadow-color); }
         
-        .coupon-bets ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .coupon-bets li {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .coupon-bets li span:first-child {
-            font-weight: bold;
-            color: var(--off-white);
-        }
-
-        .coupon-bets li span:last-child {
-            color: var(--secondary-orange);
-            font-weight: bold;
-        }
-
-        /* Özel Kupon Kartı Vurguları */
-        .card-ALTIN_001 { border-color: #FFD700; } /* Altın */
-        .card-DEGER_002 { border-color: #C0C0C0; } /* Gümüş */
-        .card-ALTUST_003 { border-color: #8A2BE2; } /* Mor */
-        .card-CESUR_005 { border-color: #FF4500; } /* Koyu Kırmızı */
-
-        /* Yüksek Güven Bölümü */
-        .high-confidence-matches h3 {
-            color: var(--light-yellow);
-            border-bottom: 1px solid var(--secondary-orange);
-            padding-bottom: 5px;
-        }
-
-        .match-detail-card {
-            background: #01356b;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--primary-blue);
-            box-shadow: 2px 2px 10px var(--shadow-color);
-        }
-
-        .match-detail-card h4 {
-            color: var(--secondary-orange);
-            margin-top: 0;
-            font-size: 1.2em;
-        }
-
-        .reason {
-            font-style: italic;
-            color: var(--off-white);
-            margin-top: 10px;
-        }
-
-        .odds-badge {
-            display: inline-block;
-            background: var(--light-yellow);
-            color: var(--dark-blue);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: bold;
-            margin-left: 5px;
-            font-size: 0.8em;
-        }
-
         /* Footer */
         footer {
             text-align: center;
@@ -369,24 +299,10 @@
 
         <div id="tab-table" class="tab-content active">
             <h2 id="tableHeader"><i class="fas fa-list-ol"></i> Maçların Robot Tahmin Tablosu</h2>
-            <div class="match-table-container">
-                <table class="match-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th id="thHour">Saat</th>
-                            <th id="thLeague">Lig</th>
-                            <th id="thHome">Ev Sahibi</th>
-                            <th id="thAway">Deplasman</th>
-                            <th id="thMsTip">MS Tahmini & Oran</th>
-                            <th id="thTsTip">ALT/ÜST Tahmini & Oran</th>
-                            <th id="thConfidence">Güven</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        </tbody>
-                </table>
-            </div>
+            
+            <div class="match-list">
+                </div>
+            
             <p style="margin-top:20px; font-size: 0.9em; color: rgba(255, 255, 255, 0.7);" id="tableNote">*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir.</p>
         </div>
 
@@ -468,7 +384,6 @@
                 reasonTitle: "**Robot Yorumu:**",
                 couponsHeader: "Robot Kupon Önerileri (Stake 1-10)",
                 couponTotalOdds: "Toplam Oran:", couponConfidence: "Başarı Güven:", couponStake: "Robot Stake:", couponBets: "Bahisler:",
-                couponRiskWarning: "⚠️ Yüksek risk - Sadece düşük miktar/eğlence amaçlı",
                 couponTipAltin: "Altın Kombinasyon", couponTipDeger: "Değerli Fırsat", couponTipAltUst: "Toplam Sayı Odaklı", couponTipCesur: "Yüksek Risk / Yüksek Kazanç",
                 statsHeader: "İstatistiksel ve Risk Analizi",
                 statsMsHeader: "Robot'un MS Tahmin Dağılımı",
@@ -482,7 +397,8 @@
                 riskWarningList: `<li><span style="color: #f44336;">**Çok Riskli Maçlar (50-60%):**</span> Hapoel - Slask (52%), Dongu Promy - Sonicboom (62%)</li><li><span style="color: #f44336;">**Yüksek Handikap Riski:**</span> Cez Nymburk - Usk Praha (-27.5) - Handikap Kapama Riski Yüksek.</li>`,
                 safeComboTitle: "Güvenli Kombinasyon",
                 safeComboList: `<li><span style="color: #4CAF50;">**Robot'un En İyisi:**</span> Neftçi MS1 (-11.5) - Stake: 9/10</li><li><span style="color: #4CAF50;">**Güvenilir İkili:**</span> Neftçi MS1 + Galatasaray MS1 - Stake: 8/10</li>`,
-                footerText: `<p>Basketbol Robot Tahmin Analizleri | Powered by AI | 21 Ekim 2025</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>`
+                footerText: `<p>Basketbol Robot Tahmin Analizleri | Powered by AI | 21 Ekim 2025</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>`,
+                labelTime: "Saat/Lig:", labelMs: "MS Tahmini:", labelTs: "ALT/ÜST Tahmini:", labelConf: "Güven:"
             },
             en: {
                 pageTitle: "🤖 October 21, 2025 Basketball AI Robot Tips",
@@ -497,7 +413,6 @@
                 reasonTitle: "**Robot Comment:**",
                 couponsHeader: "Robot Coupon Suggestions (Stake 1-10)",
                 couponTotalOdds: "Total Odds:", couponConfidence: "Success Confidence:", couponStake: "Robot Stake:", couponBets: "Bets:",
-                couponRiskWarning: "⚠️ High risk - For low stake/entertainment purposes only",
                 couponTipAltin: "Golden Combination", couponTipDeger: "Value Opportunity", couponTipAltUst: "Total Points Focus", couponTipCesur: "High Risk / High Reward",
                 statsHeader: "Statistical and Risk Analysis",
                 statsMsHeader: "Robot's FT Prediction Distribution",
@@ -511,7 +426,8 @@
                 riskWarningList: `<li><span style="color: #f44336;">**High Risk Matches (50-60%):**</span> Hapoel - Slask (52%), Dongu Promy - Sonicboom (62%)</li><li><span style="color: #f44336;">**High Handicap Risk:**</span> Cez Nymburk - Usk Praha (-27.5) - High risk of not covering the spread.</li>`,
                 safeComboTitle: "Safe Combination",
                 safeComboList: `<li><span style="color: #4CAF50;">**Robot's Best:**</span> Neftçi FT1 (-11.5) - Stake: 9/10</li><li><span style="color: #4CAF50;">**Reliable Double:**</span> Neftçi FT1 + Galatasaray FT1 - Stake: 8/10</li>`,
-                footerText: `<p>Basketball Robot Prediction Analysis | Powered by AI | October 21, 2025</p><p>Disclaimer: Betting is a game of chance and carries the risk of loss. Please play responsibly.</p>`
+                footerText: `<p>Basketball Robot Prediction Analysis | Powered by AI | October 21, 2025</p><p>Disclaimer: Betting is a game of chance and carries the risk of loss. Please play responsibly.</p>`,
+                labelTime: "Time/League:", labelMs: "FT Prediction:", labelTs: "O/U Prediction:", labelConf: "Confidence:"
             }
         };
 
@@ -570,10 +486,8 @@
             const handikap_str = handikap_deger ? ` ${yon}${handikap_deger}` : '';
             
             return `
-                <div class="prediction-cell">
-                    <span class="prediction-ms ${ms_tip}">${ms_tip_display}${handikap_str}</span>
-                    <span class="odds-ms">${oran.toFixed(2)}</span>
-                </div>
+                <span class="prediction-ms ${ms_tip}">${ms_tip_display}${handikap_str}</span>
+                <span class="odds-ms">${oran.toFixed(2)}</span>
             `;
         }
         
@@ -591,31 +505,56 @@
             }
 
             return `
-                <div class="prediction-cell">
-                    <span class="prediction-ts ${ts_tip}">${ts_cizgi} ${ts_tip_display}</span>
-                    <span class="odds-ts">${oran.toFixed(2)}</span>
-                </div>
+                <span class="prediction-ts ${ts_tip}">${ts_cizgi} ${ts_tip_display}</span>
+                <span class="odds-ts">${oran.toFixed(2)}</span>
             `;
         }
 
 
-        // Tabloyu Doldurma Fonksiyonu
+        // Tabloyu Doldurma Fonksiyonu (YENİ KART YAPISI)
         function fillTable() {
-            const tbody = document.querySelector('#tab-table .match-table tbody');
-            tbody.innerHTML = '';
+            const container = document.querySelector('#tab-table .match-list');
+            container.innerHTML = '';
+            const lang = langData[currentLang];
+
             detailedData.forEach(match => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${match.id}</td>
-                    <td>${match.saat}</td>
-                    <td>${match.lig}</td>
-                    <td style="text-align: left; font-weight: bold;">${match.ev}</td>
-                    <td style="text-align: left; font-weight: bold;">${match.dep}</td>
-                    <td>${formatMSTahmin(match)}</td>
-                    <td>${formatTSTahmin(match)}</td>
-                    <td><span class="${getConfidenceClass(match.guven)}">${match.guven}% ${getStarRating(match.guven)}</span></td>
+                const card = document.createElement('div');
+                card.classList.add('match-card');
+                
+                card.innerHTML = `
+                    <div class="match-header">
+                        <div class="match-title">${match.ev} vs ${match.dep}</div>
+                        <div class="match-meta">
+                            <span>#${match.id}</span>
+                            <span>${match.saat}</span>
+                            <span>${match.lig}</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-section">
+                        <div class="prediction-row">
+                            <span class="prediction-label">${lang.labelMs}</span>
+                            <div class="prediction-detail">
+                                ${formatMSTahmin(match)}
+                            </div>
+                        </div>
+
+                        <div class="prediction-row">
+                            <span class="prediction-label">${lang.labelTs}</span>
+                            <div class="prediction-detail">
+                                ${formatTSTahmin(match)}
+                            </div>
+                        </div>
+
+                        <div class="prediction-row" style="background-color: rgba(0, 188, 212, 0.1);">
+                            <span class="prediction-label">${lang.labelConf}</span>
+                            <div class="prediction-detail">
+                                <span class="confidence-cell ${getConfidenceClass(match.guven)}">${match.guven}% ${getStarRating(match.guven)}</span>
+                            </div>
+                        </div>
+                    </div>
                 `;
-                tbody.appendChild(tr);
+                container.appendChild(card);
             });
         }
 
@@ -656,13 +595,13 @@
                     <h4><i class="fas fa-microchip"></i> ${match.ev} <span style="color:var(--light-yellow)">vs</span> ${match.dep} (${match.lig} | ${match.saat}) <span class="odds-badge">${lang.thConfidence}: ${match.guven}% ${getStarRating(match.guven)}</span></h4>
                     
                     <p>
-                        <strong>${lang.thMsTip.split(' ')[0]} ${lang.thMsTip.split(' ')[1]}:</strong> 
+                        <strong>${lang.labelMs}:</strong> 
                         <span class="prediction-ms ${ms_tip}">${ms_handicap_text}</span> 
                         (${lang.thMsTip.split(' ')[3]}: <span class="odds-badge">${ms_oran.toFixed(2)}</span>)
                     </p>
                     
                     <p>
-                        <strong>${lang.thTsTip.split(' ')[0]} ${lang.thTsTip.split(' ')[1]}:</strong> 
+                        <strong>${lang.labelTs}:</strong> 
                         <span class="prediction-ts ${ts_tip}">${ts_text}</span>
                         (${lang.thMsTip.split(' ')[3]}: <span class="odds-badge">${ts_oran.toFixed(2)}</span>)
                     </p>
@@ -725,15 +664,8 @@
             document.getElementById('tabBtnCoupons').innerHTML = `<i class="fas fa-ticket-alt"></i> ${data.tabBtnCoupons}`;
             document.getElementById('tabBtnStats').innerHTML = `<i class="fas fa-chart-bar"></i> ${data.tabBtnStats}`;
 
-            // Tablo Başlıkları
+            // Tablo Başlıkları (Kart yapısında kullanmak için)
             document.getElementById('tableHeader').innerHTML = `<i class="fas fa-list-ol"></i> ${data.tableHeader}`;
-            document.getElementById('thHour').textContent = data.thHour;
-            document.getElementById('thLeague').textContent = data.thLeague;
-            document.getElementById('thHome').textContent = data.thHome;
-            document.getElementById('thAway').textContent = data.thAway;
-            document.getElementById('thMsTip').textContent = data.thMsTip;
-            document.getElementById('thTsTip').textContent = data.thTsTip;
-            document.getElementById('thConfidence').textContent = data.thConfidence;
             document.getElementById('tableNote').innerHTML = data.tableNote;
 
             // Diğer Başlıklar
@@ -780,7 +712,7 @@
             });
         });
 
-        // Sekme İşleyicisi (Önceki ile aynı)
+        // Sekme İşleyicisi
         document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', () => {
                 const targetTabId = button.getAttribute('data-tab');
