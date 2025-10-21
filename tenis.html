@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenis Robot Analiz - AI Tips</title>
+    <style>
+        /*
+        ----------------------------------
+        GENEL STİL VE TEMEL TANIMLAR
+        ----------------------------------
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Renk Paleti Tanımları */
+        :root {
+            --color-ai-dark: #102A43; /* Koyu Mavi/AI */
+            --color-ai-medium: #336699; /* Orta Mavi/AI */
+            --color-tennis-neon: #CCFF00; /* Neon Sarı/Tenis Topu */
+            --color-tennis-green: #4CAF50; /* Yeşil/Güven */
+            --color-accent-dark: #1A1A1A; /* Siyah/Kontrast */
+            --color-text-light: #F0F4F8; /* Açık Gri/Metin */
+            --color-bg-base: #0D1B2A; /* Çok Koyu Arkaplan */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--color-bg-base) 0%, #08121d 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--color-text-light); /* Metin rengi genel olarak açık */
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /*
+        ----------------------------------
+        HEADER & BAŞLIKLAR (AI & NEON TEMA)
+        ----------------------------------
+        */
+        .header {
+            background: linear-gradient(135deg, var(--color-ai-medium) 0%, var(--color-ai-dark) 100%);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 20px var(--color-tennis-neon); /* AI neon ışık efekti */
+            margin-bottom: 30px;
+            border: 6px solid var(--color-tennis-neon);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(204, 255, 0, 0.1),
+                rgba(204, 255, 0, 0.1) 5px,
+                transparent 5px,
+                transparent 10px
+            );
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center; /* Ortalamayı garantiler */
+        }
+
+        .top-title {
+            font-size: 1.4em;
+            color: var(--color-tennis-neon);
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px var(--color-tennis-neon);
+        }
+
+        .powered-by {
+            font-size: 1em;
+            color: var(--color-text-light);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--color-ai-dark);
+            border: 1px solid var(--color-tennis-neon);
+            border-radius: 10px;
+        }
+
+        /* Başlıklar için yeni CSS düzenlemesi */
+        .main-header-group {
+            color: var(--color-tennis-neon);
+            text-shadow: 0 0 15px var(--color-tennis-neon), 0 0 5px var(--color-ai-medium);
+            margin-bottom: 10px;
+            font-weight: 900;
+            line-height: 1.1;
+            display: flex; 
+            flex-direction: column; /* Alt alta dizmek için */
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Başlıklar arası boşluk */
+        }
+        
+        .main-header-group h1 {
+            font-size: 2.8em; 
+            margin: 0; /* h1'in varsayılan marginini sıfırla */
+        }
+        
+        .main-header-group .sub-header-text {
+            font-size: 2.2em; /* İkinci satır daha küçük olabilir */
+            margin-top: -5px; /* Birbirine yaklaştırma */
+        }
+
+        /* Robot ve Tenis ikonu stilini ayarla */
+        .header-main-icon {
+            display: inline-block;
+            font-size: 1.5em; /* Yazıya göre boyutu */
+            animation: bounce 2s infinite;
+            vertical-align: middle; /* Metinle dikeyde hizalama */
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); } 
+        }
+
+        /*
+        ----------------------------------
+        SİSTEM ONLİNE & DİL SEÇİMİ
+        ----------------------------------
+        */
+        .status-and-lang {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 10;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            background-color: var(--color-accent-dark);
+            color: var(--color-tennis-neon);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            border: 2px solid var(--color-tennis-green);
+        }
+
+        .status-light {
+            width: 12px;
+            height: 12px;
+            background-color: var(--color-tennis-green); 
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 8px var(--color-tennis-green);
+            animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { opacity: 1; box-shadow: 0 0 8px var(--color-tennis-green); }
+            to { opacity: 0.4; box-shadow: none; }
+        }
+
+        .language-switch {
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 5px 10px;
+            border: 2px solid var(--color-ai-medium);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+            font-size: 0.8em;
+            background-color: var(--color-ai-dark);
+            color: var(--color-text-light);
+        }
+
+        .lang-btn:hover {
+            background-color: var(--color-ai-medium);
+            color: var(--color-tennis-neon);
+        }
+
+        .lang-btn.active-lang {
+            background-color: var(--color-tennis-neon);
+            color: var(--color-accent-dark);
+            border-color: var(--color-accent-dark);
+        }
+
+        /*
+        ----------------------------------
+        SEKMELER (TABS) - KESKİN GEÇİŞLER
+        ----------------------------------
+        */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab {
+            padding: 15px 30px; 
+            /* PASİF: Koyu AI Teması */
+            background: var(--color-ai-dark);
+            border: 3px solid var(--color-ai-medium); 
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1em; /* Daha belirgin punto */
+            font-weight: 800;
+            color: var(--color-tennis-neon);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+        }
+
+        .tab:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 10px var(--color-tennis-neon);
+        }
+
+        .tab.active {
+            /* AKTİF: Ters Renk (Neon Sarı) */
+            background: linear-gradient(135deg, var(--color-tennis-neon) 0%, #DDFF55 100%);
+            color: var(--color-accent-dark);
+            border-color: var(--color-accent-dark);
+            transform: scale(1.05); 
+            box-shadow: 0 0 20px var(--color-tennis-neon);
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /*
+        ----------------------------------
+        KART YAPILARI (MATCH CARDS & SUMMARY)
+        ----------------------------------
+        */
+        .match-card {
+            background: var(--color-ai-dark); /* Koyu AI Arkaplan */
+            border: 4px solid var(--color-ai-medium);
+            border-radius: 20px;
+            padding: 25px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 10px var(--color-ai-medium);
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px dashed var(--color-tennis-neon); /* Neon ayrım çizgisi */
+            flex-wrap: wrap; 
+        }
+
+        .players {
+            font-size: 1.6em; 
+            font-weight: 900;
+            color: var(--color-text-light);
+            text-shadow: 1px 1px 0 var(--color-ai-dark);
+            word-break: break-word; 
+        }
+
+        .prediction {
+            background: linear-gradient(135deg, var(--color-tennis-neon) 0%, #DDFF55 100%);
+            padding: 10px 20px; 
+            border-radius: 15px;
+            border: 3px solid var(--color-accent-dark);
+            font-weight: 900;
+            color: var(--color-accent-dark);
+            margin-top: 5px; 
+        }
+
+        /* İstatistik Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--color-ai-medium) 0%, var(--color-ai-dark) 100%);
+            padding: 15px; 
+            border-radius: 12px;
+            border: 2px solid var(--color-tennis-neon);
+            color: var(--color-text-light);
+            line-height: 1.3;
+            box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.9em; 
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.2em; 
+            font-weight: 900;
+            color: var(--color-tennis-neon);
+        }
+
+        /* Güven Barı */
+        .confidence-bar {
+            height: 30px; 
+            background: var(--color-ai-dark);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid var(--color-tennis-neon);
+            margin-top: 15px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-tennis-neon) 0%, #DDFF55 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: var(--color-accent-dark);
+            transition: width 1s ease-out;
+            font-size: 1em; 
+            white-space: nowrap; 
+            overflow: hidden;
+            padding: 0 10px;
+        }
+
+        /* Tavsiye Kutusu */
+        .recommendation {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 900;
+            border: 3px solid var(--color-accent-dark);
+            margin-top: 15px;
+            font-size: 1em; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .rec-strong { 
+            background: linear-gradient(135deg, var(--color-tennis-green) 0%, #66BB6A 100%); 
+            color: var(--color-accent-dark); /* Güçlü tavsiye için siyah metin */
+            border-color: var(--color-accent-dark);
+        }
+        .rec-medium { 
+            background: linear-gradient(135deg, var(--color-tennis-neon) 0%, #DDFF55 100%); 
+            color: var(--color-accent-dark); 
+            border-color: var(--color-accent-dark);
+        }
+        .rec-wait { 
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%); 
+            color: var(--color-accent-dark); 
+            border-color: var(--color-accent-dark);
+        }
+
+        /*
+        ----------------------------------
+        GENEL BAKIŞ (OVERVIEW)
+        ----------------------------------
+        */
+        .summary-box {
+            background: linear-gradient(135deg, #102A43 0%, #0D1B2A 100%); /* Koyu AI */
+            border: 5px solid var(--color-tennis-neon);
+            border-radius: 20px;
+            padding: 30px; 
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        .summary-title {
+            font-size: 2.2em; 
+            font-weight: 900;
+            color: var(--color-tennis-neon);
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 0 10px var(--color-tennis-neon);
+        }
+
+        .top-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px;
+        }
+
+        .pick-card {
+            background: linear-gradient(145deg, var(--color-ai-medium), var(--color-ai-dark));
+            border: 3px solid var(--color-tennis-green);
+            border-radius: 18px;
+            padding: 20px; 
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .pick-card:hover {
+            transform: scale(1.03);
+        }
+
+        .pick-number {
+            font-size: 3em; 
+            font-weight: 900;
+            color: var(--color-tennis-neon);
+            text-shadow: 0 0 5px var(--color-tennis-neon);
+        }
+
+        .pick-name {
+            font-size: 1.5em; 
+            font-weight: 900;
+            color: var(--color-text-light);
+            margin: 10px 0;
+            text-transform: uppercase;
+        }
+        
+        /* Genel İstatistik Kartı */
+        .overview-stats .stat-box {
+            border: 2px solid var(--color-ai-medium);
+        }
+        
+        /*
+        ----------------------------------
+        MOBİL UYUMLULUK (MEDIA QUERIES)
+        ----------------------------------
+        */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
+            .status-and-lang {
+                position: static;
+                margin-top: 10px;
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            
+             .system-status {
+                order: 2;
+                margin-bottom: 0;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .language-switch {
+                order: 1;
+            }
+
+            .main-header-group h1 {
+                font-size: 1.8em; 
+            }
+            
+            .main-header-group .sub-header-text {
+                font-size: 1.4em;
+            }
+            
+            .header-main-icon {
+                font-size: 1.2em;
+            }
+
+            .tab {
+                padding: 10px 15px;
+                font-size: 0.9em;
+                flex-grow: 1; 
+            }
+            
+            .match-card {
+                padding: 15px;
+            }
+            
+            .players {
+                font-size: 1.3em;
+            }
+
+            .prediction {
+                font-size: 0.9em;
+                padding: 8px 12px;
+            }
+            
+            .match-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .stats-grid {
+                 grid-template-columns: 1fr 1fr; 
+            }
+
+            .stat-box {
+                padding: 12px;
+            }
+            
+             .stat-value {
+                font-size: 1em;
+            }
+
+            .confidence-fill, .recommendation {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+    <script>
+        // Dil çevirileri için JSON nesnesi
+        const translations = {
+            tr: {
+                topTitle: "Tenis Ai Robot Tips",
+                poweredBy: "Powered by Ai",
+                mainHeader: "ROBOT DESTEKLİ", // Yeni Ana Başlık
+                subHeader: "TENİS TAHMİNLERİ", // Yeni Alt Başlık
+                systemOnline: "SİSTEM ONLİNE",
+                tabOverview: "📊 GENEL BAKIŞ",
+                tabWTA: "👩 WTA MAÇLARI",
+                tabATP: "👨 ATP MAÇLARI",
+                tabStats: "📈 İSTATİSTİKLER",
+                summaryTitle: "🏆 GÜNÜN EN İYİ 3 TAHMİNİ",
+                picksLevel: "Güven Seviyesi",
+                picksLevelValue: "⭐⭐⭐ YÜKSEK",
+                statsTitle: "📊 GENEL İSTATİSTİKLER",
+                totalMatches: "Toplam Maç",
+                highConfidence: "Yüksek Güven",
+                mediumConfidence: "Orta Güven",
+                wait: "Bekle",
+                form: "Form",
+                h2h: "H2H",
+                serve: "Servis", 
+                scorePrediction: "Skor Tahmini",
+                recHigh: "✅ YÜKSEK GÜVENLİ",
+                recMedium: "⚠️ ORTA GÜVENLİ - DİKKATLİ",
+                recLow: "❌ DÜŞÜK GÜVENLİ",
+                recStrongAdvice: "💪 TAVSİYE: GÜÇLÜ",
+                recMediumAdvice: "💡 TAVSİYE: ORTA",
+                recWaitAdvice: "⏸️ TAVSİYE: BEKLE",
+                recRisky: "❌ DÜŞÜK GÜVENLİ - RİSKLİ",
+                statsGraphTitle: "📈 TAHMİN PERFORMANS GRAFİĞİ",
+                statsSuccessRate: "(%70 Genel Başarı Oranı)",
+                confidenceExplanations: "GÜVEN SEVİYESİ AÇIKLAMALARI",
+                highConfDesc: "YÜKSEK GÜVEN:",
+                mediumConfDesc: "ORTA GÜVEN:",
+                lowConfDesc: "DÜŞÜK GÜVEN:",
+                confValueHigh: "Güven %75+",
+                confValueMedium: "Güven %55-74",
+                confValueLow: "Güven %55-",
+                kesslerNote: "Kessler formu daha iyi!",
+                mbokoNote: "Lys servis üstün",
+                shnaiderNote: "Form farkı çok net!",
+                osorioNote: "H2H vs Form çelişkisi",
+                wangNote: "En belirsiz maç!",
+                humbertNote: "Return avantajı büyük!",
+                berrettiniNote: "Berrettini sakatlık sonrası!",
+                fokinaNote: "Fokina formda",
+                grieekspoorNote: "Dengeli maç",
+                mensikNote: "Form ve Servis üstünlüğü",
+                mbokoLysNote: "Çok dengeli maç",
+            },
+            en: {
+                topTitle: "Tennis Ai Robot Tips",
+                poweredBy: "Powered by Ai",
+                mainHeader: "ROBOT-AIDED", // Yeni Ana Başlık
+                subHeader: "TENNIS PREDICTIONS", // Yeni Alt Başlık
+                systemOnline: "SYSTEM ONLINE",
+                tabOverview: "📊 OVERVIEW",
+                tabWTA: "👩 WTA MATCHES",
+                tabATP: "👨 ATP MATCHES",
+                tabStats: "📈 STATISTICS",
+                summaryTitle: "🏆 TODAY'S TOP 3 PICKS",
+                picksLevel: "Confidence Level",
+                picksLevelValue: "⭐⭐⭐ HIGH",
+                statsTitle: "📊 GENERAL STATISTICS",
+                totalMatches: "Total Matches",
+                highConfidence: "High Confidence",
+                mediumConfidence: "Medium Confidence",
+                wait: "Wait",
+                form: "Form",
+                h2h: "H2H",
+                serve: "Serve", 
+                scorePrediction: "Score Prediction",
+                recHigh: "✅ HIGH CONFIDENCE",
+                recMedium: "⚠️ MEDIUM CONFIDENCE - CAREFUL",
+                recLow: "❌ LOW CONFIDENCE",
+                recStrongAdvice: "💪 ADVICE: STRONG",
+                recMediumAdvice: "💡 ADVICE: MEDIUM",
+                recWaitAdvice: "⏸️ ADVICE: WAIT",
+                recRisky: "❌ LOW CONFIDENCE - RISKY",
+                statsGraphTitle: "📈 PREDICTION PERFORMANCE CHART",
+                statsSuccessRate: "(70% General Success Rate)",
+                confidenceExplanations: "CONFIDENCE LEVEL EXPLANATIONS",
+                highConfDesc: "HIGH CONFIDENCE:",
+                mediumConfDesc: "MEDIUM CONFIDENCE:",
+                lowConfDesc: "LOW CONFIDENCE:",
+                confValueHigh: "Confidence 75%+",
+                confValueMedium: "Confidence 55-74%",
+                confValueLow: "Confidence 55%-",
+                kesslerNote: "Kessler in better form!",
+                mbokoNote: "Lys serve superior",
+                shnaiderNote: "Form difference is clear!",
+                osorioNote: "H2H vs Form conflict",
+                wangNote: "Most uncertain match!",
+                humbertNote: "Big return advantage!",
+                berrettiniNote: "Berrettini post-injury!",
+                fokinaNote: "Fokina in good form",
+                grieekspoorNote: "Balanced match",
+                mensikNote: "Form and Serve advantage",
+                mbokoLysNote: "Very balanced match",
+            }
+        };
+
+        let currentLang = 'tr';
+
+        function switchTab(tabId, element) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        }
+        
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            // 1. Başlık Alanı
+            document.getElementById('top-title').textContent = t.topTitle;
+            document.getElementById('powered-by').textContent = t.poweredBy;
+            document.getElementById('main-header-text').textContent = t.mainHeader; 
+            document.getElementById('sub-header-text').textContent = t.subHeader; // Yeni alt başlık
+            document.getElementById('system-online-text').textContent = t.systemOnline;
+
+            // 2. Sekmeler (Tabs)
+            const tabElements = document.querySelectorAll('.tabs .tab');
+            tabElements[0].textContent = t.tabOverview;
+            tabElements[1].textContent = t.tabWTA;
+            tabElements[2].textContent = t.tabATP;
+            tabElements[3].textContent = t.tabStats;
+            
+            // 3. Genel Bakış Alanı
+            document.getElementById('summary-title').textContent = t.summaryTitle;
+            document.querySelectorAll('.pick-level-label').forEach(el => el.textContent = t.picksLevel);
+            document.querySelectorAll('.pick-level-value').forEach(el => el.textContent = t.picksLevelValue);
+            document.getElementById('general-stats-title').textContent = t.statsTitle;
+            document.getElementById('total-matches-label').textContent = t.totalMatches;
+            document.getElementById('high-conf-label').textContent = t.highConfidence;
+            document.querySelectorAll('#medium-conf-label').forEach(el => el.textContent = t.mediumConfidence);
+            document.getElementById('wait-label').textContent = t.wait;
+            
+            // 4. Maç Kartı Etiketleri ve Tavsiyeler (Tüm istatistik etiketlerini "Servis" veya sabit olanları kullan)
+            document.querySelectorAll('[data-label-key="form"]').forEach(el => el.textContent = t.form);
+            document.querySelectorAll('[data-label-key="h2h"]').forEach(el => el.textContent = t.h2h);
+            
+            // Tüm servis/return/puan etiketleri artık "Servis" olacak 
+            document.querySelectorAll('[data-label-key="serve"]').forEach(el => el.textContent = t.serve);
+            document.querySelectorAll('[data-label-key="return"]').forEach(el => el.textContent = t.serve); 
+            document.querySelectorAll('[data-label-key="1stServePoints"]').forEach(el => el.textContent = t.serve); 
+            document.querySelectorAll('[data-label-key="breakConversion"]').forEach(el => el.textContent = t.serve); 
+            
+            // Skor tahmini etiketleri
+            document.querySelectorAll('[data-label-key="scorePrediction"]').forEach(el => el.textContent = t.scorePrediction);
+            
+            // Confidence Bar ve Tavsiyeler (JavaScript'ten çekilenler)
+            document.getElementById('kessler-conf').textContent = t.recMedium;
+            document.getElementById('kessler-rec-advice').innerHTML = t.recMediumAdvice + (lang === 'tr' ? `: ${t.kesslerNote}` : `: ${t.kesslerNote}`);
+            
+            document.getElementById('mboko-conf').textContent = t.recMedium;
+            document.getElementById('mboko-rec-advice').innerHTML = t.recMediumAdvice + (lang === 'tr' ? `: ${t.mbokoLysNote}` : `: ${t.mbokoLysNote}`);
+            
+            document.getElementById('shnaider-conf').textContent = t.recHigh;
+            document.getElementById('shnaider-rec-advice').innerHTML = t.recStrongAdvice + (lang === 'tr' ? `: ${t.shnaiderNote}` : `: ${t.shnaiderNote}`);
+            
+            document.getElementById('osorio-conf').textContent = t.recMedium;
+            document.getElementById('osorio-rec-advice').innerHTML = t.recMediumAdvice + (lang === 'tr' ? `: ${t.osorioNote}` : `: ${t.osorioNote}`);
+            
+            document.getElementById('wang-conf').textContent = t.recLow;
+            document.getElementById('wang-rec-advice').innerHTML = t.recWaitAdvice + (lang === 'tr' ? `: ${t.wangNote}` : `: ${t.wangNote}`);
+            
+            document.getElementById('humbert-conf').textContent = t.recHigh;
+            document.getElementById('humbert-rec-advice').innerHTML = t.recStrongAdvice + (lang === 'tr' ? `: ${t.humbertNote}` : `: ${t.humbertNote}`);
+            
+            document.getElementById('berrettini-conf').textContent = t.recRisky;
+            document.getElementById('berrettini-rec-advice').innerHTML = t.recWaitAdvice + (lang === 'tr' ? `: ${t.berrettiniNote}` : `: ${t.berrettiniNote}`);
+            
+            document.getElementById('fokina-conf').textContent = t.recMedium;
+            document.getElementById('fokina-rec-advice').innerHTML = t.recMediumAdvice + (lang === 'tr' ? `: ${t.fokinaNote}` : `: ${t.fokinaNote}`);
+            
+            document.getElementById('nakashima-conf').textContent = t.recMedium;
+            document.getElementById('nakashima-rec-advice').innerHTML = t.recMediumAdvice + (lang === 'tr' ? `: ${t.grieekspoorNote}` : `: ${t.grieekspoorNote}`);
+            
+            document.getElementById('mensik-conf').textContent = t.recHigh;
+            document.getElementById('mensik-rec-advice').innerHTML = t.recStrongAdvice + (lang === 'tr' ? `: ${t.mensikNote}` : `: ${t.mensikNote}`);
+
+            // 5. İstatistikler Sayfası
+            document.getElementById('stats-graph-title').textContent = t.statsGraphTitle;
+            document.getElementById('stats-success-rate').textContent = t.statsSuccessRate;
+            document.getElementById('conf-exp-title').textContent = t.confidenceExplanations;
+            document.getElementById('high-conf-desc').textContent = t.highConfDesc;
+            document.getElementById('medium-conf-desc').textContent = t.mediumConfDesc;
+            document.getElementById('low-conf-desc').textContent = t.lowConfDesc;
+            document.getElementById('high-conf-value').textContent = t.confValueHigh;
+            document.getElementById('medium-conf-value').textContent = t.confValueMedium;
+            document.getElementById('low-conf-value').textContent = t.confValueLow;
+
+            // Dil Butonlarını Güncelle
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active-lang');
+            });
+            document.getElementById('lang-' + lang).classList.add('active-lang');
+            document.documentElement.lang = lang;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Varsayılan olarak ilk sekme ve Türkçe seçili olsun
+            const defaultTab = document.querySelector('.tab[onclick*="overview"]');
+            if (defaultTab) {
+                document.getElementById('overview').classList.add('active');
+                defaultTab.classList.add('active');
+            }
+            changeLanguage('tr'); 
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="status-and-lang">
+                 <div class="language-switch">
+                    <div id="lang-tr" class="lang-btn active-lang" onclick="changeLanguage('tr')">TÜRKÇE</div>
+                    <div id="lang-en" class="lang-btn" onclick="changeLanguage('en')">ENGLISH</div>
+                </div>
+                <div class="system-status">
+                    <div class="status-light"></div>
+                    <span id="system-online-text">SİSTEM ONLİNE</span>
+                </div>
+            </div>
+            
+            <div class="header-content">
+                <div id="top-title" class="top-title">Tenis Ai Robot Tips</div>
+                <div id="powered-by" class="powered-by">Powered by Ai</div>
+                
+                <div class="main-header-group">
+                    <h1 id="main-header-text">ROBOT DESTEKLİ</h1>
+                    <div id="sub-header-text" class="sub-header-text">TENİS TAHMİNLERİ</div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 10px;">
+                    <span class="header-main-icon">🤖</span> <span class="header-main-icon">🎾</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab" onclick="switchTab('overview', this)">📊 GENEL BAKIŞ</div>
+            <div class="tab" onclick="switchTab('wta', this)">👩 WTA MAÇLARI</div>
+            <div class="tab" onclick="switchTab('atp', this)">👨 ATP MAÇLARI</div>
+            <div class="tab" onclick="switchTab('stats', this)">📈 İSTATİSTİKLER</div>
+        </div>
+
+        <div id="overview" class="content">
+            <div id="summary-box" class="summary-box">
+                <div id="summary-title" class="summary-title">🏆 GÜNÜN EN İYİ 3 TAHMİNİ</div>
+                <div class="top-picks">
+                    <div class="pick-card">
+                        <div class="pick-number">1</div>
+                        <div class="pick-name">SHNAIDER</div>
+                        <div class="stat-box" style="margin-top: 15px;">
+                            <div class="stat-label pick-level-label">Güven Seviyesi</div>
+                            <div class="stat-value pick-level-value">⭐⭐⭐ YÜKSEK</div>
+                        </div>
+                    </div>
+                    <div class="pick-card">
+                        <div class="pick-number">2</div>
+                        <div class="pick-name">HUMBERT</div>
+                        <div class="stat-box" style="margin-top: 15px;">
+                            <div class="stat-label pick-level-label">Güven Seviyesi</div>
+                            <div class="stat-value pick-level-value">⭐⭐⭐ YÜKSEK</div>
+                        </div>
+                    </div>
+                    <div class="pick-card">
+                        <div class="pick-number">3</div>
+                        <div class="pick-name">MENSIK</div>
+                        <div class="stat-box" style="margin-top: 15px;">
+                            <div class="stat-label pick-level-label">Güven Seviyesi</div>
+                            <div class="stat-value pick-level-value">⭐⭐⭐ YÜKSEK</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-card overview-stats">
+                <div class="match-header">
+                    <div id="general-stats-title" class="players">📊 GENEL İSTATİSTİKLER</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div id="total-matches-label" class="stat-label">Toplam Maç</div>
+                        <div class="stat-value">10</div>
+                    </div>
+                    <div class="stat-box">
+                        <div id="high-conf-label" class="stat-label">Yüksek Güven</div>
+                        <div class="stat-value">3 Maç</div>
+                    </div>
+                    <div class="stat-box">
+                        <div id="medium-conf-label" class="stat-label">Orta Güven</div>
+                        <div class="stat-value">5 Maç</div>
+                    </div>
+                    <div class="stat-box">
+                        <div id="wait-label" class="stat-label">Bekle</div>
+                        <div class="stat-value">2 Maç</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wta" class="content">
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">KESSLER 🆚 NOSKOVA</div>
+                    <div class="prediction">🤖 NOSKOVA</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Kessler: 4G-1M | Noskova: 3G-2M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Noskova 1-0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Noskova %68 | Kessler %63</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-1</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="kessler-conf" class="confidence-fill" style="width: 60%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div>
+                </div>
+                <div id="kessler-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - Kessler formu daha iyi!</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">MBOKO 🆚 LYS</div>
+                    <div class="prediction">🤖 MBOKO</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Her İkisi: 4G-1M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Mboko 1-0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="return" class="stat-label">Servis</div>
+                        <div class="stat-value">Mboko %51 | Lys %49</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-0</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="mboko-conf" class="confidence-fill" style="width: 65%;">⚠️ ORTA - Lys servis üstün</div>
+                </div>
+                <div id="mboko-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - Çok dengeli maç</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">SHNAIDER 🆚 KALINSKAYA</div>
+                    <div class="prediction">🤖 SHNAIDER ⭐⭐⭐</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Shnaider: 4G-1M | Kalinskaya: 2G-3M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">İlk Maç</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="return" class="stat-label">Servis</div>
+                        <div class="stat-value">Shnaider Agresif</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-0</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="shnaider-conf" class="confidence-fill" style="width: 85%;">✅ YÜKSEK GÜVENLİ</div>
+                </div>
+                <div id="shnaider-rec-advice" class="recommendation rec-strong">💪 TAVSİYE: GÜÇLÜ - Form farkı çok net!</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">OSORIO 🆚 LI</div>
+                    <div class="prediction">🤖 OSORIO</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Osorio: 2G-3M | Li: 3G-2M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Osorio 2-0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Osorio %64.3 | Li %53.4</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-1</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="osorio-conf" class="confidence-fill" style="width: 60%;">⚠️ ORTA - Li formu daha iyi</div>
+                </div>
+                <div id="osorio-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - H2H vs Form çelişkisi</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">WANG 🆚 COCCIARETTO</div>
+                    <div class="prediction">🤖 WANG</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Her İkisi: 3G-2M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Cocciaretto 2-1</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Wang %71</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-1</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="wang-conf" class="confidence-fill" style="width: 45%;">❌ DÜŞÜK GÜVENLİ</div>
+                </div>
+                <div id="wang-rec-advice" class="recommendation rec-wait">⏸️ TAVSİYE: BEKLE - En belirsiz maç!</div>
+            </div>
+        </div>
+
+        <div id="atp" class="content">
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">KORDA 🆚 HUMBERT</div>
+                    <div class="prediction">🤖 HUMBERT ⭐⭐⭐</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Korda: 3G-2M | Humbert: 4G-1M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Humbert 1-0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="1stServePoints" class="stat-label">Servis</div>
+                        <div class="stat-value">Humbert %74 | Korda %68</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div> 
+                        <div class="stat-value">2-0</div> 
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="humbert-conf" class="confidence-fill" style="width: 85%;">✅ YÜKSEK GÜVENLİ</div>
+                </div>
+                <div id="humbert-rec-advice" class="recommendation rec-strong">💪 TAVSİYE: GÜÇLÜ - Return avantajı büyük!</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">POPYRIN 🆚 BERRETTINI</div>
+                    <div class="prediction">🤖 BERRETTINI</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Popyrin: 2G-3M | Berrettini: 2G-3M</div> 
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Berrettini 2-1</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Berrettini Güçlü</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-1</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="berrettini-conf" class="confidence-fill" style="width: 50%;">❌ DÜŞÜK GÜVENLİ - RİSKLİ</div>
+                </div>
+                <div id="berrettini-rec-advice" class="recommendation rec-wait">⏸️ TAVSİYE: BEKLE - Berrettini sakatlık sonrası!</div>
+            </div>
+            
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">BROOKSBY 🆚 FOKINA</div>
+                    <div class="prediction">🤖 FOKINA</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Brooksby: 2G-3M | Fokina: 3G-2M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">Fokina 2-0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Fokina: %65</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-0</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="fokina-conf" class="confidence-fill" style="width: 70%;">⚠️ ORTA GÜVENLİ</div>
+                </div>
+                <div id="fokina-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - Fokina formda</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">GRIEKSPOOR 🆚 NAKASHIMA</div>
+                    <div class="prediction">🤖 GRIEKSPOOR</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Griekspoor: 3G-2M | Nakashima: 2G-3M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">1-1 Eşit</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Griekspoor Sert</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-1</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="nakashima-conf" class="confidence-fill" style="width: 65%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div>
+                </div>
+                <div id="nakashima-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - Dengeli maç</div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="players">MENSIK 🆚 FONSECA</div>
+                    <div class="prediction">🤖 MENSIK ⭐⭐⭐</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div data-label-key="form" class="stat-label">Form</div>
+                        <div class="stat-value">Mensik: 4G-1M | Fonseca: 2G-3M</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="h2h" class="stat-label">H2H</div>
+                        <div class="stat-value">İlk Maç</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="serve" class="stat-label">Servis</div>
+                        <div class="stat-value">Mensik Hızlı</div>
+                    </div>
+                    <div class="stat-box">
+                        <div data-label-key="scorePrediction" class="stat-label">Skor Tahmini</div>
+                        <div class="stat-value">2-0</div>
+                    </div>
+                </div>
+                <div class="confidence-bar">
+                    <div id="mensik-conf" class="confidence-fill" style="width: 80%;">✅ YÜKSEK GÜVENLİ</div>
+                </div>
+                <div id="mensik-rec-advice" class="recommendation rec-strong">💪 TAVSİYE: GÜÇLÜ - Form ve Servis üstünlüğü</div>
+            </div>
+        </div>
+        
+        <div id="stats" class="content">
+            <div class="summary-box">
+                <div id="stats-graph-title" class="summary-title">📈 TAHMİN PERFORMANS GRAFİĞİ</div>
+                <p id="stats-success-rate" style="text-align: center; font-size: 1.1em; font-weight: 700; color: var(--color-text-light);">(%70 Genel Başarı Oranı)</p>
+                <div class="match-card" style="margin-top: 20px;">
+                    <div class="match-header">
+                        <div id="conf-exp-title" class="players">GÜVEN SEVİYESİ AÇIKLAMALARI</div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-box rec-strong">
+                            <div id="high-conf-desc" class="stat-label">YÜKSEK GÜVEN:</div>
+                            <div id="high-conf-value" class="stat-value" style="color: var(--color-accent-dark);">Güven %75+</div>
+                        </div>
+                        <div class="stat-box rec-medium" style="color: var(--color-accent-dark); background: linear-gradient(135deg, var(--color-tennis-neon) 0%, #DDFF55 100%);">
+                            <div id="medium-conf-desc" class="stat-label" style="opacity: 0.9; color: var(--color-accent-dark);">ORTA GÜVEN:</div>
+                            <div id="medium-conf-value" class="stat-value" style="color: var(--color-accent-dark);">Güven %55-74</div>
+                        </div>
+                        <div class="stat-box rec-wait">
+                            <div id="low-conf-desc" class="stat-label">DÜŞÜK GÜVEN:</div>
+                            <div id="low-conf-value" class="stat-value" style="color: var(--color-accent-dark);">Güven %55-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
