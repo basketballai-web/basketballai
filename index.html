@@ -232,15 +232,17 @@
             gap: 10px;
         }
         
-        /* Tahmin Vurguları (Önceki stillerle aynı) */
+        /* Tahmin Vurguları */
         .prediction-ms, .prediction-ts, .odds-ms, .odds-ts {
             padding: 4px 8px;
             border-radius: 5px;
             display: inline-block;
         }
         
-        .prediction-ms.MS1 { background-color: #4CAF50; color: var(--white-text); } /* Yeşil */
-        .prediction-ms.MS2 { background-color: #f44336; color: var(--white-text); } /* Kırmızı */
+        /* MS1 (Ev Sahibi Favori) */
+        .prediction-ms.MS1 { background-color: #4CAF50; color: var(--white-text); } 
+        /* MS2 (Deplasman Favori) */
+        .prediction-ms.MS2 { background-color: #f44336; color: var(--white-text); } 
         .odds-ms { background-color: var(--light-yellow); color: var(--dark-blue); font-size: 0.9em; }
 
         .prediction-ts.ALT { background-color: #2196F3; color: var(--white-text); } /* Mavi */
@@ -256,14 +258,12 @@
         .confidence-medium { background-color: rgba(255, 235, 59, 0.2); color: var(--light-yellow); font-weight: bold; }
         .confidence-high { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; font-weight: bold; }
 
-        /* Diğer Sekmelerin Stilleri (Kupon, Yüksek Güven, İstatistik - Önceki ile aynı) */
-        .coupon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .coupon-card { background-color: #01356b; border-radius: 10px; padding: 20px; box-shadow: 0 8px 15px var(--shadow-color); border: 2px solid var(--secondary-orange); }
-        .coupon-card h3 { margin-top: 0; color: var(--primary-blue); display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed rgba(255, 255, 255, 0.3); padding-bottom: 10px; }
-        .coupon-meta { margin-top: 10px; padding: 10px; border-radius: 5px; background-color: rgba(0, 0, 0, 0.3); }
-        .coupon-bets ul { list-style: none; padding: 0; }
-        .coupon-bets li { background-color: rgba(255, 255, 255, 0.1); padding: 8px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .match-detail-card { background: #01356b; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--primary-blue); box-shadow: 2px 2px 10px var(--shadow-color); }
+        /* Diğer Sekmelerin Stilleri (İstatistik) */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .stats-card { background-color: #01356b; border-radius: 10px; padding: 20px; box-shadow: 0 8px 15px var(--shadow-color); border: 2px solid var(--secondary-orange); }
+        .stats-card h3 { margin-top: 0; color: var(--primary-blue); display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed rgba(255, 255, 255, 0.3); padding-bottom: 10px; }
+        .stats-list ul { list-style: none; padding: 0; }
+        .stats-list li { background-color: rgba(255, 255, 255, 0.1); padding: 8px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; }
         
         /* Footer */
         footer {
@@ -293,7 +293,6 @@
         <div class="tabs">
             <button class="tab-button active" data-tab="tab-table" id="tabBtnTable"><i class="fas fa-table"></i> Detaylı Tahminler</button>
             <button class="tab-button" data-tab="tab-high-confidence" id="tabBtnHighConfidence"><i class="fas fa-star"></i> Robot'un En Güvenilirleri</button>
-            <button class="tab-button" data-tab="tab-coupons" id="tabBtnCoupons"><i class="fas fa-ticket-alt"></i> Robot Kupon Önerileri</button>
             <button class="tab-button" data-tab="tab-stats" id="tabBtnStats"><i class="fas fa-chart-bar"></i> İstatistik Analiz</button>
         </div>
 
@@ -301,20 +300,16 @@
             <h2 id="tableHeader"><i class="fas fa-list-ol"></i> Maçların Robot Tahmin Tablosu</h2>
             
             <div class="match-list">
+                
                 </div>
             
-            <p style="margin-top:20px; font-size: 0.9em; color: rgba(255, 255, 255, 0.7);" id="tableNote">*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir.</p>
+            <p style="margin-top:20px; font-size: 0.9em; color: rgba(255, 255, 255, 0.7);" id="tableNote">*H Tahmini: Handikaplı Maç Sonucu. (+) Handikap çizgisi, dezavantajlı takımın avantajı ile kazanması, (-) handikap çizgisi ise favori takımın farkı kapatması anlamına gelir. Burada handikap çizgileri Bilyoner sistemine uyacak şekilde ayarlanmıştır.</p>
         </div>
 
         <div id="tab-high-confidence" class="tab-content">
             <h2 id="highConfidenceHeader"><i class="fas fa-microchip"></i> Robot'un Yüksek Güvenilir Tahminleri (75%+)</h2>
             <div class="high-confidence-matches">
-                </div>
-        </div>
-
-        <div id="tab-coupons" class="tab-content">
-            <h2 id="couponsHeader"><i class="fas fa-robot"></i> Robot Kupon Önerileri (Stake 1-10)</h2>
-            <div class="coupon-grid">
+                
                 </div>
         </div>
         
@@ -323,39 +318,40 @@
             
             <h3 style="color: var(--primary-blue);" id="statsMsHeader"><i class="fas fa-balance-scale"></i> Robot'un MS Tahmin Dağılımı</h3>
             <p id="statsMsDetail1">
-                **MS1 (Ev Sahibi) Tahmini:** <span style="color: #4CAF50; font-weight: bold;">8 Maç (%53)</span> | 
-                **MS2 (Deplasman) Tahmini:** <span style="color: #f44336; font-weight: bold;">7 Maç (%47)</span>
+                **MS1 (Ev Sahibi Favori) Tahmini:** <span style="color: #4CAF50; font-weight: bold;">6 Maç (%43)</span> | 
+                **MS2 (Deplasman Favori) Tahmini:** <span style="color: #f44336; font-weight: bold;">8 Maç (%57)</span>
             </p>
             <p id="statsMsDetail2">
-                **En Yüksek Handikap (Favori):** Cez Nymburk vs Usk Praha (-27.5) - <span class="confidence-high">Ezici Üstünlük</span><br>
-                **En Yakın Maçlar (Toss-up):** Ratiopharm Ulm - Beşiktaş / Hapoel - Slask / Dongu Promy - Kt Sonicboom
+                **En Yüksek Handikap (Favori):** Cez Nymburk vs Usk Praha (<span style="color: #4CAF50;">MS1 -26.5</span>) - <span class="confidence-high">Ezici Üstünlük</span><br>
+                **Yüksek Oranlı MS2 (Favori) Bahisleri:** Aris - Manresa (H2 2.21), Ulm - Beşiktaş (H2 2.17)
             </p>
 
             <h3 style="color: var(--primary-blue);" id="statsTsHeader"><i class="fas fa-sort-numeric-up-alt"></i> Toplam Sayı (ALT/ÜST) Analizi</h3>
             <p id="statsTsDetail1">
-                **ALT Tahmini:** <span style="color: #2196F3; font-weight: bold;">10 Maç (%67)</span> | 
-                **ÜST Tahmini:** <span style="color: #FFC107; font-weight: bold;">5 Maç (%33)</span>
+                **ALT Tahmini:** <span style="color: #2196F3; font-weight: bold;">10 Maç (%71)</span> | 
+                **ÜST Tahmini:** <span style="color: #FFC107; font-weight: bold;">4 Maç (%29)</span>
             </p>
             <p id="statsTsDetail2">
-                **Ortalama TS Çizgisi (Kuponlar İçin Verilmiştir):** <span style="color: var(--light-yellow);">166.2</span><br>
-                **En Düşük TS (148.5):** Dongu Promy - Kt Sonicboom (ALT Tahmin)<br>
-                **En Yüksek TS (180.5):** Neptunas - Hamburg Towers (ÜST Tahmin)
+                **Ortalama TS Çizgisi:** <span style="color: var(--light-yellow);">166.8</span><br>
+                **En Düşük TS (160.5):** Spartak Subotica - Gran Canaria (ALT Tahmin)<br>
+                **En Yüksek TS (179.5):** Neptunas - Hamburg Towers (ÜST Tahmin)
             </p>
 
             <h3 style="color: var(--primary-blue);" id="statsRiskHeader"><i class="fas fa-exclamation-triangle"></i> Risk Analizi ve Robot Önerileri</h3>
-            <div class="coupon-grid">
-                <div class="coupon-card card-CESUR_005">
+            <div class="stats-grid">
+                <div class="stats-card card-CESUR_005">
                     <h3 id="riskWarningTitle">Risk Uyarısı <i class="fas fa-bomb"></i></h3>
-                    <ul id="riskWarningList">
-                        <li><span style="color: #f44336;">**Çok Riskli Maçlar (50-60%):**</span> Hapoel - Slask (52%), Dongu Promy - Sonicboom (62%)</li>
-                        <li><span style="color: #f44336;">**Yüksek Handikap Riski:**</span> Cez Nymburk - Usk Praha (-27.5) - Handikap Kapama Riski Yüksek.</li>
+                    <ul id="riskWarningList" class="stats-list">
+                        <li><span style="color: #f44336;">**Yüksek Oranlı H2 Riski:**</span> Aris - Manresa (H2 2.21), Ulm - Beşiktaş (H2 2.17) - Deplasman galibiyeti sürpriz olabilir.</li>
+                        <li><span style="color: #f44336;">**Yüksek Handikap Riski:**</span> Cez Nymburk - Usk Praha (MS1 -26.5) - Handikap Kapama Riski Yüksek.</li>
                     </ul>
                 </div>
-                <div class="coupon-card card-ALTIN_001">
-                    <h3 id="safeComboTitle">Güvenli Kombinasyon <i class="fas fa-shield-alt"></i></h3>
-                    <ul id="safeComboList">
-                        <li><span style="color: #4CAF50;">**Robot'un En İyisi:**</span> Neftçi MS1 (-11.5) - Stake: 9/10</li>
-                        <li><span style="color: #4CAF50;">**Güvenilir İkili:**</span> Neftçi MS1 + Galatasaray MS1 - Stake: 8/10</li>
+                <div class="stats-card card-ALTIN_001">
+                    <h3 id="safeComboTitle">Robot'un En Güvenilir Bahisleri <i class="fas fa-shield-alt"></i></h3>
+                    <ul id="safeComboList" class="stats-list">
+                        <li><span style="color: #4CAF50;">**Robot'un En İyisi (9/10):**</span> Neftçi MS1 (+9.5) Oran: 1.65</li>
+                        <li><span style="color: #4CAF50;">**Güvenilir İkili:**</span> Galatasaray MS1 (-6.5) Oran: 1.64</li>
+                        <li><span style="color: #4CAF50;">**Handikap Güveni:**</span> Nymburk MS1 (-26.5) Oran: 1.59</li>
                     </ul>
                 </div>
             </div>
@@ -375,305 +371,164 @@
                 pageTitle: "🤖 21 Ekim 2025 Basketbol AI Robot Tips",
                 mainTitleText: "Basketbol AI Robot Tips",
                 poweredByText: "21 Ekim 2025 Maçları - Powered by AI",
-                thHour: "Saat", thLeague: "Lig", thHome: "Ev Sahibi", thAway: "Deplasman", thMsTip: "MS Tahmini & Oran", thTsTip: "ALT/ÜST Tahmini & Oran", thConfidence: "Güven",
-                tabBtnTable: "Detaylı Tahminler", tabBtnHighConfidence: "Robot'un En Güvenilirleri", tabBtnCoupons: "Robot Kupon Önerileri", tabBtnStats: "İstatistik Analiz",
+                tabBtnTable: "Detaylı Tahminler", tabBtnHighConfidence: "Robot'un En Güvenilirleri", tabBtnStats: "İstatistik Analiz",
                 tableHeader: "Maçların Robot Tahmin Tablosu",
-                tableNote: "*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir.",
+                tableNote: "*H Tahmini: Handikaplı Maç Sonucu. (+) Handikap çizgisi, dezavantajlı takımın avantajı ile kazanması, (-) handikap çizgisi ise favori takımın farkı kapatması anlamına gelir. Burada handikap çizgileri Bilyoner sistemine uyacak şekilde ayarlanmıştır.",
                 highConfidenceHeader: "Robot'un Yüksek Güvenilir Tahminleri (75%+)",
                 highConfidenceNote: "Bugün için Robot’un yüksek güvenilirlikli (75%+) maç önerisi bulunmamaktadır.",
                 reasonTitle: "**Robot Yorumu:**",
-                couponsHeader: "Robot Kupon Önerileri (Stake 1-10)",
-                couponTotalOdds: "Toplam Oran:", couponConfidence: "Başarı Güven:", couponStake: "Robot Stake:", couponBets: "Bahisler:",
-                couponTipAltin: "Altın Kombinasyon", couponTipDeger: "Değerli Fırsat", couponTipAltUst: "Toplam Sayı Odaklı", couponTipCesur: "Yüksek Risk / Yüksek Kazanç",
                 statsHeader: "İstatistiksel ve Risk Analizi",
                 statsMsHeader: "Robot'un MS Tahmin Dağılımı",
-                statsMsDetail1: `**MS1 (Ev Sahibi) Tahmini:** <span style="color: #4CAF50; font-weight: bold;">8 Maç (%53)</span> | **MS2 (Deplasman) Tahmini:** <span style="color: #f44336; font-weight: bold;">7 Maç (%47)</span>`,
-                statsMsDetail2: `**En Yüksek Handikap (Favori):** Cez Nymburk vs Usk Praha (-27.5) - <span class="confidence-high">Ezici Üstünlük</span><br>**En Yakın Maçlar (Toss-up):** Ratiopharm Ulm - Beşiktaş / Hapoel - Slask / Dongu Promy - Kt Sonicboom`,
+                statsMsDetail1: `**MS1 (Ev Sahibi Favori) Tahmini:** <span style="color: #4CAF50; font-weight: bold;">6 Maç (%43)</span> | **MS2 (Deplasman Favori) Tahmini:** <span style="color: #f44336; font-weight: bold;">8 Maç (%57)</span>`,
+                statsMsDetail2: `**En Yüksek Handikap (Favori):** Cez Nymburk vs Usk Praha (<span style="color: #4CAF50;">MS1 -26.5</span>) - <span class="confidence-high">Ezici Üstünlük</span><br>**Yüksek Oranlı MS2 (Favori) Bahisleri:** Aris - Manresa (H2 2.21), Ulm - Beşiktaş (H2 2.17)`,
                 statsTsHeader: "Toplam Sayı (ALT/ÜST) Analizi",
-                statsTsDetail1: `**ALT Tahmini:** <span style="color: #2196F3; font-weight: bold;">10 Maç (%67)</span> | **ÜST Tahmini:** <span style="color: #FFC107; font-weight: bold;">5 Maç (%33)</span>`,
-                statsTsDetail2: `**Ortalama TS Çizgisi (Kuponlar İçin Verilmiştir):** <span style="color: var(--light-yellow);">166.2</span><br>**En Düşük TS (148.5):** Dongu Promy - Kt Sonicboom (ALT Tahmin)<br>**En Yüksek TS (180.5):** Neptunas - Hamburg Towers (ÜST Tahmin)`,
+                statsTsDetail1: `**ALT Tahmini:** <span style="color: #2196F3; font-weight: bold;">10 Maç (%71)</span> | **ÜST Tahmini:** <span style="color: #FFC107; font-weight: bold;">4 Maç (%29)</span>`,
+                statsTsDetail2: `**Ortalama TS Çizgisi:** <span style="color: var(--light-yellow);">166.8</span><br>**En Düşük TS (160.5):** Spartak Subotica - Gran Canaria (ALT Tahmin)<br>**En Yüksek TS (179.5):** Neptunas - Hamburg Towers (ÜST Tahmin)`,
                 statsRiskHeader: "Risk Analizi ve Robot Önerileri",
                 riskWarningTitle: "Risk Uyarısı",
-                riskWarningList: `<li><span style="color: #f44336;">**Çok Riskli Maçlar (50-60%):**</span> Hapoel - Slask (52%), Dongu Promy - Sonicboom (62%)</li><li><span style="color: #f44336;">**Yüksek Handikap Riski:**</span> Cez Nymburk - Usk Praha (-27.5) - Handikap Kapama Riski Yüksek.</li>`,
-                safeComboTitle: "Güvenli Kombinasyon",
-                safeComboList: `<li><span style="color: #4CAF50;">**Robot'un En İyisi:**</span> Neftçi MS1 (-11.5) - Stake: 9/10</li><li><span style="color: #4CAF50;">**Güvenilir İkili:**</span> Neftçi MS1 + Galatasaray MS1 - Stake: 8/10</li>`,
+                riskWarningList: `<li><span style="color: #f44336;">**Yüksek Oranlı H2 Riski:**</span> Aris - Manresa (H2 2.21), Ulm - Beşiktaş (H2 2.17) - Deplasman galibiyeti sürpriz olabilir.</li><li><span style="color: #f44336;">**Yüksek Handikap Riski:**</span> Cez Nymburk - Usk Praha (MS1 -26.5) - Handikap Kapama Riski Yüksek.</li>`,
+                safeComboTitle: "Robot'un En Güvenilir Bahisleri",
+                safeComboList: `<li><span style="color: #4CAF50;">**Robot'un En İyisi (9/10):**</span> Neftçi MS1 (+9.5) Oran: 1.65</li><li><span style="color: #4CAF50;">**Güvenilir İkili:**</span> Galatasaray MS1 (-6.5) Oran: 1.64</li><li><span style="color: #4CAF50;">**Handikap Güveni:**</span> Nymburk MS1 (-26.5) Oran: 1.59</li>`,
                 footerText: `<p>Basketbol Robot Tahmin Analizleri | Powered by AI | 21 Ekim 2025</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>`,
-                labelTime: "Saat/Lig:", labelMs: "MS Tahmini:", labelTs: "ALT/ÜST Tahmini:", labelConf: "Güven:"
+                labelTime: "Saat/Lig:", labelMs: "H Tahmini:", labelTs: "ALT/ÜST Tahmini:", labelConf: "Güven:"
             },
             en: {
                 pageTitle: "🤖 October 21, 2025 Basketball AI Robot Tips",
                 mainTitleText: "Basketball AI Robot Tips",
                 poweredByText: "October 21, 2025 Matches - Powered by AI",
-                thHour: "Time", thLeague: "League", thHome: "Home", thAway: "Away", thMsTip: "FT Prediction & Odds", thTsTip: "O/U Prediction & Odds", thConfidence: "Confidence",
-                tabBtnTable: "Detailed Predictions", tabBtnHighConfidence: "Robot's High Confidence", tabBtnCoupons: "Robot Coupon Suggestions", tabBtnStats: "Statistical Analysis",
+                tabBtnTable: "Detailed Predictions", tabBtnHighConfidence: "Robot's High Confidence", tabBtnStats: "Statistical Analysis",
                 tableHeader: "Robot Match Prediction Table",
-                tableNote: "*FT Prediction: FT1 - H.Number (Home Handicap Win) or FT2 + H.Number (Away Handicap Win). Odds belong to the predicted outcome.",
+                tableNote: "*H Prediction: Handicap Full Time. The (+) Handicap line means the underdog team benefits from the advantage, and the (-) Handicap line means the favorite team is expected to cover the difference. Handicap lines here are adjusted to fit the Bilyoner system.",
                 highConfidenceHeader: "Robot's High Confidence Predictions (75%+)",
                 highConfidenceNote: "The Robot has no high confidence (75%+) match suggestions for today.",
                 reasonTitle: "**Robot Comment:**",
-                couponsHeader: "Robot Coupon Suggestions (Stake 1-10)",
-                couponTotalOdds: "Total Odds:", couponConfidence: "Success Confidence:", couponStake: "Robot Stake:", couponBets: "Bets:",
-                couponTipAltin: "Golden Combination", couponTipDeger: "Value Opportunity", couponTipAltUst: "Total Points Focus", couponTipCesur: "High Risk / High Reward",
                 statsHeader: "Statistical and Risk Analysis",
                 statsMsHeader: "Robot's FT Prediction Distribution",
-                statsMsDetail1: `**FT1 (Home) Prediction:** <span style="color: #4CAF50; font-weight: bold;">8 Matches (53%)</span> | **FT2 (Away) Prediction:** <span style="color: #f44336; font-weight: bold;">7 Matches (47%)</span>`,
-                statsMsDetail2: `**Highest Handicap (Favorite):** Cez Nymburk vs Usk Praha (-27.5) - <span class="confidence-high">Overwhelming Advantage</span><br>**Closest Matches (Toss-up):** Ratiopharm Ulm - Besiktas / Hapoel - Slask / Dongu Promy - Kt Sonicboom`,
-                statsTsHeader: "Total Points (Over/Under) Analysis",
-                statsTsDetail1: `**UNDER Prediction:** <span style="color: #2196F3; font-weight: bold;">10 Matches (67%)</span> | **OVER Prediction:** <span style="color: #FFC107; font-weight: bold;">5 Matches (33%)</span>`,
-                statsTsDetail2: `**Average O/U Line (For Coupons):** <span style="color: var(--light-yellow);">166.2</span><br>**Lowest O/U (148.5):** Dongu Promy - Kt Sonicboom (UNDER Prediction)<br>**Highest O/U (180.5):** Neptunas - Hamburg Towers (OVER Prediction)`,
-                statsRiskHeader: "Risk Analysis and Robot Suggestions",
+                statsMsDetail1: `**FT1 (Home Favorite) Prediction:** <span style="color: #4CAF50; font-weight: bold;">6 Matches (43%)</span> | **FT2 (Away Favorite) Prediction:** <span style="color: #f44336; font-weight: bold;">8 Matches (57%)</span>`,
+                statsMsDetail2: `**Highest Handicap (Favorite):** Cez Nymburk vs Usk Praha (<span style="color: #4CAF50;">FT1 -26.5</span>) - <span class="confidence-high">Overwhelming Advantage</span><br>**High Odds FT2 (Favorite) Bets:** Aris - Manresa (H2 2.21), Ulm - Besiktas (H2 2.17)`,
+                statsTsHeader: "Total Score (O/U) Analysis",
+                statsTsDetail1: `**Under Prediction:** <span style="color: #2196F3; font-weight: bold;">10 Matches (71%)</span> | **Over Prediction:** <span style="color: #FFC107; color: var(--dark-blue); font-weight: bold;">4 Matches (29%)</span>`,
+                statsTsDetail2: `**Average TS Line:** <span style="color: var(--light-yellow);">166.8</span><br>**Lowest TS (160.5):** Spartak Subotica - Gran Canaria (Under Prediction)<br>**Highest TS (179.5):** Neptunas - Hamburg Towers (Over Prediction)`,
+                statsRiskHeader: "Risk Analysis and Robot Recommendations",
                 riskWarningTitle: "Risk Warning",
-                riskWarningList: `<li><span style="color: #f44336;">**High Risk Matches (50-60%):**</span> Hapoel - Slask (52%), Dongu Promy - Sonicboom (62%)</li><li><span style="color: #f44336;">**High Handicap Risk:**</span> Cez Nymburk - Usk Praha (-27.5) - High risk of not covering the spread.</li>`,
-                safeComboTitle: "Safe Combination",
-                safeComboList: `<li><span style="color: #4CAF50;">**Robot's Best:**</span> Neftçi FT1 (-11.5) - Stake: 9/10</li><li><span style="color: #4CAF50;">**Reliable Double:**</span> Neftçi FT1 + Galatasaray FT1 - Stake: 8/10</li>`,
-                footerText: `<p>Basketball Robot Prediction Analysis | Powered by AI | October 21, 2025</p><p>Disclaimer: Betting is a game of chance and carries the risk of loss. Please play responsibly.</p>`,
-                labelTime: "Time/League:", labelMs: "FT Prediction:", labelTs: "O/U Prediction:", labelConf: "Confidence:"
+                riskWarningList: `<li><span style="color: #f44336;">**High Odds H2 Risk:**</span> Aris - Manresa (H2 2.21), Ulm - Besiktas (H2 2.17) - Away win might be a surprise.</li><li><span style="color: #f44336;">**High Handicap Risk:**</span> Cez Nymburk - Usk Praha (FT1 -26.5) - High Risk of not covering the Handicap.</li>`,
+                safeComboTitle: "Robot's Most Reliable Bets",
+                safeComboList: `<li><span style="color: #4CAF50;">**Robot's Best (9/10):**</span> Neftçi FT1 (+9.5) Odds: 1.65</li><li><span style="color: #4CAF50;">**Reliable Double:**</span> Galatasaray FT1 (-6.5) Odds: 1.64</li><li><span style="color: #4CAF50;">**Handicap Confidence:**</span> Nymburk FT1 (-26.5) Odds: 1.59</li>`,
+                footerText: `<p>Basketball Robot Prediction Analysis | Powered by AI | October 21, 2025</p><p>Remember: Betting is a game of chance and involves the risk of loss. Please play responsibly.</p>`,
+                labelTime: "Time/League:", labelMs: "H Prediction:", labelTs: "O/U Prediction:", labelConf: "Confidence:"
             }
         };
 
-        // Mevcut Dilin Takibi (Varsayılan Türkçe)
-        let currentLang = 'tr';
-
-        // Veri Yapıları (Mevcut haliyle Türkçe verilerle)
-        const detailedData = [
-            {id: 1, saat: "13:00", lig: "GNKBL", ev: "Dongu Promy", dep: "Kt Sonicboom", ms1: 1.62, ms2: 1.65, h1: null, h2: 2.5, ms_tahmin: "MS2", ts: 148.5, alt: 1.64, ust: 1.63, ts_tahmin: "ALT", guven: 62, handikap_yon: "+"},
-            {id: 2, saat: "17:30", lig: "FEC", ev: "Neftçi", dep: "Kalev", ms1: 1.60, ms2: 1.66, h1: 11.5, h2: null, ms_tahmin: "MS1", ts: 164.5, alt: 1.62, ust: 1.65, ts_tahmin: "ALT", guven: 85, reason: "11.5 handikap = Açık favori, savunma güçlü, düşük tempo", handikap_yon: "-"},
-            {id: 3, saat: "18:00", lig: "FEC", ev: "Basket Brno", dep: "Bilbao", ms1: 1.63, ms2: 1.64, h1: null, h2: 9.5, ms_tahmin: "MS2", ts: 165.5, alt: 1.64, ust: 1.63, ts_tahmin: "ÜST", guven: 65, handikap_yon: "+"},
-            {id: 4, saat: "19:00", lig: "AVK", ev: "Neptunas", dep: "Hamburg Towers", ms1: 1.65, ms2: 1.62, h1: null, h2: 8.5, ms_tahmin: "MS1", ts: 180.5, alt: 1.61, ust: 1.65, ts_tahmin: "ÜST", guven: 68, handikap_yon: "-"},
-            {id: 5, saat: "19:00", lig: "ÇEK", ev: "Cez Nymburk", dep: "Usk Praha", ms1: 1.62, ms2: 1.65, h1: 27.5, h2: null, ms_tahmin: "MS1", ts: 172.5, alt: 1.66, ust: 1.60, ts_tahmin: "ÜST", guven: 82, reason: "27.5 handikap = Ezici üstünlük, yüksek skorlu galibiyet bekleniyor", handikap_yon: "-"},
-            {id: 6, saat: "19:00", lig: "BŞMP", ev: "Igokea", dep: "Trieste", ms1: 1.64, ms2: 1.63, h1: null, h2: 6.5, ms_tahmin: "MS2", ts: 165.5, alt: 1.65, ust: 1.62, ts_tahmin: "ALT", guven: 60, handikap_yon: "+"},
-            {id: 7, saat: "19:00", lig: "FEC", ev: "Rostock Sewolv", dep: "Antwerp", ms1: 1.63, ms2: 1.64, h1: 6.5, h2: null, ms_tahmin: "MS1", ts: 167.5, alt: 1.65, ust: 1.62, ts_tahmin: "ALT", guven: 64, handikap_yon: "-"},
-            {id: 8, saat: "20:00", lig: "AVK", ev: "Aris", dep: "Manresa", ms1: 1.61, ms2: 1.66, h1: null, h2: 8.5, ms_tahmin: "MS2", ts: 164.5, alt: 1.62, ust: 1.65, ts_tahmin: "ALT", guven: 66, handikap_yon: "+"},
-            {id: 9, saat: "20:00", lig: "AVK", ev: "Ratiopharm Ulm", dep: "Beşiktaş", ms1: 1.65, ms2: 1.62, h1: null, h2: 5.5, ms_tahmin: "MS2", ts: 173.5, alt: 1.61, ust: 1.65, ts_tahmin: "ÜST", guven: 63, handikap_yon: "+"},
-            {id: 10, saat: "20:00", lig: "BŞMP", ev: "Galatasaray MC", dep: "Würzburg", ms1: 1.63, ms2: 1.64, h1: 6.5, h2: null, ms_tahmin: "MS1", ts: 166.5, alt: 1.65, ust: 1.62, ts_tahmin: "ALT", guven: 80, reason: "Ev sahası güçlü, savunma odaklı oyun, düşük tempo", handikap_yon: "-"},
-            {id: 11, saat: "20:00", lig: "FEC", ev: "Cibona Zagreb", dep: "Dijon", ms1: 1.63, ms2: 1.64, h1: null, h2: 9.5, ms_tahmin: "MS2", ts: 166.5, alt: 1.64, ust: 1.63, ts_tahmin: "ALT", guven: 61, handikap_yon: "+"},
-            {id: 12, saat: "20:30", lig: "FEC", ev: "KK Bosna Royal", dep: "Murcia", ms1: 1.62, ms2: 1.65, h1: null, h2: 6.5, ms_tahmin: "MS2", ts: 165.5, alt: 1.63, ust: 1.64, ts_tahmin: "ALT", guven: 67, handikap_yon: "+"},
-            {id: 13, saat: "21:00", lig: "AVK", ev: "Hapoel Jerusal", dep: "Slask", ms1: 1.64, ms2: 1.63, h1: 5.5, h2: null, ms_tahmin: "MS1", ts: 171.5, alt: 1.61, ust: 1.65, ts_tahmin: "ÜST", guven: 52, handikap_yon: "-"},
-            {id: 14, saat: "21:00", lig: "BŞMP", ev: "Le Mans", dep: "Sport Lisboa", ms1: 1.62, ms2: 1.65, h1: 7.5, h2: null, ms_tahmin: "MS1", ts: 166.5, alt: 1.61, ust: 1.65, ts_tahmin: "ÜST", guven: 55, handikap_yon: "-"},
-            {id: 15, saat: "21:00", lig: "BŞMP", ev: "Spartak Suboti", dep: "Gran Canaria", ms1: 1.63, ms2: 1.64, h1: null, h2: 6.5, ms_tahmin: "MS2", ts: 158.5, alt: 1.65, ust: 1.62, ts_tahmin: "ALT", guven: 58, handikap_yon: "+"}
+        // DÜZELTİLMİŞ TAHMİN DATASI (Neftçi ve Trieste Handikapları + Yapıldı)
+        const matchesData = [
+            // Handikap Yönü Değişti: MS1 +9.5 (Normalde ev sahibinin handikap alması demek)
+            { id: 1, time: "17:30", league: "FEC", home: "Neftçi IK", away: "BC Kalev", ms_tahmin: "MS1", ms_oran: 1.65, ms_handikap: "+9.5", ts_cizgi: 164.5, ts_tahmin: "ALT", ts_oran: 1.61, guven: 85, ms_class: "MS1", reason: "9.5 handikap = Güçlü ev sahibi, düşük tempo eğilimi. (+ Handikap istenen formattır)" },
+            { id: 2, time: "18:00", league: "FEC", home: "Basket Brno", away: "Bilbao Basket", ms_tahmin: "MS2", ms_oran: 1.65, ms_handikap: "-10.5", ts_cizgi: 163.5, ts_tahmin: "ÜST", ts_oran: 1.63, guven: 65, ms_class: "MS2", reason: "Bilbao deplasman tecrübesi, sayı çizgisi düşük." },
+            { id: 3, time: "19:00", league: "AVK", home: "Neptunas K", away: "Hamburg Towers", ms_tahmin: "MS1", ms_oran: 1.62, ms_handikap: "-8.5", ts_cizgi: 179.5, ts_tahmin: "ÜST", ts_oran: 1.58, guven: 68, ms_class: "MS1", reason: "En yüksek TS çizgisi, hücum odaklı, ev sahibi avantajı." },
+            // Handikap Yönü Değişti: MS2 +4.5 (Normalde deplasmanın handikap alması demek)
+            { id: 4, time: "19:00", league: "BŞMP", home: "KK Igokea Aleksandrova", away: "Trieste", ms_tahmin: "MS2", ms_oran: 1.48, ms_handikap: "+4.5", ts_cizgi: 166.5, ts_tahmin: "ALT", ts_oran: 1.58, guven: 60, ms_class: "MS2", reason: "Trieste formda, Igokea savunması etkili. (+ Handikap istenen formattır)" },
+            { id: 5, time: "19:00", league: "FEC", home: "Rostock Seawolves", away: "Antwerp", ms_tahmin: "MS1", ms_oran: 1.65, ms_handikap: "-9.5", ts_cizgi: 165.5, ts_tahmin: "ALT", ts_oran: 1.67, guven: 64, ms_class: "MS1", reason: "Ev sahibi açık favori (-9.5), düşük skorlu mücadele." },
+            { id: 6, time: "19:00", league: "ÇEK", home: "Nymburk", away: "USK Praha", ms_tahmin: "MS1", ms_oran: 1.59, ms_handikap: "-26.5", ts_cizgi: 172.5, ts_tahmin: "ÜST", ts_oran: 1.60, guven: 82, ms_class: "MS1", reason: "26.5 handikap = Ezici üstünlük, yüksek skorlu galibiyet bekleniyor." },
+            { id: 7, time: "20:00", league: "AVK", home: "Aris Thessaloniki", away: "Manresa", ms_tahmin: "MS2", ms_oran: 2.21, ms_handikap: "-5.5", ts_cizgi: 163.5, ts_tahmin: "ALT", ts_oran: 1.69, guven: 66, ms_class: "MS2", reason: "Manresa deplasman tecrübesi, handikap avantajı, düşük tempo." },
+            { id: 8, time: "20:00", league: "AVK", home: "Ratiopharm Ulm", away: "Beşiktaş", ms_tahmin: "MS2", ms_oran: 2.17, ms_handikap: "-5.5", ts_cizgi: 172.5, ts_tahmin: "ÜST", ts_oran: 1.59, guven: 63, ms_class: "MS2", reason: "Beşiktaş hücum gücü, karşılıklı yüksek skor." },
+            { id: 9, time: "20:00", league: "BŞMP", home: "Galatasaray", away: "Würzburg", ms_tahmin: "MS1", ms_oran: 1.64, ms_handikap: "-6.5", ts_cizgi: 166.5, ts_tahmin: "ALT", ts_oran: 1.67, guven: 80, ms_class: "MS1", reason: "Ev sahası güçlü, savunma odaklı oyun, düşük tempo." },
+            { id: 10, time: "20:00", league: "FEC", home: "Cibona Zagreb", away: "Dijon Basket", ms_tahmin: "MS2", ms_oran: 1.67, ms_handikap: "-9.5", ts_cizgi: 166.5, ts_tahmin: "ALT", ts_oran: 1.60, guven: 61, ms_class: "MS2", reason: "Dijon istikrarlı, handikap avantajı (-9.5)." },
+            { id: 11, time: "20:30", league: "FEC", home: "KK Bosna Royal Sarajevo", away: "UCAM Murcia", ms_tahmin: "MS2", ms_oran: 1.61, ms_handikap: "-10.5", ts_cizgi: 164.5, ts_tahmin: "ALT", ts_oran: 1.61, guven: 67, ms_class: "MS2", reason: "Murcia'nın deplasman kalitesi, handikap avantajı." },
+            { id: 12, time: "21:00", league: "BŞMP", home: "Spartak Subotica", away: "Gran Canaria", ms_tahmin: "MS2", ms_oran: 1.74, ms_handikap: "-6.5", ts_cizgi: 160.5, ts_tahmin: "ALT", ts_oran: 1.67, guven: 58, ms_class: "MS2", reason: "Gran Canaria tecrübeli, düşük skorlu maç bekleniyor." },
+            { id: 13, time: "21:00", league: "BŞMP", home: "Le Mans", away: "SL Benfica", ms_tahmin: "MS1", ms_oran: 1.56, ms_handikap: "-11.5", ts_cizgi: 165.5, ts_tahmin: "ÜST", ts_oran: 1.57, guven: 55, ms_class: "MS1", reason: "Düşük güven, Le Mans ev sahibi avantajı, yüksek skor potansiyeli." },
+            { id: 14, time: "21:00", league: "AVK", home: "Hapoel Jerusalem", away: "Slask Wroclaw", ms_tahmin: "MS1", ms_oran: 1.34, ms_handikap: "-9.5", ts_cizgi: 172.5, ts_tahmin: "ÜST", ts_oran: 1.68, guven: 52, ms_class: "MS1", reason: "Çok yakın oranlar, yüksek risk, yüksek tempo beklentisi." }
         ];
-
-        const coupons = [
-            { id: "ALTIN_001", tip_tr: "Altın Kombinasyon", tip_en: "Golden Combination", total_oran: 4.22, confidence: 82, stake: 9, bets: [{match: "Neftçi - Kalev", selection: "MS1 (-11.5)", odd: 1.60}, {match: "Cez Nymburk - Usk Praha", selection: "MS1 (-27.5)", odd: 1.62}, {match: "Galatasaray MC - Würzburg", selection: "MS1 (-6.5)", odd: 1.63}],},
-            { id: "DEGER_002", tip_tr: "Değerli Fırsat", tip_en: "Value Opportunity", total_oran: 7.01, confidence: 65, stake: 6, bets: [{match: "Neftçi - Kalev", selection: "ALT 164.5", odd: 1.62}, {match: "Basket Brno - Bilbao", selection: "MS2 (+9.5)", odd: 1.64}, {match: "Aris - Manresa", selection: "MS2 (+8.5)", odd: 1.66}, {match: "Ratiopharm Ulm - Beşiktaş", selection: "ÜST 173.5", odd: 1.65}],},
-            { id: "ALTUST_003", tip_tr: "Toplam Sayı Odaklı", tip_en: "Total Points Focus", total_oran: 7.41, confidence: 68, stake: 7, bets: [{match: "Dongu Promy - Kt Sonicboom", selection: "ALT 148.5", odd: 1.64}, {match: "Neptunas - Hamburg Towers", selection: "ÜST 180.5", odd: 1.65}, {match: "Cez Nymburk - Usk Praha", selection: "ÜST 172.5", odd: 1.60}, {match: "Galatasaray MC - Würzburg", selection: "ALT 166.5", odd: 1.65}],},
-            { id: "CESUR_005", tip_tr: "Yüksek Risk / Yüksek Kazanç", tip_en: "High Risk / High Reward", total_oran: 11.70, confidence: 48, stake: 3, bets: [{match: "Basket Brno - Bilbao", selection: "MS2 (+9.5)", odd: 1.64}, {match: "Igokea - Trieste", selection: "MS2 (+6.5)", odd: 1.63}, {match: "Ratiopharm Ulm - Beşiktaş", selection: "MS2 (+5.5)", odd: 1.62}, {match: "Spartak Suboti - Gran Canaria", selection: "MS2 (+6.5)", odd: 1.64}, {match: "Cibona Zagreb - Dijon", selection: "MS2 (+9.5)", odd: 1.64}], uyari_tr: "⚠️ Yüksek risk - Sadece düşük miktar/eğlence amaçlı", uyari_en: "⚠️ High risk - For low stake/entertainment purposes only"},
-        ];
-
-        // Fonksiyonlar
         
-        function getConfidenceClass(guven) {
-            if (guven >= 75) return 'confidence-high';
-            if (guven >= 60) return 'confidence-medium';
+        // Güven seviyesi sınıfını belirleyen yardımcı fonksiyon
+        function getConfidenceClass(confidence) {
+            if (confidence >= 75) return 'confidence-high';
+            if (confidence >= 60) return 'confidence-medium';
             return 'confidence-low';
         }
 
-        function getStarRating(guven) {
-            if (guven >= 80) return '★★★';
-            if (guven >= 75) return '★★';
-            if (guven >= 65) return '★';
-            return '';
-        }
+        // Maç kartlarını oluşturan fonksiyon
+        function renderMatchCards(matches, containerId, isHighConfidence = false) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = ''; // İçeriği temizle
 
-        // MS Tahmini ve Oranını formatlama
-        function formatMSTahmin(match) {
-            const handikap_deger = match.h1 || match.h2;
-            const yon = match.handikap_yon;
-            const ms_tip = match.ms_tahmin;
-            const oran = ms_tip === 'MS1' ? match.ms1 : match.ms2;
-            const ms_tip_display = currentLang === 'en' ? ms_tip.replace('MS', 'FT') : ms_tip;
+            const filteredMatches = isHighConfidence ? matches.filter(m => m.guven >= 75) : matches;
 
-            const handikap_str = handikap_deger ? ` ${yon}${handikap_deger}` : '';
-            
-            return `
-                <span class="prediction-ms ${ms_tip}">${ms_tip_display}${handikap_str}</span>
-                <span class="odds-ms">${oran.toFixed(2)}</span>
-            `;
-        }
-        
-        // TS Tahmini ve Oranını formatlama (Çizgi kaldırıldı, sadece tahmin ve oran kaldı)
-        function formatTSTahmin(match) {
-            const ts_cizgi = match.ts; 
-            const ts_tip = match.ts_tahmin;
-            const oran = ts_tip === 'ALT' ? match.alt : match.ust;
-
-            let ts_tip_display;
-            if (currentLang === 'en') {
-                ts_tip_display = ts_tip === 'ALT' ? 'UNDER' : 'OVER';
-            } else {
-                ts_tip_display = ts_tip;
+            if (isHighConfidence && filteredMatches.length === 0) {
+                 container.innerHTML = `<p style="text-align: center; padding: 20px; color: var(--primary-blue); font-size: 1.1em;">${langData[currentLang].highConfidenceNote}</p>`;
+                 return;
             }
 
-            return `
-                <span class="prediction-ts ${ts_tip}">${ts_cizgi} ${ts_tip_display}</span>
-                <span class="odds-ts">${oran.toFixed(2)}</span>
-            `;
-        }
-
-
-        // Tabloyu Doldurma Fonksiyonu (YENİ KART YAPISI)
-        function fillTable() {
-            const container = document.querySelector('#tab-table .match-list');
-            container.innerHTML = '';
-            const lang = langData[currentLang];
-
-            detailedData.forEach(match => {
-                const card = document.createElement('div');
-                card.classList.add('match-card');
+            filteredMatches.forEach(match => {
+                const confidenceClass = getConfidenceClass(match.guven);
                 
+                // Handikap çizgisi (+) veya (-) ile gösterilir
+                const msHandicapDisplay = `${match.ms_tahmin} ${match.ms_handikap}`;
+
+                const tsPredictionText = `${match.ts_tahmin} ${match.ts_cizgi}`;
+                
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                
+                const isRisk = match.guven <= 60 ? ' <i class="fas fa-exclamation-triangle" style="color: #f44336;"></i>' : '';
+
                 card.innerHTML = `
                     <div class="match-header">
-                        <div class="match-title">${match.ev} vs ${match.dep}</div>
+                        <div class="match-title">${match.home} <i class="fas fa-grip-lines-vertical" style="color: var(--secondary-orange);"></i> ${match.away}${isRisk}</div>
                         <div class="match-meta">
-                            <span>#${match.id}</span>
-                            <span>${match.saat}</span>
-                            <span>${match.lig}</span>
+                            <span><i class="far fa-clock"></i> ${match.time}</span>
+                            <span><i class="fas fa-basketball-ball"></i> ${match.league}</span>
                         </div>
                     </div>
-
                     <div class="prediction-section">
                         <div class="prediction-row">
-                            <span class="prediction-label">${lang.labelMs}</span>
+                            <span class="prediction-label" id="labelMs">${langData[currentLang].labelMs}</span>
                             <div class="prediction-detail">
-                                ${formatMSTahmin(match)}
+                                <span class="prediction-ms ${match.ms_class}">${msHandicapDisplay}</span>
+                                <span class="odds-ms">${match.ms_oran}</span>
                             </div>
                         </div>
-
                         <div class="prediction-row">
-                            <span class="prediction-label">${lang.labelTs}</span>
+                            <span class="prediction-label" id="labelTs">${langData[currentLang].labelTs}</span>
                             <div class="prediction-detail">
-                                ${formatTSTahmin(match)}
+                                <span class="prediction-ts ${match.ts_tahmin === 'ALT' ? 'ALT' : 'ÜST'}">${tsPredictionText}</span>
+                                <span class="odds-ts">${match.ts_oran}</span>
                             </div>
                         </div>
-
-                        <div class="prediction-row" style="background-color: rgba(0, 188, 212, 0.1);">
-                            <span class="prediction-label">${lang.labelConf}</span>
+                        <div class="prediction-row">
+                            <span class="prediction-label" id="labelConf">${langData[currentLang].labelConf}</span>
                             <div class="prediction-detail">
-                                <span class="confidence-cell ${getConfidenceClass(match.guven)}">${match.guven}% ${getStarRating(match.guven)}</span>
+                                <span class="confidence-cell ${confidenceClass}">${match.guven}% ${match.guven >= 75 ? '★★★' : ''}</span>
                             </div>
                         </div>
+                        ${isHighConfidence ? `
+                            <div class="prediction-row" style="background-color: var(--primary-blue); color: var(--dark-blue); font-weight: bold; padding: 10px;">
+                                <span id="reasonTitle">${langData[currentLang].reasonTitle}</span>
+                                <span>${match.reason}</span>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
-
-        // Yüksek Güven Maçlarını Doldurma Fonksiyonu
-        function fillHighConfidence() {
-            const container = document.querySelector('#tab-high-confidence .high-confidence-matches');
-            container.innerHTML = '';
-            const highConfidenceMatches = detailedData.filter(match => match.guven >= 75);
-            const lang = langData[currentLang];
-
-            if (highConfidenceMatches.length === 0) {
-                container.innerHTML = `<p>${lang.highConfidenceNote}</p>`;
-                return;
-            }
-
-            highConfidenceMatches.forEach(match => {
-                const div = document.createElement('div');
-                div.classList.add('match-detail-card');
-
-                const ms_tip = match.ms_tahmin;
-                const ms_oran = ms_tip === 'MS1' ? match.ms1 : match.ms2;
-                const ms_tip_display = currentLang === 'en' ? ms_tip.replace('MS', 'FT') : ms_tip;
-
-                const ts_tip = match.ts_tahmin;
-                const ts_oran = ts_tip === 'ALT' ? match.alt : match.ust;
-                const ts_tip_display = currentLang === 'en' ? (ts_tip === 'ALT' ? 'UNDER' : 'OVER') : ts_tip;
-
-                // MS Handikap metni
-                const ms_handicap_text = `${ms_tip_display} ${match.handikap_yon}${match.h1 || match.h2}`;
-
-                // TS metni (çizgi + tahmin)
-                const ts_text = `${match.ts} ${ts_tip_display}`;
-                
-                // Yorum metni
-                const reason_text = match.reason || (currentLang === 'en' ? 'Detailed analysis not available.' : 'Detaylı analiz mevcut değil.');
-
-                div.innerHTML = `
-                    <h4><i class="fas fa-microchip"></i> ${match.ev} <span style="color:var(--light-yellow)">vs</span> ${match.dep} (${match.lig} | ${match.saat}) <span class="odds-badge">${lang.thConfidence}: ${match.guven}% ${getStarRating(match.guven)}</span></h4>
-                    
-                    <p>
-                        <strong>${lang.labelMs}:</strong> 
-                        <span class="prediction-ms ${ms_tip}">${ms_handicap_text}</span> 
-                        (${lang.thMsTip.split(' ')[3]}: <span class="odds-badge">${ms_oran.toFixed(2)}</span>)
-                    </p>
-                    
-                    <p>
-                        <strong>${lang.labelTs}:</strong> 
-                        <span class="prediction-ts ${ts_tip}">${ts_text}</span>
-                        (${lang.thMsTip.split(' ')[3]}: <span class="odds-badge">${ts_oran.toFixed(2)}</span>)
-                    </p>
-                    
-                    <p class="reason"><i class="fas fa-robot"></i> ${lang.reasonTitle} ${reason_text}</p>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // Kuponları Doldurma Fonksiyonu
-        function fillCoupons() {
-            const grid = document.querySelector('#tab-coupons .coupon-grid');
-            grid.innerHTML = '';
-            const lang = langData[currentLang];
-            
-            coupons.forEach(coupon => {
-                const card = document.createElement('div');
-                card.classList.add('coupon-card', `card-${coupon.id}`);
-                
-                const coupon_tip = currentLang === 'en' ? coupon.tip_en : coupon.tip_tr;
-                const coupon_uyari = currentLang === 'en' ? coupon.uyari_en : coupon.uyari_tr;
-
-                card.innerHTML = `
-                    <h3>${coupon_tip} <i class="fas fa-basketball-ball" style="color: var(--light-yellow);"></i></h3>
-                    <div class="coupon-meta">
-                        <p><strong>${lang.couponTotalOdds}</strong> <span style="font-size: 1.2em;">${coupon.total_oran}</span></p>
-                        <p><strong>${lang.couponConfidence}</strong> ${coupon.confidence}%</p>
-                        <p><strong>${lang.couponStake}</strong> <strong style="font-size: 1.1em; color: #4CAF50;">${coupon.stake}/10</strong></p>
-                    </div>
-                    <div class="coupon-bets">
-                        <h4 style="color: var(--secondary-orange); border-bottom: 1px dotted; padding-bottom: 5px;">${lang.couponBets}</h4>
-                        <ul>
-                            ${coupon.bets.map(bet => `
-                                <li>
-                                    <span>${bet.match}</span>
-                                    <span>${bet.selection.replace('MS', currentLang === 'en' ? 'FT' : 'MS').replace('ALT', currentLang === 'en' ? 'UNDER' : 'ALT').replace('ÜST', currentLang === 'en' ? 'OVER' : 'ÜST')} <span class="odds-badge">${bet.odd}</span></span>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                    ${coupon_uyari ? `<p style="color: #FF4500; font-weight: bold; text-align: center; margin-top: 15px;">${coupon_uyari}</p>` : ''}
-                `;
-                grid.appendChild(card);
-            });
-        }
         
-        // Arayüz Çeviri Fonksiyonu
-        function translateUI(lang) {
+        // Dili değiştiren ana fonksiyon
+        function changeLanguage(lang) {
+            currentLang = lang;
             const data = langData[lang];
-            
-            // Başlık
+
+            // Genel Metinleri Güncelle
             document.getElementById('pageTitle').textContent = data.pageTitle;
             document.getElementById('mainTitleText').textContent = data.mainTitleText;
             document.getElementById('poweredByText').textContent = data.poweredByText;
-            
-            // Sekme Butonları
             document.getElementById('tabBtnTable').innerHTML = `<i class="fas fa-table"></i> ${data.tabBtnTable}`;
             document.getElementById('tabBtnHighConfidence').innerHTML = `<i class="fas fa-star"></i> ${data.tabBtnHighConfidence}`;
-            document.getElementById('tabBtnCoupons').innerHTML = `<i class="fas fa-ticket-alt"></i> ${data.tabBtnCoupons}`;
             document.getElementById('tabBtnStats').innerHTML = `<i class="fas fa-chart-bar"></i> ${data.tabBtnStats}`;
-
-            // Tablo Başlıkları (Kart yapısında kullanmak için)
             document.getElementById('tableHeader').innerHTML = `<i class="fas fa-list-ol"></i> ${data.tableHeader}`;
             document.getElementById('tableNote').innerHTML = data.tableNote;
-
-            // Diğer Başlıklar
             document.getElementById('highConfidenceHeader').innerHTML = `<i class="fas fa-microchip"></i> ${data.highConfidenceHeader}`;
-            document.getElementById('couponsHeader').innerHTML = `<i class="fas fa-robot"></i> ${data.couponsHeader}`;
             document.getElementById('statsHeader').innerHTML = `<i class="fas fa-chart-line"></i> ${data.statsHeader}`;
-            
-            // İstatistik Alanları
             document.getElementById('statsMsHeader').innerHTML = `<i class="fas fa-balance-scale"></i> ${data.statsMsHeader}`;
             document.getElementById('statsMsDetail1').innerHTML = data.statsMsDetail1;
             document.getElementById('statsMsDetail2').innerHTML = data.statsMsDetail2;
@@ -681,53 +536,67 @@
             document.getElementById('statsTsDetail1').innerHTML = data.statsTsDetail1;
             document.getElementById('statsTsDetail2').innerHTML = data.statsTsDetail2;
             document.getElementById('statsRiskHeader').innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${data.statsRiskHeader}`;
-            document.getElementById('riskWarningTitle').innerHTML = `${data.riskWarningTitle} <i class="fas fa-bomb"></i>`;
+            
+            // İstatistik Bölümündeki Özel Kartlar
+            document.getElementById('riskWarningTitle').textContent = data.riskWarningTitle;
             document.getElementById('riskWarningList').innerHTML = data.riskWarningList;
-            document.getElementById('safeComboTitle').innerHTML = `${data.safeComboTitle} <i class="fas fa-shield-alt"></i>`;
+            document.getElementById('safeComboTitle').textContent = data.safeComboTitle;
             document.getElementById('safeComboList').innerHTML = data.safeComboList;
-
-            // Footer
+            
             document.getElementById('footerText').innerHTML = data.footerText;
-
-            // Dinamik içerikleri yeniden yükle
-            fillTable();
-            fillHighConfidence();
-            fillCoupons();
-        }
-
-        // Dil Seçim İşleyicisi
-        document.querySelectorAll('.lang-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const newLang = button.getAttribute('data-lang');
-                if (newLang !== currentLang) {
-                    currentLang = newLang;
-                    
-                    // Butonları güncelle
-                    document.querySelectorAll('.lang-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-
-                    // Arayüzü çevir
-                    translateUI(currentLang);
+            
+            // Dil düğmelerini güncelle
+            document.querySelectorAll('.lang-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
                 }
             });
-        });
 
-        // Sekme İşleyicisi
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const targetTabId = button.getAttribute('data-tab');
-                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                document.getElementById(targetTabId).classList.add('active');
+            // Kartları Yeniden Render Et
+            renderMatchCards(matchesData, 'tab-table');
+            renderMatchCards(matchesData, 'tab-high-confidence', true);
+        }
+
+        // Sekme Değiştirme Fonksiyonu
+        function openTab(tabName) {
+            // Tüm sekme içeriklerini gizle
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
             });
-        });
 
-        // Sayfa Yüklendiğinde
+            // Tüm sekme butonlarının active class'ını kaldır
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Seçilen sekme içeriğini göster
+            document.getElementById(tabName).classList.add('active');
+
+            // Tıklanan butona active class'ı ekle
+            document.querySelector(`.tab-button[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // Olay Dinleyicileri Ekleme (DOMContentLoaded yerine basitçe sonda çalıştırılabilir)
         document.addEventListener('DOMContentLoaded', () => {
-            // Başlangıçta Türkçe arayüzü yükle (currentLang='tr' olduğu için)
-            translateUI(currentLang); 
+            // Sekme butonlarına dinleyici ekle
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    openTab(e.currentTarget.getAttribute('data-tab'));
+                });
+            });
+
+            // Dil butonlarına dinleyici ekle
+            document.querySelectorAll('.lang-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    changeLanguage(e.currentTarget.getAttribute('data-lang'));
+                });
+            });
+
+            // Sayfa yüklendiğinde varsayılan dili yükle
+            changeLanguage('tr'); 
         });
+        
     </script>
 </body>
 </html>
