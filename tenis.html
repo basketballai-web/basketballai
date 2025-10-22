@@ -7,7 +7,7 @@
     <style>
         /*
         ----------------------------------
-        GENEL STİL VE TEMEL TANIMLAR (CSS yapısı aynen korunmuştur)
+        GENEL STİL VE TEMEL TANIMLAR
         ----------------------------------
         */
         * {
@@ -24,6 +24,9 @@
             --color-accent-dark: #1A1A1A;
             --color-text-light: #F0F4F8;
             --color-bg-base: #0D1B2A;
+            /* YENİ RENK: Neon Coral / Parlak Turuncu-Kırmızı */
+            --color-main-title: #FF6B6B; 
+            --color-online-indicator: #00FF00;
         }
 
         body {
@@ -39,7 +42,9 @@
             margin: 0 auto;
         }
 
-        /* HEADER & BAŞLIKLAR */
+        /* -------------------------- */
+        /* HEADER & BAŞLIKLAR (YENİ SADELEŞTİRİLMİŞ YAPI) */
+        /* -------------------------- */
         .header {
             background: linear-gradient(135deg, var(--color-ai-medium) 0%, var(--color-ai-dark) 100%);
             padding: 30px;
@@ -84,134 +89,101 @@
             text-shadow: 0 0 5px var(--color-tennis-neon);
         }
 
+        /* YENİ ANA BAŞLIK STİLİ - RENK DEĞİŞTİRİLDİ */
+        .main-title {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: var(--color-main-title); /* Turuncu-Kırmızı */
+            text-shadow: 0 0 15px var(--color-main-title), 0 0 5px var(--color-ai-medium);
+            line-height: 1.1;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* POWERED BY AI STİLİ */
         .powered-by {
+            font-size: 1.2em;
+            color: var(--color-text-light);
+            font-weight: 700;
+            margin-top: 15px;
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--color-ai-dark);
+            border: 2px solid var(--color-tennis-neon);
+            border-radius: 15px;
+            text-transform: uppercase;
+        }
+
+        /* YENİ: SİSTEM ONLINE ve TARİH KONUMLANDIRMASI */
+        .system-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             font-size: 1em;
             color: var(--color-text-light);
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: var(--color-ai-dark);
-            border: 1px solid var(--color-tennis-neon);
-            border-radius: 10px;
+            text-align: right;
+            line-height: 1.5;
+            z-index: 2;
         }
 
-        .main-header-group {
-            color: var(--color-tennis-neon);
-            text-shadow: 0 0 15px var(--color-tennis-neon), 0 0 5px var(--color-ai-medium);
-            margin-bottom: 10px;
-            font-weight: 900;
-            line-height: 1.1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .main-header-group h1 {
-            font-size: 2.8em;
-            margin: 0;
-        }
-
-        .main-header-group .sub-header-text {
-            font-size: 2.2em;
-            margin-top: -5px;
-        }
-
-        .header-main-icon {
-            display: inline-block;
-            font-size: 1.5em;
-            animation: bounce 2s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        /* GÜNCEL TARİH SAAT STİLİ */
-        .current-datetime {
-            background-color: var(--color-ai-dark);
-            color: var(--color-tennis-neon);
-            padding: 10px 20px;
-            border-radius: 15px;
-            margin-top: 15px;
-            font-size: 1.1em;
-            font-weight: 700;
-            border: 2px solid var(--color-tennis-neon);
-            box-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
-            display: inline-block;
-        }
-
-        /* SİSTEM ONLİNE & DİL SEÇİMİ */
-        .status-and-lang {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            z-index: 10;
-        }
-
-        .system-status {
+        .online-indicator {
             display: flex;
             align-items: center;
-            background-color: var(--color-accent-dark);
-            color: var(--color-tennis-neon);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.9em;
+            justify-content: flex-end;
             font-weight: 700;
-            margin-bottom: 10px;
-            border: 2px solid var(--color-tennis-green);
         }
 
-        .status-light {
-            width: 12px;
-            height: 12px;
-            background-color: var(--color-tennis-green);
+        .online-dot {
+            height: 10px;
+            width: 10px;
+            background-color: var(--color-online-indicator);
             border-radius: 50%;
-            margin-right: 8px;
-            box-shadow: 0 0 8px var(--color-tennis-green);
-            animation: blink 1s infinite alternate;
+            display: inline-block;
+            margin-left: 8px;
+            box-shadow: 0 0 5px var(--color-online-indicator);
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes blink {
-            from { opacity: 1; box-shadow: 0 0 8px var(--color-tennis-green); }
-            to { opacity: 0.4; box-shadow: none; }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .language-switch {
-            display: flex;
-            gap: 5px;
-        }
-
-        .lang-btn {
-            padding: 5px 10px;
-            border: 2px solid var(--color-ai-medium);
-            border-radius: 8px;
+        /* YENİ: DİL SEÇENEĞİ KONUMLANDIRMASI (SOL ÜST) */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5em;
             cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s;
-            font-size: 0.8em;
-            background-color: var(--color-ai-dark);
-            color: var(--color-text-light);
+            z-index: 2;
+            display: flex;
+            gap: 10px;
         }
 
-        .lang-btn:hover {
-            background-color: var(--color-ai-medium);
-            color: var(--color-tennis-neon);
+        .language-selector span {
+            opacity: 0.5;
+            transition: opacity 0.2s, transform 0.2s;
         }
 
-        .lang-btn.active-lang {
-            background-color: var(--color-tennis-neon);
-            color: var(--color-accent-dark);
-            border-color: var(--color-accent-dark);
+        .language-selector span:hover {
+            transform: scale(1.1);
         }
 
+        .language-selector .active-lang {
+            opacity: 1;
+            border: 2px solid var(--color-tennis-neon);
+            border-radius: 5px;
+            padding: 2px;
+            line-height: 1;
+        }
+
+
+        /* -------------------------- */
+        /* GERİ KALAN STİLLER (Aynen Korundu) */
+        /* -------------------------- */
+        
         /* SEKMELER (TABS) */
         .tabs {
             display: flex;
@@ -360,7 +332,6 @@
             font-size: 0.9em;
             opacity: 0.7;
             margin-bottom: 5px;
-            /* Yeni Etiketi daha iyi göstermek için */
             white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis;
@@ -370,7 +341,6 @@
             font-size: 1.2em;
             font-weight: 900;
             color: var(--color-tennis-neon);
-            /* İstenen değişiklik: Alt/Üst tahminini ortala */
             text-align: center;
         }
 
@@ -455,15 +425,12 @@
 
         /* MOBİL UYUMLULUK */
         @media (max-width: 768px) {
-            /* Orijinal mobil stilleriniz */
             body { padding: 10px; }
             .header { padding: 15px; border-radius: 15px; }
-            .status-and-lang { position: static; margin-top: 10px; flex-direction: row; justify-content: space-around; width: 100%; align-items: center; flex-wrap: wrap; }
-            .system-status { order: 2; margin-bottom: 0; margin-left: 0; margin-top: 10px; }
-            .language-switch { order: 1; }
-            .main-header-group h1 { font-size: 1.8em; }
-            .main-header-group .sub-header-text { font-size: 1.4em; }
-            .header-main-icon { font-size: 1.2em; }
+            .main-title { font-size: 2.2em; }
+            .powered-by { font-size: 1em; padding: 5px 10px; margin-top: 10px; }
+            .system-info { top: 10px; right: 10px; font-size: 0.9em; }
+            .language-selector { top: 10px; left: 10px; font-size: 1.2em; }
             .tab { padding: 10px 15px; font-size: 0.9em; flex-grow: 1; }
             .match-card { padding: 15px; }
             .players { font-size: 1.3em; }
@@ -477,11 +444,11 @@
             .stat-value { font-size: 1em; }
             .confidence-fill, .recommendation { font-size: 0.8em; }
             .odd-box { padding: 6px 10px; font-size: 0.9em; }
-            .stat-label { font-size: 0.8em; } /* Etiket sığdırma için küçültme */
+            .stat-label { font-size: 0.8em; }
         }
     </style>
     <script>
-        // MAÇ TARİHLERİ GÜNCELLENDİ (23 Ekim TSİ - Bugünün tarihi olarak ayarlandı)
+        // MAÇ TARİHLERİ
         const matchDates = {
             osorio: "2025/10/23 08:00:00",
             sun: "2025/10/23 09:10:00",
@@ -500,117 +467,172 @@
 
         // MAÇ ORANLARI VE TAHMİNLERİ
         const matchData = {
-            // WTA
-            // prediction alanı güncellendi, oranlar kaldırıldı.
-            // ORAN İŞARETLEMELERİ KONTROL EDİLDİ VE GÜNCELLENDİ
-            osorio: { prediction: "OSORIO", ms1: "1.87", ms2: "1.45", alt: "1.48", ust: "1.84", msHighlight: "ms1", recHighlight: "ms1,ust", gamePred: "ÜST" },
-            sun: { prediction: "L. SUN", ms1: "1.29", ms2: "2.24", alt: "1.64", ust: "1.57", msHighlight: "ms1", recHighlight: "ms1,alt", gamePred: "ALT" }, // GÜNCELLENDİ: ms1 eklendi
-            wangxiyu: { prediction: "WANG XIYU", ms1: "1.66", ms2: "1.62", alt: "1.56", ust: "1.73", msHighlight: "ms1", recHighlight: "ms1,ust", gamePred: "ÜST" },
-            mcnally: { prediction: "MCNALLY", ms1: "1.51", ms2: "1.79", alt: "1.66", ust: "1.62", msHighlight: "ms1", recHighlight: "ms1", gamePred: "ALT" }, // GÜNCELLENDİ: ms1 eklendi
-            seidel: { prediction: "PUTINTSEVA ⭐⭐⭐", ms1: "2.03", ms2: "1.38", alt: "1.63", ust: "1.64", msHighlight: "ms2", recHighlight: "ms2,alt", gamePred: "ALT" },
-            liu: { prediction: "BONDAR", ms1: "1.87", ms2: "1.45", alt: "1.72", ust: "1.57", msHighlight: "ms2", recHighlight: "ms2,alt", gamePred: "ALT" }, // GÜNCELLENDİ: ms2 eklendi
+            osorio: { prediction: "OSORIO", ms1: "1.87", ms2: "1.45", alt: "1.48", ust: "1.84", recHighlight: "ms1,ust", gamePred: "ÜST" },
+            sun: { prediction: "L. SUN", ms1: "1.29", ms2: "2.24", alt: "1.64", ust: "1.57", recHighlight: "ms1,alt", gamePred: "ALT" }, 
+            wangxiyu: { prediction: "WANG XIYU", ms1: "1.66", ms2: "1.62", alt: "1.56", ust: "1.73", recHighlight: "ms1,ust", gamePred: "ÜST" },
+            mcnally: { prediction: "MCNALLY", ms1: "1.51", ms2: "1.79", alt: "1.66", ust: "1.62", recHighlight: "ms1,alt", gamePred: "ALT" }, 
+            seidel: { prediction: "PUTINTSEVA ⭐⭐⭐", ms1: "2.03", ms2: "1.38", alt: "1.63", ust: "1.64", recHighlight: "ms2,alt", gamePred: "ALT" },
+            liu: { prediction: "BONDAR", ms1: "1.87", ms2: "1.45", alt: "1.72", ust: "1.57", recHighlight: "ms2,alt", gamePred: "ALT" }, 
 
-            // ATP
-            berrettini: { prediction: "BERRETTINI ⭐⭐⭐", ms1: "1.49", ms2: "1.82", alt: "1.57", ust: "1.71", msHighlight: "ms1", recHighlight: "ms1,ust", gamePred: "ÜST" },
-            royer: { prediction: "SHAPOVALOV", ms1: "2.09", ms2: "1.34", alt: "1.75", ust: "1.54", msHighlight: "ms2", recHighlight: "ms2", gamePred: "ALT" }, // GÜNCELLENDİ: ms2 eklendi
-            medvedev: { prediction: "MEDVEDEV ⭐⭐⭐", ms1: "1.26", ms2: "2.36", alt: "1.63", ust: "1.65", msHighlight: "ms1", recHighlight: "ms1,alt", gamePred: "ALT" },
-            munar: { prediction: "SHELTON", ms1: "2.26", ms2: "1.28", alt: "1.75", ust: "1.53", msHighlight: "ms2", recHighlight: "ms2", gamePred: "ALT" }, // GÜNCELLENDİ: ms2 eklendi
-            opelka: { prediction: "OPELKA", ms1: "1.62", ms2: "1.66", alt: "1.74", ust: "1.55", msHighlight: "ms1", recHighlight: "ms1", gamePred: "ÜST" }, // GÜNCELLENDİ: ms1 eklendi
-            cerundolo: { prediction: "BUBLIK - ÜST", ms1: "1.95", ms2: "1.41", alt: "1.54", ust: "1.75", msHighlight: "ms2", recHighlight: "ust", gamePred: "ÜST" },
+            berrettini: { prediction: "BERRETTINI ⭐⭐⭐", ms1: "1.49", ms2: "1.82", alt: "1.57", ust: "1.71", recHighlight: "ms1,ust", gamePred: "ÜST" },
+            royer: { prediction: "SHAPOVALOV", ms1: "2.09", ms2: "1.34", alt: "1.75", ust: "1.54", recHighlight: "ms2,alt", gamePred: "ALT" },
+            medvedev: { prediction: "MEDVEDEV ⭐⭐⭐", ms1: "1.26", ms2: "2.36", alt: "1.63", ust: "1.65", recHighlight: "ms1,alt", gamePred: "ALT" },
+            munar: { prediction: "SHELTON", ms1: "2.26", ms2: "1.28", alt: "1.75", ust: "1.53", recHighlight: "ms2,alt", gamePred: "ALT" },
+            opelka: { prediction: "OPELKA", ms1: "1.62", ms2: "1.66", alt: "1.74", ust: "1.55", recHighlight: "ms1,ust", gamePred: "ÜST" },
+            cerundolo: { prediction: "BUBLIK - ÜST", ms1: "1.95", ms2: "1.41", alt: "1.54", ust: "1.75", recHighlight: "ms2,ust", gamePred: "ÜST" },
         };
 
+        let currentLang = 'tr'; 
 
-        // Dil çevirileri ve formatlar
+        // Dil çevirileri ve formatlar (TR ve EN eklendi)
         const translations = {
             tr: {
-                topTitle: "Tenis Robot Tips",
-                poweredBy: "Robot Destekli",
-                mainHeader: "ROBOT DESTEKLİ",
-                subHeader: "TENİS TAHMİNLERİ",
-                systemOnline: "SİSTEM ONLİNE",
+                topTitle: "Tenis Ai Robot Tips",
+                poweredBy: "Powered by Ai",
+                mainTitle: "TENİS TAHMİNLERİ", 
                 tabWTA: "👩 WTA MAÇLARI", tabATP: "👨 ATP MAÇLARI",
                 matchStarts: "Maç Başlangıcı:", countdownTitle: "Kalan Süre", matchStarted: "MAÇ BAŞLADI", matchFinished: "MAÇ BİTTİ",
                 timeFormat: { d: 'g', h: 's', m: 'd', s: 'sn' },
-                dateFormatOptions: { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' },
-
-                // YENİ ETİKET
                 gameTotalPrediction: "TOPLAM OYUN ALT/ÜST", 
-
-                // Diğer Etiketler
-                form: "Form", h2h: "H2H", serve: "Servis",
+                form: "Form", h2h: "H2H", serve: "Servis/Return",
                 recHigh: "✅ YÜKSEK GÜVENLİ", recMedium: "⚠️ ORTA GÜVENLİ - DİKKATLİ",
                 recLow: "❌ DÜŞÜK GÜVENLİ", recStrongAdvice: "💪 TAVSİYE: GÜÇLÜ", recMediumAdvice: "💡 TAVSİYE: ORTA", recWaitAdvice: "⏸️ TAVSİYE: BEKLE",
                 ms1: "MS 1", ms2: "MS 2", alt: "ALT", ust: "ÜST",
+                systemOnline: "Sistem (Online)",
 
-                // YENİ MAÇ NOTLARI (23 EKİM ANALİZİ) - Yapay Zeka/AI -> Robot
-                medvedevNote: "3 Robot Konsensüsü. Güçlü Oran. ALT (1.63) Skoru tavsiye edilir.",
-                putintsevaNote: "3 Robot Konsensüsü. Güçlü Oran. ALT (1.63) Skoru tavsiye edilir.",
-                berrettiniNote: "2 Robot Destekliyor (H2H 2-0). Robot Hata Yaptı! ÜST (1.71) Değerlidir.",
-                sheltonNote: "3 Robot Konsensüsü. Genç ve Formda oyuncu. MS2 Oranı: 1.28",
+                // MAÇ NOTLARI
+                medvedevNote: "3 Robot Konsensüsü. ALT (1.63) Skoru tavsiye edilir.",
+                putintsevaNote: "3 Robot Konsensüsü. ALT (1.63) Skoru tavsiye edilir.",
+                berrettiniNote: "2 Robot Destekliyor (H2H 2-0). ÜST (1.71) Değerlidir.",
+                sheltonNote: "3 Robot Konsensüsü. Genç ve Formda oyuncu.",
                 osorioNote: "H2H 2-0 Osorio. İyi Oran (1.87) ve ÜST (1.84) Değeri.",
                 cerundoloNote: "3 Robot ÜST Konsensüsü. Bublik'in dalgalı oyunu sebebiyle ÜST (1.75) riski.",
-                wangxiyuNote: "3 Robot ÜST Konsensüsü. Ev sahibi avantajı ve ÜST (1.73) Değeri.",
-                opelkaNote: "3 Robot Opelka'da birleşti. Servis gücü belirleyici. MS1 Oranı: 1.62",
+                wangxiyuNote: "3 Robot ÜST Konsensüsü. Ev sahibi avantajı.",
+                opelkaNote: "3 Robot Opelka'da birleşti. Servis gücü belirleyici.",
                 sunwangNote: "3 Robot L. Sun Konsensüsü. MS1 Oranı: 1.29",
-                royerNote: "3 Robot Düşük Güven. Shapovalov 1.34 favori. Canlıya Bırakın.",
-                mcnallyNote: "Bölünmüş tahmin. Mcnally 1.51 favori. Tomljanovic sakatlık sonrası. Riskli.",
-                liuNote: "Düşük kalite maç. Bondar 1.45 favori. Güven ZAYIF. BEKLE.",
+                royerNote: "3 Robot Düşük Güven. Canlıya Bırakın.",
+                mcnallyNote: "Bölünmüş tahmin. Tomljanovic sakatlık sonrası. Riskli.",
+                liuNote: "Düşük kalite maç. Güven ZAYIF. BEKLE.",
             },
             en: {
-                topTitle: "Tennis Robot Tips",
-                poweredBy: "Robot Powered",
-                mainHeader: "ROBOT-AIDED",
-                subHeader: "TENNIS PREDICTIONS",
-                systemOnline: "SYSTEM ONLINE",
+                topTitle: "Tennis AI Robot Tips",
+                poweredBy: "Powered by Ai",
+                mainTitle: "TENNIS PREDICTIONS", 
                 tabWTA: "👩 WTA MATCHES", tabATP: "👨 ATP MATCHES",
-                matchStarts: "Match Start:", countdownTitle: "Time Left", matchStarted: "MATCH STARTED", matchFinished: "MATCH FINISHED",
+                matchStarts: "Match Starts:", countdownTitle: "Time Left", matchStarted: "MATCH STARTED", matchFinished: "MATCH ENDED",
                 timeFormat: { d: 'd', h: 'h', m: 'm', s: 's' },
-                dateFormatOptions: { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' },
-
-                // YENİ ETİKET
-                gameTotalPrediction: "TOTAL GAMES U/O",
-
-                // Diğer Etiketler
-                form: "Form", h2h: "H2H", serve: "Serve",
-                recHigh: "✅ HIGH CONFIDENCE", recMedium: "⚠️ MEDIUM CONFIDENCE - CAREFUL",
+                gameTotalPrediction: "TOTAL GAMES OVER/UNDER", 
+                form: "Form", h2h: "H2H", serve: "Serve/Return",
+                recHigh: "✅ HIGH CONFIDENCE", recMedium: "⚠️ MEDIUM CONFIDENCE - CAUTION",
                 recLow: "❌ LOW CONFIDENCE", recStrongAdvice: "💪 ADVICE: STRONG", recMediumAdvice: "💡 ADVICE: MEDIUM", recWaitAdvice: "⏸️ ADVICE: WAIT",
-                ms1: "MS 1", ms2: "MS 2", alt: "UNDER", ust: "OVER",
+                ms1: "W 1", ms2: "W 2", alt: "UNDER", ust: "OVER",
+                systemOnline: "System (Online)",
 
-                // YENİ MAÇ NOTLARI (23 EKİM ANALİZİ) - AI -> Robot
-                medvedevNote: "3 Robot Consensus. Strong Pick. UNDER (1.63) score is highly recommended.",
-                putintsevaNote: "3 Robot Consensus. Strong Pick. UNDER (1.63) score is highly recommended.",
-                berrettiniNote: "2 Robot Support (H2H 2-0). Robot Made a Mistake! OVER (1.71) is Value.",
-                sheltonNote: "3 Robot Consensus. Young and in-form player. MS2 Odd: 1.28",
+                // MAÇ NOTLARI
+                medvedevNote: "3 Robot Consensus. UNDER (1.63) Score is recommended.",
+                putintsevaNote: "3 Robot Consensus. UNDER (1.63) Score is recommended.",
+                berrettiniNote: "2 Robot Support (H2H 2-0). OVER (1.71) is valuable.",
+                sheltonNote: "3 Robot Consensus. Young and in-form player.",
                 osorioNote: "H2H 2-0 Osorio. Good Odd (1.87) and OVER (1.84) Value.",
-                cerundoloNote: "3 Robot OVER Consensus. OVER (1.75) risk due to Bublik's inconsistent play.",
-                wangxiyuNote: "3 Robot OVER Consensus. Home-court advantage and OVER (1.73) Value.",
-                opelkaNote: "3 Robot Consensus on Opelka. Service power is key. MS1 Odd: 1.62",
-                sunwangNote: "3 Robot Consensus on L. Sun. MS1 Odd: 1.29",
-                royerNote: "3 Robot Low Confidence. Shapovalov 1.34 favorite. Leave for Live Betting.",
-                mcnallyNote: "Split prediction. Mcnally 1.51 favorite. Tomljanovic post-injury. Risky.",
-                liuNote: "Low-quality match. Bondar 1.45 favorite. Confidence is WEAK. WAIT.",
+                cerundoloNote: "3 Robot OVER Consensus. OVER (1.75) risk due to Bublik's fluctuating play.",
+                wangxiyuNote: "3 Robot OVER Consensus. Home advantage.",
+                opelkaNote: "3 Robots agreed on Opelka. Serving power is key.",
+                sunwangNote: "3 Robot L. Sun Consensus. W1 Odd: 1.29",
+                royerNote: "3 Robots Low Confidence. Leave it to live betting.",
+                mcnallyNote: "Split prediction. Tomljanovic after injury. Risky.",
+                liuNote: "Low quality match. Confidence WEAK. WAIT.",
             }
         };
 
-        let currentLang = 'tr';
+        // --- DİL SEÇİM FONKSİYONU ---
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            const locale = (lang === 'tr' ? 'tr-TR' : 'en-US');
 
-        // --- ORAN YERLEŞTİRME FONKSİYONU ---
+            // 1. Genel Başlıkları Güncelle
+            document.getElementById('top-title').textContent = t.topTitle;
+            document.getElementById('main-title').textContent = t.mainTitle;
+            document.getElementById('powered-by').textContent = t.poweredBy;
+            document.getElementById('system-online-text').textContent = t.systemOnline;
+
+            // 2. Sekme Başlıklarını Güncelle
+            const tabElements = document.querySelectorAll('.tabs .tab');
+            if(tabElements[0]) tabElements[0].textContent = t.tabWTA;
+            if(tabElements[1]) tabElements[1].textContent = t.tabATP;
+
+            // 3. Statik Etiketleri Güncelle
+            document.querySelectorAll('.match-starts-label').forEach(el => el.textContent = t.matchStarts);
+            document.querySelectorAll('[data-label-key="form"]').forEach(el => el.textContent = t.form);
+            document.querySelectorAll('[data-label-key="h2h"]').forEach(el => el.textContent = t.h2h);
+            // Servis/Return'ü tek bir etiketle yönetmek için
+            document.querySelectorAll('[data-label-key="serve"], [data-label-key="return"]').forEach(el => el.textContent = t.serve);
+            document.querySelectorAll('[data-label-key="gameTotalPrediction"]').forEach(el => el.textContent = t.gameTotalPrediction);
+
+            // 4. Maç Kartlarını (Prediction ve Advice) Güncelle
+            Object.keys(matchData).forEach(matchId => {
+                const card = document.getElementById(matchId);
+                if (card) {
+                    // Prediction Text
+                    card.querySelector('.prediction').textContent = `🤖 ${matchData[matchId].prediction}`;
+                    
+                    // Confidence Text
+                    const confText = card.querySelector('.confidence-fill');
+                    const recId = matchId + '-conf';
+                    if (recId.includes('medvedev') || recId.includes('putintseva') || recId.includes('berrettini')) {
+                         confText.textContent = t.recHigh;
+                    } else if (recId.includes('shelton') || recId.includes('osorio') || recId.includes('cerundolo') || recId.includes('wangxiyu') || recId.includes('opelka') || recId.includes('sun')) {
+                         confText.textContent = t.recMedium;
+                    } else {
+                         confText.textContent = t.recLow;
+                    }
+
+                    // Recommendation Advice
+                    const recAdvice = card.querySelector('.recommendation');
+                    let adviceKey = matchId + 'Note';
+                    let adviceText = t[adviceKey] || 'No specific advice for this match.';
+                    let adviceType = '';
+                    if (recAdvice.classList.contains('rec-strong')) adviceType = t.recStrongAdvice;
+                    else if (recAdvice.classList.contains('rec-medium')) adviceType = t.recMediumAdvice;
+                    else if (recAdvice.classList.contains('rec-wait')) adviceType = t.recWaitAdvice;
+                    
+                    recAdvice.textContent = `${adviceType} - ${adviceText}`;
+
+                    // Odds container'ı yeniden oluştur (MS1/W1, ALT/UNDER için)
+                    const oddsContainer = card.querySelector('.odds-placeholder');
+                    if(oddsContainer) {
+                        oddsContainer.innerHTML = generateOddsHTML(matchId, t);
+                    }
+                }
+            });
+            
+            // 5. Dil Seçiciyi Güncelle
+            document.getElementById('lang-tr').classList.toggle('active-lang', lang === 'tr');
+            document.getElementById('lang-en').classList.toggle('active-lang', lang === 'en');
+
+            // Geri sayımı güncelle (Dil değişince format da değişebilir)
+            startCountdown();
+        }
+
+
+        // --- ORAN YERLEŞTİRME FONKSİYONU --- (MS/ALT/ÜST çevirisi için güncellendi)
         function generateOddsHTML(matchId, t) {
             const data = matchData[matchId];
             if (!data) return '';
 
-            // Oyuncu 1 vs Oyuncu 2 / Alt vs Üst Oranları
-            const ms1 = `<div class="odd-box ${data.recHighlight.includes('ms1') ? 'highlight' : ''}">${t.ms1}: ${data.ms1}</div>`;
-            const ms2 = `<div class="odd-box ${data.recHighlight.includes('ms2') ? 'highlight' : ''}">${t.ms2}: ${data.ms2}</div>`;
+            const highlights = data.recHighlight.split(','); 
 
-            // Oyun Sayısı Limiti (Limit bilgisi yok, sabit 23.5/22.5/21.5 kabul edelim)
+            // MS1 ve MS2, ALT ve ÜST etiketleri dinamik olarak alınıyor
+            const ms1 = `<div class="odd-box ${highlights.includes('ms1') ? 'highlight' : ''}">${t.ms1}: ${data.ms1}</div>`;
+            const ms2 = `<div class="odd-box ${highlights.includes('ms2') ? 'highlight' : ''}">${t.ms2}: ${data.ms2}</div>`;
+
             let gameLimit = '22.5';
             if(matchId === 'berrettini' || matchId === 'cerundolo') gameLimit = '23.5';
             if(matchId === 'opelka') gameLimit = '24.5';
-            if(matchId === 'sun' || matchId === 'mcnally' || matchId === 'seidel' || matchId === 'liu') gameLimit = '21.5';
+            if(matchId === 'sun' || matchId === 'mcnally' || matchId === 'seidel' || matchId === 'liu' || matchId === 'royer' || matchId === 'medvedev' || matchId === 'munar' || matchId === 'wangxiyu') gameLimit = '21.5';
 
-            const alt = `<div class="odd-box ${data.recHighlight.includes('alt') ? 'highlight' : ''}">${gameLimit} ${t.alt}: ${data.alt}</div>`;
-            const ust = `<div class="odd-box ${data.recHighlight.includes('ust') ? 'highlight' : ''}">${gameLimit} ${t.ust}: ${data.ust}</div>`;
+            const alt = `<div class="odd-box ${highlights.includes('alt') ? 'highlight' : ''}">${gameLimit} ${t.alt}: ${data.alt}</div>`;
+            const ust = `<div class="odd-box ${highlights.includes('ust') ? 'highlight' : ''}">${gameLimit} ${t.ust}: ${data.ust}</div>`;
 
             return `<div class="odds-container">${ms1}${ms2}${alt}${ust}</div>`;
         }
@@ -640,21 +662,22 @@
             const seconds = totalSeconds % 60;
             const minutes = totalMinutes % 60;
             const hours = totalHours % 24;
+            const days = totalDays;
 
             let output = '';
 
             // Günleri ekle
-            if (totalDays > 0) {
-                 output += totalDays + t.timeFormat.d + ' ';
+            if (days > 0) {
+                 output += days + t.timeFormat.d + ' ';
             }
 
             // Saatleri ekle
-            if (totalHours > 0 || totalDays > 0) {
+            if (hours > 0 || days > 0) {
                  output += hours.toString().padStart(2, '0') + t.timeFormat.h + ' ';
             }
 
-            // Dakika ve saniyeleri ekle (Tek başına saniye gösterimini de destekler)
-            if (totalDays === 0 && totalHours === 0 && totalMinutes === 0 && seconds > 0) {
+            // Dakika ve saniyeleri ekle
+            if (days === 0 && hours === 0 && minutes === 0 && seconds > 0) {
                  output = minutes.toString().padStart(2, '0') + t.timeFormat.m + ' ' + seconds.toString().padStart(2, '0') + t.timeFormat.s;
             } else {
                  output += minutes.toString().padStart(2, '0') + t.timeFormat.m + ' ';
@@ -664,56 +687,42 @@
             return output.trim();
         }
 
-        // Header'daki saati sadeleştirir ve TSİ ile uyumlu hale getirir.
-        function updateClock() {
-            const t = translations[currentLang];
-            // TSİ için 'tr-TR' ve 'Europe/Istanbul' ayarları kullanılır.
-            const locale = currentLang === 'tr' ? 'tr-TR' : 'en-US';
-
-            // Tarih nesnesini TSİ'ye göre oluşturmak için
-            const now = new Date();
-
-            // toLocaleString() ile tarih ve saat yerel formata göre oluşturulur.
-            const formattedDate = now.toLocaleString(locale, t.dateFormatOptions);
-
-            document.getElementById('current-datetime').textContent = formattedDate;
-        }
-
         // Maç geri sayım fonksiyonu
         function startCountdown() {
             const t = translations[currentLang];
             const now = new Date().getTime();
-            const locale = currentLang === 'tr' ? 'tr-TR' : 'en-US';
+            const locale = (currentLang === 'tr' ? 'tr-TR' : 'en-US');
             const greenColor = 'var(--color-tennis-green)';
             const redColor = '#FF6B6B';
             const orangeColor = 'orange';
 
+            // Tarih bilgisini güncelleyen kısım
+            const today = new Date();
+            const dateFormatter = new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'long', year: 'numeric' });
+            document.getElementById('current-date-display').textContent = dateFormatter.format(today);
+
+
             document.querySelectorAll('[data-match-time]').forEach(el => {
                 const matchTimeStr = el.getAttribute('data-match-time');
-                // new Date(matchTimeStr) TSİ'ye ayarlandığı için, bu şekilde kullanmak doğrudur.
                 const matchStartTime = new Date(matchTimeStr).getTime();
                 const distance = matchStartTime - now;
                 const countdownElement = el.querySelector('.countdown-timer');
                 const matchStartDisplay = el.querySelector('.match-start-time');
 
                 // Maç Başlangıç Saatinin Dinamik Gösterilmesi (Sadece Saat:Dakika)
-                // Bu kısım, tarih nesnesini kullanarak, kullanıcı diline göre saat:dakika gösterir.
                 matchStartDisplay.textContent = new Date(matchTimeStr).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 
                 if (distance < 0) {
-                    // Maç bittiyse (örneğin 3 saatten fazla geçtiyse)
                     if (matchStartTime < now - (3 * 60 * 60 * 1000)) {
                          countdownElement.textContent = t.matchFinished;
                          countdownElement.style.color = redColor;
                          countdownElement.style.borderColor = redColor;
                     } else {
-                        // Maç başladı ama bitmedi
                         countdownElement.textContent = t.matchStarted;
                         countdownElement.style.color = orangeColor;
                         countdownElement.style.borderColor = orangeColor;
                     }
                 } else {
-                    // Maç başlamadı
                     const formattedCountdown = formatTime(distance, t);
                     countdownElement.textContent = t.countdownTitle + ": " + formattedCountdown;
                     countdownElement.style.color = greenColor;
@@ -722,115 +731,19 @@
             });
         }
 
-
-        function changeLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-
-            // Tüm dinamik metinleri çevir
-            document.getElementById('top-title').textContent = t.topTitle;
-            document.getElementById('powered-by').textContent = t.poweredBy;
-            document.getElementById('main-header-text').textContent = t.mainHeader;
-            document.getElementById('sub-header-text').textContent = t.subHeader;
-            document.getElementById('system-online-text').textContent = t.systemOnline;
-
-            const tabElements = document.querySelectorAll('.tabs .tab');
-            // WTA ve ATP sekme başlıkları güncelleniyor.
-            if(tabElements[0]) tabElements[0].textContent = t.tabWTA;
-            if(tabElements[1]) tabElements[1].textContent = t.tabATP;
-
-            document.querySelectorAll('.match-starts-label').forEach(el => el.textContent = t.matchStarts);
-
-            // İstatistik Etiketleri (Match Card içindeki stat box'lar)
-             document.querySelectorAll('[data-label-key="form"]').forEach(el => el.textContent = t.form);
-             document.querySelectorAll('[data-label-key="h2h"]').forEach(el => el.textContent = t.h2h);
-             document.querySelectorAll('[data-label-key="serve"]').forEach(el => el.textContent = t.serve);
-             // BURASI GÜNCELLENDİ: "Skor Tahmini" -> "TOPLAM OYUN ALT/ÜST"
-             document.querySelectorAll('[data-label-key="gameTotalPrediction"]').forEach(el => el.textContent = t.gameTotalPrediction);
-             document.querySelectorAll('[data-label-key="return"]').forEach(el => el.textContent = t.serve); // Aynı çeviri kullanılıyor
-
-            // prediction div'lerini güncelle
-            Object.keys(matchData).forEach(matchId => {
-                const card = document.getElementById(matchId);
-                if (card) {
-                    card.querySelector('.prediction').textContent = `🤖 ${matchData[matchId].prediction}`;
-                }
-            });
-            
-            // YENİ MAÇ TAVSİYELERİ VE GÜVEN SEVİYELERİ (HTML ID'leri üzerinden)
-            document.getElementById('medvedev-conf').textContent = t.recHigh;
-            document.getElementById('medvedev-rec-advice').textContent = t.recStrongAdvice + " - " + t.medvedevNote;
-
-            document.getElementById('putintseva-conf').textContent = t.recHigh;
-            document.getElementById('putintseva-rec-advice').textContent = t.recStrongAdvice + " - " + t.putintsevaNote;
-
-            document.getElementById('berrettini-conf').textContent = t.recHigh;
-            document.getElementById('berrettini-rec-advice').textContent = t.recStrongAdvice + " - " + t.berrettiniNote;
-
-            document.getElementById('shelton-conf').textContent = t.recMedium;
-            document.getElementById('shelton-rec-advice').textContent = t.recMediumAdvice + " - " + t.sheltonNote;
-
-            document.getElementById('osorio-conf').textContent = t.recMedium;
-            document.getElementById('osorio-rec-advice').textContent = t.recMediumAdvice + " - " + t.osorioNote;
-
-            document.getElementById('cerundolo-conf').textContent = t.recMedium;
-            document.getElementById('cerundolo-rec-advice').textContent = t.recMediumAdvice + " - " + t.cerundoloNote;
-
-            document.getElementById('wangxiyu-conf').textContent = t.recMedium;
-            document.getElementById('wangxiyu-rec-advice').textContent = t.recMediumAdvice + " - " + t.wangxiyuNote;
-
-            document.getElementById('opelka-conf').textContent = t.recMedium;
-            document.getElementById('opelka-rec-advice').textContent = t.recMediumAdvice + " - " + t.opelkaNote;
-
-            document.getElementById('sun-conf').textContent = t.recMedium;
-            document.getElementById('sun-rec-advice').textContent = t.recMediumAdvice + " - " + t.sunwangNote;
-
-            document.getElementById('royer-conf').textContent = t.recLow;
-            document.getElementById('royer-rec-advice').textContent = t.recWaitAdvice + " - " + t.royerNote;
-
-            document.getElementById('mcnally-conf').textContent = t.recLow;
-            document.getElementById('mcnally-rec-advice').textContent = t.recWaitAdvice + " - " + t.mcnallyNote;
-
-            document.getElementById('liu-conf').textContent = t.recLow;
-            document.getElementById('liu-rec-advice').textContent = t.recWaitAdvice + " - " + t.liuNote;
-
-
-            // Oranları tekrar oluştur
-            document.querySelectorAll('.match-card').forEach(card => {
-                const matchId = card.id;
-                const oddsContainer = card.querySelector('.odds-placeholder');
-                if(oddsContainer) {
-                    oddsContainer.innerHTML = generateOddsHTML(matchId, t);
-                }
-            });
-
-
-            // Dil Butonlarını Güncelle
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active-lang');
-            });
-            document.getElementById('lang-' + lang).classList.add('active-lang');
-            document.documentElement.lang = lang;
-
-            // Tarih saat ve geri sayımı yeni dil ile hemen güncelle
-            updateClock();
-            startCountdown();
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            // İlk sekme artık WTA
+            // Varsayılan dil TR olarak ayarlanıyor ve sayfa içeriği yükleniyor
+            setLanguage('tr'); 
+
+            // İlk sekme otomatik olarak aktif hale getiriliyor (WTA)
             const defaultTab = document.querySelector('.tab[onclick*="wta"]');
             if (defaultTab) {
                 document.getElementById('wta').classList.add('active');
                 defaultTab.classList.add('active');
             }
-
-            changeLanguage('tr');
-
-            // Saat ve Geri Sayım Döngülerini Başlat
-            setInterval(updateClock, 60000); // Header saatini dakikada bir güncelle (Saniyeler kaldırıldığı için)
-            setInterval(startCountdown, 1000); // Geri sayımı saniyede bir güncelle
-            updateClock();
+            
+            // Geri Sayım Döngüsünü Başlat
+            setInterval(startCountdown, 1000); 
             startCountdown();
         });
     </script>
@@ -838,39 +751,31 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="status-and-lang">
-                 <div class="language-switch">
-                    <div id="lang-tr" class="lang-btn active-lang" onclick="changeLanguage('tr')">TÜRKÇE</div>
-                    <div id="lang-en" class="lang-btn" onclick="changeLanguage('en')">ENGLISH</div>
-                </div>
-                <div class="system-status">
-                    <div class="status-light"></div>
-                    <span id="system-online-text">SİSTEM ONLİNE</span>
-                </div>
+            <div class="language-selector">
+                <span id="lang-tr" onclick="setLanguage('tr')" class="active-lang">🇹🇷</span>
+                <span id="lang-en" onclick="setLanguage('en')">🇬🇧</span>
             </div>
 
+            <div class="system-info">
+                <div id="current-date-display"></div>
+                <div class="online-indicator">
+                    <span id="system-online-text"></span>
+                    <span class="online-dot"></span>
+                </div>
+            </div>
+            
             <div class="header-content">
-                <div id="top-title" class="top-title">Tenis Robot Tips</div>
-                <div id="powered-by" class="powered-by">Robot Destekli</div>
-
-                <div class="main-header-group">
-                    <h1 id="main-header-text">ROBOT DESTEKLİ</h1>
-                    <div id="sub-header-text" class="sub-header-text">TENİS TAHMİNLERİ</div>
-                </div>
-
-                <div style="text-align: center; margin-top: 10px;">
-                    <span class="header-main-icon">🤖</span> <span class="header-main-icon">🎾</span>
-                </div>
-
-                <div class="current-datetime">
-                    <span id="current-datetime"></span>
-                </div>
+                <div id="top-title" class="top-title"></div>
+                
+                <h1 id="main-title" class="main-title"></h1>
+                
+                <div id="powered-by" class="powered-by"></div>
             </div>
         </div>
 
         <div class="tabs">
-            <div class="tab" onclick="switchTab('wta', this)">👩 WTA MAÇLARI</div>
-            <div class="tab" onclick="switchTab('atp', this)">👨 ATP MAÇLARI</div>
+            <div class="tab" onclick="switchTab('wta', this)"></div>
+            <div class="tab" onclick="switchTab('atp', this)"></div>
         </div>
 
 
@@ -879,126 +784,126 @@
                 <div class="match-header">
                     <div class="players">OSORIO SERRANO 🆚 ANN LI</div>
                     <div class="match-time" data-match-time="2025/10/23 08:00:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">08:00</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 OSORIO</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Osorio: 2G-3M | Li: 3G-2M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Osorio 2-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Osorio %64.3</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ÜST</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Osorio: 2G-3M | Li: 3G-2M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Osorio 2-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Osorio %64.3</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ÜST</div></div>
                 </div>
-                <div class="confidence-bar"><div id="osorio-conf" class="confidence-fill" style="width: 65%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div></div>
-                <div id="osorio-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - H2H 2-0 Osorio. İyi Oran (1.87) ve ÜST (1.84) Değeri.</div>
+                <div class="confidence-bar"><div id="osorio-conf" class="confidence-fill" style="width: 65%;"></div></div>
+                <div id="osorio-rec-advice" class="recommendation rec-medium"></div>
             </div>
 
             <div class="match-card" id="sun">
                 <div class="match-header">
                     <div class="players">L. SUN 🆚 Y. WANG</div>
                     <div class="match-time" data-match-time="2025/10/23 09:10:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">09:10</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 L. SUN</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">L. Sun: 4G-1M | Y. Wang: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Sun 1-0</div></div>
-                    <div class="stat-box"><div data-label-key="return" class="stat-label">Servis</div><div class="stat-value">Sun %55</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">L. Sun: 4G-1M | Y. Wang: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Sun 1-0</div></div>
+                    <div class="stat-box"><div data-label-key="return" class="stat-label"></div><div class="stat-value">Sun %55</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="sun-conf" class="confidence-fill" style="width: 60%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div></div>
-                <div id="sun-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - 3 Robot L. Sun Konsensüsü. MS1 Oranı: 1.29</div>
+                <div class="confidence-bar"><div id="sun-conf" class="confidence-fill" style="width: 60%;"></div></div>
+                <div id="sun-rec-advice" class="recommendation rec-medium"></div>
             </div>
 
             <div class="match-card" id="wangxiyu">
                 <div class="match-header">
                     <div class="players">WANG XIYU 🆚 COCCIARETTO</div>
                     <div class="match-time" data-match-time="2025/10/23 10:20:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">10:20</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 WANG XIYU</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Wang: 3G-2M | Cocciaretto: 3G-2M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Cocciaretto 2-1</div></div>
-                    <div class="stat-box"><div data-label-key="return" class="stat-label">Servis</div><div class="stat-value">Wang %71</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ÜST</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Wang: 3G-2M | Cocciaretto: 3G-2M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Cocciaretto 2-1</div></div>
+                    <div class="stat-box"><div data-label-key="return" class="stat-label"></div><div class="stat-value">Wang %71</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ÜST</div></div>
                 </div>
-                <div class="confidence-bar"><div id="wangxiyu-conf" class="confidence-fill" style="width: 70%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div></div>
-                <div id="wangxiyu-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - 3 Robot ÜST Konsensüsü. Ev sahibi avantajı ve ÜST (1.73) Değeri.</div>
+                <div class="confidence-bar"><div id="wangxiyu-conf" class="confidence-fill" style="width: 70%;"></div></div>
+                <div id="wangxiyu-rec-advice" class="recommendation rec-medium"></div>
             </div>
 
             <div class="match-card" id="mcnally">
                 <div class="match-header">
                     <div class="players">MCNALLY C. 🆚 TOMLJANOVIC A.</div>
                      <div class="match-time" data-match-time="2025/10/23 11:30:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">11:30</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 MCNALLY</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Mcnally: 3G-2M | Tomljanovic: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Tomljanovic 1-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Mcnally %68</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Mcnally: 3G-2M | Tomljanovic: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Tomljanovic 1-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Mcnally %68</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="mcnally-conf" class="confidence-fill" style="width: 55%;">❌ DÜŞÜK GÜVENLİ</div></div>
-                <div id="mcnally-rec-advice" class="recommendation rec-wait">⏸️ TAVSİYE: BEKLE - Bölünmüş tahmin. Mcnally 1.51 favori. Tomljanovic sakatlık sonrası. Riskli.</div>
+                <div class="confidence-bar"><div id="mcnally-conf" class="confidence-fill" style="width: 55%;"></div></div>
+                <div id="mcnally-rec-advice" class="recommendation rec-wait"></div>
             </div>
 
              <div class="match-card" id="seidel">
                 <div class="match-header">
                     <div class="players">SEIDEL ELLA 🆚 PUTINTSEVA Y.</div>
                      <div class="match-time" data-match-time="2025/10/23 12:40:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">12:40</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 PUTINTSEVA ⭐⭐⭐</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Putintseva: 4G-1M | Seidel: 1G-4M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">İlk Maç</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Putintseva Agresif</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Putintseva: 4G-1M | Seidel: 1G-4M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">İlk Maç</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Putintseva Agresif</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="putintseva-conf" class="confidence-fill" style="width: 90%;">✅ YÜKSEK GÜVENLİ</div></div>
-                <div id="putintseva-rec-advice" class="recommendation rec-strong">💪 TAVSİYE: GÜÇLÜ - 3 Robot Konsensüsü. Güçlü Oran. ALT (1.63) Skoru tavsiye edilir.</div>
+                <div class="confidence-bar"><div id="putintseva-conf" class="confidence-fill" style="width: 90%;"></div></div>
+                <div id="putintseva-rec-advice" class="recommendation rec-strong"></div>
             </div>
 
              <div class="match-card" id="liu">
                 <div class="match-header">
                     <div class="players">LIU CLAIRE 🆚 BONDAR ANNA</div>
                      <div class="match-time" data-match-time="2025/10/23 13:50:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">13:50</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 BONDAR</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Liu: 1G-4M | Bondar: 1G-4M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Bondar 1-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Eşit</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Liu: 1G-4M | Bondar: 1G-4M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Bondar 1-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Eşit</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="liu-conf" class="confidence-fill" style="width: 50%;">❌ DÜŞÜK GÜVENLİ</div></div>
-                <div id="liu-rec-advice" class="recommendation rec-wait">⏸️ TAVSİYE: BEKLE - Düşük kalite maç. Bondar 1.45 favori. Güven ZAYIF. BEKLE.</div>
+                <div class="confidence-bar"><div id="liu-conf" class="confidence-fill" style="width: 50%;"></div></div>
+                <div id="liu-rec-advice" class="recommendation rec-wait"></div>
             </div>
 
         </div>
@@ -1008,126 +913,126 @@
                 <div class="match-header">
                     <div class="players">BERRETTINI M. 🆚 NORRIE C.</div>
                     <div class="match-time" data-match-time="2025/10/23 13:00:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">13:00</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 BERRETTINI ⭐⭐⭐</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Berrettini: 3G-2M | Norrie: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Berrettini 2-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Berrettini: %80 (Sert)</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ÜST</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Berrettini: 3G-2M | Norrie: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Berrettini 2-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Berrettini: %80 (Sert)</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ÜST</div></div>
                 </div>
-                <div class="confidence-bar"><div id="berrettini-conf" class="confidence-fill" style="width: 75%;">✅ YÜKSEK GÜVENLİ</div></div>
-                <div id="berrettini-rec-advice" class="recommendation rec-strong">💪 TAVSİYE: GÜÇLÜ - 2 Robot Destekliyor (H2H 2-0). Robot Hata Yaptı! ÜST (1.71) Değerlidir.</div>
+                <div class="confidence-bar"><div id="berrettini-conf" class="confidence-fill" style="width: 75%;"></div></div>
+                <div id="berrettini-rec-advice" class="recommendation rec-strong"></div>
             </div>
 
             <div class="match-card" id="royer">
                 <div class="match-header">
                     <div class="players">ROYER V. 🆚 SHAPOVALOV D.</div>
                     <div class="match-time" data-match-time="2025/10/23 14:10:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">14:10</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 SHAPOVALOV</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Her İkisi: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">İlk Maç</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Shapovalov %63</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Her İkisi: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">İlk Maç</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Shapovalov %63</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="royer-conf" class="confidence-fill" style="width: 50%;">❌ DÜŞÜK GÜVENLİ</div></div>
-                <div id="royer-rec-advice" class="recommendation rec-wait">⏸️ TAVSİYE: BEKLE - 3 Robot Düşük Güven. Shapovalov 1.34 favori. Canlıya Bırakın.</div>
+                <div class="confidence-bar"><div id="royer-conf" class="confidence-fill" style="width: 50%;"></div></div>
+                <div id="royer-rec-advice" class="recommendation rec-wait"></div>
             </div>
 
             <div class="match-card" id="medvedev">
                 <div class="match-header">
                     <div class="players">MEDVEDEV D. 🆚 MOUTET C.</div>
                     <div class="match-time" data-match-time="2025/10/23 14:30:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">14:30</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 MEDVEDEV ⭐⭐⭐</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Medvedev: 5G-0M | Moutet: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Medvedev 1-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Medvedev (Baskın)</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Medvedev: 5G-0M | Moutet: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Medvedev 1-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Medvedev (Baskın)</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="medvedev-conf" class="confidence-fill" style="width: 90%;">✅ YÜKSEK GÜVENLİ</div></div>
-                <div id="medvedev-rec-advice" class="recommendation rec-strong">💪 TAVSİYE: GÜÇLÜ - 3 Robot Konsensüsü. Güçlü Oran. ALT (1.63) Skoru tavsiye edilir.</div>
+                <div class="confidence-bar"><div id="medvedev-conf" class="confidence-fill" style="width: 90%;"></div></div>
+                <div id="medvedev-rec-advice" class="recommendation rec-strong"></div>
             </div>
 
             <div class="match-card" id="munar">
                 <div class="match-header">
                     <div class="players">MUNAR J. 🆚 SHELTON B.</div>
                     <div class="match-time" data-match-time="2025/10/23 16:10:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">16:10</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 SHELTON</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Shelton: 4G-1M | Munar: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">İlk Maç</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Shelton Güçlü</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ALT</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Shelton: 4G-1M | Munar: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">İlk Maç</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Shelton Güçlü</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ALT</div></div>
                 </div>
-                <div class="confidence-bar"><div id="shelton-conf" class="confidence-fill" style="width: 70%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div></div>
-                <div id="shelton-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - 3 Robot Konsensüsü. Genç ve Formda oyuncu. MS2 Oranı: 1.28</div>
+                <div class="confidence-bar"><div id="shelton-conf" class="confidence-fill" style="width: 70%;"></div></div>
+                <div id="shelton-rec-advice" class="recommendation rec-medium"></div>
             </div>
 
             <div class="match-card" id="opelka">
                 <div class="match-header">
                     <div class="players">OPELKA R. 🆚 VAN DE ZANDSCHULP B.</div>
                     <div class="match-time" data-match-time="2025/10/23 16:30:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">16:30</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 OPELKA</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Opelka: 3G-2M | Zandschulp: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Zandschulp 1-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Opelka (ACE Gücü)</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ÜST</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Opelka: 3G-2M | Zandschulp: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Zandschulp 1-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Opelka (ACE Gücü)</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ÜST</div></div>
                 </div>
-                <div class="confidence-bar"><div id="opelka-conf" class="confidence-fill" style="width: 70%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div></div>
-                <div id="opelka-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - 3 Robot Opelka'da birleşti. Servis gücü belirleyici. MS1 Oranı: 1.62</div>
+                <div class="confidence-bar"><div id="opelka-conf" class="confidence-fill" style="width: 70%;"></div></div>
+                <div id="opelka-rec-advice" class="recommendation rec-medium"></div>
             </div>
 
             <div class="match-card" id="cerundolo">
                 <div class="match-header">
                     <div class="players">CERUNDOLO F. 🆚 BUBLIK A.</div>
                     <div class="match-time" data-match-time="2025/10/23 17:00:00">
-                        <span class="match-starts-label">Maç Başlangıcı:</span>
-                        <strong class="match-start-time">17:00</strong>
+                        <span class="match-starts-label"></span>
+                        <strong class="match-start-time"></strong>
                         <div class="countdown-timer"></div>
                     </div>
-                    <div class="prediction">🤖 BUBLIK - ÜST</div>
+                    <div class="prediction"></div>
                 </div>
                 <div class="odds-placeholder"></div>
                 <div class="stats-grid">
-                    <div class="stat-box"><div data-label-key="form" class="stat-label">Form</div><div class="stat-value">Cerundolo: 3G-2M | Bublik: 2G-3M</div></div>
-                    <div class="stat-box"><div data-label-key="h2h" class="stat-label">H2H</div><div class="stat-value">Cerundolo 1-0</div></div>
-                    <div class="stat-box"><div data-label-key="serve" class="stat-label">Servis</div><div class="stat-value">Bublik (Ace Riski)</div></div>
-                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label">TOPLAM OYUN ALT/ÜST</div><div class="stat-value">ÜST</div></div>
+                    <div class="stat-box"><div data-label-key="form" class="stat-label"></div><div class="stat-value">Cerundolo: 3G-2M | Bublik: 2G-3M</div></div>
+                    <div class="stat-box"><div data-label-key="h2h" class="stat-label"></div><div class="stat-value">Cerundolo 1-0</div></div>
+                    <div class="stat-box"><div data-label-key="serve" class="stat-label"></div><div class="stat-value">Bublik (Ace Riski)</div></div>
+                    <div class="stat-box"><div data-label-key="gameTotalPrediction" class="stat-label"></div><div class="stat-value">ÜST</div></div>
                 </div>
-                <div class="confidence-bar"><div id="cerundolo-conf" class="confidence-fill" style="width: 65%;">⚠️ ORTA GÜVENLİ - DİKKATLİ</div></div>
-                <div id="cerundolo-rec-advice" class="recommendation rec-medium">💡 TAVSİYE: ORTA - 3 Robot ÜST Konsensüsü. Bublik'in dalgalı oyunu sebebiyle ÜST (1.75) riski.</div>
+                <div class="confidence-bar"><div id="cerundolo-conf" class="confidence-fill" style="width: 65%;"></div></div>
+                <div id="cerundolo-rec-advice" class="recommendation rec-medium"></div>
             </div>
         </div>
     </div>
