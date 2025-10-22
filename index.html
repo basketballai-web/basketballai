@@ -161,7 +161,7 @@
             margin-top: 0;
         }
         
-        /* ORAN ANALİZİ SEKMESİ (Yeni) */
+        /* ORAN ANALİZİ SEKMESİ */
         .analysis-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -222,7 +222,7 @@
 
 
         /* ---------------------------------------------------- */
-        /* DETAYLI TAHMİN TABLOSU STİLİ (Eski Match-Card) */
+        /* DETAYLI TAHMİN TABLOSU STİLİ (Match-Card) */
         /* ---------------------------------------------------- */
         .match-list {
             display: grid;
@@ -264,11 +264,20 @@
             font-weight: bold;
             color: var(--primary-blue);
         }
+        
+        /* DÜZELTME: Tahmin ve Oran Dikey Hizalama */
+        .prediction-detail {
+            display: flex; /* İçeriklerini yatayda düzenle */
+            align-items: center;
+            gap: 10px; /* Tahmin ve Oran Kutusu arasına boşluk */
+        }
         .prediction-detail span {
             padding: 4px 8px;
             border-radius: 5px;
             font-weight: bold;
-            margin-left: 5px;
+            margin-left: 0; 
+            display: inline-flex;
+            align-items: center;
         }
         /* MS & TS Tahmin Oranları (Gerçek Oranlar) */
         .odds-ms, .odds-ts { 
@@ -276,7 +285,16 @@
             color: var(--white-text); 
             border: 1px solid var(--secondary-orange);
             font-size: 0.9em;
+            padding: 4px 6px; 
+            margin-left: 5px;
         }
+        .prediction-ms, .prediction-ts {
+            padding: 0; 
+            background: none;
+            color: var(--off-white);
+        }
+        /* DÜZELTME SONU */
+
         .confidence-cell {
             padding: 4px 8px;
             border-radius: 5px;
@@ -468,9 +486,11 @@
             // Eğer oran yoksa (MS1: - / MS2: 3.87 gibi), tahminin tersini göster
             if (oran === null) {
                 const ters_oran = ms_tip === 'MS1' ? match.ms2 : match.ms1;
+                 // Tahmin ve Oran için ayrı span kullanıldı
                  return `<span class="prediction-ms" style="color:var(--robot-red);">ÇOK YÜKSEK DEĞER</span><span class="odds-ms" style="background-color: var(--robot-red);">${ters_oran || '?'}</span>`;
             }
 
+            // Tahmin ve Oran için ayrı span kullanıldı
             return `<span class="prediction-ms">${ms_tip_display}</span><span class="odds-ms">${oran.toFixed(2)}</span>`;
         }
 
@@ -484,6 +504,7 @@
             } else {
                 ts_tip_display = ts_tip;
             }
+            // Tahmin (Çizgi + Alt/Üst) ve Oran için ayrı span kullanıldı
             return `<span class="prediction-ts">${ts_cizgi} ${ts_tip_display}</span><span class="odds-ts">${oran.toFixed(2)}</span>`;
         }
 
@@ -503,8 +524,10 @@
             
             // Kalan bahisler listesi dinamik olarak eklendiği için parent elementinin son çocuğu temizlenmeli.
             const parent = bestBetsContainer.parentNode;
-            if (parent.lastElementChild && parent.lastElementChild.classList.contains('summary-card')) {
-                parent.removeChild(parent.lastElementChild);
+            // DİKKAT: Yeni eklenen kartı temizle
+            const remainingCard = document.getElementById('remaining-bets-card');
+            if (remainingCard) {
+                parent.removeChild(remainingCard);
             }
             
             // 1. Uyarılı Maçları Doldur
@@ -543,6 +566,7 @@
             // Kalan bahisleri listele (İlk 3'ten sonraki)
             if (analysisData.bestBets.length > 3) {
                  const remainingBetsCard = document.createElement('div');
+                 remainingBetsCard.id = 'remaining-bets-card'; // Temizleme için ID eklendi
                  remainingBetsCard.classList.add('summary-card', 'recommend');
                  remainingBetsCard.style.gridColumn = '1 / -1'; // Tüm satırı kapla
                  remainingBetsCard.innerHTML = `
