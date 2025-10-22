@@ -17,11 +17,11 @@
             --card-bg: rgba(255, 255, 255, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.3);
             /* Yeni Analiz Renkleri */
-            --deepseek-bg: #1c1c1c; /* Robot Kart Arka Planı */
-            --deepseek-green: #4CAF50; /* Başarılı Tespit */
-            --deepseek-red: #f44336; /* Kritik Uyarı */
-            --deepseek-yellow: #FFC107; /* Dikkat Gereken */
-            --deepseek-border: #3f51b5;
+            --robot-bg: #1c1c1c; /* Robot Kart Arka Planı */
+            --robot-green: #4CAF50; /* Başarılı Tespit */
+            --robot-red: #f44336; /* Kritik Uyarı */
+            --robot-yellow: #FFC107; /* Dikkat Gereken */
+            --robot-border: #3f51b5;
         }
 
         body {
@@ -97,7 +97,7 @@
         /* Sekmeler (Tabs) */
         .tabs {
             display: flex;
-            justify-content: flex-start; /* Sekmelerin sayısını azalttık */
+            justify-content: flex-start;
             background-color: #01356b;
             border-radius: 10px 10px 0 0;
             margin-bottom: 10px;
@@ -160,126 +160,70 @@
             padding-bottom: 5px;
             margin-top: 0;
         }
-
-        /* ---------------------------------------------------- */
-        /* ROBOT KARŞILAŞTIRMALI ANALİZ STİLİ */
-        /* ---------------------------------------------------- */
-        .deepseek-analysis-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+        
+        /* ORAN ANALİZİ SEKMESİ (Yeni) */
+        .analysis-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        .deepseek-match-card {
-            background-color: var(--deepseek-bg);
-            border: 3px solid var(--deepseek-border);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        .summary-card {
+            background-color: var(--robot-bg);
+            border: 2px solid var(--robot-yellow);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
-
-        .deepseek-match-card h3 {
-            color: var(--primary-blue);
-            border-bottom: 2px solid var(--secondary-orange);
-            padding-bottom: 10px;
+        .summary-card.alert {
+            border-color: var(--robot-red);
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+        .summary-card.recommend {
+            border-color: var(--robot-green);
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .summary-card h4 {
             margin-top: 0;
-            font-size: 1.5em;
-        }
-
-        .deepseek-decision {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-        
-        .deepseek-decision span:first-child {
-            color: var(--light-yellow);
-        }
-
-        .deepseek-decision span:last-child {
-            background-color: var(--secondary-orange);
-            color: var(--dark-blue);
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .deepseek-section h4 {
-            color: var(--deepseek-green);
-            margin-top: 15px;
-            margin-bottom: 5px;
-        }
-
-        .deepseek-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .deepseek-section li {
-            padding: 5px 0;
-            border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
-        }
-        
-        .deepseek-icon {
-            margin-right: 8px;
             font-size: 1.2em;
-        }
-
-        .deepseek-icon.success { color: var(--deepseek-green); }
-        .deepseek-icon.warning { color: var(--deepseek-yellow); }
-        .deepseek-icon.alert { color: var(--deepseek-red); }
-
-        .deepseek-evaluation {
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid;
-        }
-
-        .deepseek-evaluation.valid {
-            background-color: rgba(76, 175, 80, 0.2);
-            border-color: var(--deepseek-green);
-            color: var(--deepseek-green);
-        }
-
-        .deepseek-evaluation.caution {
-            background-color: rgba(255, 193, 7, 0.2);
-            border-color: var(--deepseek-yellow);
-            color: var(--deepseek-yellow);
-        }
-        
-        /* Alternatif Bahisler */
-        .alternative-bets {
-            margin-top: 25px;
-            padding: 15px;
-            border: 1px dashed var(--secondary-orange);
-            border-radius: 8px;
-        }
-
-        .alternative-bets h4 {
-            color: var(--secondary-orange);
-            border-bottom: 1px solid var(--secondary-orange);
+            color: var(--light-yellow);
+            border-bottom: 1px dashed var(--primary-blue);
             padding-bottom: 5px;
         }
+        .summary-list li {
+            padding: 5px 0;
+            font-weight: bold;
+        }
+        .match-alert { color: var(--robot-red); }
+        .match-recommend { color: var(--robot-green); }
+        .match-value { color: var(--secondary-orange); }
 
-        .alternative-bets ol {
-            padding-left: 20px;
+        /* Tavsiye Kartları (EN İYİ 3) */
+        .best-bets-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
-        .alternative-bets li {
-            margin-bottom: 5px;
+        .bet-card {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            font-size: 1.1em;
         }
+        .bet-card.gold { background: linear-gradient(135deg, #FFD700, #ffc400); color: #333; }
+        .bet-card.silver { background: linear-gradient(135deg, #C0C0C0, #a8a8a8); color: #333; }
+        .bet-card.bronze { background: linear-gradient(135deg, #CD7F32, #b56c2a); color: #333; }
+        .bet-card h5 { margin: 0 0 5px 0; font-size: 1.5em; }
+        .bet-card span { font-weight: bold; display: block; margin-top: 5px; color: var(--dark-blue); }
 
-        /* Maç Kartları (Genel Tablo) */
+
+        /* ---------------------------------------------------- */
+        /* DETAYLI TAHMİN TABLOSU STİLİ (Eski Match-Card) */
+        /* ---------------------------------------------------- */
         .match-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -326,10 +270,9 @@
             font-weight: bold;
             margin-left: 5px;
         }
-        .prediction-ms { background-color: rgba(255, 152, 0, 0.2); color: var(--secondary-orange); }
-        .prediction-ts { background-color: rgba(0, 188, 212, 0.2); color: var(--primary-blue); }
+        /* MS & TS Tahmin Oranları (Gerçek Oranlar) */
         .odds-ms, .odds-ts { 
-            background-color: var(--deepseek-bg); 
+            background-color: var(--robot-bg); 
             color: var(--white-text); 
             border: 1px solid var(--secondary-orange);
             font-size: 0.9em;
@@ -342,6 +285,12 @@
         .confidence-high { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; }
         .confidence-medium { background-color: rgba(255, 193, 7, 0.2); color: var(--light-yellow); }
         .confidence-low { background-color: rgba(244, 67, 54, 0.2); color: #f44336; }
+        
+        .robot-score {
+            font-size: 0.9em;
+            color: var(--secondary-orange);
+            font-weight: bold;
+        }
 
 
         /* Footer */
@@ -360,7 +309,7 @@
 
     <header>
         <h1><i class="fas fa-robot" style="color: var(--primary-blue);"></i> <span id="mainTitleText">Basketbol Robot Analizleri</span> <i class="fas fa-basketball-ball" style="color: var(--secondary-orange);"></i></h1>
-        <p id="poweredByText">NBA Maçları - Robot Karşılaştırmalı Analiz</p>
+        <p id="poweredByText">NBA Maçları - Canlı Oran Karşılaştırmalı Robot Analizi</p>
 
         <div class="language-selector">
             <button class="lang-button active" data-lang="tr">Türkçe</button>
@@ -370,27 +319,29 @@
 
     <div class="container">
         <div class="tabs">
-            <button class="tab-button active" data-tab="tab-deepseek" id="tabBtnDeepseek"><i class="fas fa-brain"></i> ROBOT KARŞILAŞTIRMALI ANALİZ</button>
-            <button class="tab-button" data-tab="tab-table" id="tabBtnTable"><i class="fas fa-table"></i> Detaylı Tahminler</button>
+            <button class="tab-button active" data-tab="tab-deepseek" id="tabBtnDeepseek"><i class="fas fa-exchange-alt"></i> ORAN ANALİZİ & UYARILAR</button>
+            <button class="tab-button" data-tab="tab-table" id="tabBtnTable"><i class="fas fa-table"></i> DETAYLI ROBOT TAHMİNLERİ</button>
         </div>
 
         <div id="tab-deepseek" class="tab-content active">
-            <h2 id="deepseekHeader"><i class="fas fa-brain"></i> Robot Karşılaştırmalı Analiz Raporu</h2>
-            <div class="deepseek-analysis-container">
+            <h2 id="deepseekHeader"><i class="fas fa-brain"></i> Robot Oran Karşılaştırma Raporu</h2>
+            <p style="color: var(--robot-yellow); font-style: italic;">Robotun kendi analizi ile canlı bahis oranları arasındaki uyum/uyumsuzluk ve en değerli bahisler özetlenmiştir.</p>
+            
+            <h3 style="color: var(--robot-red);"><i class="fas fa-exclamation-triangle"></i> Kritik Uyumsuzluk ve Atlanması Gereken Maçlar</h3>
+            <div class="analysis-summary" id="alert-summary">
+                </div>
+
+            <h3 style="color: var(--robot-green); margin-top: 30px;"><i class="fas fa-star"></i> Robotun En İyi 5 Bahis Önerisi</h3>
+            <div class="best-bets-container" id="best-bets-container">
                 </div>
             
-            <div class="deepseek-match-card" style="margin-top: 30px;">
-                <h3 id="generalEvaluationTitle"><i class="fas fa-chart-line"></i> Genel Robot Değerlendirmesi ve Kritik Notlar</h3>
-                <div id="generalEvaluationContent">
-                    </div>
-            </div>
         </div>
 
         <div id="tab-table" class="tab-content">
-            <h2 id="tableHeader"><i class="fas fa-list-ol"></i> Maçların Robot Tahmin Tablosu</h2>
+            <h2 id="tableHeader"><i class="fas fa-list-ol"></i> 12 Maçın Detaylı Robot Tahmin Tablosu</h2>
             <div class="match-list">
                  </div>
-            <p style="margin-top:20px; font-size: 0.9em; color: rgba(255, 255, 255, 0.7);" id="tableNote">*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir.</p>
+            <p style="margin-top:20px; font-size: 0.9em; color: rgba(255, 255, 255, 0.7);" id="tableNote">*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir. **Robot Skoru: Robotun belirlediği yaklaşık skor.**</p>
         </div>
 
     </div>
@@ -402,155 +353,127 @@
 
     <script>
         // =========================================================================
-        // TAHMİN VERİLERİ (Sadece Analizdeki 2 Maç Kullanılarak Oluşturuldu)
+        // TAHMİN VE ORAN VERİLERİ (12 Maç)
         // =========================================================================
         const detailedData = [
-            // OKLAHOMA vs HOUSTON (MS1 - Orta-Yüksek Güven - Orta Tavsiye)
-            // Analizdeki öneri: Oklahoma ML / Oklahoma -3.5 Spread / Over 222.5 Total Points
-            {
-                id: 1, saat: "03:00", lig: "NBA", ev: "OKLAHOMA CITY", dep: "HOUSTON ROCKETS", 
-                ms1: 1.62, ms2: 2.10, h1: 3.5, h2: null, ms_tahmin: "MS1", 
-                ts: 222.5, alt: 1.65, ust: 1.62, ts_tahmin: "ÜST", 
-                guven: 70, reason: "Ev sahibi avantajı, form üstünlüğü. Yüksek skor bekleniyor.", 
-                handikap_yon: "-"
-            },
-            // LA LAKERS vs GOLDEN STATE (MS1 - Orta Güven - Orta Tavsiye)
-            // Analizdeki öneri: Lakers ML / Over 230.5 Total Points
-            {
-                id: 2, saat: "05:30", lig: "NBA", ev: "LA LAKERS", dep: "GOLDEN STATE WARRIORS", 
-                ms1: 1.70, ms2: 2.00, h1: 1.5, h2: null, ms_tahmin: "MS1", 
-                ts: 230.5, alt: 1.60, ust: 1.66, ts_tahmin: "ÜST", 
-                guven: 65, reason: "Form Lakers lehine, ancak sakatlıklar kritik. Yüksek skor daha güvenli.", 
-                handikap_yon: "-"
-            }
+            // GÖRSEL 1 (2223.jpg) - 5 MAÇ
+            { id: 1, saat: "02:00", lig: "NBA", ev: "CHARLOTTE", dep: "BROOKLYN", ms1: 1.29, ms2: 2.25, ts: 228.5, alt: 1.63, ust: 1.64, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 50, robot_skor: "102-107", reason: "Oranlar ters. Brooklyn'de düşük güvenle sürpriz bekleniyor.", handikap_yon: "+", h1: null, h2: null},
+            { id: 2, saat: "02:00", lig: "NBA", ev: "NEW YORK", dep: "CLEVELAND", ms1: 1.75, ms2: 1.53, ts: 228.5, alt: 1.61, ust: 1.65, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 65, robot_skor: "103-108", reason: "Cleveland güçlü defans, toplam çok yüksek. ALT daha güvenli.", handikap_yon: "+", h1: null, h2: null},
+            { id: 3, saat: "02:00", lig: "NBA", ev: "ORLANDO", dep: "MIAMI", ms1: 1.08, ms2: 3.38, ts: 215.5, alt: 1.62, ust: 1.65, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 55, robot_skor: "98-106", reason: "Ciddi oran uyumsuzluğu! Miami güçlü, Orlando'nun 1.08 favori olması riskli.", handikap_yon: "+", h1: null, h2: null},
+            { id: 4, saat: "02:30", lig: "NBA", ev: "ATLANTA", dep: "TORONTO", ms1: 1.23, ms2: 2.42, ts: 237.5, alt: 1.60, ust: 1.66, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 70, robot_skor: "109-104", reason: "Atlanta formda. Toplam çok yüksek (237.5), ALT en değerli bahis.", handikap_yon: "-", h1: null, h2: null},
+            { id: 5, saat: "02:00", lig: "NBA", ev: "BOSTON", dep: "PHILADELPHIA", ms1: 1.31, ms2: 2.17, ts: 229.5, alt: 1.61, ust: 1.65, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 88, robot_skor: "114-104", reason: "Boston ezici üstünlük. Günün en güvenli bahsi MS1 / Spread.", handikap_yon: "-", h1: null, h2: null},
+            
+            // GÖRSEL 2 (2224.jpg) - 5 MAÇ
+            { id: 6, saat: "03:00", lig: "NBA", ev: "CHICAGO", dep: "DETROIT", ms1: 1.88, ms2: 1.44, ts: 236.5, alt: 1.60, ust: 1.66, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 58, robot_skor: "108-111", reason: "Detroit hafif üstün. Toplam çok yüksek, ALT en değerli bahis.", handikap_yon: "+", h1: null, h2: null},
+            { id: 7, saat: "03:00", lig: "NBA", ev: "MEMPHIS", dep: "NEW ORLEANS", ms1: 1.33, ms2: 2.13, ts: 236.5, alt: 1.63, ust: 1.64, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 66, robot_skor: "112-116", reason: "Memphis favori ama AI NO diyor. NO (2.13) sürpriz değer.", handikap_yon: "+", h1: null, h2: null},
+            { id: 8, saat: "03:00", lig: "NBA", ev: "MILWAUKEE", dep: "WASHINGTON", ms1: null, ms2: 3.87, ts: 227.5, alt: 1.59, ust: 1.67, ms_tahmin: "MS2", ts_tahmin: "ÜST", guven: 65, robot_skor: "114-117", reason: "MS1 oranı YOK! Büyük sakatlık (Giannis/Lillard?) Washington ML (3.87) mükemmel değer.", handikap_yon: "+", h1: null, h2: null},
+            { id: 9, saat: "04:00", lig: "NBA", ev: "UTAH", dep: "LA CLIPPERS", ms1: 3.67, ms2: null, ts: 225.5, alt: 1.65, ust: 1.62, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 62, robot_skor: "115-110", reason: "MS2 oranı YOK! Büyük sakatlık (Kawhi/PG?) Utah ML (3.67) mükemmel değer.", handikap_yon: "-", h1: null, h2: null},
+            { id: 10, saat: "04:30", lig: "NBA", ev: "DALLAS", dep: "SAN ANTONIO", ms1: 1.47, ms2: 1.98, ts: 223.5, alt: 1.69, ust: 1.66, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 68, robot_skor: "112-108", reason: "Dallas güçlü form. Under 223.5 (1.69) değerli.", handikap_yon: "-", h1: null, h2: null},
+
+            // GÖRSEL 3 (2225.jpg) - 2 MAÇ
+            { id: 11, saat: "05:00", lig: "NBA", ev: "PHOENIX", dep: "SACRAMENTO", ms1: 1.33, ms2: 2.12, ts: 229.5, alt: 1.60, ust: 1.66, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 52, robot_skor: "108-112", reason: "Oranlar ters. Phoenix 1.33 favori ama AI Kings diyor. RİSKLİ.", handikap_yon: "+", h1: null, h2: null},
+            { id: 12, saat: "05:00", lig: "NBA", ev: "PORTLAND", dep: "MINNESOTA", ms1: 2.19, ms2: 1.30, ts: 220.5, alt: 1.65, ust: 1.61, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 75, robot_skor: "105-115", reason: "Minnesota her alanda üstün. Oranlar ve AI uyumlu. Güvenli.", handikap_yon: "+", h1: null, h2: null}
         ];
-
-
-        // Kuponları Temizledim - Sadece Analiz Maçları Kaldığı İçin Kupon Sekmesini Kaldırdım.
-        const coupons = []; 
-
+        
         // =========================================================================
-        // ROBOT ANALİZ VERİLERİ (Eski DeepSeek Verisi, Robot İsmine Çevrildi)
+        // ROBOT ORAN KARŞILAŞTIRMA ANALİZİ (Özet)
         // =========================================================================
-        const deepSeekAnalysisTR = [
-            {
-                match: "OKLAHOMA vs HOUSTON", decision: "Oklahoma Kazanır", confidence: "Orta-Yüksek Güven", advice: "ORTA Tavsiye",
-                evaluation: "✅ MANTIKLI", evaluationClass: "valid",
-                correctObservations: ["Form avantajı Oklahoma'da (3-2 vs 2-3)", "H2H üstünlük Oklahoma'da (3-2)", "Ev sahibi avantajı önemli faktör", "Motivasyon analizi dengeli"],
-                missingChecks: ["⚠️ Sakatlık durumları - Maç saatinde kontrol şart", "⚠️ Back-to-back durumu - Houston'ın seyahat programı", "⚠️ Oklahoma'nın ev performansı vs Houston'ın deplasman performansı karşılaştırması eksik"],
-                alternativeBets: [
-                    {type: "ANA", selection: "Oklahoma ML", confidence: "Orta-Yüksek"}, 
-                    {type: "ALTERNATİF", selection: "Oklahoma -3.5 Spread", confidence: "Daha değerli oran"}, 
-                    {type: "GÜVENLE", selection: "Over 222.5 Total Points", confidence: "Her iki takım ortalama 113+ sayı"}
-                ]
-            },
-            {
-                match: "LA LAKERS vs GOLDEN STATE", decision: "Lakers Kazanır", confidence: "Orta Güven", advice: "ORTA Tavsiye",
-                evaluation: "⚠️ DİKKATLİ YAKLAŞILMALI", evaluationClass: "caution",
-                correctObservations: ["Form Lakers lehine (3-2 vs 2-3)", "H2H avantaj Lakers'ta", "Ev sahibi faktörü doğru", "Her iki takımın da defansif zayıflığı tespit edilmiş"],
-                missingChecks: ["🚨 Warriors tarihi Lakers'a karşı iyi oynar - Sadece son 5 maç yeterli değil", "🚨 Defansif zayıflıklar = Yüksek skorlu maç - Total bahisleri daha güvenli olabilir", "⚠️ Steph Curry faktörü - Sakatlık durumu kritik", "⚠️ LeBron/AD sağlık durumu - Kontrol edilmeli"],
-                alternativeBets: [
-                    {type: "ANA", selection: "Lakers ML", confidence: "Sakatlık kontrolü sonrası"}, 
-                    {type: "DAHA GÜVENLİ", selection: "Over 230.5 Total Points", confidence: "Her iki takım zayıf defans, güçlü ofans"}, 
-                    {type: "ALTERNATİF", selection: "1. Yarı Over", confidence: "Tempolu başlangıç beklenir"}
-                ]
-            }
-        ];
+        const robotAnalysisTR = {
+            alerts: [
+                { match: "CHARLOTTE vs BROOKLYN", reason: "🚨 CİDDİ UYUMSUZLUK: Oranlar Charlotte (1.29) diyor ama Robot Brooklyn'i (MS2) önde görüyor. Atlanmalı!", type: "alert" },
+                { match: "ORLANDO vs MIAMI", reason: "🚨 CİDDİ UYUMSUZLUK: Orlando 1.08 favori ama Robot Miami'yi (MS2) önde görüyor. Büyük sakatlık kontrol edilmeli. Atlanmalı!", type: "alert" },
+                { match: "PHOENIX vs SACRAMENTO", reason: "⚠️ UYUMSUZLUK: Oranlar Phoenix'i (1.33) favori gösterirken Robot Kings'i (MS2) önde görüyor. Riskli, ATLA.", type: "alert" },
+                { match: "MEMPHIS vs NEW ORLEANS", reason: "⚠️ DİKKAT: Memphis 1.33 favori ama Robot NO'yu (2.13) önde görüyor. NO ML yüksek değer (2.13) taşıyor, sakatlık kontrol edilmeli.", type: "value" }
+            ],
+            bestBets: [
+                { match: "BOSTON vs PHILADELPHIA", bet: "BOSTON MS1 (-9.5 Spread değeri)", odds: "1.31", confidence: "Çok Güçlü" , rank: "gold"},
+                { match: "UTAH vs LA CLIPPERS", bet: "UTAH ML (3.67) - Sürpriz Değer", odds: "3.67", confidence: "Çok Güçlü", rank: "silver"},
+                { match: "MILWAUKEE vs WASHINGTON", bet: "WASHINGTON ML (3.87) - Sürpriz Değer", odds: "3.87", confidence: "Çok Güçlü", rank: "bronze"},
+                { match: "PORTLAND vs MINNESOTA", bet: "MINNESOTA MS2", odds: "1.30", confidence: "Güçlü"},
+                { match: "ATLANTA vs TORONTO", bet: "UNDER 237.5 (Büyük Fark)", odds: "1.60", confidence: "Güçlü"},
+                { match: "CHICAGO vs DETROIT", bet: "UNDER 236.5 (Büyük Fark)", odds: "1.60", confidence: "Güçlü"},
+                { match: "DALLAS vs SAN ANTONIO", bet: "UNDER 223.5", odds: "1.69", confidence: "Güçlü"}
+            ]
+        };
 
-        const deepSeekAnalysisEN = [
-            {
-                match: "OKLAHOMA vs HOUSTON", decision: "Oklahoma Win", confidence: "Medium-High Confidence", advice: "MEDIUM Recommendation",
-                evaluation: "✅ LOGICAL", evaluationClass: "valid",
-                correctObservations: ["Form advantage with Oklahoma (3-2 vs 2-3)", "H2H superiority with Oklahoma (3-2)", "Home advantage is an important factor", "Motivation analysis balanced"],
-                missingChecks: ["⚠️ Injury status - Must be checked at game time", "⚠️ Back-to-back status - Houston's travel schedule", "⚠️ Comparison of Oklahoma's home performance vs Houston's away performance is missing"],
-                alternativeBets: [
-                    {type: "MAIN", selection: "Oklahoma ML", confidence: "Medium-High"}, 
-                    {type: "ALTERNATIVE", selection: "Oklahoma -3.5 Spread", confidence: "Better value odds"}, 
-                    {type: "SAFE", selection: "Over 222.5 Total Points", confidence: "Both teams average 113+ points"}
-                ]
-            },
-            {
-                match: "LA LAKERS vs GOLDEN STATE", decision: "Lakers Win", confidence: "Medium Confidence", advice: "MEDIUM Recommendation",
-                evaluation: "⚠️ CAUTION REQUIRED", evaluationClass: "caution",
-                correctObservations: ["Form favors Lakers (3-2 vs 2-3)", "H2H advantage with Lakers", "Home factor is correct", "Defensive weaknesses of both teams detected"],
-                missingChecks: ["🚨 Warriors historically play well against Lakers - Last 5 matches are not enough", "🚨 Defensive weaknesses = High-scoring match - Total bets might be safer", "⚠️ Steph Curry factor - Injury status is critical", "⚠️ LeBron/AD health status - Must be checked"],
-                alternativeBets: [
-                    {type: "MAIN", selection: "Lakers ML", confidence: "After injury check"}, 
-                    {type: "SAFER", selection: "Over 230.5 Total Points", confidence: "Both teams weak defense, strong offense"}, 
-                    {type: "ALTERNATIVE", selection: "1st Half Over", confidence: "Fast-paced start expected"}
-                ]
-            }
-        ];
+        const robotAnalysisEN = {
+            alerts: [
+                { match: "CHARLOTTE vs BROOKLYN", reason: "🚨 SERIOUS MISMATCH: Odds favor Charlotte (1.29) but Robot sees Brooklyn (FT2) ahead. Must be skipped!", type: "alert" },
+                { match: "ORLANDO vs MIAMI", reason: "🚨 SERIOUS MISMATCH: Orlando 1.08 favorite but Robot sees Miami (FT2) ahead. Check for major injuries. Must be skipped!", type: "alert" },
+                { match: "PHOENIX vs SACRAMENTO", reason: "⚠️ MISMATCH: Odds favor Phoenix (1.33) but Robot sees Kings (FT2) ahead. Risky, SKIP.", type: "alert" },
+                { match: "MEMPHIS vs NEW ORLEANS", reason: "⚠️ ATTENTION: Memphis 1.33 favorite but Robot sees NO (2.13) ahead. NO ML is high value (2.13), check for injuries.", type: "value" }
+            ],
+            bestBets: [
+                { match: "BOSTON vs PHILADELPHIA", bet: "BOSTON FT1 (-9.5 Spread value)", odds: "1.31", confidence: "Very Strong" , rank: "gold"},
+                { match: "UTAH vs LA CLIPPERS", bet: "UTAH ML (3.67) - Upset Value", odds: "3.67", confidence: "Very Strong", rank: "silver"},
+                { match: "MILWAUKEE vs WASHINGTON", bet: "WASHINGTON ML (3.87) - Upset Value", odds: "3.87", confidence: "Very Strong", rank: "bronze"},
+                { match: "PORTLAND vs MINNESOTA", bet: "MINNESOTA FT2", odds: "1.30", confidence: "Strong"},
+                { match: "ATLANTA vs TORONTO", bet: "UNDER 237.5 (Huge Difference)", odds: "1.60", confidence: "Strong"},
+                { match: "CHICAGO vs DETROIT", bet: "UNDER 236.5 (Huge Difference)", odds: "1.60", confidence: "Strong"},
+                { match: "DALLAS vs SAN ANTONIO", bet: "UNDER 223.5", odds: "1.69", confidence: "Strong"}
+            ]
+        };
+
 
         // =========================================================================
         // DİL SABİTLERİ VE FONKSİYONLAR
         // =========================================================================
         const langData = {
             tr: {
-                pageTitle: "🤖 Basketbol Robot Analizleri", mainTitleText: "Basketbol Robot Analizleri", poweredByText: "NBA Maçları - Robot Karşılaştırmalı Analiz",
-                tabBtnDeepseek: "ROBOT KARŞILAŞTIRMALI ANALİZ", tabBtnTable: "Detaylı Tahminler",
-                deepseekHeader: "Robot Karşılaştırmalı Analiz Raporu",
-                decision: "Robot Kararı:", advice: "Robot Tavsiyesi:",
-                correctObservationsTitle: "Doğru Tespitler:", missingChecksTitle: "Gözden Kaçan/Kontrol Edilmesi Gerekenler:",
-                generalEvaluationTitle: "Genel Robot Değerlendirmesi ve Kritik Notlar",
-                methodologyTitle: "Robot Metodolojisi:", methodologyScore: "7/10",
-                methodologyPoints: ["✅ Sistematik yaklaşım", "✅ Kriterleri net tanımlamış", "⚠️ Sakatlık ve güncel bilgi kontrolü eksik", "⚠️ Pace/tempo faktörü gözardı edilmiş"],
-                criticalNotesTitle: "⚠️ KRİTİK NOTLAR: Maç Öncesi MUTLAKA Kontrol Et",
-                criticalNotes: ["🏥 Sakatlık/Hastalık raporları (özellikle Curry, LeBron, AD)", "📅 Back-to-back maç durumu", "🧑‍⚖️ Hakem ataması (Over/Under etkiler)", "📊 Son 24 saatteki odds hareketi"],
-                generalAdvice: "Genel Tavsiye: Robot analizi mantıklı temel oluşturmuş, ancak **canlı verilere göre revize edilmeli**. Oklahoma bahsi daha güvenli görünüyor, Lakers maçında ise **TOTAL bahisleri** daha akıllıca olabilir.",
-                alternativeBetsTitle: "💡 ALTERNATİF BAHİS ÖNERİLERİ",
-                footerText: `<p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>`,
-                labelTime: "Saat/Lig:", labelMs: "MS Tahmini:", labelTs: "ALT/ÜST Tahmini:", labelConf: "Güven:",
-                tableHeader: "Maçların Robot Tahmin Tablosu", tableNote: "*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir.",
+                pageTitle: "🤖 Basketbol Robot Analizleri", mainTitleText: "Basketbol Robot Analizleri", poweredByText: "NBA Maçları - Canlı Oran Karşılaştırmalı Robot Analizi",
+                tabBtnDeepseek: "ORAN ANALİZİ & UYARILAR", tabBtnTable: "DETAYLI ROBOT TAHMİNLERİ",
+                deepseekHeader: "Robot Oran Karşılaştırma Raporu",
+                alertTitle: "Kritik Uyumsuzluk ve Atlanması Gereken Maçlar",
+                bestBetsTitle: "Robotun En İyi 5 Bahis Önerisi",
+                tableHeader: "12 Maçın Detaylı Robot Tahmin Tablosu", tableNote: "*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir. **Robot Skoru: Robotun belirlediği yaklaşık skor.**",
+                labelTime: "Saat/Lig:", labelMs: "MS Tahmini (Oran):", labelTs: "ALT/ÜST Tahmini (Oran):", labelConf: "Robot Güven:",
                 reasonTitle: "**Robot Yorumu:**",
+                footerText: `<p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>`,
             },
             en: {
-                pageTitle: "🤖 Basketball Robot Analysis", mainTitleText: "Basketball Robot Analysis", poweredByText: "NBA Matches - Robot Comparative Analysis",
-                tabBtnDeepseek: "ROBOT COMPARATIVE ANALYSIS", tabBtnTable: "Detailed Predictions",
-                deepseekHeader: "Robot Comparative Analysis Report",
-                decision: "Robot Decision:", advice: "Robot Recommendation:",
-                correctObservationsTitle: "Correct Observations:", missingChecksTitle: "Missing/Required Checks:",
-                generalEvaluationTitle: "General Robot Evaluation and Critical Notes",
-                methodologyTitle: "Robot Methodology:", methodologyScore: "7/10",
-                methodologyPoints: ["✅ Systematic approach", "✅ Clearly defined criteria", "⚠️ Missing check for injuries and up-to-date info", "⚠️ Pace/tempo factor overlooked"],
-                criticalNotesTitle: "⚠️ CRITICAL NOTES: MUST Check Before Game",
-                criticalNotes: ["🏥 Injury/Illness reports (especially Curry, LeBron, AD)", "📅 Back-to-back game status", "🧑‍⚖️ Referee assignment (affects Over/Under)", "📊 Odd movement in the last 24 hours"],
-                generalAdvice: "General Advice: Robot analysis provides a logical foundation, but **must be revised based on live data**. The Oklahoma bet seems safer, while **TOTAL bets** might be wiser for the Lakers match.",
-                alternativeBetsTitle: "💡 ALTERNATIVE BET SUGGESTIONS",
-                footerText: `<p>Basketball Robot Prediction Analysis | Robot Analysis | Powered by AI</p><p>Disclaimer: Betting is a game of chance and carries the risk of loss. Please play responsibly.</p>`,
-                labelTime: "Time/League:", labelMs: "FT Prediction:", labelTs: "O/U Prediction:", labelConf: "Confidence:",
-                tableHeader: "Robot Match Prediction Table", tableNote: "*FT Prediction: FT1 - H.Number (Home Handicap Win) or FT2 + H.Number (Away Handicap Win). Odds belong to the predicted outcome.",
+                pageTitle: "🤖 Basketball Robot Analysis", mainTitleText: "Basketball Robot Analysis", poweredByText: "NBA Matches - Live Odds Comparative Robot Analysis",
+                tabBtnDeepseek: "ODDS ANALYSIS & ALERTS", tabBtnTable: "DETAILED ROBOT PREDICTIONS",
+                deepseekHeader: "Robot Odds Comparison Report",
+                alertTitle: "Critical Mismatches and Matches to Skip",
+                bestBetsTitle: "Robot's Top 5 Bet Recommendations",
+                tableHeader: "Detailed Robot Prediction Table for 12 Matches", tableNote: "*FT Prediction: FT1 - H.Number (Home Handicap Win) or FT2 + H.Number (Away Handicap Win). Odds belong to the predicted outcome. **Robot Score: The approximate score determined by the Robot.**",
+                labelTime: "Time/League:", labelMs: "FT Prediction (Odds):", labelTs: "O/U Prediction (Odds):", labelConf: "Robot Confidence:",
                 reasonTitle: "**Robot Comment:**",
+                footerText: `<p>Basketball Robot Prediction Analysis | Robot Analysis | Powered by AI</p><p>Disclaimer: Betting is a game of chance and carries the risk of loss. Please play responsibly.</p>`,
             }
         };
 
         let currentLang = 'tr';
 
-        // Helper functions from the original script (getConfidenceClass, getStarRating, etc.)
+        // Helper functions from the original script
         function getConfidenceClass(guven) {
             if (guven >= 75) return 'confidence-high';
             if (guven >= 60) return 'confidence-medium';
             return 'confidence-low';
         }
         function getStarRating(guven) {
-            if (guven >= 80) return '★★★';
-            if (guven >= 75) return '★★';
-            if (guven >= 65) return '★';
-            return '';
+            if (guven >= 85) return '★★★★★';
+            if (guven >= 75) return '★★★★';
+            if (guven >= 65) return '★★★';
+            if (guven >= 55) return '★★';
+            return '★';
         }
+        
+        // Tahmin sonucu için gerçek oranı getirir
         function formatMSTahmin(match) {
-            let handikap_deger = match.h1 || match.h2;
-            let yon = match.handikap_yon;
             const ms_tip = match.ms_tahmin;
             const oran = ms_tip === 'MS1' ? match.ms1 : match.ms2;
             const ms_tip_display = currentLang === 'en' ? ms_tip.replace('MS', 'FT') : ms_tip;
-
-            if (!handikap_deger) {
-                 return `<span class="prediction-ms ${ms_tip}">${ms_tip_display}</span><span class="odds-ms">${oran.toFixed(2)}</span>`;
+            
+            // Eğer oran yoksa (MS1: - / MS2: 3.87 gibi), tahminin tersini göster
+            if (oran === null) {
+                const ters_oran = ms_tip === 'MS1' ? match.ms2 : match.ms1;
+                 return `<span class="prediction-ms" style="color:var(--robot-red);">ÇOK YÜKSEK DEĞER</span><span class="odds-ms" style="background-color: var(--robot-red);">${ters_oran || '?'}</span>`;
             }
-            const handikap_str = handikap_deger ? ` ${yon}${handikap_deger}` : '';
-            return `<span class="prediction-ms ${ms_tip}">${ms_tip_display}${handikap_str}</span><span class="odds-ms">${oran.toFixed(2)}</span>`;
+
+            return `<span class="prediction-ms">${ms_tip_display}</span><span class="odds-ms">${oran.toFixed(2)}</span>`;
         }
+
         function formatTSTahmin(match) {
             const ts_cizgi = match.ts; 
             const ts_tip = match.ts_tahmin;
@@ -561,108 +484,82 @@
             } else {
                 ts_tip_display = ts_tip;
             }
-            return `<span class="prediction-ts ${ts_tip}">${ts_cizgi} ${ts_tip_display}</span><span class="odds-ts">${oran.toFixed(2)}</span>`;
+            return `<span class="prediction-ts">${ts_cizgi} ${ts_tip_display}</span><span class="odds-ts">${oran.toFixed(2)}</span>`;
         }
 
         // =========================================================================
-        // ROBOT ANALİZİNİ DOLDURMA (DeepSeek isminden arındırıldı)
+        // ORAN ANALİZİNİ DOLDURMA (Yeni Sekme)
         // =========================================================================
 
-        function fillDeepSeekAnalysis() {
-            const container = document.querySelector('#tab-deepseek .deepseek-analysis-container');
-            const generalContent = document.getElementById('generalEvaluationContent');
+        function fillRobotOddsAnalysis() {
+            const alertContainer = document.getElementById('alert-summary');
+            const bestBetsContainer = document.getElementById('best-bets-container');
             const lang = langData[currentLang];
-            const analysisData = currentLang === 'en' ? deepSeekAnalysisEN : deepSeekAnalysisTR;
+            const analysisData = currentLang === 'en' ? robotAnalysisEN : robotAnalysisTR;
 
-            container.innerHTML = '';
+            // DÜZELTME: Eski içeriği temizle
+            alertContainer.innerHTML = '';
+            bestBetsContainer.innerHTML = '';
             
-            // 1. Maç Analiz Kartlarını Doldur
-            analysisData.forEach(analysis => {
+            // Kalan bahisler listesi dinamik olarak eklendiği için parent elementinin son çocuğu temizlenmeli.
+            const parent = bestBetsContainer.parentNode;
+            if (parent.lastElementChild && parent.lastElementChild.classList.contains('summary-card')) {
+                parent.removeChild(parent.lastElementChild);
+            }
+            
+            // 1. Uyarılı Maçları Doldur
+            analysisData.alerts.forEach(item => {
                 const card = document.createElement('div');
-                card.classList.add('deepseek-match-card');
-
-                // Doğru Tespitler Listesi
-                const correctList = analysis.correctObservations.map(item => `<li><i class="deepseek-icon success fas fa-check"></i> ${item}</li>`).join('');
+                card.classList.add('summary-card');
+                card.classList.add(item.type === 'alert' ? 'alert' : 'recommend');
                 
-                // Gözden Kaçanlar Listesi
-                const missingList = analysis.missingChecks.map(item => {
-                    let text = item.replace('🚨', '').replace('⚠️', '').trim();
-                    let iconClass = item.includes('🚨') ? 'alert fas fa-exclamation-circle' : 'warning fas fa-exclamation-triangle';
-                    return `<li><i class="deepseek-icon ${iconClass.split(' ')[0]}" class="${iconClass}"></i> ${text}</li>`;
-                }).join('');
-
-                // Alternatif Bahisler Listesi
-                const altBetsList = analysis.alternativeBets.map(bet => `
-                    <li><strong>${bet.type}:</strong> ${bet.selection} 
-                    <span style="color: var(--secondary-orange); font-size: 0.9em;">(${bet.confidence})</span></li>
-                `).join('');
-
-                // Değerlendirme Sınıfı
-                const evaluationClass = analysis.evaluationClass;
+                const icon = item.type === 'alert' ? '<i class="fas fa-ban match-alert"></i>' : '<i class="fas fa-money-bill-wave match-value"></i>';
 
                 card.innerHTML = `
-                    <h3>${analysis.match}</h3>
-                    
-                    <div class="deepseek-decision">
-                        <span>${lang.decision} ${analysis.decision}</span>
-                        <span>${analysis.confidence} | ${lang.advice} ${analysis.advice}</span>
-                    </div>
-
-                    <div class="deepseek-evaluation ${evaluationClass}">
-                        <span>${analysis.evaluation}</span>
-                        <i class="fas fa-${evaluationClass === 'valid' ? 'thumbs-up' : 'exclamation-triangle'}"></i>
-                    </div>
-
-                    <div class="deepseek-section">
-                        <h4>${lang.correctObservationsTitle}</h4>
-                        <ul>${correctList}</ul>
-                    </div>
-
-                    <div class="deepseek-section">
-                        <h4>${lang.missingChecksTitle}</h4>
-                        <ul>${missingList}</ul>
-                    </div>
-                    
-                    <div class="alternative-bets">
-                        <h4>${lang.alternativeBetsTitle}</h4>
-                        <ol>${altBetsList}</ol>
-                    </div>
+                    <h4>${icon} ${item.match}</h4>
+                    <p style="font-size: 0.9em;">${item.reason}</p>
                 `;
-                container.appendChild(card);
+                alertContainer.appendChild(card);
             });
             
-            // 2. Genel Değerlendirme ve Kritik Notları Doldur
-            const methodologyList = lang.methodologyPoints.map(item => {
-                const text = item.replace('✅', '').replace('⚠️', '').trim();
-                let iconClass = item.includes('⚠️') ? 'warning fas fa-exclamation-triangle' : 'success fas fa-check';
-                return `<li><i class="deepseek-icon ${iconClass.split(' ')[0]}" class="${iconClass}"></i> ${text}</li>`;
-            }).join('');
-
-            const criticalNotesList = lang.criticalNotes.map(item => {
-                const icon = item.split(' ')[0]; // İlk kısım (ikona benzeyen)
-                const text = item.substring(item.indexOf(' ') + 1); // Kalan metin
-                const iconMap = {'🏥': 'fas fa-hospital', '📅': 'fas fa-calendar-day', '🧑‍⚖️': 'fas fa-gavel', '📊': 'fas fa-chart-bar'};
-                const iconHtml = `<i class="deepseek-icon alert ${iconMap[icon] || 'fas fa-exclamation-triangle'}"></i>`;
-                
-                return `<li>${iconHtml} ${text}</li>`;
-            }).join('');
+            // 2. En İyi Bahisleri Doldur
+            const rankedBets = analysisData.bestBets.slice(0, 3);
             
-            generalContent.innerHTML = `
-                <div style="display: flex; gap: 20px;">
-                    <div style="flex: 1;">
-                        <h4 style="color: var(--light-yellow);">${lang.methodologyTitle} <span style="color: var(--secondary-orange);">${lang.methodologyScore}</span></h4>
-                        <ul style="list-style: none; padding-left: 0;">${methodologyList}</ul>
-                    </div>
-                    <div style="flex: 1; border-left: 1px dashed rgba(255, 255, 255, 0.3); padding-left: 20px;">
-                        <h4 style="color: var(--deepseek-red);">${lang.criticalNotesTitle}</h4>
-                        <ul style="list-style: none; padding-left: 0;">${criticalNotesList}</ul>
-                    </div>
-                </div>
-                <div style="margin-top: 15px; padding: 10px; border: 2px solid var(--primary-blue); border-radius: 8px; background: rgba(0, 188, 212, 0.1);">
-                    <p style="font-weight: bold; margin: 0;">${lang.generalAdvice}</p>
-                </div>
-            `;
+            rankedBets.forEach(bet => {
+                const card = document.createElement('div');
+                card.classList.add('bet-card');
+                card.classList.add(bet.rank); // gold, silver, bronze
 
+                const rankIcon = bet.rank === 'gold' ? '🥇' : bet.rank === 'silver' ? '🥈' : '🥉';
+
+                card.innerHTML = `
+                    <h5>${rankIcon} ${bet.match}</h5>
+                    <p style="font-weight: normal; margin: 0;">${bet.bet}</p>
+                    <span>ORAN: ${bet.odds} | ${bet.confidence}</span>
+                `;
+                bestBetsContainer.appendChild(card);
+            });
+            
+            // Kalan bahisleri listele (İlk 3'ten sonraki)
+            if (analysisData.bestBets.length > 3) {
+                 const remainingBetsCard = document.createElement('div');
+                 remainingBetsCard.classList.add('summary-card', 'recommend');
+                 remainingBetsCard.style.gridColumn = '1 / -1'; // Tüm satırı kapla
+                 remainingBetsCard.innerHTML = `
+                    <h4 style="color: var(--robot-green);"><i class="fas fa-list-ul"></i> Diğer Değerli Bahisler</h4>
+                    <ul class="summary-list" style="list-style: none; padding: 0;">
+                        ${analysisData.bestBets.slice(3).map(bet => `
+                            <li>
+                                <i class="fas fa-check match-recommend"></i> 
+                                <strong>${bet.match}:</strong> ${bet.bet} 
+                                <span class="match-value">(${bet.odds})</span> 
+                                <span style="font-weight: normal;">- ${bet.confidence}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                 `;
+                 bestBetsContainer.parentNode.appendChild(remainingBetsCard);
+            }
         }
 
 
@@ -676,23 +573,6 @@
                 const card = document.createElement('div');
                 card.classList.add('match-card');
                 
-                // Analiz kartlarındaki neden açıklamalarını bulalım
-                let reasonText = '';
-                const analysisItem = (currentLang === 'en' ? deepSeekAnalysisEN : deepSeekAnalysisTR).find(a => a.match.includes(match.ev.split(' ')[0]) || a.match.includes(match.dep.split(' ')[0]));
-                if (analysisItem) {
-                     // Analizdeki ALTERNATİF BAHİSLER kısmındaki Güvenle/Safer bahsini alalım
-                    const saferBet = analysisItem.alternativeBets.find(b => b.type === (currentLang === 'en' ? 'SAFER' : 'DAHA GÜVENLİ') || b.type === (currentLang === 'en' ? 'SAFE' : 'GÜVENLE'));
-                    if (saferBet) {
-                        reasonText = `${saferBet.selection} (${saferBet.confidence})`;
-                    } else {
-                        // Eğer Safer yoksa ana yorumu alalım
-                        reasonText = match.reason || (currentLang === 'en' ? 'Detailed analysis available in the main tab.' : 'Detaylı analiz ana sekmede mevcuttur.');
-                    }
-                } else {
-                    reasonText = match.reason || (currentLang === 'en' ? 'General analysis.' : 'Genel analiz.');
-                }
-
-
                 card.innerHTML = `
                     <div class="match-header">
                         <div class="match-title">${match.ev} vs ${match.dep}</div>
@@ -718,7 +598,8 @@
                             </div>
                         </div>
                     </div>
-                    <p style="margin-top: 10px; font-size: 0.9em;"><i class="fas fa-robot"></i> ${lang.reasonTitle} ${reasonText}</p>
+                    <p style="margin-top: 10px; margin-bottom: 5px; font-size: 0.9em;"><i class="fas fa-microchip" style="color: var(--primary-blue);"></i> **Robot Skoru:** <span class="robot-score">${match.robot_skor}</span></p>
+                    <p style="margin: 0; font-size: 0.9em;"><i class="fas fa-robot"></i> ${lang.reasonTitle} ${match.reason}</p>
                 `;
                 container.appendChild(card);
             });
@@ -734,21 +615,24 @@
             document.getElementById('poweredByText').textContent = data.poweredByText;
             
             // Sekme Butonları
-            document.getElementById('tabBtnDeepseek').innerHTML = `<i class="fas fa-brain"></i> ${data.tabBtnDeepseek}`;
+            document.getElementById('tabBtnDeepseek').innerHTML = `<i class="fas fa-exchange-alt"></i> ${data.tabBtnDeepseek}`;
             document.getElementById('tabBtnTable').innerHTML = `<i class="fas fa-table"></i> ${data.tabBtnTable}`;
 
-            // Tablo Başlıkları
+            // Analiz Sekmesi Başlıkları
             document.getElementById('deepseekHeader').innerHTML = `<i class="fas fa-brain"></i> ${data.deepseekHeader}`;
+            document.querySelector('#tab-deepseek h3:nth-of-type(1)').innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${data.alertTitle}`;
+            document.querySelector('#tab-deepseek h3:nth-of-type(2)').innerHTML = `<i class="fas fa-star"></i> ${data.bestBetsTitle}`;
+
+
+            // Tablo Başlıkları
             document.getElementById('tableHeader').innerHTML = `<i class="fas fa-list-ol"></i> ${data.tableHeader}`;
             document.getElementById('tableNote').innerHTML = data.tableNote;
-            document.getElementById('generalEvaluationTitle').innerHTML = `<i class="fas fa-chart-line"></i> ${data.generalEvaluationTitle}`;
-
 
             // Footer
             document.getElementById('footerText').innerHTML = data.footerText;
 
             // Dinamik içerikleri yeniden yükle
-            fillDeepSeekAnalysis();
+            fillRobotOddsAnalysis();
             fillTable();
         }
 
@@ -780,7 +664,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             translateUI(currentLang); 
 
-            // Başlangıçta Robot Analizi sekmesini aktif et
+            // Başlangıçta Oran Analizi sekmesini aktif et
             document.getElementById('tabBtnDeepseek').click();
         });
     </script>
