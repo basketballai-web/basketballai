@@ -8,52 +8,54 @@
     <style>
         /* Genel Stil ve Tema Renkleri */
         :root {
-            --primary-blue: #00bcd4; /* Robot Beyin Mavisi */
-            --secondary-orange: #ff9800; /* Basketbol Turuncusu */
-            --dark-blue: #011f4b; /* Arka Plan Koyu Mavi */
+            --primary-blue: #00e5ff; /* NEON Mavi (Daha Canlı) */
+            --secondary-orange: #ff3d00; /* Koyu Kırmızı Turuncu (Daha Agresif) */
+            --dark-blue: #091336; /* Arka Plan Süper Koyu Mavi */
             --light-yellow: #ffeb3b; /* Vurgu Sarı */
             --white-text: #ffffff;
             --off-white: #f0f0f0;
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 0, 0, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.08); /* Hafif Şeffaf Koyu Kart */
+            --shadow-color: rgba(0, 0, 0, 0.7);
             /* Yeni Analiz Renkleri */
             --robot-bg: #1c1c1c; /* Robot Kart Arka Planı */
-            --robot-green: #4CAF50; /* Başarılı Tespit */
-            --robot-red: #f44336; /* Kritik Uyarı */
+            --robot-green: #388e3c; /* Yeşil (Daha Canlı) */
+            --robot-red: #ff1744; /* Kritik Kırmızı (Daha Parlak) */
             --robot-yellow: #FFC107; /* Dikkat Gereken */
             --robot-border: #3f51b5;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--dark-blue);
             color: var(--white-text);
             margin: 0;
             padding: 0;
-            background-image: radial-gradient(circle at top left, var(--dark-blue) 0%, #000d23 100%);
+            background-image: radial-gradient(circle at top left, #0e1e4a 0%, #03081e 100%);
             min-height: 100vh;
         }
 
         /* Başlık Alanı */
         header {
             background: linear-gradient(135deg, var(--dark-blue), #004d40);
-            padding: 20px 0 10px 0;
+            padding: 25px 0 15px 0;
             text-align: center;
             border-bottom: 5px solid var(--primary-blue);
-            box-shadow: 0 4px 15px var(--shadow-color);
+            box-shadow: 0 4px 20px var(--primary-blue), 0 0 10px rgba(0, 229, 255, 0.5); /* Neon Etkisi */
         }
 
         header h1 {
             color: var(--light-yellow);
-            text-shadow: 2px 2px 4px var(--shadow-color);
+            text-shadow: 0 0 8px var(--light-yellow), 0 0 15px var(--secondary-orange);
             margin: 0;
-            font-size: 2.5em;
+            font-size: 3em;
+            letter-spacing: 2px;
         }
         
         header p {
             color: var(--primary-blue);
             margin: 5px 0 0 0;
             font-style: italic;
+            font-size: 1.1em;
         }
 
         /* Dil Seçim Alanı Stili */
@@ -62,86 +64,57 @@
             margin-bottom: 10px;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .lang-button {
-            padding: 5px 15px;
-            border: 2px solid var(--primary-blue);
+            padding: 8px 20px;
+            border: 3px solid var(--primary-blue);
             background-color: var(--dark-blue);
             color: var(--primary-blue);
             font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.2s ease;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
         .lang-button:hover {
-            background-color: rgba(0, 188, 212, 0.2);
+            background-color: var(--primary-blue);
+            color: var(--dark-blue);
+            box-shadow: 0 0 15px var(--primary-blue);
         }
 
         .lang-button.active {
             background-color: var(--primary-blue);
             color: var(--dark-blue);
-            box-shadow: 0 0 10px var(--light-yellow);
+            box-shadow: 0 0 15px var(--light-yellow);
         }
 
         /* Ana İçerik Konteyneri */
         .container {
             width: 95%;
-            max-width: 1400px;
-            margin: 20px auto;
+            max-width: 900px; /* Konteyneri küçülttük */
+            margin: 30px auto;
             padding: 10px;
         }
 
         /* Sekmeler (Tabs) */
+        /* Sadece tek bir sekme kaldığı için tab/sekme stilini sildik veya gizledik */
         .tabs {
-            display: flex;
-            justify-content: flex-start;
-            background-color: #01356b;
-            border-radius: 10px 10px 0 0;
-            margin-bottom: 10px;
-            box-shadow: 0 5px 15px var(--shadow-color);
-        }
-
-        .tab-button {
-            flex-grow: 0;
-            padding: 15px 25px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--off-white);
-            background: #01356b;
-            border: none;
-            transition: all 0.3s ease;
-            border-radius: 10px 10px 0 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-button:hover {
-            background-color: var(--dark-blue);
-            color: var(--primary-blue);
-        }
-
-        .tab-button.active {
-            background-color: var(--primary-blue);
-            color: var(--dark-blue);
-            box-shadow: inset 0 -4px 0 var(--light-yellow);
-            z-index: 1;
+            display: none; /* Sekmeleri tamamen gizle */
         }
         
         /* Sekme İçerikleri */
         .tab-content {
             display: none;
-            padding: 20px;
+            padding: 30px;
             background: var(--card-bg);
-            border-radius: 0 0 10px 10px;
-            min-height: 500px;
-            border: 1px solid var(--primary-blue);
-            box-shadow: 0 4px 20px var(--shadow-color);
-            animation: fadeIn 0.5s;
+            border-radius: 10px; /* Köşeleri yuvarladık */
+            min-height: 550px;
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 25px rgba(0, 229, 255, 0.5);
+            animation: fadeIn 0.6s ease-out;
         }
 
         .tab-content.active {
@@ -149,177 +122,79 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Genel Başlıklar */
-        h2 {
-            color: var(--secondary-orange);
-            border-bottom: 2px solid var(--primary-blue);
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
-        
-        /* ORAN ANALİZİ SEKMESİ */
-        .analysis-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        /* ---------------------------------------------------- */
+        /* YENİ GELİŞTİRME AŞAMASI UYARI STİLİ */
+        /* ---------------------------------------------------- */
+        .development-alert-section {
+            padding: 50px 20px;
         }
 
-        .summary-card {
-            background-color: var(--robot-bg);
-            border: 2px solid var(--robot-yellow);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-        .summary-card.alert {
-            border-color: var(--robot-red);
-            background-color: rgba(244, 67, 54, 0.1);
-        }
-        .summary-card.recommend {
-            border-color: var(--robot-green);
-            background-color: rgba(76, 175, 80, 0.1);
-        }
-        .summary-card h4 {
-            margin-top: 0;
-            font-size: 1.2em;
-            color: var(--light-yellow);
-            border-bottom: 1px dashed var(--primary-blue);
-            padding-bottom: 5px;
-        }
-        .summary-list li {
-            padding: 5px 0;
-            font-weight: bold;
-        }
-        .match-alert { color: var(--robot-red); }
-        .match-recommend { color: var(--robot-green); }
-        .match-value { color: var(--secondary-orange); }
-
-        /* Tavsiye Kartları (EN İYİ 3) */
-        .best-bets-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .bet-card {
-            padding: 20px;
-            border-radius: 10px;
+        .development-alert-section h3 {
+            color: var(--robot-red);
             text-align: center;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-            font-size: 1.1em;
+            font-size: 2.5em !important;
+            margin-top: 50px;
+            text-shadow: 0 0 10px var(--robot-red);
+            animation: flashRed 1.5s infinite alternate;
         }
-        .bet-card.gold { background: linear-gradient(135deg, #FFD700, #ffc400); color: #333; }
-        .bet-card.silver { background: linear-gradient(135deg, #C0C0C0, #a8a8a8); color: #333; }
-        .bet-card.bronze { background: linear-gradient(135deg, #CD7F32, #b56c2a); color: #333; }
-        .bet-card h5 { margin: 0 0 5px 0; font-size: 1.5em; }
-        .bet-card span { font-weight: bold; display: block; margin-top: 5px; color: var(--dark-blue); }
-
-
-        /* ---------------------------------------------------- */
-        /* DETAYLI TAHMİN TABLOSU STİLİ (Match-Card) */
-        /* ---------------------------------------------------- */
-        .match-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+        
+        @keyframes flashRed {
+            from { opacity: 1; }
+            to { opacity: 0.8; }
         }
 
-        .match-card {
-            background-color: #01356b;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--primary-blue);
-        }
-        .match-header {
-            border-bottom: 1px solid var(--primary-blue);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .match-title {
-            font-weight: bold;
-            font-size: 1.2em;
+        .development-alert-section p {
+            text-align: center;
+            font-size: 1.4em;
             color: var(--light-yellow);
+            margin-bottom: 40px;
         }
-        .match-meta {
-            font-size: 0.8em;
-            color: rgba(255, 255, 255, 0.6);
-            display: flex;
-            justify-content: space-between;
-        }
-        .prediction-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
-        }
-        .prediction-label {
-            font-weight: bold;
+
+        .development-alert-section .bot-callout {
+            font-size: 1.6em;
             color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-weight: 600;
         }
         
-        /* DÜZELTME: Tahmin ve Oran Dikey Hizalama */
-        .prediction-detail {
-            display: flex; /* İçeriklerini yatayda düzenle */
-            align-items: center;
-            gap: 10px; /* Tahmin ve Oran Kutusu arasına boşluk */
-        }
-        .prediction-detail span {
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-left: 0; 
-            display: inline-flex;
-            align-items: center;
-        }
-        /* MS & TS Tahmin Oranları (Gerçek Oranlar) */
-        .odds-ms, .odds-ts { 
-            background-color: var(--robot-bg); 
-            color: var(--white-text); 
-            border: 1px solid var(--secondary-orange);
-            font-size: 0.9em;
-            padding: 4px 6px; 
-            margin-left: 5px;
-        }
-        .prediction-ms, .prediction-ts {
-            padding: 0; 
-            background: none;
-            color: var(--off-white);
-        }
-        /* DÜZELTME SONU */
-
-        .confidence-cell {
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .confidence-high { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; }
-        .confidence-medium { background-color: rgba(255, 193, 7, 0.2); color: var(--light-yellow); }
-        .confidence-low { background-color: rgba(244, 67, 54, 0.2); color: #f44336; }
-        
-        .robot-score {
-            font-size: 0.9em;
-            color: var(--secondary-orange);
-            font-weight: bold;
+        .telegram-link {
+            text-align: center;
+            margin-top: 30px;
         }
 
+        .telegram-link a {
+            background-color: var(--robot-green);
+            color: #1c1c1c !important; /* Koyu arka plana karşı koyu metin */
+            padding: 18px 35px;
+            text-decoration: none;
+            font-weight: 900; /* Ekstra Kalın */
+            border-radius: 12px;
+            font-size: 2em;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 0 20px var(--robot-green), 0 4px 15px rgba(0, 0, 0, 0.6);
+            border: 3px solid var(--light-yellow);
+        }
+
+        .telegram-link a:hover {
+            background-color: #5cb85c;
+            transform: scale(1.08) rotate(-1deg);
+            box-shadow: 0 0 30px #5cb85c, 0 8px 25px rgba(0, 0, 0, 0.8);
+        }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            background-color: #000d23;
-            border-top: 2px solid var(--primary-blue);
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.6);
+            padding: 25px;
+            margin-top: 40px;
+            background-color: #03081e;
+            border-top: 3px solid var(--primary-blue);
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
@@ -327,42 +202,36 @@
 
     <header>
         <h1><i class="fas fa-robot" style="color: var(--primary-blue);"></i> <span id="mainTitleText">Basketbol Robot Analizleri</span> <i class="fas fa-basketball-ball" style="color: var(--secondary-orange);"></i></h1>
-        <p id="poweredByText">NBA Maçları - Canlı Oran Karşılaştırmalı Robot Analizi</p>
-
+        <p id="poweredByText">Robot Analizi Sistemi</p>
+        
         <div class="language-selector">
             <button class="lang-button active" data-lang="tr">Türkçe</button>
             <button class="lang-button" data-lang="en">English</button>
         </div>
-        </header>
+    </header>
 
     <div class="container">
-        <div class="tabs">
-            <button class="tab-button active" data-tab="tab-deepseek" id="tabBtnDeepseek"><i class="fas fa-exchange-alt"></i> ORAN ANALİZİ & UYARILAR</button>
-            <button class="tab-button" data-tab="tab-table" id="tabBtnTable"><i class="fas fa-table"></i> DETAYLI ROBOT TAHMİNLERİ</button>
+        <div class="tabs" style="display: none;">
+            </div>
+
+        <div id="tab-deepseek" class="tab-content active development-alert-section" style="border-radius: 10px;">
+            <h3 style="color: var(--robot-red); text-align: center; font-size: 2.5em; margin-top: 50px;">
+                <i class="fas fa-exclamation-triangle"></i> Geliştirilme Aşamasında <i class="fas fa-exclamation-triangle"></i>
+            </h3>
+            <p style="text-align: center; font-size: 1.4em; color: var(--light-yellow); margin-bottom: 40px;">
+                Basketbol robot analizi sistemi şu anda güncellenmektedir ve kısa süre sonra yayınlanacaktır.
+            </p>
+            <p class="bot-callout" style="text-align: center;">
+                Bu süreçte, güncel ve anlık tahminler için **Tenis Botumuzu** deneyebilirsiniz:
+            </p>
+            <div class="telegram-link">
+                <a href="https://t.me/tenisaibot" target="_blank">
+                    <i class="fab fa-telegram-plane"></i> Tenis Botunu Deneyin - Tıkla!
+                </a>
+            </div>
         </div>
 
-        <div id="tab-deepseek" class="tab-content active">
-            <h2 id="deepseekHeader"><i class="fas fa-brain"></i> Robot Oran Karşılaştırma Raporu</h2>
-            <p style="color: var(--robot-yellow); font-style: italic;">Robotun kendi analizi ile canlı bahis oranları arasındaki uyum/uyumsuzluk ve en değerli bahisler özetlenmiştir.</p>
-            
-            <h3 style="color: var(--robot-red);"><i class="fas fa-exclamation-triangle"></i> Kritik Uyumsuzluk ve Atlanması Gereken Maçlar</h3>
-            <div class="analysis-summary" id="alert-summary">
-                </div>
-
-            <h3 style="color: var(--robot-green); margin-top: 30px;"><i class="fas fa-star"></i> Robotun En İyi 5 Bahis Önerisi</h3>
-            <div class="best-bets-container" id="best-bets-container">
-                </div>
-            
         </div>
-
-        <div id="tab-table" class="tab-content">
-            <h2 id="tableHeader"><i class="fas fa-list-ol"></i> 12 Maçın Detaylı Robot Tahmin Tablosu</h2>
-            <div class="match-list">
-                 </div>
-            <p style="margin-top:20px; font-size: 0.9em; color: rgba(255, 255, 255, 0.7);" id="tableNote">*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir. **Robot Skoru: Robotun belirlediği yaklaşık skor.**</p>
-        </div>
-
-    </div>
 
     <footer id="footerText">
         <p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p>
@@ -371,325 +240,84 @@
 
     <script>
         // =========================================================================
-        // TAHMİN VE ORAN VERİLERİ (12 Maç)
-        // =========================================================================
-        const detailedData = [
-            // GÖRSEL 1 (2223.jpg) - 5 MAÇ
-            { id: 1, saat: "02:00", lig: "NBA", ev: "CHARLOTTE", dep: "BROOKLYN", ms1: 1.29, ms2: 2.25, ts: 228.5, alt: 1.63, ust: 1.64, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 50, robot_skor: "102-107", reason: "Oranlar ters. Brooklyn'de düşük güvenle sürpriz bekleniyor.", handikap_yon: "+", h1: null, h2: null},
-            { id: 2, saat: "02:00", lig: "NBA", ev: "NEW YORK", dep: "CLEVELAND", ms1: 1.75, ms2: 1.53, ts: 228.5, alt: 1.61, ust: 1.65, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 65, robot_skor: "103-108", reason: "Cleveland güçlü defans, toplam çok yüksek. ALT daha güvenli.", handikap_yon: "+", h1: null, h2: null},
-            { id: 3, saat: "02:00", lig: "NBA", ev: "ORLANDO", dep: "MIAMI", ms1: 1.08, ms2: 3.38, ts: 215.5, alt: 1.62, ust: 1.65, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 55, robot_skor: "98-106", reason: "Ciddi oran uyumsuzluğu! Miami güçlü, Orlando'nun 1.08 favori olması riskli.", handikap_yon: "+", h1: null, h2: null},
-            { id: 4, saat: "02:30", lig: "NBA", ev: "ATLANTA", dep: "TORONTO", ms1: 1.23, ms2: 2.42, ts: 237.5, alt: 1.60, ust: 1.66, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 70, robot_skor: "109-104", reason: "Atlanta formda. Toplam çok yüksek (237.5), ALT en değerli bahis.", handikap_yon: "-", h1: null, h2: null},
-            { id: 5, saat: "02:00", lig: "NBA", ev: "BOSTON", dep: "PHILADELPHIA", ms1: 1.31, ms2: 2.17, ts: 229.5, alt: 1.61, ust: 1.65, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 88, robot_skor: "114-104", reason: "Boston ezici üstünlük. Günün en güvenli bahsi MS1 / Spread.", handikap_yon: "-", h1: null, h2: null},
-            
-            // GÖRSEL 2 (2224.jpg) - 5 MAÇ
-            { id: 6, saat: "03:00", lig: "NBA", ev: "CHICAGO", dep: "DETROIT", ms1: 1.88, ms2: 1.44, ts: 236.5, alt: 1.60, ust: 1.66, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 58, robot_skor: "108-111", reason: "Detroit hafif üstün. Toplam çok yüksek, ALT en değerli bahis.", handikap_yon: "+", h1: null, h2: null},
-            { id: 7, saat: "03:00", lig: "NBA", ev: "MEMPHIS", dep: "NEW ORLEANS", ms1: 1.33, ms2: 2.13, ts: 236.5, alt: 1.63, ust: 1.64, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 66, robot_skor: "112-116", reason: "Memphis favori ama AI NO diyor. NO (2.13) sürpriz değer.", handikap_yon: "+", h1: null, h2: null},
-            { id: 8, saat: "03:00", lig: "NBA", ev: "MILWAUKEE", dep: "WASHINGTON", ms1: null, ms2: 3.87, ts: 227.5, alt: 1.59, ust: 1.67, ms_tahmin: "MS2", ts_tahmin: "ÜST", guven: 65, robot_skor: "114-117", reason: "MS1 oranı YOK! Büyük sakatlık (Giannis/Lillard?) Washington ML (3.87) mükemmel değer.", handikap_yon: "+", h1: null, h2: null},
-            { id: 9, saat: "04:00", lig: "NBA", ev: "UTAH", dep: "LA CLIPPERS", ms1: 3.67, ms2: null, ts: 225.5, alt: 1.65, ust: 1.62, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 62, robot_skor: "115-110", reason: "MS2 oranı YOK! Büyük sakatlık (Kawhi/PG?) Utah ML (3.67) mükemmel değer.", handikap_yon: "-", h1: null, h2: null},
-            { id: 10, saat: "04:30", lig: "NBA", ev: "DALLAS", dep: "SAN ANTONIO", ms1: 1.47, ms2: 1.98, ts: 223.5, alt: 1.69, ust: 1.66, ms_tahmin: "MS1", ts_tahmin: "ALT", guven: 68, robot_skor: "112-108", reason: "Dallas güçlü form. Under 223.5 (1.69) değerli.", handikap_yon: "-", h1: null, h2: null},
-
-            // GÖRSEL 3 (2225.jpg) - 2 MAÇ
-            { id: 11, saat: "05:00", lig: "NBA", ev: "PHOENIX", dep: "SACRAMENTO", ms1: 1.33, ms2: 2.12, ts: 229.5, alt: 1.60, ust: 1.66, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 52, robot_skor: "108-112", reason: "Oranlar ters. Phoenix 1.33 favori ama AI Kings diyor. RİSKLİ.", handikap_yon: "+", h1: null, h2: null},
-            { id: 12, saat: "05:00", lig: "NBA", ev: "PORTLAND", dep: "MINNESOTA", ms1: 2.19, ms2: 1.30, ts: 220.5, alt: 1.65, ust: 1.61, ms_tahmin: "MS2", ts_tahmin: "ALT", guven: 75, robot_skor: "105-115", reason: "Minnesota her alanda üstün. Oranlar ve AI uyumlu. Güvenli.", handikap_yon: "+", h1: null, h2: null}
-        ];
-        
-        // =========================================================================
-        // ROBOT ORAN KARŞILAŞTIRMA ANALİZİ (Özet)
-        // =========================================================================
-        const robotAnalysisTR = {
-            alerts: [
-                { match: "CHARLOTTE vs BROOKLYN", reason: "🚨 CİDDİ UYUMSUZLUK: Oranlar Charlotte (1.29) diyor ama Robot Brooklyn'i (MS2) önde görüyor. Atlanmalı!", type: "alert" },
-                { match: "ORLANDO vs MIAMI", reason: "🚨 CİDDİ UYUMSUZLUK: Orlando 1.08 favori ama Robot Miami'yi (MS2) önde görüyor. Büyük sakatlık kontrol edilmeli. Atlanmalı!", type: "alert" },
-                { match: "PHOENIX vs SACRAMENTO", reason: "⚠️ UYUMSUZLUK: Oranlar Phoenix'i (1.33) favori gösterirken Robot Kings'i (MS2) önde görüyor. Riskli, ATLA.", type: "alert" },
-                { match: "MEMPHIS vs NEW ORLEANS", reason: "⚠️ DİKKAT: Memphis 1.33 favori ama Robot NO'yu (2.13) önde görüyor. NO ML yüksek değer (2.13) taşıyor, sakatlık kontrol edilmeli.", type: "value" }
-            ],
-            bestBets: [
-                { match: "BOSTON vs PHILADELPHIA", bet: "BOSTON MS1 (-9.5 Spread değeri)", odds: "1.31", confidence: "Çok Güçlü" , rank: "gold"},
-                { match: "UTAH vs LA CLIPPERS", bet: "UTAH ML (3.67) - Sürpriz Değer", odds: "3.67", confidence: "Çok Güçlü", rank: "silver"},
-                { match: "MILWAUKEE vs WASHINGTON", bet: "WASHINGTON ML (3.87) - Sürpriz Değer", odds: "3.87", confidence: "Çok Güçlü", rank: "bronze"},
-                { match: "PORTLAND vs MINNESOTA", bet: "MINNESOTA MS2", odds: "1.30", confidence: "Güçlü"},
-                { match: "ATLANTA vs TORONTO", bet: "UNDER 237.5 (Büyük Fark)", odds: "1.60", confidence: "Güçlü"},
-                { match: "CHICAGO vs DETROIT", bet: "UNDER 236.5 (Büyük Fark)", odds: "1.60", confidence: "Güçlü"},
-                { match: "DALLAS vs SAN ANTONIO", bet: "UNDER 223.5", odds: "1.69", confidence: "Güçlü"}
-            ]
-        };
-
-        const robotAnalysisEN = {
-            alerts: [
-                { match: "CHARLOTTE vs BROOKLYN", reason: "🚨 SERIOUS MISMATCH: Odds favor Charlotte (1.29) but Robot sees Brooklyn (FT2) ahead. Must be skipped!", type: "alert" },
-                { match: "ORLANDO vs MIAMI", reason: "🚨 SERIOUS MISMATCH: Orlando 1.08 favorite but Robot sees Miami (FT2) ahead. Check for major injuries. Must be skipped!", type: "alert" },
-                { match: "PHOENIX vs SACRAMENTO", reason: "⚠️ MISMATCH: Odds favor Phoenix (1.33) but Robot sees Kings (FT2) ahead. Risky, SKIP.", type: "alert" },
-                { match: "MEMPHIS vs NEW ORLEANS", reason: "⚠️ ATTENTION: Memphis 1.33 favorite but Robot sees NO (2.13) ahead. NO ML is high value (2.13), check for injuries.", type: "value" }
-            ],
-            bestBets: [
-                { match: "BOSTON vs PHILADELPHIA", bet: "BOSTON FT1 (-9.5 Spread value)", odds: "1.31", confidence: "Very Strong" , rank: "gold"},
-                { match: "UTAH vs LA CLIPPERS", bet: "UTAH ML (3.67) - Upset Value", odds: "3.67", confidence: "Very Strong", rank: "silver"},
-                { match: "MILWAUKEE vs WASHINGTON", bet: "WASHINGTON ML (3.87) - Upset Value", odds: "3.87", confidence: "Very Strong", rank: "bronze"},
-                { match: "PORTLAND vs MINNESOTA", bet: "MINNESOTA FT2", odds: "1.30", confidence: "Strong"},
-                { match: "ATLANTA vs TORONTO", bet: "UNDER 237.5 (Huge Difference)", odds: "1.60", confidence: "Strong"},
-                { match: "CHICAGO vs DETROIT", bet: "UNDER 236.5 (Huge Difference)", odds: "1.60", confidence: "Strong"},
-                { match: "DALLAS vs SAN ANTONIO", bet: "UNDER 223.5", odds: "1.69", confidence: "Strong"}
-            ]
-        };
-
-
-        // =========================================================================
-        // DİL SABİTLERİ VE FONKSİYONLAR
-        // =========================================================================
-        const langData = {
-            tr: {
-                pageTitle: "🤖 Basketbol Robot Analizleri", mainTitleText: "Basketbol Robot Analizleri", poweredByText: "NBA Maçları - Canlı Oran Karşılaştırmalı Robot Analizi",
-                tabBtnDeepseek: "ORAN ANALİZİ & UYARILAR", tabBtnTable: "DETAYLI ROBOT TAHMİNLERİ",
-                deepseekHeader: "Robot Oran Karşılaştırma Raporu",
-                alertTitle: "Kritik Uyumsuzluk ve Atlanması Gereken Maçlar",
-                bestBetsTitle: "Robotun En İyi 5 Bahis Önerisi",
-                tableHeader: "12 Maçın Detaylı Robot Tahmin Tablosu", tableNote: "*MS Tahmini: MS1 - H.Rakamı (Ev Sahibi Handikaplı Kazanır) veya MS2 + H.Rakamı (Deplasman Handikaplı Kazanır). Oranlar tahmin edilen sonuca aittir. **Robot Skoru: Robotun belirlediği yaklaşık skor.**",
-                labelTime: "Saat/Lig:", labelMs: "MS Tahmini (Oran):", labelTs: "ALT/ÜST Tahmini (Oran):", labelConf: "Robot Güven:",
-                reasonTitle: "**Robot Yorumu:**",
-                footerText: `<p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>`,
-            },
-            en: {
-                pageTitle: "🤖 Basketball Robot Analysis", mainTitleText: "Basketball Robot Analysis", poweredByText: "NBA Matches - Live Odds Comparative Robot Analysis",
-                tabBtnDeepseek: "ODDS ANALYSIS & ALERTS", tabBtnTable: "DETAILED ROBOT PREDICTIONS",
-                deepseekHeader: "Robot Odds Comparison Report",
-                alertTitle: "Critical Mismatches and Matches to Skip",
-                bestBetsTitle: "Robot's Top 5 Bet Recommendations",
-                tableHeader: "Detailed Robot Prediction Table for 12 Matches", tableNote: "*FT Prediction: FT1 - H.Number (Home Handicap Win) or FT2 + H.Number (Away Handicap Win). Odds belong to the predicted outcome. **Robot Score: The approximate score determined by the Robot.**",
-                labelTime: "Time/League:", labelMs: "FT Prediction (Odds):", labelTs: "O/U Prediction (Odds):", labelConf: "Robot Confidence:",
-                reasonTitle: "**Robot Comment:**",
-                footerText: `<p>Basketball Robot Prediction Analysis | Robot Analysis | Powered by AI</p><p>Disclaimer: Betting is a game of chance and carries the risk of loss. Please play responsibly.</p>`,
-            }
-        };
-
-        let currentLang = 'tr';
-
-        // Helper functions from the original script
-        function getConfidenceClass(guven) {
-            if (guven >= 75) return 'confidence-high';
-            if (guven >= 60) return 'confidence-medium';
-            return 'confidence-low';
-        }
-        function getStarRating(guven) {
-            if (guven >= 85) return '★★★★★';
-            if (guven >= 75) return '★★★★';
-            if (guven >= 65) return '★★★';
-            if (guven >= 55) return '★★';
-            return '★';
-        }
-        
-        // Tahmin sonucu için gerçek oranı getirir
-        function formatMSTahmin(match) {
-            const ms_tip = match.ms_tahmin;
-            const oran = ms_tip === 'MS1' ? match.ms1 : match.ms2;
-            const ms_tip_display = currentLang === 'en' ? ms_tip.replace('MS', 'FT') : ms_tip;
-            
-            // Eğer oran yoksa (MS1: - / MS2: 3.87 gibi), tahminin tersini göster
-            if (oran === null) {
-                const ters_oran = ms_tip === 'MS1' ? match.ms2 : match.ms1;
-                 // Tahmin ve Oran için ayrı span kullanıldı
-                 return `<span class="prediction-ms" style="color:var(--robot-red);">ÇOK YÜKSEK DEĞER</span><span class="odds-ms" style="background-color: var(--robot-red);">${ters_oran || '?'}</span>`;
-            }
-
-            // Tahmin ve Oran için ayrı span kullanıldı
-            return `<span class="prediction-ms">${ms_tip_display}</span><span class="odds-ms">${oran.toFixed(2)}</span>`;
-        }
-
-        function formatTSTahmin(match) {
-            const ts_cizgi = match.ts; 
-            const ts_tip = match.ts_tahmin;
-            const oran = ts_tip === 'ALT' ? match.alt : match.ust;
-            let ts_tip_display;
-            if (currentLang === 'en') {
-                ts_tip_display = ts_tip === 'ALT' ? 'UNDER' : 'OVER';
-            } else {
-                ts_tip_display = ts_tip;
-            }
-            // Tahmin (Çizgi + Alt/Üst) ve Oran için ayrı span kullanıldı
-            return `<span class="prediction-ts">${ts_cizgi} ${ts_tip_display}</span><span class="odds-ts">${oran.toFixed(2)}</span>`;
-        }
-
-        // =========================================================================
-        // ORAN ANALİZİNİ DOLDURMA (Yeni Sekme)
+        // JavaScript artık sadece dil değişimi ve sayfa güncellemelerini yönetecek
+        // Tüm detaylı maç verileri (detailedData) ve ilgili render fonksiyonları kaldırıldı.
         // =========================================================================
 
-        function fillRobotOddsAnalysis() {
-            const alertContainer = document.getElementById('alert-summary');
-            const bestBetsContainer = document.getElementById('best-bets-container');
-            const lang = langData[currentLang];
-            const analysisData = currentLang === 'en' ? robotAnalysisEN : robotAnalysisTR;
+        function updateLanguage(lang) {
+            const isTR = lang === 'tr';
+            document.getElementById('mainTitleText').textContent = isTR ? 'Basketbol Robot Analizleri' : 'Basketball Robot Analysis';
+            document.getElementById('poweredByText').textContent = isTR ? 'Robot Analizi Sistemi' : 'Robot Analysis System';
 
-            // DÜZELTME: Eski içeriği temizle
-            alertContainer.innerHTML = '';
-            bestBetsContainer.innerHTML = '';
-            
-            // Kalan bahisler listesi dinamik olarak eklendiği için parent elementinin son çocuğu temizlenmeli.
-            const parent = bestBetsContainer.parentNode;
-            // DİKKAT: Yeni eklenen kartı temizle
-            const remainingCard = document.getElementById('remaining-bets-card');
-            if (remainingCard) {
-                parent.removeChild(remainingCard);
-            }
-            
-            // 1. Uyarılı Maçları Doldur
-            analysisData.alerts.forEach(item => {
-                const card = document.createElement('div');
-                card.classList.add('summary-card');
-                card.classList.add(item.type === 'alert' ? 'alert' : 'recommend');
-                
-                const icon = item.type === 'alert' ? '<i class="fas fa-ban match-alert"></i>' : '<i class="fas fa-money-bill-wave match-value"></i>';
-
-                card.innerHTML = `
-                    <h4>${icon} ${item.match}</h4>
-                    <p style="font-size: 0.9em;">${item.reason}</p>
-                `;
-                alertContainer.appendChild(card);
-            });
-            
-            // 2. En İyi Bahisleri Doldur
-            const rankedBets = analysisData.bestBets.slice(0, 3);
-            
-            rankedBets.forEach(bet => {
-                const card = document.createElement('div');
-                card.classList.add('bet-card');
-                card.classList.add(bet.rank); // gold, silver, bronze
-
-                const rankIcon = bet.rank === 'gold' ? '🥇' : bet.rank === 'silver' ? '🥈' : '🥉';
-
-                card.innerHTML = `
-                    <h5>${rankIcon} ${bet.match}</h5>
-                    <p style="font-weight: normal; margin: 0;">${bet.bet}</p>
-                    <span>ORAN: ${bet.odds} | ${bet.confidence}</span>
-                `;
-                bestBetsContainer.appendChild(card);
-            });
-            
-            // Kalan bahisleri listele (İlk 3'ten sonraki)
-            if (analysisData.bestBets.length > 3) {
-                 const remainingBetsCard = document.createElement('div');
-                 remainingBetsCard.id = 'remaining-bets-card'; // Temizleme için ID eklendi
-                 remainingBetsCard.classList.add('summary-card', 'recommend');
-                 remainingBetsCard.style.gridColumn = '1 / -1'; // Tüm satırı kapla
-                 remainingBetsCard.innerHTML = `
-                    <h4 style="color: var(--robot-green);"><i class="fas fa-list-ul"></i> Diğer Değerli Bahisler</h4>
-                    <ul class="summary-list" style="list-style: none; padding: 0;">
-                        ${analysisData.bestBets.slice(3).map(bet => `
-                            <li>
-                                <i class="fas fa-check match-recommend"></i> 
-                                <strong>${bet.match}:</strong> ${bet.bet} 
-                                <span class="match-value">(${bet.odds})</span> 
-                                <span style="font-weight: normal;">- ${bet.confidence}</span>
-                            </li>
-                        `).join('')}
-                    </ul>
-                 `;
-                 bestBetsContainer.parentNode.appendChild(remainingBetsCard);
-            }
-        }
-
-
-        // Tabloyu Doldurma Fonksiyonu (Kart Yapısı)
-        function fillTable() {
-            const container = document.querySelector('#tab-table .match-list');
-            container.innerHTML = '';
-            const lang = langData[currentLang];
-
-            detailedData.forEach(match => {
-                const card = document.createElement('div');
-                card.classList.add('match-card');
-                
-                card.innerHTML = `
-                    <div class="match-header">
-                        <div class="match-title">${match.ev} vs ${match.dep}</div>
-                        <div class="match-meta">
-                            <span>#${match.id}</span>
-                            <span>${match.saat} | ${match.lig}</span>
-                        </div>
-                    </div>
-
-                    <div class="prediction-section">
-                        <div class="prediction-row">
-                            <span class="prediction-label">${lang.labelMs}</span>
-                            <div class="prediction-detail">${formatMSTahmin(match)}</div>
-                        </div>
-                        <div class="prediction-row">
-                            <span class="prediction-label">${lang.labelTs}</span>
-                            <div class="prediction-detail">${formatTSTahmin(match)}</div>
-                        </div>
-                        <div class="prediction-row" style="background-color: rgba(0, 188, 212, 0.1);">
-                            <span class="prediction-label">${lang.labelConf}</span>
-                            <div class="prediction-detail">
-                                <span class="confidence-cell ${getConfidenceClass(match.guven)}">${match.guven}% ${getStarRating(match.guven)}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p style="margin-top: 10px; margin-bottom: 5px; font-size: 0.9em;"><i class="fas fa-microchip" style="color: var(--primary-blue);"></i> **Robot Skoru:** <span class="robot-score">${match.robot_skor}</span></p>
-                    <p style="margin: 0; font-size: 0.9em;"><i class="fas fa-robot"></i> ${lang.reasonTitle} ${match.reason}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-        
-        // Arayüz Çeviri Fonksiyonu
-        function translateUI(lang) {
-            const data = langData[lang];
-            
-            // Başlık
-            document.getElementById('pageTitle').textContent = data.pageTitle;
-            document.getElementById('mainTitleText').textContent = data.mainTitleText;
-            document.getElementById('poweredByText').textContent = data.poweredByText;
-            
-            // Sekme Butonları
-            document.getElementById('tabBtnDeepseek').innerHTML = `<i class="fas fa-exchange-alt"></i> ${data.tabBtnDeepseek}`;
-            document.getElementById('tabBtnTable').innerHTML = `<i class="fas fa-table"></i> ${data.tabBtnTable}`;
-
-            // Analiz Sekmesi Başlıkları
-            document.getElementById('deepseekHeader').innerHTML = `<i class="fas fa-brain"></i> ${data.deepseekHeader}`;
-            document.querySelector('#tab-deepseek h3:nth-of-type(1)').innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${data.alertTitle}`;
-            document.querySelector('#tab-deepseek h3:nth-of-type(2)').innerHTML = `<i class="fas fa-star"></i> ${data.bestBetsTitle}`;
-
-
-            // Tablo Başlıkları
-            document.getElementById('tableHeader').innerHTML = `<i class="fas fa-list-ol"></i> ${data.tableHeader}`;
-            document.getElementById('tableNote').innerHTML = data.tableNote;
-
-            // Footer
-            document.getElementById('footerText').innerHTML = data.footerText;
-
-            // Dinamik içerikleri yeniden yükle
-            fillRobotOddsAnalysis();
-            fillTable();
-        }
-
-        // Sekme İşleyicisi
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const targetTabId = button.getAttribute('data-tab');
-                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                document.getElementById(targetTabId).classList.add('active');
-            });
-        });
-
-        // Dil Seçim İşleyicisi
-        document.querySelectorAll('.lang-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const newLang = button.getAttribute('data-lang');
-                if (newLang !== currentLang) {
-                    currentLang = newLang;
-                    document.querySelectorAll('.lang-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    translateUI(currentLang);
+            // Dil butonlarını güncelle
+            document.querySelectorAll('.lang-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
                 }
             });
-        });
 
-        // Sayfa Yüklendiğinde
+            // Geliştirme sekmesindeki metinleri güncelle
+            const deepseekContent = document.getElementById('tab-deepseek');
+            if (isTR) {
+                deepseekContent.innerHTML = `
+                    <h3 style="color: var(--robot-red); text-align: center; font-size: 2.5em; margin-top: 50px;">
+                        <i class="fas fa-exclamation-triangle"></i> Geliştirilme Aşamasında <i class="fas fa-exclamation-triangle"></i>
+                    </h3>
+                    <p style="text-align: center; font-size: 1.4em; color: var(--light-yellow); margin-bottom: 40px;">
+                        Basketbol robot analizi sistemi şu anda güncellenmektedir ve kısa süre sonra yayınlanacaktır.
+                    </p>
+                    <p class="bot-callout" style="text-align: center;">
+                        Bu süreçte, güncel ve anlık tahminler için **Tenis Botumuzu** deneyebilirsiniz:
+                    </p>
+                    <div class="telegram-link">
+                        <a href="https://t.me/tenisaibot" target="_blank">
+                            <i class="fab fa-telegram-plane"></i> Tenis Botunu Deneyin - Tıkla!
+                        </a>
+                    </div>
+                `;
+            } else { // English
+                deepseekContent.innerHTML = `
+                    <h3 style="color: var(--robot-red); text-align: center; font-size: 2.5em; margin-top: 50px;">
+                        <i class="fas fa-exclamation-triangle"></i> Under Development <i class="fas fa-exclamation-triangle"></i>
+                    </h3>
+                    <p style="text-align: center; font-size: 1.4em; color: var(--light-yellow); margin-bottom: 40px;">
+                        The basketball robot analysis system is currently being updated and will be published shortly.
+                    </p>
+                    <p class="bot-callout" style="text-align: center;">
+                        In the meantime, you can try our **Tennis Bot** for current and live predictions:
+                    </p>
+                    <div class="telegram-link">
+                        <a href="https://t.me/tenisaibot" target="_blank">
+                            <i class="fab fa-telegram-plane"></i> Try the Tennis Bot - Click!
+                        </a>
+                    </div>
+                `;
+            }
+
+            document.getElementById('footerText').innerHTML = isTR ? 
+                '<p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>' :
+                '<p>Basketball Robot Prediction Analysis | Robot Analysis | Powered by AI</p><p>Disclaimer: Betting is a game of chance and involves risk of loss. Please play responsibly.</p>';
+        }
+
+        // =========================================================================
+        // OLAY YÖNETİCİLERİ VE BAŞLANGIÇ
+        // =========================================================================
+
         document.addEventListener('DOMContentLoaded', () => {
-            translateUI(currentLang); 
+            // Başlangıç dilini ayarla ve tek sekmeyi aktif et
+            updateLanguage('tr');
 
-            // Başlangıçta Oran Analizi sekmesini aktif et
-            document.getElementById('tabBtnDeepseek').click();
+            // Dil değiştirme işlevi
+            document.querySelectorAll('.lang-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.getAttribute('data-lang');
+                    updateLanguage(lang);
+                });
+            });
+            
+            // Tek kalan sekmenin (tab-deepseek) aktif olduğundan emin ol
+            document.getElementById('tab-deepseek').classList.add('active');
         });
     </script>
 </body>
