@@ -3,750 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ ROBOTİPSTER: AI Futbol Analizleri</title>
+    <title>ROBOTİPSTER: Futbol Tahmin AI Tips</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Global Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        /* Tema ve Genel Ayarlar (AI Teması) */
-        body {
-            background-color: #0d1117; /* Koyu GitHub/Teknoloji arka planı */
-            color: #e6edf3; /* Açık metin */
-            line-height: 1.6;
-            padding: 10px;
-            min-height: 10vh;
-        }
-        
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 0 5px;
-        }
-        
-        /* Header ve Başlık (Dikkat Çekici) */
-        header {
-            text-align: center;
-            padding: 25px 0 15px;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #007bff; /* Mavi AI Vurgu */
-            background-color: #161b22;
-            border-radius: 12px;
-            position: relative; /* Tarih için pozisyonlama */
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            flex-direction: column; /* Başlık ve alt başlığı alt alta alma */
-        }
+        /* Genel Stil Ayarları */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { background-color: #0d1117; color: #e6edf3; line-height: 1.6; padding: 15px; }
+        .container { max-width: 900px; margin: 0 auto; }
 
-        .main-title-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* Başlık ve Tarih */
+        header { text-align: center; padding: 20px 0; border-bottom: 3px solid #007bff; background-color: #161b22; border-radius: 10px; margin-bottom: 25px; position: relative; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #007bff; margin-bottom: 5px; }
+        .subtitle { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: #e6edf3; opacity: 0.8; margin-top: 5px; }
+        .date-tag { position: absolute; top: 15px; right: 15px; background: #28a745; color: #0d1117; padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; }
         
-        .logo i {
-            font-size: 3rem;
-            color: #28a745; /* Yeşil Vurgu */
-            text-shadow: 0 0 10px rgba(40, 167, 69, 0.5); /* Işıltı efekti */
-            margin-bottom: 5px;
-        }
-        
-        h1 {
-            font-family: 'Orbitron', sans-serif; /* Fütüristik Font */
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            color: #007bff;
-        }
-        
-        .subtitle {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem; /* Ufak alt başlık */
-            opacity: 0.9;
-            margin-top: 3px;
-            color: #e6edf3;
-        }
+        /* Uyarı Notu */
+        .disclaimer { background: rgba(255, 193, 7, 0.15); border-left: 4px solid #ffc107; padding: 10px; border-radius: 4px; margin: 15px 0 25px; font-size: 0.85rem; }
 
-        .date-tag {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #28a745;
-            color: #0d1117;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-        
-        .disclaimer {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 15px 0 0;
-            font-size: 0.85rem;
-        }
-        
-        /* Filtre Sekmeleri (Geliştirilmiş) */
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .filter-btn {
-            background: #161b22;
-            border: 1px solid #30363d;
-            color: #e6edf3;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn:hover {
-            background: #30363d;
-        }
-        
-        .filter-btn.active {
-            background: #007bff;
-            border-color: #007bff;
-            font-weight: bold;
-        }
-        
-        /* Maç Kartları (Görsel İyileştirme) */
-        .match-card {
-            background: #161b22;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            border: 1px solid #30363d;
-            transition: border-color 0.3s ease;
-        }
-        
-        .match-card:hover {
-            border-color: #28a745; /* Hover'da Yeşil Işıltı */
-        }
-        
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #30363d;
-        }
-        
-        .teams {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex: 1;
-        }
-        
-        .team-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        
-        .vs {
-            font-weight: bold;
-            color: #28a745;
-            font-size: 1.2rem;
-            margin: 0 5px;
-        }
-        
-        .prediction-tag {
-            background: #007bff;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        
-        .prediction-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .prediction-item {
-            padding: 6px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .prediction-item span:first-child {
-            opacity: 0.8;
-        }
-        
-        /* Güven ve Risk Renkleri */
-        .confidence {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .high-confidence {
-            background: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-        }
-        
-        .medium-confidence {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-        }
-        
-        .low-confidence {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-        }
-        
-        .match-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            padding-top: 10px;
-            border-top: 1px solid #30363d;
-        }
-        
-        .risk-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: bold;
-        }
-        
-        .risk-high {
-            color: #dc3545; /* Kırmızı */
-        }
-        
-        .risk-medium {
-            color: #ffc107; /* Sarı */
-        }
-        
-        .risk-low {
-            color: #28a745; /* Yeşil */
-        }
-        
-        .predicted-score {
-            font-weight: bold;
-            font-size: 1.2rem;
-            background: rgba(0, 123, 255, 0.1);
-            color: #007bff;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        
-        .value-bet {
-            background: linear-gradient(45deg, #ffc107, #ff9800);
-            color: #161b22;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
+        /* Ana Tablo Stili */
+        .table-container { overflow-x: auto; margin-bottom: 30px; }
+        .prediction-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; font-size: 0.9rem; min-width: 700px; }
+        .prediction-table th, .prediction-table td { padding: 12px 8px; text-align: center; border: none; }
+        .prediction-table th { background-color: #161b22; color: #007bff; font-weight: bold; border-bottom: 2px solid #007bff; white-space: nowrap; }
+        .prediction-table td { background-color: #1e242c; border-radius: 5px; }
+        .prediction-table tr:hover td { background-color: #28303a; }
+        .prediction-table td:first-child { text-align: left; font-weight: bold; color: #28a745; }
 
-        /* Özet Bölümü İyileştirme */
-        .summary-section {
-            background: #161b22;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 25px;
-            border: 1px solid #007bff;
-        }
-        
-        .summary-section h2 {
-            margin-bottom: 15px;
-            color: #007bff;
-            font-size: 1.5rem;
-            border-bottom: 2px solid #30363d;
-            padding-bottom: 5px;
-        }
-        
-        .summary-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Mobil görünümde tek sütun */
-            gap: 15px;
-        }
-        
-        .summary-item {
-            background: #0d1117;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 3px solid #28a745;
-        }
-        
-        .summary-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: #28a745;
-        }
-        
-        .summary-item ul {
-            list-style: none;
-            padding-left: 0;
-        }
+        /* Tablo İçi Vurgular */
+        .risk-low { color: #28a745; font-weight: bold; }
+        .risk-orta { color: #ffc107; font-weight: bold; }
+        .risk-yuksek { color: #dc3545; font-weight: bold; }
+        .confidence-val { display: block; font-size: 0.8rem; opacity: 0.7; }
 
-        .summary-item li {
-            margin-bottom: 5px;
-            padding-left: 15px;
-            position: relative;
-        }
+        /* Detaylı Analiz Başlıkları */
+        .analysis-section h2 { color: #28a745; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #28a745; padding-bottom: 5px; font-size: 1.5rem; }
+        .analysis-section h3 { background-color: #007bff; color: white; padding: 10px; border-radius: 5px; margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; }
+        .analysis-detail { background-color: #161b22; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff; }
+        .analysis-detail strong { color: #ffc107; }
+        .analysis-detail p { margin-bottom: 8px; font-size: 0.95rem; }
+        .analysis-detail .tag { display: inline-block; background-color: #30363d; padding: 3px 8px; border-radius: 3px; margin-right: 5px; font-size: 0.8rem; }
+        .risk-indicator { font-weight: bold; }
+        .risk-indicator i { margin-right: 5px; }
 
-        .summary-item li::before {
-            content: '✓';
-            color: #007bff;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-        
+        /* Değerli Tahmin Tablosu */
+        .value-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; }
+        .value-table th, .value-table td { padding: 10px; border: 1px solid #30363d; text-align: center; }
+        .value-table th { background-color: #ffc107; color: #161b22; font-weight: bold; }
+        .value-table td:nth-child(3) { font-weight: bold; color: #28a745; } /* Tahmin Önerisi */
+        .value-table td:nth-child(4) { color: #007bff; } /* Oran */
+        .value-table td:nth-child(5) { font-weight: bold; color: #ffc107; } /* Edge */
+
+        /* Genel Öneriler Bölümü */
+        .strategy-section { margin-top: 30px; background-color: #161b22; padding: 20px; border-radius: 10px; }
+        .strategy-section h3 { color: #007bff; border-bottom: 1px dashed #30363d; padding-bottom: 5px; margin-top: 15px; font-size: 1.2rem; }
+        .strategy-section ul { list-style-type: none; padding-left: 0; }
+        .strategy-section li { margin-bottom: 5px; padding-left: 20px; position: relative; }
+        .strategy-section li::before { content: '•'; position: absolute; left: 0; color: #28a745; font-weight: bold; }
+
+        .safe-list li::before { color: #28a745; content: '✓'; }
+        .medium-list li::before { color: #ffc107; content: '!'; }
+        .high-list li::before { color: #dc3545; content: 'X'; }
+        .goal-list li::before { color: #007bff; content: '⚽'; }
+
         /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid #30363d;
-            font-size: 0.8rem;
-            opacity: 0.6;
-        }
-        
-        /* Masaüstü İyileştirmeleri */
-        @media (min-width: 768px) {
-            .prediction-details {
-                grid-template-columns: repeat(3, 1fr); /* Masaüstünde 3 sütun */
-            }
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr); /* Masaüstünde 2 sütun */
-            }
-            .date-tag {
-                top: 20px;
-                right: 20px;
-            }
-        }
+        footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #30363d; font-size: 0.8rem; opacity: 0.6; }
+
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <i class="fas fa-robot"></i>
-                <div class="main-title-group">
-                    <h1>ROBOTİPSTER</h1>
-                    <div class="subtitle">Futbol Tahmin AI Tips</div>
-                </div>
-            </div>
-            
+            <h1><i class="fas fa-robot"></i> ROBOTİPSTER</h1>
+            <div class="subtitle">Futbol Tahmin AI Tips</div>
             <div class="date-tag">24.10.2025</div>
-            
             <div class="disclaimer">
-                <i class="fas fa-exclamation-triangle"></i> **UYARI!** Tahminler algoritmik analizlere dayanır. Lütfen sadece bir eğlence aracı olarak kullanın ve kaybetmeyi göze alabileceğiniz miktarlarda yatırım yapın.
+                <i class="fas fa-exclamation-triangle"></i> **UYARI!** Bu tahminler algoritmik analizlere dayanır. Lütfen sadece bir eğlence aracı olarak kullanın ve kaybetmeyi göze alabileceğiniz miktarlarda yatırım yapın.
             </div>
         </header>
-        
-        <div class="filter-buttons">
-            <button class="filter-btn active" onclick="filterMatches('all')"><i class="fas fa-list"></i> Tüm Maçlar</button>
-            <button class="filter-btn" onclick="filterMatches('high')"><i class="fas fa-star"></i> Yüksek Güven (5)</button>
-            <button class="filter-btn" onclick="filterMatches('value')"><i class="fas fa-money-bill-wave"></i> Değerli Tahminler (2)</button>
-            <button class="filter-btn" onclick="filterMatches('goal')"><i class="fas fa-futbol"></i> Gol Tahminleri (4)</button>
-            <button class="filter-btn" onclick="filterMatches('risky')"><i class="fas fa-skull-crossbones"></i> Yüksek Risk (1)</button>
+
+        <h2 class="analysis-section">📊 MAÇLARA GÖRE DETAYLI TAHMİN TABLOSU</h2>
+        <div class="table-container">
+            <table class="prediction-table">
+                <thead>
+                    <tr>
+                        <th>Maç</th>
+                        <th>Maç Sonucu</th>
+                        <th>İlk Yarı</th>
+                        <th>Çifte Şans</th>
+                        <th>Alt/Üst 2.5</th>
+                        <th>İY/MS</th>
+                        <th>KG Var/Yok</th>
+                        <th>Tahmini Skor</th>
+                        <th>Risk</th>
+                        <th>Güven</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AC Milan - Pisa</td>
+                        <td>1 (1.31)</td>
+                        <td>1 (1.70)</td>
+                        <td>1X (1.08)</td>
+                        <td>Üst 2.5 (1.74)</td>
+                        <td>1/1 (1.85)</td>
+                        <td>Var (1.45)</td>
+                        <td>3-1</td>
+                        <td class="risk-low">Düşük</td>
+                        <td>%82<span class="confidence-val">Yüksek</span></td>
+                    </tr>
+                    <tr>
+                        <td>Charleroi - Anderlecht</td>
+                        <td>2 (2.36)</td>
+                        <td>X (2.10)</td>
+                        <td>X2 (1.30)</td>
+                        <td>Alt 2.5 (1.92)</td>
+                        <td>X/2 (4.50)</td>
+                        <td>Var (1.85)</td>
+                        <td>1-2</td>
+                        <td class="risk-orta">Orta</td>
+                        <td>%58<span class="confidence-val">Orta</span></td>
+                    </tr>
+                    <tr>
+                        <td>Heerenveen - NAC Breda</td>
+                        <td>1 (1.76)</td>
+                        <td>1 (2.00)</td>
+                        <td>1X (1.22)</td>
+                        <td>Üst 2.5 (1.88)</td>
+                        <td>1/1 (2.40)</td>
+                        <td>Var (1.40)</td>
+                        <td>2-1</td>
+                        <td class="risk-low">Düşük</td>
+                        <td>%72<span class="confidence-val">Yüksek</span></td>
+                    </tr>
+                    <tr>
+                        <td>Orgryte - Vasteras</td>
+                        <td>1 (2.83)</td>
+                        <td>X (2.20)</td>
+                        <td>1X (1.50)</td>
+                        <td>Üst 2.5 (1.87)</td>
+                        <td>X/1 (5.00)</td>
+                        <td>Var (1.70)</td>
+                        <td>2-1</td>
+                        <td class="risk-orta">Orta</td>
+                        <td>%61<span class="confidence-val">Orta</span></td>
+                    </tr>
+                    <tr>
+                        <td>Karagumruk - Kayserispor</td>
+                        <td>1 (2.18)</td>
+                        <td>X (2.00)</td>
+                        <td>1X (1.35)</td>
+                        <td>Alt 2.5 (2.10)</td>
+                        <td>X/1 (4.20)</td>
+                        <td>Yok (2.05)</td>
+                        <td>1-0</td>
+                        <td class="risk-orta">Orta</td>
+                        <td>%55<span class="confidence-val">Orta</span></td>
+                    </tr>
+                    <tr>
+                        <td>Leeds United - West Ham</td>
+                        <td>1 (1.79)</td>
+                        <td>X (2.10)</td>
+                        <td>1X (1.23)</td>
+                        <td>Üst 2.5 (1.98)</td>
+                        <td>X/1 (3.80)</td>
+                        <td>Yok (2.60)</td>
+                        <td>2-0</td>
+                        <td class="risk-yuksek">Yüksek</td>
+                        <td>%48<span class="confidence-val">Düşük</span></td>
+                    </tr>
+                    <tr>
+                        <td>Real Sociedad - Sevilla</td>
+                        <td>1 (1.96)</td>
+                        <td>X (2.05)</td>
+                        <td>1X (1.28)</td>
+                        <td>Alt 2.5 (1.87)</td>
+                        <td>X/1 (3.90)</td>
+                        <td>Var (2.00)</td>
+                        <td>2-1</td>
+                        <td class="risk-orta">Orta</td>
+                        <td>%64<span class="confidence-val">Orta</span></td>
+                    </tr>
+                    <tr>
+                        <td>Werder Bremen - Union Berlin</td>
+                        <td>Üst 2.5 (1.80)</td>
+                        <td>X (2.00)</td>
+                        <td>12 (1.35)</td>
+                        <td>Üst 2.5 (1.80)</td>
+                        <td>X/X (6.50)</td>
+                        <td>Yok (3.00)</td>
+                        <td>2-2</td>
+                        <td class="risk-yuksek">Yüksek</td>
+                        <td>%52<span class="confidence-val">Orta</span></td>
+                    </tr>
+                    <tr>
+                        <td>Paris FC - Nantes</td>
+                        <td>1 (1.62)</td>
+                        <td>1 (1.90)</td>
+                        <td>1X (1.15)</td>
+                        <td>Üst 2.5 (1.78)</td>
+                        <td>1/1 (2.20)</td>
+                        <td>Var (1.55)</td>
+                        <td>2-1</td>
+                        <td class="risk-low">Düşük</td>
+                        <td>%75<span class="confidence-val">Yüksek</span></td>
+                    </tr>
+                    <tr>
+                        <td>AGF - FC Nordsjaelland</td>
+                        <td>1 (1.78)</td>
+                        <td>X (2.15)</td>
+                        <td>1X (1.22)</td>
+                        <td>Üst 2.5 (1.68)</td>
+                        <td>X/1 (3.70)</td>
+                        <td>Var (1.45)</td>
+                        <td>2-1</td>
+                        <td class="risk-low">Düşük</td>
+                        <td>%70<span class="confidence-val">Yüksek</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        
-        <div class="matches-container">
-            <div class="match-card" data-confidence="high" data-risk="low">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">AC Milan</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Pisa</span>
-                    </div>
-                    <div class="prediction-tag">MS: 1 (Ev Galibiyeti)</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1 <span class="confidence high-confidence">Çok Yüksek</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**1 / Çifte Şans: 1X**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟢 <span class="confidence high-confidence">9/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>%76.5 Ev Galibiyet Olasılığı</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>9 Önemli Eksik Oyuncu</span></div>
-                    <div class="prediction-item"><span>Çifte Şans:</span><span>1X Yüksek Olasılık</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-low">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Düşük Risk (Güvenilir Tahmin)</span>
-                    </div>
-                    <div class="predicted-score">2-0</div>
-                    <div></div>
-                </div>
-            </div>
-            
-            <div class="match-card" data-confidence="medium" data-risk="medium">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Charleroi</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Anderlecht</span>
-                    </div>
-                    <div class="prediction-tag">ÇŞ: X2 (Deplasman Avantajı)</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>2 <span class="confidence medium-confidence">Orta</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**Çifte Şans: X2**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟡 <span class="confidence medium-confidence">6/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>Anderlecht Daha İstikrarlı Formda</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>Charleroi Savunması Dengeler</span></div>
-                    <div class="prediction-item"><span>Gol Tahmini:</span><span>Üst 2.5 (Riskli)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-medium">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Orta Risk</span>
-                    </div>
-                    <div class="predicted-score">1-2</div>
-                    <div></div>
-                </div>
-            </div>
-            
-            <div class="match-card" data-confidence="high" data-risk="low" data-type="goal">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Heerenveen</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">NAC Breda</span>
-                    </div>
-                    <div class="prediction-tag">1 & Üst 2.5</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1 & Ü 2.5 <span class="confidence high-confidence">Yüksek</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**1 + Toplam Gol: Ü 2.5**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟢 <span class="confidence high-confidence">8/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>Yüksek Gol Ortalaması (3.2), KG %75</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>NAC Breda'dan Gol Beklentisi</span></div>
-                    <div class="prediction-item"><span>Karşılıklı Gol:</span><span>VAR (Yüksek Olasılık)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-low">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Düşük Risk (Golcü Maç)</span>
-                    </div>
-                    <div class="predicted-score">2-1</div>
-                    <div></div>
-                </div>
-            </div>
-            
-            <div class="match-card value-opportunity" data-confidence="medium" data-risk="medium" data-type="value">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Orgryte</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Vasteras</span>
-                    </div>
-                    <div class="prediction-tag">Çifte Şans: 1X (DEĞERLİ)</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1X <span class="confidence medium-confidence">Orta</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**Çifte Şans: 1X**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟡 <span class="confidence medium-confidence">7/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>**Edge: %4.98 (En Yüksek Değer)**</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>Vasteras Zorlu Deplasman Takımı</span></div>
-                    <div class="prediction-item"><span>Form Durumu:</span><span>Orgryte Mükemmel Formda (4G-1B)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-medium">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Orta Risk</span>
-                    </div>
-                    <div class="predicted-score">2-1</div>
-                    <div class="value-bet">EDGE: %4.98 💰</div>
-                </div>
+
+        <div class="analysis-section">
+            <h2 class="analysis-section">🎯 MAÇ BAZLI DETAYLI ANALİZLER</h2>
+
+            <h3>1️⃣ AC MILAN - PISA</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Milan Kazanır)</strong> - Güven: %82</p>
+                <p>Milan'ın %76.53 ev galibiyet olasılığı ve son formu (4G-1B) çok güçlü. Ancak 9 önemli eksik oyuncuya rağmen Pisa'nın zayıf formu (0G-3B-2M) karşısında büyük favori. Edge %3.89 <strong>değerli tahmin</strong> fırsatı sunuyor.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-low"><i class="fas fa-shield-alt"></i> 1 + Üst 2.5 Kombine</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 3-1</p>
             </div>
 
-            <div class="match-card" data-confidence="high" data-risk="low" data-type="goal">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Karagumruk</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Kayserispor</span>
-                    </div>
-                    <div class="prediction-tag">ALT 2.5 GOL</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>Alt 2.5 <span class="confidence high-confidence">Yüksek</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**Toplam Gol: Alt 2.5**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟢 <span class="confidence high-confidence">8/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>"Üst" Olasılığı Sadece %23</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>Penaltı veya Kırmızı Kart</span></div>
-                    <div class="prediction-item"><span>Gol Ortalaması:</span><span>Düşük (2.65)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-low">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Düşük Risk (Alt Seçeneği)</span>
-                    </div>
-                    <div class="predicted-score">1-0</div>
-                    <div></div>
-                </div>
+            <h3>2️⃣ CHARLEROI - ANDERLECHT</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>2 (Anderlecht Kazanır)</strong> - Güven: %58</p>
+                <p>Anderlecht daha istikrarlı form gösteriyor (2G-2B-1M). Charleroi'nin %33.11 ev kazanma olasılığı düşük. Deplasman galibiyeti mantıklı.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-orta"><i class="fas fa-exclamation-circle"></i> X2 Çifte Şans + Alt 2.5</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 1-2</p>
             </div>
 
-            <div class="match-card" data-confidence="low" data-risk="high" data-type="risky">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Leeds United</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">West Ham</span>
-                    </div>
-                    <div class="prediction-tag">ÇŞ: 1X (YÜKSEK RİSK)</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1X <span class="confidence low-confidence">Düşük</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**CANLI TAKİP**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🔴 <span class="confidence low-confidence">4/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>Leeds Ev Avantajı (%55.9)</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>**11 SAKAT OYUNCU NEDENİYLE ÇOK RİSKLİ!**</span></div>
-                    <div class="prediction-item"><span>Toplam Gol:</span><span>Üst 2.5 (Orta Güven)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-high">
-                        <i class="fas fa-skull-crossbones"></i>
-                        <span>ÇOK YÜKSEK RİSK</span>
-                    </div>
-                    <div class="predicted-score">2-1</div>
-                    <div></div>
-                </div>
+            <h3>3️⃣ HEERENVEEN - NAC BREDA</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Heerenveen Kazanır)</strong> - Güven: %72</p>
+                <p>Heerenveen iyi formda (3G-2M) ve %56.90 ev galibiyeti olasılığı var. NAC Breda zayıf (1G-2B-2M). Edge %4.49 ile değerli bir tahmin.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-low"><i class="fas fa-futbol"></i> 1 + Üst 2.5 + KG Var</span> (3.2 ortalama gol beklentisi yüksek)</p>
+                <p><span class="tag">Tahmini Skor:</span> 2-1</p>
             </div>
 
-            <div class="match-card" data-confidence="medium" data-risk="medium">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Real Sociedad</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Sevilla</span>
-                    </div>
-                    <div class="prediction-tag">Çifte Şans: 1X</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1X <span class="confidence medium-confidence">Orta</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**Çifte Şans: 1X**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟡 <span class="confidence medium-confidence">6/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>Sociedad Hafif Favori (%51 Ev Galibiyet)</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>Sevilla'nın Deneyimli Formu</span></div>
-                    <div class="prediction-item"><span>Beklenen Skor:</span><span>1-1 (Beraberlik Olasılığı Yüksek)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-medium">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Orta Risk (Denge)</span>
-                    </div>
-                    <div class="predicted-score">1-1</div>
-                    <div></div>
-                </div>
+            <h3>4️⃣ ORGRYTE - VASTERAS</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Orgryte Kazanır)</strong> - Güven: %61</p>
+                <p><strong>En yüksek edge değeri %4.98!</strong> Orgryte mükemmel formda (4G-1B). Vasteras de iyi (3G-2B) ama ev avantajı Orgryte'ye yardımcı olacak.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-orta"><i class="fas fa-money-bill-wave"></i> 1X Çifte Şans</span> (En yüksek edge!)</p>
+                <p><span class="tag">Tahmini Skor:</span> 2-1</p>
             </div>
 
-            <div class="match-card" data-confidence="high" data-risk="medium" data-type="goal">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Werder Bremen</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Union Berlin</span>
-                    </div>
-                    <div class="prediction-tag">ÜST 2.5 GOL</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>Üst 2.5 <span class="confidence high-confidence">Yüksek</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**Toplam Gol: Üst 2.5**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟢 <span class="confidence high-confidence">9/10 (Golde)</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>**LİGİN EN YÜKSEK GOL ORT. (3.7)**</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>Maç Sonucu Tahmini BELİRSİZ</span></div>
-                    <div class="prediction-item"><span>Karşılıklı Gol:</span><span>VAR (Çok Yüksek Olasılık)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-medium">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Orta Risk (Sadece Sonuçta)</span>
-                    </div>
-                    <div class="predicted-score">2-2</div>
-                    <div></div>
-                </div>
+            <h3>5️⃣ KARAGUMRUK - KAYSERISPOR</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Karagumruk Kazanır)</strong> - Güven: %55</p>
+                <p>Dengeli bir maç. En düşük over olasılığı (%23) bu maçı Alt 2.5 için güçlü bir aday yapıyor.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-orta"><i class="fas fa-lock"></i> Alt 2.5 + KG Yok</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 1-0</p>
             </div>
 
-            <div class="match-card" data-confidence="high" data-risk="low">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">Paris FC</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Nantes</span>
-                    </div>
-                    <div class="prediction-tag">Maç Sonucu: 1</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1 <span class="confidence high-confidence">Yüksek</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**Maç Sonucu: 1**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟢 <span class="confidence high-confidence">8/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>Paris FC Güçlü Ev Formu (%61.8)</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>Nantes'in Kupa Maçı Motivasoynu</span></div>
-                    <div class="prediction-item"><span>Karşılıklı Gol:</span><span>VAR (Orta-Yüksek Olasılık)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-low">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Düşük Risk (Net Favori)</span>
-                    </div>
-                    <div class="predicted-score">2-1</div>
-                    <div></div>
-                </div>
+            <h3>6️⃣ LEEDS UNITED - WEST HAM</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Leeds Kazanır)</strong> - Güven: %48</p>
+                <p><span class="risk-yuksek"><i class="fas fa-skull-crossbones"></i> **DİKKAT! RİSKLİ MAÇ!**</span> Leeds'in **11 eksik oyuncusu** var! %55.95 ev galibiyeti olasılığı yüksek olsa da, eksikler riski dramatik olarak artırıyor. Bu maçı CANLI takip edin.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-yuksek"><i class="fas fa-shield-virus"></i> Uzak Dur / Alt 2.5 + KG Yok</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 2-0</p>
             </div>
 
-            <div class="match-card value-opportunity" data-confidence="high" data-risk="low" data-type="value">
-                <div class="match-header">
-                    <div class="teams">
-                        <span class="team-name">AGF</span>
-                        <span class="vs">VS</span>
-                        <span class="team-name">Nordsjaelland</span>
-                    </div>
-                    <div class="prediction-tag">1X & Üst 2.5 (DEĞERLİ)</div>
-                </div>
-                
-                <div class="prediction-details">
-                    <div class="prediction-item"><span>Ana Tahmin:</span><span>1X & Ü 2.5 <span class="confidence high-confidence">Yüksek</span></span></div>
-                    <div class="prediction-item"><span>Önerilen Tahmin:</span><span>**1X + Toplam Gol: Üst 2.5**</span></div>
-                    <div class="prediction-item"><span>Güven Derecesi:</span><span>🟢 <span class="confidence high-confidence">8/10</span></span></div>
-                    <div class="prediction-item"><span>Kilit Bilgi:</span><span>Edge: %4.37 (Yüksek Değer)</span></div>
-                    <div class="prediction-item"><span>Risk Faktörü:</span><span>AGF Tarafından Gol Yeme İhtimali</span></div>
-                    <div class="prediction-item"><span>Karşılıklı Gol:</span><span>VAR (%68)</span></div>
-                </div>
-                
-                <div class="match-footer">
-                    <div class="risk-indicator risk-low">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Düşük Risk (Değerli Kombinasyon)</span>
-                    </div>
-                    <div class="predicted-score">2-1</div>
-                    <div class="value-bet">EDGE: %4.37 💰</div>
-                </div>
+            <h3>7️⃣ REAL SOCIEDAD - SEVILLA</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Real Sociedad Kazanır)</strong> - Güven: %64</p>
+                <p>Sociedad %50.98 ev galibiyeti olasılığıyla hafif favori. Sevilla iyi formda ama eksik oyuncular Sociedad'ı zorluyor. Beraberlik olasılığı yüksek.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-orta"><i class="fas fa-balance-scale"></i> 1X Çifte Şans</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 2-1</p>
+            </div>
+
+            <h3>8️⃣ WERDER BREMEN - UNION BERLIN</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>Üst 2.5</strong> - Güven: %52 (Sadece Gol)</p>
+                <p><span class="risk-yuksek"><i class="fas fa-skull-crossbones"></i> **RİSKLİ MAÇ!**</span> **LİGİN EN YÜKSEK GOL BEKLENTİSİ (3.7 ortalama).** Kazanan tahmini zor, odak Üst 2.5 ve KG Var/Yok olmalı.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-orta"><i class="fas fa-futbol"></i> Üst 2.5 Gol</span> (KG Yok olasılığı da yüksek)</p>
+                <p><span class="tag">Tahmini Skor:</span> 2-2</p>
+            </div>
+
+            <h3>9️⃣ PARIS FC - NANTES</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (Paris FC Kazanır)</strong> - Güven: %75</p>
+                <p>Paris FC güçlü ev formu (3G-1B-1M) ve %61.83 ev galibiyeti olasılığıyla favori. Edge %3.88 değerli.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-low"><i class="fas fa-shield-alt"></i> 1 + Üst 2.5 Kombine</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 2-1</p>
+            </div>
+
+            <h3>🔟 AGF - FC NORDSJAELLAND</h3>
+            <div class="analysis-detail">
+                <p><span class="tag">Maç Sonucu Tahmini:</span> <strong>1 (AGF Kazanır)</strong> - Güven: %70</p>
+                <p>AGF iyi formda (3G-2B) ve %56.33 ev galibiyeti olasılığı var. En yüksek Over olasılığı (%73) ile gol beklentisi yüksek. En değerli edge %4.37.</p>
+                <p><span class="tag">Önerilen Tahminler:</span> <span class="risk-low"><i class="fas fa-money-bill-wave"></i> 1X Çifte Şans + Üst 2.5 Kombine</span></p>
+                <p><span class="tag">Tahmini Skor:</span> 2-1</p>
+            </div>
+
+            <h2 class="analysis-section">🏆 EN DEĞERLİ TAHMİN ÖNERİLERİ (VALUE PICKS)</h2>
+            <div class="table-container">
+                <table class="value-table">
+                    <thead>
+                        <tr>
+                            <th>Sıra</th>
+                            <th>Maç</th>
+                            <th>Tahmin Önerisi</th>
+                            <th>Oran</th>
+                            <th>Edge</th>
+                            <th>Risk</th>
+                            <th>Güven</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>🥇</td><td>**Orgryte - Vasteras**</td><td>1X Çifte Şans</td><td>1.50</td><td>%4.98</td><td class="risk-orta">Orta</td><td>%82</td></tr>
+                        <tr><td>🥈</td><td>**AGF - Nordsjaelland**</td><td>1X + Üst 2.5</td><td>~2.05</td><td>%4.37</td><td class="risk-low">Düşük</td><td>%78</td></tr>
+                        <tr><td>🥉</td><td>**Heerenveen - NAC**</td><td>1 + Üst 2.5 + KG Var</td><td>~4.70</td><td>%4.49</td><td class="risk-low">Düşük</td><td>%65</td></tr>
+                        <tr><td>4</td><td>**AC Milan - Pisa**</td><td>1 + Üst 2.5</td><td>~2.27</td><td>%3.89</td><td class="risk-low">Düşük</td><td>%75</td></tr>
+                        <tr><td>5</td><td>**Paris FC - Nantes**</td><td>1X + Üst 2.5</td><td>~1.82</td><td>%3.88</td><td class="risk-low">Düşük</td><td>%80</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        
-        <div class="summary-section">
-            <h2>✨ AI Strateji Özeti ve Robot Kararları</h2>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <h3>🟢 Güvenilir Tahmin Önerisi</h3>
-                    <ul>
-                        <li>**AC Milan (1X):** En düşük riskli seçim.</li>
-                        <li>**Paris FC (MS 1):** Yüksek ev sahibi formu.</li>
-                        <li>**Karagumruk (Alt 2.5):** En net gol tahmini.</li>
-                    </ul>
-                </div>
-                <div class="summary-item">
-                    <h3>💰 Değerli Tahmin Kombinesi</h3>
-                    <ul>
-                        <li>**Orgryte (1X):** En yüksek edge değeri.</li>
-                        <li>**AGF (1X & Üst 2.5):** Kazanma ve Gol beklentisi.</li>
-                        <li>**Werder Bremen (Üst 2.5):** Yüksek gol potansiyeli.</li>
-                    </ul>
-                </div>
-                <div class="summary-item">
-                    <h3>❌ Uzak Durulması Gerekenler</h3>
-                    <ul>
-                        <li>**Leeds United - West Ham:** 11 sakat oyuncu nedeniyle tahmin güvenilirliği düşük.</li>
-                        <li>**Charleroi - Anderlecht:** Maç sonucu tahmini yerine sadece X2 çifte şansı önerilir.</li>
-                    </ul>
-                </div>
-                <div class="summary-item">
-                    <h3>🎯 Robotun Gol Kararları</h3>
-                    <ul>
-                        <li>**Yüksek Olasılık ÜST:** Werder B. / Heerenveen</li>
-                        <li>**Yüksek Olasılık ALT:** Karagumruk</li>
-                        <li>**Yüksek Olasılık KG VAR:** Heerenveen / Werder B.</li>
-                    </ul>
-                </div>
-            </div>
+
+        <div class="strategy-section">
+            <h2>📈 GENEL ANALİZ VE TAHMİN STRATEJİSİ</h2>
+
+            <h3 class="safe-list">✅ Güvenli Tahminler (Düşük Risk):</h3>
+            <ul class="safe-list">
+                <li>**AC Milan** 1X (Çok Düşük Risk)</li>
+                <li>**Paris FC** 1X (Güçlü Ev Formu)</li>
+                <li>**AGF** 1X (Yüksek Edge, İyi Form)</li>
+                <li>**Heerenveen** 1X (NAC Zayıf Formda)</li>
+            </ul>
+
+            <h3 class="medium-list">⚠️ Orta Risk Tahminleri:</h3>
+            <ul class="medium-list">
+                <li>**Anderlecht** X2 (İstikrarlı Form)</li>
+                <li>**Orgryte** 1X (EN YÜKSEK EDGE %4.98!)</li>
+                <li>**Real Sociedad** 1X (Eksikler Risk Yaratabilir)</li>
+                <li>**Karagumruk** Alt 2.5 + KG Yok (Defansif Maç Beklentisi)</li>
+            </ul>
+
+            <h3 class="high-list">🚨 Yüksek Riskli Maçlar (Kaçınılması Önerilen):</h3>
+            <ul class="high-list">
+                <li>**Leeds - West Ham**: 11 eksik oyuncu nedeniyle çok belirsiz.</li>
+                <li>**Werder Bremen - Union Berlin**: Yüksek gol beklentisi, maç sonucu tahmini belirsiz.</li>
+            </ul>
+
+            <h3 class="goal-list">🎯 Gol Tahminleri:</h3>
+            <ul class="goal-list">
+                <li>**Üst 2.5 Favorileri:** Werder Bremen, Heerenveen, AGF</li>
+                <li>**Alt 2.5 Favorisi:** Karagumruk</li>
+                <li>**KG Var Favorileri:** Heerenveen, AC Milan, AGF</li>
+            </ul>
+
+            <h3 class="safe-list">💡 SONUÇ VE KOMBİNASYON ÖNERİSİ</h3>
+            <p><strong>En Güvenli Kombinasyon (3'lü):</strong> AC Milan 1X + Paris FC 1X + AGF 1X **(Toplam Oran: ~1.52)**</p>
+            <p><strong>Değerli Tahmin Kombinasyonu (4'lü):</strong> Orgryte 1X + AGF Üst 2.5 + Heerenveen 1 + Paris FC 1 **(Toplam Oran: ~7.15)**</p>
         </div>
 
         <footer>
             Analizler **ROBOTİPSTER** yapay zeka sistemi tarafından otomatik olarak üretilmiştir. Tüm hakları saklıdır. Veriler: 24.10.2025.
         </footer>
     </div>
-    
-    <script>
-        // Filtreleme işlevi (Sekmelerin işlevini sağlar)
-        function filterMatches(filter) {
-            const cards = document.querySelectorAll('.match-card');
-            const buttons = document.querySelectorAll('.filter-btn');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-            // Aktif butonu seçerken "bahis" kelimesini içermeyen butonu bul
-            document.querySelector(`.filter-buttons button[onclick*="'${filter}'"]`).classList.add('active');
-
-            cards.forEach(card => {
-                const isValue = card.classList.contains('value-opportunity');
-                const isRisky = card.dataset.risk === 'high';
-                const isGoal = card.dataset.type === 'goal';
-                const isHighConfidence = card.dataset.confidence === 'high';
-
-                let show = false;
-
-                if (filter === 'all') {
-                    show = true;
-                } else if (filter === 'high') {
-                    show = isHighConfidence;
-                } else if (filter === 'value') {
-                    show = isValue;
-                } else if (filter === 'goal') {
-                    show = isGoal;
-                } else if (filter === 'risky') {
-                    show = isRisky;
-                }
-
-                card.style.display = show ? 'block' : 'none';
-            });
-        }
-    </script>
 </body>
 </html>
