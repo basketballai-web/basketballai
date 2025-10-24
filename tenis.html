@@ -42,7 +42,7 @@
         }
 
         /* -------------------------- */
-        /* HEADER & BAŞLIKLAR (TARİH KALDIRILDI VE DİKEYDE ORTALANDI) */
+        /* HEADER & BAŞLIKLAR (DİKEYDE ORTALANMIŞ) */
         /* -------------------------- */
         .header {
             background: linear-gradient(135deg, var(--color-ai-medium) 0%, var(--color-ai-dark) 100%);
@@ -78,7 +78,7 @@
             position: relative;
             z-index: 1;
             text-align: center;
-            /* YENİ: Başlıkları dikeyde ortalamak için Flexbox */
+            /* Başlıkları dikeyde ortalamak için Flexbox */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -119,13 +119,13 @@
             text-transform: uppercase;
         }
         
-        /* TARİH STİLİ KALDIRILDI */
+        /* TARİH KALDIRILDI */
         .header-date { 
-            display: none; /* Tarihi tamamen gizle */
+            display: none; 
         }
 
 
-        /* YENİ: DİL SEÇENEĞİ KONUMLANDIRMASI (SOL ÜST) */
+        /* DİL SEÇENEĞİ KONUMLANDIRMASI (SOL ÜST) */
         .language-selector {
             position: absolute;
             top: 20px;
@@ -423,22 +423,22 @@
         }
     </style>
     <script>
-        // TSİ SAATLERİNE GÖRE GÜNCEL SIRALI MAÇ DATALARI
+        // TSİ SAATLERİNE GÖRE GÜNCEL SIRALI MAÇ DATALARI (GÜNCELLENDİ)
         const matchDates = {
             // ÖĞLEDEN ÖNCE
-            sun: "2025/10/24 07:00:00",        
-            liu: "2025/10/24 09:00:00",        
-            kalinskaya: "2025/10/24 11:30:00", 
-            bencic: "2025/10/24 13:00:00",     
+            sun: "2025/10/24 08:00:00",        // L. Sun - Mcnally C.
+            liu: "2025/10/24 09:30:00",        // Liu, Claire - Seidel, Ella
+            kalinskaya: "2025/10/24 10:40:00", // A. Kalinskaya - Noskova, Linda
+            bencic: "2025/10/24 12:00:00",     // B. Bencic - K. Muchova
             
             // ÖĞLEDEN SONRA / AKŞAM
-            cocciaretto: "2025/10/24 15:00:00",
-            volynets: "2025/10/24 16:30:00",   
-            faa: "2025/10/24 17:00:00",        
-            fonseca: "2025/10/24 19:30:00",    
+            cocciaretto: "2025/10/24 14:00:00", // Cocciaretto - Li, Ann
+            volynets: "2025/10/24 15:30:00",   // Volynets K. - S. Zhang
+            faa: "2025/10/24 16:00:00",        // F. A. Aliassime - J. Munar
+            fonseca: "2025/10/24 18:00:00",    // Fonseca, Joao - D. Shapovalov
         };
 
-        // MAÇ ORANLARI VE TAHMİNLERİ
+        // MAÇ ORANLARI VE TAHMİNLERİ (Burada değişiklik yapılmadı)
         const matchData = {
             // L. Sun - Mcnally C.
             sun: { players: "L. Sun - Mcnally C.", turnuva: "WTA Guangzhou", prediction: "SUN 2-0 ✅", ms1: "1.72", ms2: "2.20", alt: "1.52", ust: "2.62", recHighlight: "ms1,alt", gamePred: "ALT 22.5", category: "wta" },
@@ -460,7 +460,7 @@
 
         let currentLang = 'tr'; 
 
-        // Dil çevirileri ve formatlar (TAM ÇEVİRİ DÜZENLEMESİ YAPILDI)
+        // Dil çevirileri ve formatlar
         const translations = {
             tr: {
                 topTitle: "Tenis Robot Tips",
@@ -476,10 +476,10 @@
                 recLow: "❌ DÜŞÜK GÜVENLİ", recStrongAdvice: "💪 TAVSİYE: GÜÇLÜ OYUN", recMediumAdvice: "💡 TAVSİYE: ORTA OYUN", recWaitAdvice: "⏸️ TAVSİYE: BEKLE/İZLE",
                 ms1: "MS 1", ms2: "MS 2", alt: "ALT", ust: "ÜST",
                 
-                // Gerekçe Güncellemesi: ChatGPT -> Robot
+                // Gerekçeler
                 kalinskayaNote: "Noskova'nın son form ve return performansı üstün. Noskova ML (1.68) + Üst 22.5 Value.",
                 sunNote: "Sun -1.5 Spread (2.60) EN İYİ DEĞER/RİSK ORANI. Sun dominant servis, Alt 22.5 bekleniyor.",
-                liuNote: "SEIDEL ML (1.43) %98 En Güvenilir Bahis. 3 analiz tam uyum, Alt 21.5 bekleniyor.",
+                liuNote: "SEIDEL ML (1.43) %98 En Güvenilir Bahis. 3 robot analiz tam uyum, Alt 21.5 bekleniyor.",
                 bencicNote: "MUCHOVA ML (1.59) Value. H2H 3-1 Muchova dominant. Üst 22.5 bekleniyor.",
                 cocciarettoNote: "LI ML (1.55) %93 Güvenli. H2H + form üstünlüğü. Üst 21.5 bekleniyor.",
                 volynetsNote: "ZHANG 2-1 (70% Güven). Robot'un sürpriz tahmini reddedildi. H2H, return ve saha performansı Zhang lehine.",
@@ -500,7 +500,7 @@
                 recLow: "❌ LOW CONFIDENCE", recStrongAdvice: "💪 ADVICE: STRONG PLAY", recMediumAdvice: "💡 ADVICE: MEDIUM PLAY", recWaitAdvice: "⏸️ ADVICE: WAIT/WATCH",
                 ms1: "W 1", ms2: "W 2", alt: "UNDER", ust: "OVER",
                 
-                // Gerekçe Güncellemesi: ChatGPT -> Robot
+                // Gerekçeler
                 kalinskayaNote: "Noskova's recent form and return performance are superior. Noskova ML (1.68) + Over 22.5 Value.",
                 sunNote: "SUN -1.5 Spread (2.60) is the BEST VALUE/RISK RATIO. Sun's dominant serve, Under 22.5 expected.",
                 liuNote: "SEIDEL ML (1.43) 98% Most Reliable Bet. 3 robot consensus, Under 21.5 expected.",
@@ -547,6 +547,8 @@
                 card.querySelector('.stat-label-h2h').textContent = t.h2h;
                 card.querySelector('.stat-label-serve').textContent = t.serve;
                 card.querySelector('.stat-label-game-pred').textContent = t.gameTotalPrediction;
+                
+                // Saat bilgisini güncelle
                 card.querySelector('.match-time-text').textContent = t.matchStarts + ' ' + matchDates[key].substring(11, 16) + ' TSİ';
 
 
@@ -728,7 +730,7 @@
                 <div class="top-title">Tenis Robot Tips</div>
                 <h1 class="main-title">GÜNÜN TAHMİNLERİ</h1>
                 <div class="powered-by">Powered By Ai</div>
-                </div>
+            </div>
         </header>
 
         <div class="tabs">
