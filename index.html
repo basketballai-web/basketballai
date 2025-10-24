@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">🤖 Basketbol Robot Analizleri</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         /* Genel Stil ve Tema Renkleri */
         :root {
@@ -14,18 +15,18 @@
             --light-yellow: #ffeb3b; /* Vurgu Sarı */
             --white-text: #ffffff;
             --off-white: #f0f0f0;
-            --card-bg: rgba(255, 255, 255, 0.08); /* Hafif Şeffaf Koyu Kart */
+            --card-bg: rgba(255, 255, 255, 0.08);
             --shadow-color: rgba(0, 0, 0, 0.7);
             /* Yeni Analiz Renkleri */
-            --robot-bg: #1c1c1c; /* Robot Kart Arka Planı */
-            --robot-green: #388e3c; /* Yeşil (Daha Canlı) */
-            --robot-red: #ff1744; /* Kritik Kırmızı (Daha Parlak) */
-            --robot-yellow: #FFC107; /* Dikkat Gereken */
+            --robot-bg: #1c1c1c;
+            --football-green: #00ff80; /* Futbol Botu için canlı neon yeşil */
+            --robot-red: #ff1744;
+            --robot-yellow: #FFC107;
             --robot-border: #3f51b5;
         }
 
         body {
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: var(--dark-blue);
             color: var(--white-text);
             margin: 0;
@@ -44,18 +45,19 @@
         }
 
         header h1 {
+            font-family: 'Orbitron', sans-serif;
             color: var(--light-yellow);
             text-shadow: 0 0 8px var(--light-yellow), 0 0 15px var(--secondary-orange);
             margin: 0;
-            font-size: 3em;
-            letter-spacing: 2px;
+            font-size: 3.5em;
+            letter-spacing: 3px;
         }
         
         header p {
             color: var(--primary-blue);
             margin: 5px 0 0 0;
             font-style: italic;
-            font-size: 1.1em;
+            font-size: 1.2em;
         }
 
         /* Dil Seçim Alanı Stili */
@@ -94,31 +96,20 @@
         /* Ana İçerik Konteyneri */
         .container {
             width: 95%;
-            max-width: 900px; /* Konteyneri küçülttük */
+            max-width: 850px;
             margin: 30px auto;
             padding: 10px;
         }
 
-        /* Sekmeler (Tabs) */
-        /* Sadece tek bir sekme kaldığı için tab/sekme stilini sildik veya gizledik */
-        .tabs {
-            display: none; /* Sekmeleri tamamen gizle */
-        }
-        
         /* Sekme İçerikleri */
         .tab-content {
-            display: none;
             padding: 30px;
             background: var(--card-bg);
-            border-radius: 10px; /* Köşeleri yuvarladık */
+            border-radius: 15px;
             min-height: 550px;
-            border: 2px solid var(--primary-blue);
-            box-shadow: 0 4px 25px rgba(0, 229, 255, 0.5);
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .tab-content.active {
-            display: block;
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
+            animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
@@ -127,7 +118,7 @@
         }
 
         /* ---------------------------------------------------- */
-        /* YENİ GELİŞTİRME AŞAMASI UYARI STİLİ */
+        /* GELİŞTİRME AŞAMASI UYARI STİLİ */
         /* ---------------------------------------------------- */
         .development-alert-section {
             padding: 50px 20px;
@@ -136,55 +127,73 @@
         .development-alert-section h3 {
             color: var(--robot-red);
             text-align: center;
-            font-size: 2.5em !important;
+            font-size: 3em !important;
             margin-top: 50px;
-            text-shadow: 0 0 10px var(--robot-red);
-            animation: flashRed 1.5s infinite alternate;
+            text-shadow: 0 0 15px var(--robot-red), 0 0 20px rgba(255, 23, 68, 0.7);
+            animation: flashRed 1.2s infinite alternate;
         }
         
         @keyframes flashRed {
-            from { opacity: 1; }
-            to { opacity: 0.8; }
+            from { opacity: 1; transform: scale(1.0); }
+            to { opacity: 0.9; transform: scale(1.05); }
         }
 
         .development-alert-section p {
             text-align: center;
-            font-size: 1.4em;
+            font-size: 1.5em;
             color: var(--light-yellow);
             margin-bottom: 40px;
+            font-weight: 600;
         }
 
         .development-alert-section .bot-callout {
-            font-size: 1.6em;
+            font-size: 1.8em;
             color: var(--primary-blue);
-            margin-bottom: 15px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 0 0 10px var(--primary-blue);
         }
         
+        /* ---------------------------------------------------- */
+        /* TELEGRAM BUTONU (Futbol Botu) STİLİ */
+        /* ---------------------------------------------------- */
         .telegram-link {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .telegram-link a {
-            background-color: var(--robot-green);
-            color: #1c1c1c !important; /* Koyu arka plana karşı koyu metin */
-            padding: 18px 35px;
+            /* Renkler: Neon Yeşil ve Koyu Mavi uyumu */
+            background: var(--football-green); 
+            color: #03081e !important; 
+            padding: 20px 40px;
             text-decoration: none;
-            font-weight: 900; /* Ekstra Kalın */
-            border-radius: 12px;
-            font-size: 2em;
-            transition: all 0.3s ease;
+            font-weight: 900; 
+            border-radius: 15px;
+            font-size: 2.2em;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: inline-block;
-            box-shadow: 0 0 20px var(--robot-green), 0 4px 15px rgba(0, 0, 0, 0.6);
-            border: 3px solid var(--light-yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            /* Ana Gölge ve Neon Efekti */
+            box-shadow: 0 0 25px var(--football-green), 0 8px 20px rgba(0, 0, 0, 0.8);
+            border: 4px solid var(--light-yellow);
+            /* Işıldama Animasyonu */
+            animation: pulseGlow 2s infinite alternate;
         }
 
         .telegram-link a:hover {
-            background-color: #5cb85c;
-            transform: scale(1.08) rotate(-1deg);
-            box-shadow: 0 0 30px #5cb85c, 0 8px 25px rgba(0, 0, 0, 0.8);
+            background-color: #00ffaa;
+            transform: scale(1.1) rotate(0deg);
+            box-shadow: 0 0 40px var(--football-green), 0 12px 30px rgba(0, 0, 0, 0.9);
+            border-color: var(--secondary-orange);
         }
+        
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px var(--football-green), 0 0 0 0px rgba(0, 255, 128, 0.7); }
+            100% { box-shadow: 0 0 35px var(--football-green), 0 0 0 10px rgba(0, 255, 128, 0); }
+        }
+
 
         /* Footer */
         footer {
@@ -202,7 +211,7 @@
 
     <header>
         <h1><i class="fas fa-robot" style="color: var(--primary-blue);"></i> <span id="mainTitleText">Basketbol Robot Analizleri</span> <i class="fas fa-basketball-ball" style="color: var(--secondary-orange);"></i></h1>
-        <p id="poweredByText">Robot Analizi Sistemi</p>
+        <p id="poweredByText">Gelişmiş Yapay Zeka Analiz Sistemi</p>
         
         <div class="language-selector">
             <button class="lang-button active" data-lang="tr">Türkçe</button>
@@ -211,44 +220,32 @@
     </header>
 
     <div class="container">
-        <div class="tabs" style="display: none;">
+        
+        <div id="tab-deepseek" class="tab-content active development-alert-section">
             </div>
 
-        <div id="tab-deepseek" class="tab-content active development-alert-section" style="border-radius: 10px;">
-            <h3 style="color: var(--robot-red); text-align: center; font-size: 2.5em; margin-top: 50px;">
-                <i class="fas fa-exclamation-triangle"></i> Geliştirilme Aşamasında <i class="fas fa-exclamation-triangle"></i>
-            </h3>
-            <p style="text-align: center; font-size: 1.4em; color: var(--light-yellow); margin-bottom: 40px;">
-                Basketbol robot analizi sistemi şu anda güncellenmektedir ve kısa süre sonra yayınlanacaktır.
-            </p>
-            <p class="bot-callout" style="text-align: center;">
-                Bu süreçte, güncel ve anlık tahminler için **Tenis Botumuzu** deneyebilirsiniz:
-            </p>
-            <div class="telegram-link">
-                <a href="https://t.me/tenisaibot" target="_blank">
-                    <i class="fab fa-telegram-plane"></i> Tenis Botunu Deneyin - Tıkla!
-                </a>
-            </div>
-        </div>
-
-        </div>
+    </div>
 
     <footer id="footerText">
-        <p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p>
-        <p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>
-    </footer>
+        </footer>
 
     <script>
-        // =========================================================================
-        // JavaScript artık sadece dil değişimi ve sayfa güncellemelerini yönetecek
-        // Tüm detaylı maç verileri (detailedData) ve ilgili render fonksiyonları kaldırıldı.
-        // =========================================================================
+        // Yeni Telegram Linki
+        const TELEGRAM_LINK = "https://t.me/futboltahminaibot"; 
 
         function updateLanguage(lang) {
             const isTR = lang === 'tr';
+            
+            // 1. Sayfa Başlığı ve İkon (Basketbol)
+            document.getElementById('pageTitle').textContent = isTR ? '🤖 Basketbol Robot Analizleri' : '🤖 Basketball Robot Analysis';
+            
+            // 2. Ana Başlık ve Alt Başlık (Basketbol)
             document.getElementById('mainTitleText').textContent = isTR ? 'Basketbol Robot Analizleri' : 'Basketball Robot Analysis';
-            document.getElementById('poweredByText').textContent = isTR ? 'Robot Analizi Sistemi' : 'Robot Analysis System';
-
+            document.getElementById('poweredByText').textContent = isTR ? 'Gelişmiş Yapay Zeka Analiz Sistemi' : 'Advanced AI Analysis System';
+            
+            // İkonu Basketbol olarak ayarla (Emin olmak için)
+            document.querySelector('header h1 .fa-basketball-ball').style.display = 'inline';
+            
             // Dil butonlarını güncelle
             document.querySelectorAll('.lang-button').forEach(btn => {
                 btn.classList.remove('active');
@@ -257,46 +254,47 @@
                 }
             });
 
-            // Geliştirme sekmesindeki metinleri güncelle
+            // 3. Geliştirme sekmesindeki metinleri güncelle
             const deepseekContent = document.getElementById('tab-deepseek');
             if (isTR) {
                 deepseekContent.innerHTML = `
-                    <h3 style="color: var(--robot-red); text-align: center; font-size: 2.5em; margin-top: 50px;">
+                    <h3 style="color: var(--robot-red); text-align: center; font-size: 3em; margin-top: 50px;">
                         <i class="fas fa-exclamation-triangle"></i> Geliştirilme Aşamasında <i class="fas fa-exclamation-triangle"></i>
                     </h3>
-                    <p style="text-align: center; font-size: 1.4em; color: var(--light-yellow); margin-bottom: 40px;">
+                    <p style="text-align: center; font-size: 1.5em; color: var(--light-yellow); margin-bottom: 40px;">
                         Basketbol robot analizi sistemi şu anda güncellenmektedir ve kısa süre sonra yayınlanacaktır.
                     </p>
                     <p class="bot-callout" style="text-align: center;">
-                        Bu süreçte, güncel ve anlık tahminler için **Tenis Botumuzu** deneyebilirsiniz:
+                        Bu süreçte, güncel ve anlık tahminler için **Futbol Botumuzu** deneyebilirsiniz:
                     </p>
                     <div class="telegram-link">
-                        <a href="https://t.me/tenisaibot" target="_blank">
-                            <i class="fab fa-telegram-plane"></i> Tenis Botunu Deneyin - Tıkla!
+                        <a href="${TELEGRAM_LINK}" target="_blank">
+                            <i class="fab fa-telegram-plane"></i> Futbol Botunu Deneyin - Tıkla!
                         </a>
                     </div>
                 `;
             } else { // English
                 deepseekContent.innerHTML = `
-                    <h3 style="color: var(--robot-red); text-align: center; font-size: 2.5em; margin-top: 50px;">
+                    <h3 style="color: var(--robot-red); text-align: center; font-size: 3em; margin-top: 50px;">
                         <i class="fas fa-exclamation-triangle"></i> Under Development <i class="fas fa-exclamation-triangle"></i>
                     </h3>
-                    <p style="text-align: center; font-size: 1.4em; color: var(--light-yellow); margin-bottom: 40px;">
+                    <p style="text-align: center; font-size: 1.5em; color: var(--light-yellow); margin-bottom: 40px;">
                         The basketball robot analysis system is currently being updated and will be published shortly.
                     </p>
                     <p class="bot-callout" style="text-align: center;">
-                        In the meantime, you can try our **Tennis Bot** for current and live predictions:
+                        In the meantime, you can try our **Football Bot** for current and live predictions:
                     </p>
                     <div class="telegram-link">
-                        <a href="https://t.me/tenisaibot" target="_blank">
-                            <i class="fab fa-telegram-plane"></i> Try the Tennis Bot - Click!
+                        <a href="${TELEGRAM_LINK}" target="_blank">
+                            <i class="fab fa-telegram-plane"></i> Try the Football Bot - Click!
                         </a>
                     </div>
                 `;
             }
 
+            // 4. Footer (Basketbol)
             document.getElementById('footerText').innerHTML = isTR ? 
-                '<p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Powered by AI</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>' :
+                '<p>Basketbol Robot Tahmin Analizleri | Robot Analizleri | Yapay Zeka ile Güçlendirildi</p><p>Unutmayın: Bahis bir şans oyunudur ve kaybetme riski taşır. Lütfen sorumlu oynayın.</p>' :
                 '<p>Basketball Robot Prediction Analysis | Robot Analysis | Powered by AI</p><p>Disclaimer: Betting is a game of chance and involves risk of loss. Please play responsibly.</p>';
         }
 
