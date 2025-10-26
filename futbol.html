@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>Robotipster Analizler - MATRIX SİSTEMİ (Mobil Uyumlu)</title>
+    <title>Robotipster Analizler - MATRIX SİSTEMİ (Mobil Uyumlu, Daha Okunabilir)</title>
     <style>
         /* MATRIX THEME STYLES - Mobil Uyumlu ve Görsel Olarak İyileştirilmiş */
         :root {
@@ -28,36 +28,39 @@
             text-shadow: 0 0 5px var(--matrix-glow); 
             padding: 20px; 
             overflow-x: hidden; 
+            font-weight: bold; /* Genel yazı tipi kalınlaştırıldı */
         }
 
         .header { 
             text-align: center; 
             color: var(--matrix-green-light); 
             font-size: 2.2em; 
-            margin-bottom: 5px; /* Uyarı metni için boşluk azaltıldı */
+            margin-bottom: 5px; 
             text-shadow: 0 0 15px var(--matrix-glow-strong); 
             padding: 10px 0 0 0;
-            border-bottom: none; /* Alt çizgi kaldırıldı */
+            border-bottom: none; 
         }
         .header-title {
             color: var(--text-white);
             font-size: 1.2em;
             display: block;
             margin-bottom: 5px;
+            font-weight: 900; /* Başlık için ekstra kalınlık */
         }
 
         .disclaimer {
             text-align: center;
-            color: #ff0000; /* Kırmızı renkli uyarı */
+            color: #ff0000; 
             font-size: 0.85em;
             margin-bottom: 25px;
             padding: 5px;
             border: 1px dashed #ff0000;
-            background-color: rgba(51, 0, 0, 0.6); /* Koyu kırmızı arka plan */
+            background-color: rgba(51, 0, 0, 0.7); /* Koyu kırmızı arka plan daha belirgin */
+            font-weight: bold; /* Uyarı metni de kalınlaştırıldı */
         }
 
         .match-section { 
-            background: rgba(0, 0, 0, 0.7); 
+            background: rgba(0, 0, 0, 0.85); /* Arka plan koyuluğu artırıldı */
             padding: 15px; 
             margin-bottom: 25px; 
             border: 1px solid var(--matrix-green-dark); 
@@ -74,6 +77,7 @@
             font-size: 1.4em; 
             text-align: left;
             text-transform: uppercase;
+            font-weight: 900; /* Maç başlıkları için ekstra kalınlık */
         }
 
         .table-container { 
@@ -105,7 +109,7 @@
         td { font-size: 0.85em; } 
 
         tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, 0.3); 
+            background-color: rgba(0, 0, 0, 0.45); /* Alternatif satır arka planı da koyulaştırıldı */
         }
 
         .super-confident { 
@@ -120,7 +124,7 @@
         .coupon-section { 
             margin-top: 40px; 
             padding: 20px; 
-            background: rgba(0, 26, 0, 0.8); 
+            background: rgba(0, 26, 0, 0.9); /* Kupon bölümü arka planı daha koyu */
             border-radius: 8px; 
             border: 2px solid var(--matrix-green-medium);
             box-shadow: 0 0 15px var(--matrix-glow-strong);
@@ -134,6 +138,7 @@
             padding-bottom: 10px; 
             text-transform: uppercase;
             text-align: center;
+            font-weight: 900; /* Kupon başlığı için ekstra kalınlık */
         }
 
         .coupon-box { 
@@ -149,7 +154,7 @@
             font-size: 0.9em;
         }
 
-        .coupon-box strong { color: var(--text-white); text-shadow: none; } 
+        .coupon-box strong { color: var(--text-white); text-shadow: none; font-weight: 900; } /* Kupon kutusu başlıkları için ekstra kalınlık */
 
         .coupon-box-super { border-left-color: var(--matrix-green-light); } 
         .coupon-box-fire { border-left-color: var(--text-red); } 
@@ -157,12 +162,12 @@
 
         /* Mobil Cihazlar İçin Medya Sorguları */
         @media (max-width: 768px) {
-            body { padding: 10px; }
+            body { padding: 10px; font-weight: bold; }
             .header { font-size: 1.8em; margin-bottom: 5px; }
-            .disclaimer { font-size: 0.75em; margin-bottom: 15px; }
-            .match-title { font-size: 1.2em; margin-bottom: 10px; }
+            .disclaimer { font-size: 0.75em; margin-bottom: 15px; font-weight: bold; }
+            .match-title { font-size: 1.2em; margin-bottom: 10px; font-weight: 900; }
             .match-section { padding: 10px; margin-bottom: 15px; }
-            .coupon-title { font-size: 1.4em; margin-bottom: 15px; }
+            .coupon-title { font-size: 1.4em; margin-bottom: 15px; font-weight: 900; }
             .coupon-box { padding: 12px; margin-bottom: 12px; font-size: 0.8em; }
             th, td { padding: 8px 3px; font-size: 0.75em; } 
         }
