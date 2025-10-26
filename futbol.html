@@ -2,487 +2,608 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>TÜM 15 MAÇ TAM TAHMİN TABLOSU - MATRIX SİSTEMİ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Robotipster Analizler - MATRIX SİSTEMİ (Mobil Uyumlu)</title>
     <style>
-        /* MATRIX THEME STYLES - Revize Edildi */
+        /* MATRIX THEME STYLES - Mobil Uyumlu ve Görsel Olarak İyileştirilmiş */
+        :root {
+            --matrix-black: #000000;
+            --matrix-green-light: #00ff41;
+            --matrix-green-dark: #003311;
+            --matrix-green-medium: #009933;
+            --matrix-glow: rgba(0, 255, 65, 0.5);
+            --matrix-glow-strong: rgba(51, 255, 102, 0.7);
+            --text-white: #ffffff;
+            --text-light-green: #ccffcc;
+            --text-cyan: #00ffff;
+            --text-red: #ff3300;
+        }
+
         body { 
             font-family: 'Courier New', Courier, monospace; 
             line-height: 1.6; 
-            margin: 20px; 
-            background-color: #000000; 
-            color: #00ff41; 
-            text-shadow: 0 0 5px rgba(0, 255, 65, 0.5); 
+            margin: 0; 
+            background-color: var(--matrix-black); 
+            color: var(--matrix-green-light); 
+            text-shadow: 0 0 5px var(--matrix-glow); 
+            padding: 20px; 
+            overflow-x: hidden; 
         }
+
         .header { 
             text-align: center; 
-            color: #33ff66; 
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            text-shadow: 0 0 15px #33ff66; 
+            color: var(--matrix-green-light); 
+            font-size: 2.2em; 
+            margin-bottom: 5px; /* Uyarı metni için boşluk azaltıldı */
+            text-shadow: 0 0 15px var(--matrix-glow-strong); 
+            padding: 10px 0 0 0;
+            border-bottom: none; /* Alt çizgi kaldırıldı */
         }
+        .header-title {
+            color: var(--text-white);
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: #ff0000; /* Kırmızı renkli uyarı */
+            font-size: 0.85em;
+            margin-bottom: 25px;
+            padding: 5px;
+            border: 1px dashed #ff0000;
+            background-color: rgba(51, 0, 0, 0.6); /* Koyu kırmızı arka plan */
+        }
+
         .match-section { 
             background: rgba(0, 0, 0, 0.7); 
             padding: 15px; 
             margin-bottom: 25px; 
-            border: 1px solid #004d1a; 
+            border: 1px solid var(--matrix-green-dark); 
             border-radius: 4px; 
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3); 
+            box-shadow: 0 0 10px var(--matrix-glow); 
+            overflow: hidden; 
         }
+
         .match-title { 
-            color: #00ff41; 
-            border-bottom: 2px dashed #009933; 
-            padding-bottom: 5px; 
-            margin-bottom: 10px; 
-            font-size: 1.7em; 
+            color: var(--matrix-green-light); 
+            border-bottom: 2px dashed var(--matrix-green-medium); 
+            padding-bottom: 8px; 
+            margin-bottom: 15px; 
+            font-size: 1.4em; 
             text-align: left;
+            text-transform: uppercase;
         }
+
+        .table-container { 
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; 
+        }
+
         table { 
             width: 100%; 
             border-collapse: collapse; 
             margin-top: 15px; 
+            min-width: 500px; 
         }
+
         th, td { 
-            border: 1px solid #003311; 
-            padding: 8px; 
+            border: 1px solid var(--matrix-green-dark); 
+            padding: 10px 5px; 
             text-align: center; 
+            white-space: nowrap; 
         }
+
         th { 
-            background-color: #003311; 
-            color: #ccffcc; 
+            background-color: var(--matrix-green-dark); 
+            color: var(--text-light-green); 
             font-weight: bold;
             text-transform: uppercase;
+            font-size: 0.9em;
         }
+        td { font-size: 0.85em; } 
+
         tr:nth-child(even) {
-            background-color: #000000; 
+            background-color: rgba(0, 0, 0, 0.3); 
         }
+
         .super-confident { 
             font-weight: bold; 
-            color: #ffffff; /* %80 ve üzeri güven için BEYAZ vurgu */
-            background-color: #004d1a; 
-            box-shadow: 0 0 8px #ffffff; 
+            color: var(--text-white); 
+            background-color: var(--matrix-green-dark); 
+            box-shadow: 0 0 8px var(--text-white); 
+            position: relative;
+            z-index: 1; 
         } 
         /* Kupon Stilleri */
         .coupon-section { 
-            margin-top: 30px; 
+            margin-top: 40px; 
             padding: 20px; 
-            background: #001a00; 
+            background: rgba(0, 26, 0, 0.8); 
             border-radius: 8px; 
-            border: 2px solid #009933;
+            border: 2px solid var(--matrix-green-medium);
+            box-shadow: 0 0 15px var(--matrix-glow-strong);
         }
+
         .coupon-title { 
-            color: #99ff99; 
-            margin-bottom: 15px; 
-            font-size: 1.5em; 
-            border-bottom: 1px solid #004d1a; 
-            padding-bottom: 5px; 
+            color: var(--text-light-green); 
+            margin-bottom: 20px; 
+            font-size: 1.6em; 
+            border-bottom: 1px solid var(--matrix-green-medium); 
+            padding-bottom: 10px; 
+            text-transform: uppercase;
+            text-align: center;
         }
+
         .coupon-box { 
-            background: #000000; 
-            color: #00ff41;
+            background: var(--matrix-black); 
+            color: var(--matrix-green-light);
             padding: 15px; 
-            margin-bottom: 15px; 
-            border-left: 5px solid #009933; 
+            margin-bottom: 18px; 
+            border-left: 5px solid var(--matrix-green-medium); 
             border-radius: 4px; 
-            white-space: pre; 
-            box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+            white-space: pre-wrap; 
+            word-break: break-word; 
+            box-shadow: 0 0 8px var(--matrix-glow);
+            font-size: 0.9em;
         }
-        .coupon-box-super { border-left-color: #00ff41; } 
-        .coupon-box-fire { border-left-color: #ff3300; } 
-        .coupon-box-diamond { border-left-color: #00ffff; } 
+
+        .coupon-box strong { color: var(--text-white); text-shadow: none; } 
+
+        .coupon-box-super { border-left-color: var(--matrix-green-light); } 
+        .coupon-box-fire { border-left-color: var(--text-red); } 
+        .coupon-box-diamond { border-left-color: var(--text-cyan); } 
+
+        /* Mobil Cihazlar İçin Medya Sorguları */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header { font-size: 1.8em; margin-bottom: 5px; }
+            .disclaimer { font-size: 0.75em; margin-bottom: 15px; }
+            .match-title { font-size: 1.2em; margin-bottom: 10px; }
+            .match-section { padding: 10px; margin-bottom: 15px; }
+            .coupon-title { font-size: 1.4em; margin-bottom: 15px; }
+            .coupon-box { padding: 12px; margin-bottom: 12px; font-size: 0.8em; }
+            th, td { padding: 8px 3px; font-size: 0.75em; } 
+        }
+
+        @media (max-width: 480px) {
+            .header { font-size: 1.5em; }
+            .match-title { font-size: 1em; }
+            .coupon-title { font-size: 1.2em; }
+            th, td { font-size: 0.7em; padding: 6px 2px; }
+        }
     </style>
 </head>
 <body>
 
-    <h1 class="header">🎯 <span style="color: #ffffff;">TÜM 15 MAÇ TAM TAHMİN TABLOSU</span> <span style="color: #00ff41;">// SİSTEM V2.0 GÜNCELLEMESİ</span></h1>
+    <h1 class="header">
+        <span class="header-title">ROBOTIPSTER ANALİZLER</span>
+        <span style="font-size: 0.7em; color: #00ff41; display: block; margin-top: 5px;">26 EKİM 2025 CUMARTESİ</span>
+    </h1>
+
+    <div class="disclaimer">
+        ⚠️ TAHMİNLER VERİYE DAYALI OLUP %100 DEĞİLDİR. LÜTFEN SORUMLU BAHİS OYNAYINIZ. ⚠️
+    </div>
 
     <div class="match-section">
         <h2 class="match-title">1. FC TWENTE vs AJAX (14:15)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1X</td><td>1.50</td><td>%65</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Ü/A 2.5</td><td>Üst</td><td>1.50</td><td>%80</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.30</td><td>%60</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>Ev 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>Dep 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>Dep 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.30</td><td>%85</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1X</td><td>1.50</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Ü/A 2.5</td><td>Üst</td><td>1.50</td><td>%80</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.30</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>Ev 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>Dep 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.30</td><td>%85</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">2. SOKOL KLECZEW vs STAL STALOWA WOLA (15:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>2 (Stal)</td><td>2.00</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.60</td><td>%70</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Ev 0.5</td><td>Alt</td><td>2.20</td><td>%55</td></tr>
-                <tr><td>Ev 1.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Dep 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>2.00</td><td>%60</td></tr>
-                <tr><td>MS KG</td><td>Var</td><td>1.80</td><td>%65</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>2 (Stal)</td><td>2.00</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.60</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Ev 0.5</td><td>Alt</td><td>2.20</td><td>%55</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>2.00</td><td>%60</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.80</td><td>%65</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">3. KAISERSLAUTERN vs NÜRNBERG (15:30)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1X</td><td>1.40</td><td>%65</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>Ev 2.5</td><td>Üst</td><td>3.00</td><td>%45</td></tr>
-                <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>Dep 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.45</td><td>%80</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1X</td><td>1.40</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>Ev 2.5</td><td>Üst</td><td>3.00</td><td>%45</td></tr>
+                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.45</td><td>%80</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">4. EINTRACHT BRAUNSCHWEIG vs HANNOVER 96 (15:30)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>2 (Hannover)</td><td>1.95</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Ü/A 2.5</td><td>Üst</td><td>1.55</td><td>%80</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.20</td><td>%65</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                <tr><td>İY 2.5</td><td>Üst</td><td>2.80</td><td>%50</td></tr>
-                <tr><td>Ev 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                <tr><td>Ev 2.5</td><td>Üst</td><td>3.50</td><td>%40</td></tr>
-                <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Dep 1.5</td><td>Üst</td><td>1.60</td><td>%75</td>
-                <tr><td>Dep 2.5</td><td>Üst</td><td>2.80</td><td>%50</td></tr>
-                <tr class="super-confident"><td>İY KG</td><td>Var</td><td>1.60</td><td>%75</td></tr>
-                <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.30</td><td>%85</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>2 (Hannover)</td><td>1.95</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Ü/A 2.5</td><td>Üst</td><td>1.55</td><td>%80</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.20</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>İY 2.5</td><td>Üst</td><td>2.80</td><td>%50</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
+                    <tr><td>Ev 2.5</td><td>Üst</td><td>3.50</td><td>%40</td></tr>
+                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Dep 1.5</td><td>Üst</td><td>1.60</td><td>%75</td>
+                    <tr><td>Dep 2.5</td><td>Üst</td><td>2.80</td><td>%50</td></tr>
+                    <tr class="super-confident"><td>İY KG</td><td>Var</td><td>1.60</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.30</td><td>%85</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">5. AMED SPORTIF vs İSTANBULSPOR (16:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1 (Amed)</td><td>1.50</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.50</td><td>%55</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>2.00</td><td>%65</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Ev 1.5</td><td>Üst</td><td>1.55</td><td>%80</td></tr>
-                <tr><td>Ev 2.5</td><td>Üst</td><td>2.50</td><td>%55</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                <tr><td>Dep 1.5</td><td>Alt</td><td>1.65</td><td>%70</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>İY KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
-                <tr><td>MS KG</td><td>Var</td><td>1.80</td><td>%65</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1 (Amed)</td><td>1.50</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.50</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>2.00</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Ev 1.5</td><td>Üst</td><td>1.55</td><td>%80</td></tr>
+                    <tr><td>Ev 2.5</td><td>Üst</td><td>2.50</td><td>%55</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
+                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.65</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.80</td><td>%65</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">6. FC VADUZ vs ETOILE CAROUGE (16:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1 (Vaduz)</td><td>1.60</td><td>%70</td></tr>
-                <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.30</td><td>%75</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.25</td><td>%65</td></tr>
-                <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Dep 0.5</td><td>Alt</td><td>1.85</td><td>%55</td></tr>
-                <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%65</td></tr>
-                <tr><td>MS KG</td><td>Yok</td><td>1.80</td><td>%60</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1 (Vaduz)</td><td>1.60</td><td>%70</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.30</td><td>%75</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.25</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.85</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.80</td><td>%60</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">7. ÖREBRO SK vs LANDSKRONA (17:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1 (Örebro)</td><td>1.85</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.30</td><td>%60</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr><td>İY 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr><td>Ev 2.5</td><td>Üst</td><td>2.70</td><td>%50</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                <tr><td>Dep 1.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.45</td><td>%80</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1 (Örebro)</td><td>1.85</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.30</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>İY 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>Ev 2.5</td><td>Üst</td><td>2.70</td><td>%50</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.45</td><td>%80</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">8. LILLE vs METZ (17:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr class="super-confident"><td>MS</td><td>1 (Lille)</td><td>1.35</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr><td>Ev 2.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                <tr><td>Dep 0.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.10</td><td>%95</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.65</td><td>%70</td></tr>
-                <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%60</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="super-confident"><td>MS</td><td>1 (Lille)</td><td>1.35</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>Ev 2.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.10</td><td>%95</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.65</td><td>%70</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%60</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">9. CERCLE BRUGGE vs SV ZULTE-WAREGEM (18:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1 (Cercle)</td><td>1.70</td><td>%65</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                <tr><td>Dep 1.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>MS KG</td><td>Var</td><td>2.30</td><td>%55</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1 (Cercle)</td><td>1.70</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
+                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>2.30</td><td>%55</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">10. FAMALICÃO vs VITÓRIA GUIMARÃES (18:30)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1X</td><td>1.55</td><td>%70</td></tr>
-                <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                <tr><td>İY 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                <tr><td>Dep 1.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>MS KG</td><td>Yok</td><td>2.00</td><td>%58</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1X</td><td>1.55</td><td>%70</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
+                    <tr><td>İY 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
+                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>2.00</td><td>%58</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">11. STAL MIELEC vs MIEDZ LEGNICA (19:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>X2</td><td>1.65</td><td>%60</td></tr>
-                <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>2.00</td><td>%60</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.50</td><td>%75</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>2.20</td><td>%55</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                <tr><td>Ev 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
-                <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                <tr><td>Dep 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>İY KG</td><td>Var</td><td>2.30</td><td>%55</td></tr>
-                <tr><td>MS KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>X2</td><td>1.65</td><td>%60</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>2.00</td><td>%60</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.50</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>2.20</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>2.30</td><td>%55</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">12. OLIMPIJA LJUBLJANA vs DOMZALE (19:30)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr class="super-confident"><td>MS</td><td>1 (Olimpija)</td><td>1.45</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.75</td><td>%65</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%75</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>2.10</td><td>%60</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.35</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                <tr><td>Ev 2.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
-                <tr><td>Dep 0.5</td><td>Alt</td><td>1.80</td><td>%60</td></tr>
-                <tr><td>Dep 1.5</td><td>Alt</td><td>1.40</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%95</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.65</td><td>%65</td></tr>
-                <tr><td>MS KG</td><td>Yok</td><td>1.75</td><td>%60</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="super-confident"><td>MS</td><td>1 (Olimpija)</td><td>1.45</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.75</td><td>%65</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>2.10</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.35</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Ev 2.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
+                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.80</td><td>%60</td></tr>
+                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.40</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%95</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.65</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.75</td><td>%60</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">13. UNION SAINT-GILLOISE vs SINT TRUIDENSE (21:15)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr class="super-confident"><td>MS</td><td>1 (Union)</td><td>1.35</td><td>%80</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.90</td><td>%60</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.50</td><td>%70</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                <tr><td>Ev 2.5</td><td>Üst</td><td>2.70</td><td>%50</td></tr>
-                <tr><td>Dep 0.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%60</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="super-confident"><td>MS</td><td>1 (Union)</td><td>1.35</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.90</td><td>%60</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.50</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Ev 2.5</td><td>Üst</td><td>2.70</td><td>%50</td></tr>
+                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%60</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="match-section">
         <h2 class="match-title">14. GO AHEAD EAGLES vs EXCELSIOR (22:00)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1X</td><td>1.35</td><td>%70</td></tr>
-                <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                <tr><td>İY 1.5</td><td>Üst</td><td>1.90</td><td>%65</td></tr>
-                <tr><td>İY 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                <tr><td>Ev 2.5</td><td>Üst</td><td>3.00</td><td>%45</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                <tr><td>Dep 1.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>İY KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
-                <tr><td>MS KG</td><td>Var</td><td>1.60</td><td>%75</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1X</td><td>1.35</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Üst</td><td>1.90</td><td>%65</td></tr>
+                    <tr><td>İY 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
+                    <tr><td>Ev 2.5</td><td>Üst</td><td>3.00</td><td>%45</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.60</td><td>%75</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="match-section">
         <h2 class="match-title">15. LYON vs STRASBOURG (22:45)</h2>
-        <table>
-            <thead>
-                <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>MS</td><td>1X</td><td>1.40</td><td>%70</td></tr>
-                <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
-                <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.85</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
-                <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                <tr><td>Dep 0.5</td><td>Üst</td><td>1.95</td><td>%60</td></tr>
-                <tr><td>Dep 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                <tr><td>İY KG</td><td>Yok</td><td>1.95</td><td>%60</td></tr>
-                <tr><td>MS KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>1X</td><td>1.40</td><td>%70</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.85</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
+                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
+                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.95</td><td>%60</td></tr>
+                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.95</td><td>%60</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="coupon-section">
