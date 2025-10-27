@@ -166,20 +166,20 @@
              background-color: rgba(255, 193, 7, 0.1);
         }
         
-        /* ROBOT TAHMİN VURGUSU - YENİ NEON STİLİ */
+        /* ROBOT TAHMİN VURGUSU - NEON STİLİ */
         .safe-prediction {
-            font-family: 'Orbitron', sans-serif; /* Yeni font */
+            font-family: 'Orbitron', sans-serif; 
             font-weight: 700;
-            color: var(--neon-blue); /* Parlak mavi neon rengi */
-            background-color: rgba(0, 255, 255, 0.08); /* Hafif şeffaf arkaplan */
+            color: var(--neon-blue); 
+            background-color: rgba(0, 255, 255, 0.08); 
             padding: 8px 12px;
             border-radius: 5px;
             display: block;
             margin-bottom: 10px;
             border: 1px solid var(--neon-blue);
-            font-size: 1.1em; /* Daha büyük font */
-            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 15px rgba(0, 255, 255, 0.5); /* Neon efekti */
-            text-align: left; /* BURASI GÜNCELLENDİ */
+            font-size: 1.1em; 
+            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 15px rgba(0, 255, 255, 0.5); 
+            text-align: left; /* Sola Hizalandı */
         }
         
         .control-box .result-status {
@@ -345,6 +345,47 @@
     <div class="match-card">
         <div class="match-teams">
             <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">B</div>
+                <span class="team-name">BROMMAPOJKARNA</span>
+            </div>
+            <div class="match-time">20:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">GAIS</span>
+                <div class="logo-placeholder" style="background-color: #008000;">G</div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>2</td><td>1.90</td><td>%72</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%82</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.65</td><td>%77</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.45</td><td>%70</td></tr>
+                    <tr><td>İY 0.5</td><td>Üst</td><td>1.30</td><td>%80</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.55</td><td>%68</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.75</td><td>%65</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%82</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.10</td><td>%62</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.60</td><td>%80</td></tr>
+                    <tr><td>SKOR</td><td>1–3</td><td>12.00</td><td>%14</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="control-box tutarlı">
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ü/A 1.5 Üst / Dep 0.5 Üst** (%82 Güven)</span>
+            İçerik: Üst 2.5, İY Üst ve KG Var tahminleriyle uyumlu.
+            <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
+            > Yorum: **1–3 skoru**, Üst & KG Var mantıklı. Çift pozitif tilt + düşük over oranı = gol potansiyeli destekleniyor. İlk yarı Üst 0.5 ve MS KG Var tahminiyle uyumlu.
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
                 <div class="logo-placeholder" style="background-color: #007bff;">M</div>
                 <span class="team-name">MALMÖ FF</span>
             </div>
@@ -378,6 +419,44 @@
             İçerik: Üst 2.5, İY Üst ve KG Var tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **2–2 skoru**, Üst 2.5 & KG Var ile uyumlu. Over 2.5 + İY Üst + KG Var kombinasyonu mantıken uyumlu. Yağmur riski olsa da iki tarafın tilt’i pozitif; tempo yüksek bekleniyor.
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">O</div>
+                <span class="team-name">ODENSE BK</span>
+            </div>
+            <div class="match-time">20:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">BRØNDBY</span>
+                <div class="logo-placeholder" style="background-color: #f8c21a;">B</div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
+                <tbody>
+                    <tr><td>MS</td><td>2</td><td>1.70</td><td>%78</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%83</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%80</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%77</td></tr>
+                    <tr><td>İY 0.5</td><td>Üst</td><td>1.30</td><td>%82</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%68</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.65</td><td>%72</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.35</td><td>%85</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.95</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.55</td><td>%82</td></tr>
+                    <tr><td>SKOR</td><td>1–3</td><td>10.50</td><td>%15</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="control-box tutarlı">
+            <span class="safe-prediction">🤖 Robot Tahmin: **Dep 0.5 Üst** (%85 Güven)</span>
+            İçerik: Üst 2.5, İY Üst, Dep 0.5 Üst ve KG Var tahminleriyle uyumlu.
+            <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
+            > Yorum: **1–3 skoru**, Üst & KG Var ile uyumlu. Brøndby’nin +25 tilt ve yüksek moraline uygun; Over yönü kuvvetli. Yağmur olmasına rağmen ofansif yapı bozulmuyor.
         </div>
     </div>
 
@@ -421,7 +500,7 @@
             > Yorum: **2–1 skoru**, Üst & KG Var ile uyumlu. Form farkı + iki takımın açık oyunu net şekilde üst yönünü destekliyor. İlk yarı tahminleri de uyumlu (İY Üst 0.5).
         </div>
     </div>
-    
+
     <div class="match-card">
         <div class="match-teams">
             <div class="team-box home">
@@ -463,44 +542,6 @@
         </div>
     </div>
 
-    <div class="match-card">
-        <div class="match-teams">
-            <div class="team-box home">
-                <div class="logo-placeholder" style="background-color: #ff0000;">O</div>
-                <span class="team-name">ODENSE BK</span>
-            </div>
-            <div class="match-time">20:00 ⚽</div>
-            <div class="team-box away">
-                <span class="team-name">BRØNDBY</span>
-                <div class="logo-placeholder" style="background-color: #f8c21a;">B</div>
-            </div>
-        </div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
-                <tbody>
-                    <tr><td>MS</td><td>2</td><td>1.70</td><td>%78</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%83</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%80</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%77</td></tr>
-                    <tr><td>İY 0.5</td><td>Üst</td><td>1.30</td><td>%82</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%68</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.65</td><td>%72</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.35</td><td>%85</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.95</td><td>%65</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>1.55</td><td>%82</td></tr>
-                    <tr><td>SKOR</td><td>1–3</td><td>10.50</td><td>%15</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="control-box tutarlı">
-            <span class="safe-prediction">🤖 Robot Tahmin: **Dep 0.5 Üst** (%85 Güven)</span>
-            İçerik: Üst 2.5, İY Üst, Dep 0.5 Üst ve KG Var tahminleriyle uyumlu.
-            <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
-            > Yorum: **1–3 skoru**, Üst & KG Var ile uyumlu. Brøndby’nin +25 tilt ve yüksek moraline uygun; Over yönü kuvvetli. Yağmur olmasına rağmen ofansif yapı bozulmuyor.
-        </div>
-    </div>
-    
     <div class="match-card">
         <div class="match-teams">
             <div class="team-box home">
@@ -606,47 +647,6 @@
             İçerik: Alt 2.5 yönü, İY Alt ve KG Yok tahminleriyle destekleniyor.
             <span class="result-status">Kontrol Sonucu: **⚠️ Kısmen Tutarlı**</span>
             > Yorum: **0–1 skor**, “Alt 1.5” yerine sadece “Alt 2.5” verilmiş; ufak tutarsızlık. Boca form düşüklüğü sebebiyle gol beklentisi düşük, ancak deplasman galibiyeti senaryosu var.
-        </div>
-    </div>
-
-    <div class="match-card">
-        <div class="match-teams">
-            <div class="team-box home">
-                <div class="logo-placeholder" style="background-color: #ff0000;">B</div>
-                <span class="team-name">BROMMAPOJKARNA</span>
-            </div>
-            <div class="match-time">20:00 ⚽</div>
-            <div class="team-box away">
-                <span class="team-name">GAIS</span>
-                <div class="logo-placeholder" style="background-color: #008000;">G</div>
-            </div>
-        </div>
-        
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>2</td><td>1.90</td><td>%72</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%82</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.65</td><td>%77</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.45</td><td>%70</td></tr>
-                    <tr><td>İY 0.5</td><td>Üst</td><td>1.30</td><td>%80</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.55</td><td>%68</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.75</td><td>%65</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%82</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.10</td><td>%62</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>1.60</td><td>%80</td></tr>
-                    <tr><td>SKOR</td><td>1–3</td><td>12.00</td><td>%14</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="control-box tutarlı">
-            <span class="safe-prediction">🤖 Robot Tahmin: **Ü/A 1.5 Üst / Dep 0.5 Üst** (%82 Güven)</span>
-            İçerik: Üst 2.5, İY Üst ve KG Var tahminleriyle uyumlu.
-            <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
-            > Yorum: **1–3 skoru**, Üst & KG Var mantıklı. Çift pozitif tilt + düşük over oranı = gol potansiyeli destekleniyor. İlk yarı Üst 0.5 ve MS KG Var tahminiyle uyumlu.
         </div>
     </div>
 
