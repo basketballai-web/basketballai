@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Robotipster Analizler - SAAT SIRALAMALI LİSTE (15 Maç)</title>
+    <title>Robotipster Analizler - SAAT SIRALAMALI TAHMİNLER</title>
     <style>
         /* MATRIX THEME STYLES - Mobil Uyumlu ve Görsel Olarak İyileştirilmiş */
         :root {
@@ -82,7 +82,7 @@
 
         /* TABLO STİLLERİ */
         .table-container { 
-            overflow-x: hidden; 
+            overflow-x: auto; /* Mobil uyumluluk için kaydırma */
             -webkit-overflow-scrolling: touch; 
         }
 
@@ -90,13 +90,12 @@
             width: 100%; 
             border-collapse: collapse; 
             margin-top: 10px; 
-            min-width: 100%; 
-            table-layout: fixed; 
+            min-width: 350px; /* Mobil cihazlarda daralmayı önlemek için minimum genişlik */
         }
 
         th, td { 
             border: 1px solid var(--matrix-green-dark); 
-            padding: 3px 1px; 
+            padding: 5px 2px; 
             text-align: center; 
             word-wrap: break-word; 
         }
@@ -113,30 +112,35 @@
             font-weight: bold;
         } 
 
-        /* Sütun genişliklerini içeriğe göre oranlama */
-        table thead th:nth-child(1),
-        table tbody td:nth-child(1) { width: 35%; } 
-        table thead th:nth-child(2),
-        table tbody td:nth-child(2) { width: 25%; } 
-        table thead th:nth-child(3),
-        table tbody td:nth-child(3) { width: 20%; } 
-        table thead th:nth-child(4),
-        table tbody td:nth-child(4) { width: 20%; } 
-
+        /* Sütun genişlikleri */
+        table thead th:nth-child(1), table tbody td:nth-child(1) { width: 35%; } /* Kategori */
+        table thead th:nth-child(2), table tbody td:nth-child(2) { width: 25%; } /* Tahmin */
+        table thead th:nth-child(3), table tbody td:nth-child(3) { width: 20%; } /* Oran */
+        table thead th:nth-child(4), table tbody td:nth-child(4) { width: 20%; } /* Güven */
 
         tr:nth-child(even) {
             background-color: rgba(0, 0, 0, 0.45); 
         }
 
+        /* Güven Oranı Yüksek Tahmin Stili */
         .super-confident { 
             font-weight: bold; 
             color: var(--text-white); 
-            background-color: var(--matrix-green-dark); 
-            box-shadow: 0 0 8px var(--text-white); 
-            position: relative;
-            z-index: 1; 
+            background-color: var(--matrix-green-medium); 
+            box-shadow: 0 0 5px var(--matrix-glow); 
         } 
         
+        /* Analiz ve Value Bet Stilleri */
+        .analiz-box {
+            margin-top: 15px;
+            padding: 10px;
+            border-left: 3px solid var(--matrix-green-medium);
+            background-color: rgba(0, 51, 17, 0.5);
+            font-size: 0.9em;
+        }
+
+        .analiz-box strong { color: var(--text-white); }
+
         /* Kupon Stilleri */
         .coupon-section { 
             margin-top: 40px; 
@@ -172,9 +176,10 @@
         }
 
         .coupon-box strong { color: var(--text-white); text-shadow: none; font-weight: 900; } 
-        .coupon-box-super { border-left-color: var(--matrix-green-light); } 
         .coupon-box-fire { border-left-color: var(--text-red); } 
         .coupon-box-diamond { border-left-color: var(--text-cyan); } 
+
+        .coupon-table th, .coupon-table td { font-size: 0.8em; padding: 4px 2px; }
 
         /* Mobil Cihazlar İçin Medya Sorguları */
         @media (max-width: 768px) {
@@ -185,16 +190,9 @@
             .match-section { padding: 10px; margin-bottom: 15px; }
             .coupon-title { font-size: 1.4em; margin-bottom: 15px; font-weight: 900; }
             .coupon-box { padding: 12px; margin-bottom: 12px; font-size: 0.8em; }
-            th { font-size: 0.8em; padding: 3px 1px; } 
-            td { font-size: 0.75em; padding: 3px 1px; } 
-        }
-
-        @media (max-width: 480px) {
-            .header { font-size: 1.5em; }
-            .match-title { font-size: 1em; }
-            .coupon-title { font-size: 1.2em; }
-            th { font-size: 0.75em; } 
+            th { font-size: 0.75em; padding: 3px 1px; } 
             td { font-size: 0.7em; padding: 3px 1px; } 
+            .analiz-box { font-size: 0.8em; }
         }
     </style>
 </head>
@@ -202,7 +200,7 @@
 
     <h1 class="header">
         <span class="header-title">ROBOTIPSTER ANALİZLER</span>
-        <span style="font-size: 0.7em; color: #00ff41; display: block; margin-top: 5px;">26 EKİM 2025 CUMARTESİ - SAATE GÖRE SIRALANMIŞ TAM LİSTE</span>
+        <span style="font-size: 0.7em; color: #00ff41; display: block; margin-top: 5px;">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
     </h1>
 
     <div class="disclaimer">
@@ -210,459 +208,354 @@
     </div>
     
     <div class="match-section">
-        <h2 class="match-title">1. FC TWENTE vs AJAX (14:15) - Hollanda Eredivisie</h2>
+        <h2 class="match-title">1. AKHMAT GROZNY vs SOCHI (19:30) ⚽</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>MS</td><td>1X</td><td>1.50</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Ü/A 2.5</td><td>Üst</td><td>1.50</td><td>%80</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.30</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>Ev 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>Dep 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.30</td><td>%85</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="match-section">
-        <h2 class="match-title">2. SOKOL KLECZEW vs STAL STALOWA WOLA (15:00) - Polonya II Liga</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>2 (Stal)</td><td>2.00</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.60</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Ev 0.5</td><td>Alt</td><td>2.20</td><td>%55</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>2.00</td><td>%60</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>1.80</td><td>%65</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="match-section">
-        <h2 class="match-title">3. KAISERSLAUTERN vs NÜRNBERG (15:30) - Almanya 2. Bundesliga</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>1X</td><td>1.40</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>Ev 2.5</td><td>Üst</td><td>3.00</td><td>%45</td></tr>
-                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.45</td><td>%80</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="match-section">
-        <h2 class="match-title">4. EINTRACHT BRAUNSCHWEIG vs HANNOVER 96 (15:30) - Almanya 2. Bundesliga</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>2 (Hannover)</td><td>1.95</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Ü/A 2.5</td><td>Üst</td><td>1.55</td><td>%80</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.20</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>İY 2.5</td><td>Üst</td><td>2.80</td><td>%50</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                    <tr><td>Ev 2.5</td><td>Üst</td><td>3.50</td><td>%40</td></tr>
-                    <tr class="super-confident"><td>Dep 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Dep 2.5</td><td>Üst</td><td>2.80</td><td>%50</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>1.60</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.30</td><td>%85</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="match-section">
-        <h2 class="match-title">5. AMED SPORTIF vs İSTANBULSPOR (16:00) - Türkiye TFF 2. Lig</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>1 (Amed)</td><td>1.50</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.50</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>2.00</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Ev 1.5</td><td>Üst</td><td>1.55</td><td>%80</td></tr>
-                    <tr><td>Ev 2.5</td><td>Üst</td><td>2.50</td><td>%55</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.65</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>1.80</td><td>%65</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="match-section">
-        <h2 class="match-title">6. FC VADUZ vs ETOILE CAROUGE (16:00) - İsviçre Challenge Ligi</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>1 (Vaduz)</td><td>1.60</td><td>%70</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.30</td><td>%75</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.25</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.85</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%65</td></tr>
-                    <tr><td>MS KG</td><td>Yok</td><td>1.80</td><td>%60</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="match-section">
-        <h2 class="match-title">7. ÖREBRO SK vs LANDSKRONA (17:00) - İsveç Superettan</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>1 (Örebro)</td><td>1.85</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.30</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr><td>İY 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr><td>Ev 2.5</td><td>Üst</td><td>2.70</td><td>%50</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>MS KG</td><td>Var</td><td>1.45</td><td>%80</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="match-section">
-        <h2 class="match-title">8. LILLE vs METZ (17:00) - Fransa Ligue 1</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="super-confident"><td>MS</td><td>1 (Lille)</td><td>1.35</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
-                    <tr><td>Ev 2.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.10</td><td>%95</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.65</td><td>%70</td></tr>
-                    <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%60</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="match-section">
-        <h2 class="match-title">9. CERCLE BRUGGE vs SV ZULTE-WAREGEM (18:00) - Belçika Pro Lig</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>1 (Cercle)</td><td>1.70</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>2.30</td><td>%55</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="match-section">
-        <h2 class="match-title">10. FAMALICÃO vs VITÓRIA GUIMARÃES (18:30) - Portekiz Primeira Liga</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>1X</td><td>1.55</td><td>%70</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.30</td><td>%85</td></tr>
-                    <tr><td>İY 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>MS KG</td><td>Yok</td><td>2.00</td><td>%58</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="match-section">
-        <h2 class="match-title">11. STAL MIELEC vs MIEDZ LEGNICA (19:00) - Polonya I Liga</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>MS</td><td>X2</td><td>1.65</td><td>%60</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>2.00</td><td>%60</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.50</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>2.20</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>MS</td><td>1</td><td>1.60</td><td>%65</td></tr>
+                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Alt</td><td>1.75</td><td>%70</td></tr>
+                    <tr class="super-confident"><td>Ü/A 2.5</td><td>Alt</td><td>1.78</td><td>%72</td></tr>
+                    <tr><td>İY 0.5</td><td>Alt</td><td>1.60</td><td>%68</td></tr>
+                    <tr class="super-confident"><td>İY 1.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.45</td><td>%75</td></tr>
                     <tr><td>Ev 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.20</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>2.30</td><td>%55</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.70</td><td>%70</td></tr>
+                    <tr><td>SKOR</td><td>1-0</td><td>6.00</td><td>%18</td></tr>
                 </tbody>
             </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Her iki takım da negatif tilt’te, defansif oyun bekleniyor. Hava rüzgarlı.<br>
+            🎯 <strong>Value Bet:</strong> Under 2.5 (1.78) – %72 güven.
         </div>
     </div>
 
     <div class="match-section">
-        <h2 class="match-title">12. OLIMPIJA LJUBLJANA vs DOMZALE (19:30) - Slovenya Prva Liga</h2>
+        <h2 class="match-title">2. SAMSUNSPOR vs ÇAYKUR RİZESPOR (20:00) ⚽</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
-                    <tr class="super-confident"><td>MS</td><td>1 (Olimpija)</td><td>1.45</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.75</td><td>%65</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>2.10</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.35</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Ev 2.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
-                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.80</td><td>%60</td></tr>
-                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.40</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%95</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.65</td><td>%65</td></tr>
-                    <tr><td>MS KG</td><td>Yok</td><td>1.75</td><td>%60</td></tr>
+                    <tr><td>MS</td><td>1</td><td>1.95</td><td>%68</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%78</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>2.10</td><td>%60</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.35</td><td>%85</td></tr>
+                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.90</td><td>%65</td></tr>
+                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.85</td><td>%68</td></tr>
+                    <tr><td>SKOR</td><td>2-0</td><td>7.50</td><td>%16</td></tr>
                 </tbody>
             </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Samsun tam kadro ve moralli, Rize yorgun ve moral düşük.<br>
+            🎯 <strong>Value Bet:</strong> MS 1 (1.95) – %68 güven.
         </div>
     </div>
 
     <div class="match-section">
-        <h2 class="match-title">13. UNION SAINT-GILLOISE vs SINT TRUIDENSE (21:15) - Belçika Pro Lig</h2>
+        <h2 class="match-title">3. GAZİANTEP vs FENERBAHÇE (20:00) ⚽</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
-                    <tr class="super-confident"><td>MS</td><td>1 (Union)</td><td>1.35</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.90</td><td>%60</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.50</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>2.30</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Ev 2.5</td><td>Üst</td><td>2.70</td><td>%50</td></tr>
-                    <tr><td>Dep 0.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Dep 1.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.15</td><td>%90</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%60</td></tr>
+                    <tr><td>MS</td><td>2</td><td>1.66</td><td>%75</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.32</td><td>%82</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%78</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.75</td><td>%60</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.25</td><td>%88</td>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.85</td><td>%72</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%65</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.90</td><td>%65</td></tr>
+                    <tr><td>SKOR</td><td>1-3</td><td>9.50</td><td>%15</td></tr>
                 </tbody>
             </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Fenerbahçe tam kadro, yüksek moral. Gaziantep yorgun ve defansta eksik.<br>
+            🎯 <strong>Value Bet:</strong> Over 2.5 (1.70) – %78 güven.
         </div>
     </div>
 
     <div class="match-section">
-        <h2 class="match-title">14. GO AHEAD EAGLES vs EXCELSIOR (22:00) - Hollanda Eredivisie</h2>
+        <h2 class="match-title">4. BROMMAPOJKARNA vs GAIS (21:00) ⚽</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>MS</td><td>1X</td><td>1.35</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.20</td><td>%85</td></tr>
-                    <tr><td>İY 1.5</td><td>Üst</td><td>1.90</td><td>%65</td></tr>
-                    <tr><td>İY 2.5</td><td>Alt</td><td>1.55</td><td>%75</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>Ev 1.5</td><td>Üst</td><td>1.80</td><td>%65</td></tr>
-                    <tr><td>Ev 2.5</td><td>Üst</td><td>3.00</td><td>%45</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%75</td></tr>
-                    <tr><td>Dep 1.5</td><td>Üst</td><td>2.40</td><td>%55</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>MS</td><td>2</td><td>2.10</td><td>%65</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.28</td><td>%85</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.73</td><td>%75</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.10</td><td>%58</td></tr>
+                    <tr><td>İY 0.5</td><td>Üst</td><td>1.40</td><td>%78</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.85</td><td>%60</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%60</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.95</td><td>%62</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>2.05</td><td>%60</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.75</td><td>%70</td></tr>
+                    <tr><td>SKOR</td><td>1-2</td><td>8.00</td><td>%16</td></tr>
                 </tbody>
             </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Her iki takım da pozitif tilt’te (15.0 & 12.7), yüksek tempo ve açık oyun bekleniyor. Hava açık, moral iyi.<br>
+            🎯 <strong>Value Bet:</strong> Over 2.5 (1.73) – %75 güven.
         </div>
     </div>
 
     <div class="match-section">
-        <h2 class="match-title">15. LYON vs STRASBOURG (22:45) - Fransa Ligue 1</h2>
+        <h2 class="match-title">5. RADOMIAK RADOM vs WISLA PLOCK (21:00) ⚽</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>MS</td><td>1X</td><td>1.40</td><td>%70</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%75</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.85</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ü/A 3.5</td><td>Alt</td><td>1.35</td><td>%80</td></tr>
-                    <tr class="super-confident"><td>İY 0.5</td><td>Üst</td><td>1.25</td><td>%80</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.90</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>İY 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr class="super-confident"><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>2.00</td><td>%60</td></tr>
-                    <tr class="super-confident"><td>Ev 2.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.95</td><td>%60</td></tr>
-                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.70</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>Dep 2.5</td><td>Alt</td><td>1.18</td><td>%90</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.95</td><td>%60</td></tr>
-                    <tr><td>MS KG</td><td>Var</td><td>2.00</td><td>%60</td></tr>
+                    <tr><td>MS</td><td>1</td><td>2.30</td><td>%68</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%80</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.85</td><td>%65</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.35</td><td>%82</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.85</td><td>%55</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.75</td><td>%70</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>2.05</td><td>%58</td></tr>
+                    <tr><td>SKOR</td><td>2-1</td><td>8.50</td><td>%15</td></tr>
                 </tbody>
             </table>
         </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Ev sahibi moral orta, deplasman yorgun ve moral düşük. Tempo orta.<br>
+            🎯 <strong>Value Bet:</strong> MS 1 (2.30) – %68 güven.
+        </div>
     </div>
-    
+
+    <div class="match-section">
+        <h2 class="match-title">6. ODENSE BK vs BRONDBY (21:00) ⚽</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>2</td><td>1.83</td><td>%72</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.30</td><td>%85</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%78</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.65</td><td>%62</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.30</td><td>%85</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.85</td><td>%70</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>2.10</td><td>%60</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.75</td><td>%72</td></tr>
+                    <tr><td>SKOR</td><td>1-3</td><td>10.00</td><td>%14</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Brondby tilt +25.2, form zirvede. Yağmurlu hava tempo düşürse de kalite farkı net.<br>
+            🎯 <strong>Value Bet:</strong> Over 2.5 (1.70) – %78 güven.
+        </div>
+    </div>
+
+    <div class="match-section">
+        <h2 class="match-title">7. MALMO FF vs HAMMARBY (21:10) ⚽</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>X2</td><td>1.55</td><td>%70</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.40</td><td>%75</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.96</td><td>%68</td></tr>
+                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%78</td></tr>
+                    <tr><td>İY 0.5</td><td>Üst</td><td>1.45</td><td>%72</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
+                    <tr><td>İY 2.5</td><td>Alt</td><td>1.20</td><td>%88</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.90</td><td>%60</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.70</td><td>%68</td></tr>
+                    <tr><td>İY KG</td><td>Var</td><td>2.20</td><td>%55</td></tr>
+                    <tr><td>MS KG</td><td>Var</td><td>1.95</td><td>%65</td></tr>
+                    <tr><td>SKOR</td><td>1-2</td><td>9.00</td><td>%15</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> ELO eşit ama Hammarby tilt (+12.7) ve form avantajlı. Yağmurlu hava tempo düşürür ama Hammarby’nin yorgunluğu “yüksek riskli” değil. Gol potansiyeli orta-üst.<br>
+            🎯 <strong>Value Bet:</strong> Over 2.5 (1.96) – %68 güven.
+        </div>
+    </div>
+
+    <div class="match-section">
+        <h2 class="match-title">8. BARRACAS CENTRAL vs BOCA JUNIORS (22:00) ⚽</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>X</td><td>3.10</td><td>%60</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Alt</td><td>1.50</td><td>%75</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.78</td><td>%70</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%60</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%68</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%68</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.85</td><td>%65</td></tr>
+                    <tr><td>SKOR</td><td>1-1</td><td>6.50</td><td>%18</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Boca negatif tilt (-18.4) ve deplasman yorgunluğu etkili. Barracas dengeli.<br>
+            🎯 <strong>Value Bet:</strong> Çifte Şans 1X (1.85) – %70 güven.
+        </div>
+    </div>
+
+    <div class="match-section">
+        <h2 class="match-title">9. REAL BETIS vs ATLETICO MADRID (23:00) ⚽</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>2</td><td>2.25</td><td>%65</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.40</td><td>%70</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.05</td><td>%62</td></tr>
+                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.50</td><td>%70</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%68</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%65</td></tr>
+                    <tr><td>SKOR</td><td>0-1</td><td>6.00</td><td>%18</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Atletico daha yüksek ELO ve moral avantajına sahip. Tempolu ama kontrollü oyun bekleniyor.<br>
+            🎯 <strong>Value Bet:</strong> MS 2 (2.25) – %65 güven.
+        </div>
+    </div>
+
+    <div class="match-section">
+        <h2 class="match-title">10. MOREIRENSE FC vs PORTO (23:15) ⚽</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>MS</td><td>2</td><td>1.28</td><td>%74</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.40</td><td>%78</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.12</td><td>%65</td></tr>
+                    <tr><td>Ev 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.30</td><td>%85</td></tr>
+                    <tr><td>Dep 1.5</td><td>Üst</td><td>1.75</td><td>%70</td></tr>
+                    <tr><td>İY KG</td><td>Yok</td><td>1.55</td><td>%72</td></tr>
+                    <tr><td>MS KG</td><td>Yok</td><td>1.80</td><td>%70</td></tr>
+                    <tr><td>SKOR</td><td>0-2</td><td>6.50</td><td>%17</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="analiz-box">
+            🧩 <strong>Analiz:</strong> Porto moral yüksek ama tilt negatif (-7). Moreirense çok eksik. Düşük tempo, kontrollü deplasman galibiyeti.<br>
+            🎯 <strong>Value Bet:</strong> MS 2 (1.28) – %74 güven.
+        </div>
+    </div>
+
+
     <div class="coupon-section">
-        <h3 class="coupon-title">🎯 KOMBİNE KUPON ÖNERİLERİ 🎯</h3>
+        <h2 class="coupon-title">🎯 GÜNÜN KUPON ÖNERİLERİ</h2>
 
-        <div class="coupon-box coupon-box-super">
-            <strong>⭐ SÜPER GÜVENLİ (Düşük Risk - Oran: ~2.2) ⭐</strong>
+        <div class="coupon-box coupon-box-diamond">
+            <strong>🎯 1️⃣ YÜKSEK İHTİMAL KUPON (2 MAÇ)</strong>
             <pre>
-1. Lille vs Metz -> MS 1 (1.35)
-2. Union Saint-Gilloise -> Ev 1.5 Üst (1.60) *Union 1.5+ Gol olarak yorumlanmıştır.*
+🔹 Amaç: Minimum risk, maksimum olasılık (%75+ güven)
+🎯 Ortalama Genel Güven: %77
+💰 Tahmini Toplam Oran: ~2.85
+</pre>
+            <div class="table-container">
+                <table class="coupon-table">
+                    <thead>
+                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th><th>Not</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Gaziantep – Fenerbahçe</td><td>Üst 2.5</td><td>1.70</td><td>%78</td><td>Fener tam kadro, tempo yüksek, açık oyun.</td></tr>
+                        <tr><td>Odense – Brøndby</td><td>Üst 2.5</td><td>1.70</td><td>%78</td><td>Brøndby form zirvesinde, savunma zayıf.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pre>
+🔥 Kupon Yorumu:
+İki maç da yüksek form, yüksek tilt ve moral ile “gollü” geçme potansiyeline sahip.
+> 💎 “Güvenli gol kuponu” – 2.5 üst favori.
+</pre>
+        </div>
 
-<strong>TOPLAM ORAN:</strong> Yaklaşık 2.16
-            </pre>
+        <div class="coupon-box">
+            <strong>⚖️ 2️⃣ ORTA İHTİMAL KUPON (3 MAÇ)</strong>
+            <pre>
+🔹 Amaç: Dengeli risk / oran oranı (%68–72 güven)
+🎯 Ortalama Genel Güven: %70
+💰 Tahmini Toplam Oran: ~5.40
+</pre>
+            <div class="table-container">
+                <table class="coupon-table">
+                    <thead>
+                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th><th>Not</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Samsunspor – Rizespor</td><td>MS 1</td><td>1.95</td><td>%68</td><td>Ev sahibi formda, deplasman moralsiz.</td></tr>
+                        <tr><td>Akhmat Grozny – Sochi</td><td>Alt 2.5</td><td>1.78</td><td>%72</td><td>İki takım da defansif, düşük tempo.</td></tr>
+                        <tr><td>Malmo – Hammarby</td><td>KG Var</td><td>1.95</td><td>%65</td><td>Dengeli oyun, iki takım da skor bulabilir.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pre>
+🔥 Kupon Yorumu:
+İki taraflı dengede, bir “Under”, bir “KG” ve bir ev galibiyetiyle orta riskli üçlü.
+> ⚖️ “Dengeli kombin kuponu” – ideal 3’lü sistem adayı.
+</pre>
         </div>
 
         <div class="coupon-box coupon-box-fire">
-            <strong>🔥 GOLLÜ MAÇLAR (Orta Risk - Oran: ~4.0) 🔥</strong>
+            <strong>💣 3️⃣ RİSKLİ (SÜRPRİZ) KUPON (4 MAÇ)</strong>
             <pre>
-1. FC Twente vs Ajax -> Ü/A 2.5 Üst (1.50)
-2. Eintracht Braunschweig vs Hannover 96 -> Dep 1.5 Üst (1.60) *Hannover 1.5+ Gol olarak yorumlanmıştır.*
-3. Örebro SK vs Landskrona -> Ü/A 2.5 Üst (1.60)
-
-<strong>TOPLAM ORAN:</strong> Yaklaşık 3.84
-            </pre>
+🔹 Amaç: Yüksek getiri, sürpriz skor potansiyeli (%55–65 güven)
+🎯 Ortalama Genel Güven: %63
+💰 Tahmini Toplam Oran: ~15.00+
+</pre>
+            <div class="table-container">
+                <table class="coupon-table">
+                    <thead>
+                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th><th>Not</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Barracas – Boca Juniors</td><td>X (Berabere)</td><td>3.10</td><td>%60</td><td>Boca moralsiz, kısır maç bekleniyor.</td></tr>
+                        <tr><td>Real Betis – Atletico Madrid</td><td>MS 2</td><td>2.25</td><td>%65</td><td>Atletico defansla maçı alabilir.</td></tr>
+                        <tr><td>Radomiak – Wisla Plock</td><td>MS 1</td><td>2.30</td><td>%68</td><td>Ev sahibi yorgun rakibe karşı avantajlı.</td></tr>
+                        <tr><td>Brommapojkarna – GAIS</td><td>Üst 3.5</td><td>2.10</td><td>%58</td><td>Pozitif tilt, açık futbol, bol pozisyon.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pre>
+🔥 Kupon Yorumu:
+Yüksek risk / yüksek kazanç. İki deplasman galibiyeti + bir sürpriz beraberlik + bol gollü maç.
+> 💣 “Sürpriz yakalayanların kuponu” – az tutar, büyük kazanç.
+</pre>
         </div>
 
-        <div class="coupon-box coupon-box-diamond">
-            <strong>💎 DEĞER AVI (Yüksek Risk - Oran: ~10.0) 💎</strong>
-            <pre>
-1. FC Vaduz vs Etoile Carouge -> Ü/A 2.5 Alt (2.25)
-2. Famalicão vs Vitória Guimarães -> Ü/A 2.5 Alt (1.95)
-3. Cercle Brugge vs SV Zulte-Waregem -> MS 1 (1.70) *Cercle 1.5+ Gol tahmini, MS 1 tahmini ile birleştirilerek yorumlanmıştır.*
-
-<strong>TOPLAM ORAN:</strong> Yaklaşık 8.78
-            </pre>
-        </div>
     </div>
 
 </body>
