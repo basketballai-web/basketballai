@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>Robotipster Analizler - TAM MOBİL UYUMLU VE GENİŞLETİLMİŞ</title>
+    <title>Robotipster Analizler - OKUNAKLI OPTİMİZASYON (Ortalanmış Başlıklar)</title>
     <style>
-        /* MATRIX THEME STYLES - Mobil Uyumlu ve Görsel Olarak İyileştirilmiş */
+        /* MATRIX THEME STYLES - OKUNAKLI YENİLEME */
         :root {
             --matrix-black: #000000;
             --matrix-green-light: #00ff41;
-            --matrix-green-dark: #003311;
-            --matrix-green-medium: #009933;
-            --matrix-glow: rgba(0, 255, 65, 0.5);
-            --matrix-glow-strong: rgba(51, 255, 102, 0.7);
+            --matrix-green-dark: #004d1a; 
+            --matrix-green-medium: #00b33c; 
+            --matrix-glow: rgba(0, 255, 65, 0.3); 
             --text-white: #ffffff;
             --text-light-green: #ccffcc;
             --text-cyan: #00ffff;
@@ -21,127 +20,121 @@
 
         body { 
             font-family: 'Courier New', Courier, monospace; 
-            line-height: 1.5; /* Satır aralığı hafifçe düşürüldü */
+            line-height: 1.6; 
             margin: 0; 
             background-color: var(--matrix-black); 
             color: var(--matrix-green-light); 
-            text-shadow: 0 0 3px var(--matrix-glow); 
-            padding: 10px; 
-            overflow-x: hidden; /* Sağ/sol kaymasını engeller */
+            text-shadow: 0 0 1px var(--matrix-glow); 
+            padding: 15px; 
+            overflow-x: hidden; 
             font-weight: bold; 
-            font-size: 14px; 
-            min-width: 320px; /* En küçük mobil ekranlar için */
+            font-size: 16px; 
+            min-width: 320px; 
         }
 
-        /* Tüm ana konteynerler için kutu modelini düzeltme */
         * {
             box-sizing: border-box;
         }
 
+        /* BAŞLIKLAR - ORTALANDI */
         .header { 
-            text-align: center; 
+            text-align: center; /* Ana Başlık ortalandı */
             color: var(--matrix-green-light); 
-            font-size: 1.8em; 
-            margin-bottom: 5px; 
-            text-shadow: 0 0 10px var(--matrix-glow-strong); 
-            padding: 5px 0 0 0;
+            font-size: 2em; 
+            margin-bottom: 10px; 
+            text-shadow: 0 0 8px var(--matrix-green-light); 
         }
         .header-title {
             color: var(--text-white);
-            font-size: 1.1em;
-            display: block;
-            margin-bottom: 3px;
-            font-weight: 900; 
+            font-size: 1.2em;
+            margin-bottom: 5px;
         }
 
         .disclaimer {
-            text-align: center;
-            color: #ff0000; 
-            font-size: 0.75em; 
-            margin-bottom: 15px;
-            padding: 5px;
-            border: 1px dashed #ff0000;
-            background-color: rgba(51, 0, 0, 0.7); 
-            font-weight: bold; 
+            text-align: center; /* Uyarı metni ortalandı */
+            font-size: 0.85em; 
+            margin-bottom: 20px;
+            padding: 8px;
+            border: 2px dashed var(--text-red);
+            background-color: rgba(51, 0, 0, 0.8); 
         }
 
+        /* MAÇ KUTULARI */
         .match-section { 
-            background: rgba(0, 0, 0, 0.85); 
-            padding: 10px; 
-            margin-bottom: 15px; 
-            border: 1px solid var(--matrix-green-dark); 
-            border-radius: 4px; 
-            box-shadow: 0 0 8px var(--matrix-glow); 
-            width: 100%; /* Tam genişlik kullan */
+            background: rgba(0, 0, 0, 0.9); 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border: 2px solid var(--matrix-green-dark); 
+            border-radius: 6px; 
+            box-shadow: 0 0 10px var(--matrix-glow); 
+            width: 100%; 
         }
 
         .match-title { 
-            color: var(--matrix-green-light); 
-            border-bottom: 1px dashed var(--matrix-green-medium); 
-            padding-bottom: 5px; 
-            margin-bottom: 10px; 
-            font-size: 1.2em; 
-            text-transform: uppercase;
-            font-weight: 900; 
+            color: var(--matrix-green-medium); 
+            border-bottom: 2px solid var(--matrix-green-dark); 
+            padding-bottom: 8px; 
+            margin-bottom: 12px; 
+            font-size: 1.3em; 
+            text-align: center; /* Maç başlıkları ortalandı */
         }
 
-        /* TABLO STİLLERİ */
+        /* TABLOLAR */
         .table-container { 
-            overflow-x: auto; /* Dikey zoom/kaydırma için gerekli, yatay kaydırmayı engellemiyoruz (zoom için), ancak body'den taşmayı engelledik */
-            -webkit-overflow-scrolling: touch; 
+            overflow-x: auto; 
         }
 
         table { 
             width: 100%; 
             border-collapse: collapse; 
             margin-top: 5px; 
-            min-width: 300px; /* Tablonun çok daralmasını önler, yatay kaydırma zoom ile açılır */
+            min-width: 380px; 
         }
 
         th, td { 
             border: 1px solid var(--matrix-green-dark); 
-            padding: 3px 1px; 
+            padding: 6px 4px; 
             text-align: center; 
             word-wrap: break-word; 
         }
 
         th { 
             background-color: var(--matrix-green-dark); 
-            color: var(--text-light-green); 
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.75em; 
+            color: var(--text-white); 
+            font-size: 0.85em; 
         }
         td { 
-            font-size: 0.7em; 
-            font-weight: bold;
+            font-size: 0.9em; 
+            font-weight: 700;
         } 
-
-        /* Sütun genişlikleri */
-        table thead th:nth-child(1), table tbody td:nth-child(1) { width: 35%; } 
-        table thead th:nth-child(2), table tbody td:nth-child(2) { width: 25%; } 
-        table thead th:nth-child(3), table tbody td:nth-child(3) { width: 20%; } 
-        table thead th:nth-child(4), table tbody td:nth-child(4) { width: 20%; } 
+        
+        /* Kupon Tablosu Sütun Genişlikleri */
+        .coupon-table th:nth-child(1), .coupon-table td:nth-child(1) { width: 35%; } 
+        .coupon-table th:nth-child(2), .coupon-table td:nth-child(2) { width: 30%; } 
+        .coupon-table th:nth-child(3), .coupon-table td:nth-child(3) { width: 15%; } 
+        .coupon-table th:nth-child(4), .coupon-table td:nth-child(4) { width: 20%; } 
 
         /* Analiz ve Value Bet Stilleri */
         .analiz-box {
-            margin-top: 10px;
-            padding: 8px;
-            border-left: 3px solid var(--matrix-green-medium);
-            background-color: rgba(0, 51, 17, 0.5);
-            font-size: 0.8em; 
-            word-wrap: break-word; /* Uzun kelimeleri böler */
+            margin-top: 15px;
+            padding: 10px;
+            border-left: 5px solid var(--matrix-green-medium);
+            background-color: rgba(0, 51, 17, 0.6);
+            font-size: 0.9em; 
+            word-wrap: break-word;
+            text-align: left; /* Analiz metni sola hizalı kaldı */
         }
+        .analiz-box strong { color: var(--text-light-green); }
 
-        /* Kupon Stilleri */
+        /* KUPON KUTULARI */
         .coupon-section { 
-            margin-top: 30px; 
-            padding: 15px; 
-            background: rgba(0, 26, 0, 0.9); 
-            border-radius: 8px; 
-            border: 2px solid var(--matrix-green-medium);
-            box-shadow: 0 0 12px var(--matrix-glow-strong);
-            width: 100%; /* Tam genişlik kullan */
+            margin-top: 40px; 
+            padding: 20px; 
+            background: rgba(0, 32, 11, 0.95); 
+            border-radius: 10px; 
+            border: 3px solid var(--matrix-green-medium);
+            box-shadow: 0 0 15px var(--matrix-glow);
+            width: 100%; 
         }
 
         .coupon-title { 
@@ -150,40 +143,33 @@
             font-size: 1.4em; 
             border-bottom: 1px solid var(--matrix-green-medium); 
             padding-bottom: 8px; 
-            text-align: center;
+            text-align: center; /* Kupon başlığı ortalandı */
         }
 
         .coupon-box { 
             background: var(--matrix-black); 
             color: var(--matrix-green-light);
-            padding: 12px; 
-            margin-bottom: 15px; 
-            border-left: 5px solid var(--matrix-green-medium); 
-            border-radius: 4px; 
-            box-shadow: 0 0 6px var(--matrix-glow);
-            width: 100%; /* Tam genişlik kullan */
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border-left: 6px solid var(--matrix-green-medium); 
+            border-radius: 6px; 
+            box-shadow: 0 0 8px var(--matrix-glow);
+            width: 100%; 
         }
 
-        .coupon-box strong { color: var(--text-white); font-weight: 900; font-size: 1.05em;} 
+        .coupon-box strong { color: var(--text-white); font-size: 1.1em;} 
 
-        /* Kupon Tablosu Stili */
-        .coupon-table {
-            margin-bottom: 10px;
-        }
-
-        .coupon-table th:nth-child(1) { width: 35%; } /* Maç */
-        .coupon-table th:nth-child(2) { width: 30%; } /* Tahmin */
-        .coupon-table th:nth-child(3) { width: 15%; } /* Oran */
-        .coupon-table th:nth-child(4) { width: 20%; } /* Güven */
-
-        .coupon-table th, .coupon-table td { font-size: 0.75em; padding: 4px 2px; }
-        
+        /* KUON YORUMU */
         .coupon-comment {
-            font-size: 0.75em; 
-            word-wrap: break-word; /* Kupon yorumlarında kelime kaydırmayı sağlar */
-            margin-top: 8px;
-            padding-top: 5px;
+            font-size: 0.9em; 
+            line-height: 1.5;
+            word-wrap: break-word;
+            margin-top: 10px;
+            padding-top: 8px;
             border-top: 1px dashed var(--matrix-green-dark);
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding-bottom: 5px;
+            text-align: left; /* Yorum metni sola hizalı kaldı */
         }
 
         .coupon-comment span { 
@@ -191,27 +177,28 @@
             font-size: 1em; 
             display: block; 
             margin-top: 5px; 
+            font-weight: 900;
         }
 
-        /* Mobil Cihazlar İçin Medya Sorguları - Küçük ekranlarda daha da küçültme */
-        @media (max-width: 480px) {
-            body { font-size: 12px; padding: 5px; }
-            .header { font-size: 1.6em; }
-            .match-title { font-size: 1em; }
-            th { font-size: 0.7em; padding: 2px 1px; } 
-            td { font-size: 0.65em; padding: 2px 1px; } 
-            .analiz-box { font-size: 0.75em; }
-            .coupon-title { font-size: 1.2em; }
-            .coupon-table th, .coupon-table td { font-size: 0.7em; }
-            .coupon-comment { font-size: 0.7em; }
+        /* MOBİL İYİLEŞTİRMELER */
+        @media (max-width: 500px) {
+            body { 
+                font-size: 15px; 
+                padding: 10px; 
+            }
+            .header { font-size: 1.8em; }
+            .match-title { font-size: 1.2em; }
+            th { font-size: 0.8em; padding: 4px 2px; } 
+            td { font-size: 0.8em; padding: 4px 2px; } 
+            .analiz-box, .coupon-comment { font-size: 0.85em; }
         }
     </style>
-    </head>
+</head>
 <body>
 
     <h1 class="header">
         <span class="header-title">ROBOTIPSTER ANALİZLER</span>
-        <span style="font-size: 0.6em; color: #00ff41; display: block; margin-top: 3px;">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
+        <span style="font-size: 0.7em; color: #00ff41; display: block; margin-top: 5px;">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
     </h1>
 
     <div class="disclaimer">
@@ -489,9 +476,9 @@
     <div class="coupon-section">
         <h2 class="coupon-title">🎯 GÜNÜN KUPON ÖNERİLERİ</h2>
 
-        <div class="coupon-box coupon-box-diamond">
+        <div class="coupon-box" style="border-left-color: var(--text-cyan);">
             <strong>🎯 1️⃣ YÜKSEK İHTİMAL KUPON (2 MAÇ)</strong>
-            <pre>
+            <pre style="font-size: 0.9em; line-height: 1.4;">
 🔹 Amaç: Minimum risk, maksimum olasılık (%75+ güven)
 🎯 Ortalama Genel Güven: %77
 💰 Tahmini Toplam Oran: ~2.85
@@ -517,7 +504,7 @@
 
         <div class="coupon-box">
             <strong>⚖️ 2️⃣ ORTA İHTİMAL KUPON (3 MAÇ)</strong>
-            <pre>
+            <pre style="font-size: 0.9em; line-height: 1.4;">
 🔹 Amaç: Dengeli risk / oran oranı (%68–72 güven)
 🎯 Ortalama Genel Güven: %70
 💰 Tahmini Toplam Oran: ~5.40
@@ -542,9 +529,9 @@
             </div>
         </div>
 
-        <div class="coupon-box coupon-box-fire">
+        <div class="coupon-box" style="border-left-color: var(--text-red);">
             <strong>💣 3️⃣ RİSKLİ (SÜRPRİZ) KUPON (4 MAÇ)</strong>
-            <pre>
+            <pre style="font-size: 0.9em; line-height: 1.4;">
 🔹 Amaç: Yüksek getiri, sürpriz skor potansiyeli (%55–65 güven)
 🎯 Ortalama Genel Güven: %63
 💰 Tahmini Toplam Oran: ~15.00+
@@ -574,4 +561,3 @@
 
 </body>
 </html>
-
