@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Robotipster Analizler - SAAT SIRALAMALI TAHMİNLER</title>
+    <title>Robotipster Analizler - OPTİMİZE EDİLMİŞ KUPONLAR</title>
     <style>
         /* MATRIX THEME STYLES - Mobil Uyumlu ve Görsel Olarak İyileştirilmiş */
         :root {
@@ -25,34 +25,34 @@
             margin: 0; 
             background-color: var(--matrix-black); 
             color: var(--matrix-green-light); 
-            text-shadow: 0 0 5px var(--matrix-glow); 
-            padding: 20px; 
-            overflow-x: hidden; 
+            text-shadow: 0 0 4px var(--matrix-glow); 
+            padding: 10px; /* Daha fazla içerik sığdırmak için padding düşürüldü */
+            overflow-x: hidden; /* Sağ/sol kaymasını engeller */
             font-weight: bold; 
+            font-size: 14px; /* Temel yazı boyutu biraz küçültüldü */
         }
 
         .header { 
             text-align: center; 
             color: var(--matrix-green-light); 
-            font-size: 2.2em; 
+            font-size: 1.8em; /* Başlık boyutu küçültüldü */
             margin-bottom: 5px; 
-            text-shadow: 0 0 15px var(--matrix-glow-strong); 
-            padding: 10px 0 0 0;
-            border-bottom: none; 
+            text-shadow: 0 0 10px var(--matrix-glow-strong); 
+            padding: 5px 0 0 0;
         }
         .header-title {
             color: var(--text-white);
-            font-size: 1.2em;
+            font-size: 1.1em;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             font-weight: 900; 
         }
 
         .disclaimer {
             text-align: center;
             color: #ff0000; 
-            font-size: 0.85em;
-            margin-bottom: 25px;
+            font-size: 0.75em; /* Uyarı metni küçültüldü */
+            margin-bottom: 15px;
             padding: 5px;
             border: 1px dashed #ff0000;
             background-color: rgba(51, 0, 0, 0.7); 
@@ -61,41 +61,40 @@
 
         .match-section { 
             background: rgba(0, 0, 0, 0.85); 
-            padding: 15px; 
-            margin-bottom: 25px; 
+            padding: 10px; 
+            margin-bottom: 15px; 
             border: 1px solid var(--matrix-green-dark); 
             border-radius: 4px; 
-            box-shadow: 0 0 10px var(--matrix-glow); 
+            box-shadow: 0 0 8px var(--matrix-glow); 
             overflow: hidden; 
         }
 
         .match-title { 
             color: var(--matrix-green-light); 
-            border-bottom: 2px dashed var(--matrix-green-medium); 
-            padding-bottom: 8px; 
-            margin-bottom: 15px; 
-            font-size: 1.4em; 
-            text-align: left;
+            border-bottom: 1px dashed var(--matrix-green-medium); /* Çizgi inceltildi */
+            padding-bottom: 5px; 
+            margin-bottom: 10px; 
+            font-size: 1.2em; /* Başlık boyutu küçültüldü */
             text-transform: uppercase;
             font-weight: 900; 
         }
 
         /* TABLO STİLLERİ */
         .table-container { 
-            overflow-x: auto; /* Mobil uyumluluk için kaydırma */
+            overflow-x: auto; 
             -webkit-overflow-scrolling: touch; 
         }
 
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin-top: 10px; 
-            min-width: 350px; /* Mobil cihazlarda daralmayı önlemek için minimum genişlik */
+            margin-top: 5px; 
+            min-width: 320px; 
         }
 
         th, td { 
             border: 1px solid var(--matrix-green-dark); 
-            padding: 5px 2px; 
+            padding: 3px 1px; /* Padding düşürüldü */
             text-align: center; 
             word-wrap: break-word; 
         }
@@ -105,58 +104,51 @@
             color: var(--text-light-green); 
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.85em; 
+            font-size: 0.75em; /* Sütun başlıkları küçültüldü */
         }
         td { 
-            font-size: 0.8em; 
+            font-size: 0.7em; /* İçerik puntoları küçültüldü */
             font-weight: bold;
         } 
 
-        /* Sütun genişlikleri */
-        table thead th:nth-child(1), table tbody td:nth-child(1) { width: 35%; } /* Kategori */
-        table thead th:nth-child(2), table tbody td:nth-child(2) { width: 25%; } /* Tahmin */
-        table thead th:nth-child(3), table tbody td:nth-child(3) { width: 20%; } /* Oran */
-        table thead th:nth-child(4), table tbody td:nth-child(4) { width: 20%; } /* Güven */
+        /* Sütun genişlikleri - Oranlanmış ve Not Sütunu kaldırıldı */
+        table thead th:nth-child(1), table tbody td:nth-child(1) { width: 35%; } 
+        table thead th:nth-child(2), table tbody td:nth-child(2) { width: 25%; } 
+        table thead th:nth-child(3), table tbody td:nth-child(3) { width: 20%; } 
+        table thead th:nth-child(4), table tbody td:nth-child(4) { width: 20%; } 
+
 
         tr:nth-child(even) {
             background-color: rgba(0, 0, 0, 0.45); 
         }
-
-        /* Güven Oranı Yüksek Tahmin Stili */
-        .super-confident { 
-            font-weight: bold; 
-            color: var(--text-white); 
-            background-color: var(--matrix-green-medium); 
-            box-shadow: 0 0 5px var(--matrix-glow); 
-        } 
         
         /* Analiz ve Value Bet Stilleri */
         .analiz-box {
-            margin-top: 15px;
-            padding: 10px;
+            margin-top: 10px;
+            padding: 8px;
             border-left: 3px solid var(--matrix-green-medium);
             background-color: rgba(0, 51, 17, 0.5);
-            font-size: 0.9em;
+            font-size: 0.8em; /* Analiz puntoları küçültüldü */
         }
 
         .analiz-box strong { color: var(--text-white); }
 
         /* Kupon Stilleri */
         .coupon-section { 
-            margin-top: 40px; 
-            padding: 20px; 
+            margin-top: 30px; 
+            padding: 15px; 
             background: rgba(0, 26, 0, 0.9); 
             border-radius: 8px; 
             border: 2px solid var(--matrix-green-medium);
-            box-shadow: 0 0 15px var(--matrix-glow-strong);
+            box-shadow: 0 0 12px var(--matrix-glow-strong);
         }
 
         .coupon-title { 
             color: var(--text-light-green); 
-            margin-bottom: 20px; 
-            font-size: 1.6em; 
+            margin-bottom: 15px; 
+            font-size: 1.4em; 
             border-bottom: 1px solid var(--matrix-green-medium); 
-            padding-bottom: 10px; 
+            padding-bottom: 8px; 
             text-transform: uppercase;
             text-align: center;
             font-weight: 900; 
@@ -165,34 +157,57 @@
         .coupon-box { 
             background: var(--matrix-black); 
             color: var(--matrix-green-light);
-            padding: 15px; 
-            margin-bottom: 18px; 
+            padding: 12px; 
+            margin-bottom: 15px; 
             border-left: 5px solid var(--matrix-green-medium); 
             border-radius: 4px; 
-            white-space: pre-wrap; 
-            word-break: break-word; 
-            box-shadow: 0 0 8px var(--matrix-glow);
-            font-size: 0.9em;
+            box-shadow: 0 0 6px var(--matrix-glow);
         }
 
-        .coupon-box strong { color: var(--text-white); text-shadow: none; font-weight: 900; } 
+        .coupon-box strong { color: var(--text-white); text-shadow: none; font-weight: 900; font-size: 1.05em;} 
+
+        /* Kupon Tablosu Stili */
+        .coupon-table {
+            margin-bottom: 10px;
+        }
+
+        .coupon-table th:nth-child(1) { width: 40%; } /* Maç */
+        .coupon-table th:nth-child(2) { width: 25%; } /* Tahmin */
+        .coupon-table th:nth-child(3) { width: 15%; } /* Oran */
+        .coupon-table th:nth-child(4) { width: 20%; } /* Güven */
+
+        .coupon-table th, .coupon-table td { font-size: 0.75em; padding: 4px 2px; }
+        
         .coupon-box-fire { border-left-color: var(--text-red); } 
         .coupon-box-diamond { border-left-color: var(--text-cyan); } 
 
-        .coupon-table th, .coupon-table td { font-size: 0.8em; padding: 4px 2px; }
+        .coupon-comment {
+            font-size: 0.75em; /* Yorum puntoları küçültüldü */
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin-top: 8px;
+            padding-top: 5px;
+            border-top: 1px dashed var(--matrix-green-dark);
+        }
 
-        /* Mobil Cihazlar İçin Medya Sorguları */
-        @media (max-width: 768px) {
-            body { padding: 10px; font-weight: bold; }
-            .header { font-size: 1.8em; margin-bottom: 5px; }
-            .disclaimer { font-size: 0.75em; margin-bottom: 15px; font-weight: bold; }
-            .match-title { font-size: 1.2em; margin-bottom: 10px; font-weight: 900; }
-            .match-section { padding: 10px; margin-bottom: 15px; }
-            .coupon-title { font-size: 1.4em; margin-bottom: 15px; font-weight: 900; }
-            .coupon-box { padding: 12px; margin-bottom: 12px; font-size: 0.8em; }
-            th { font-size: 0.75em; padding: 3px 1px; } 
-            td { font-size: 0.7em; padding: 3px 1px; } 
-            .analiz-box { font-size: 0.8em; }
+        .coupon-comment span { 
+            color: var(--text-cyan); 
+            font-size: 1em; 
+            display: block; 
+            margin-top: 5px; 
+        }
+
+        /* Mobil Cihazlar İçin Medya Sorguları - Küçük ekranlarda daha da küçültme */
+        @media (max-width: 480px) {
+            body { font-size: 12px; padding: 5px; }
+            .header { font-size: 1.6em; }
+            .match-title { font-size: 1em; }
+            th { font-size: 0.7em; padding: 2px 1px; } 
+            td { font-size: 0.65em; padding: 2px 1px; } 
+            .analiz-box { font-size: 0.75em; }
+            .coupon-title { font-size: 1.2em; }
+            .coupon-table th, .coupon-table td { font-size: 0.7em; }
+            .coupon-comment { font-size: 0.7em; }
         }
     </style>
 </head>
@@ -200,7 +215,7 @@
 
     <h1 class="header">
         <span class="header-title">ROBOTIPSTER ANALİZLER</span>
-        <span style="font-size: 0.7em; color: #00ff41; display: block; margin-top: 5px;">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
+        <span style="font-size: 0.6em; color: #00ff41; display: block; margin-top: 3px;">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
     </h1>
 
     <div class="disclaimer">
@@ -216,10 +231,10 @@
                 </thead>
                 <tbody>
                     <tr><td>MS</td><td>1</td><td>1.60</td><td>%65</td></tr>
-                    <tr class="super-confident"><td>Ü/A 1.5</td><td>Alt</td><td>1.75</td><td>%70</td></tr>
-                    <tr class="super-confident"><td>Ü/A 2.5</td><td>Alt</td><td>1.78</td><td>%72</td></tr>
+                    <tr><td>Ü/A 1.5</td><td>Alt</td><td>1.75</td><td>%70</td></tr>
+                    <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.78</td><td>%72</td></tr>
                     <tr><td>İY 0.5</td><td>Alt</td><td>1.60</td><td>%68</td></tr>
-                    <tr class="super-confident"><td>İY 1.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
+                    <tr><td>İY 1.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
                     <tr><td>Ev 0.5</td><td>Üst</td><td>1.45</td><td>%75</td></tr>
                     <tr><td>Ev 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
                     <tr><td>Dep 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
@@ -272,7 +287,7 @@
                     <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.32</td><td>%82</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%78</td></tr>
                     <tr><td>Ev 0.5</td><td>Üst</td><td>1.75</td><td>%60</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.25</td><td>%88</td>
+                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.25</td><td>%88</td></tr>
                     <tr><td>Dep 1.5</td><td>Üst</td><td>1.85</td><td>%72</td></tr>
                     <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%65</td></tr>
                     <tr><td>MS KG</td><td>Var</td><td>1.90</td><td>%65</td></tr>
@@ -488,19 +503,20 @@
             <div class="table-container">
                 <table class="coupon-table">
                     <thead>
-                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th><th>Not</th></tr>
+                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>Gaziantep – Fenerbahçe</td><td>Üst 2.5</td><td>1.70</td><td>%78</td><td>Fener tam kadro, tempo yüksek, açık oyun.</td></tr>
-                        <tr><td>Odense – Brøndby</td><td>Üst 2.5</td><td>1.70</td><td>%78</td><td>Brøndby form zirvesinde, savunma zayıf.</td></tr>
+                        <tr><td>Gaziantep – Fenerbahçe</td><td>Üst 2.5</td><td>1.70</td><td>%78</td></tr>
+                        <tr><td>Odense – Brøndby</td><td>Üst 2.5</td><td>1.70</td><td>%78</td></tr>
                     </tbody>
                 </table>
             </div>
-            <pre>
-🔥 Kupon Yorumu:
-İki maç da yüksek form, yüksek tilt ve moral ile “gollü” geçme potansiyeline sahip.
-> 💎 “Güvenli gol kuponu” – 2.5 üst favori.
-</pre>
+            <div class="coupon-comment">
+                🔥 <strong>Kupon Yorumu:</strong>
+                İki maç da yüksek form, yüksek tilt ve moral ile “gollü” geçme potansiyeline sahip.
+                (Gaziantep-Fener: Fener tam kadro, tempo yüksek, açık oyun. Odense-Brøndby: Brøndby form zirvesinde, savunma zayıf.)
+                <span>> 💎 “Güvenli gol kuponu” – 2.5 üst favori.</span>
+            </div>
         </div>
 
         <div class="coupon-box">
@@ -513,20 +529,21 @@
             <div class="table-container">
                 <table class="coupon-table">
                     <thead>
-                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th><th>Not</th></tr>
+                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>Samsunspor – Rizespor</td><td>MS 1</td><td>1.95</td><td>%68</td><td>Ev sahibi formda, deplasman moralsiz.</td></tr>
-                        <tr><td>Akhmat Grozny – Sochi</td><td>Alt 2.5</td><td>1.78</td><td>%72</td><td>İki takım da defansif, düşük tempo.</td></tr>
-                        <tr><td>Malmo – Hammarby</td><td>KG Var</td><td>1.95</td><td>%65</td><td>Dengeli oyun, iki takım da skor bulabilir.</td></tr>
+                        <tr><td>Samsunspor – Rizespor</td><td>MS 1</td><td>1.95</td><td>%68</td></tr>
+                        <tr><td>Akhmat Grozny – Sochi</td><td>Alt 2.5</td><td>1.78</td><td>%72</td></tr>
+                        <tr><td>Malmo – Hammarby</td><td>KG Var</td><td>1.95</td><td>%65</td></tr>
                     </tbody>
                 </table>
             </div>
-            <pre>
-🔥 Kupon Yorumu:
-İki taraflı dengede, bir “Under”, bir “KG” ve bir ev galibiyetiyle orta riskli üçlü.
-> ⚖️ “Dengeli kombin kuponu” – ideal 3’lü sistem adayı.
-</pre>
+            <div class="coupon-comment">
+                🔥 <strong>Kupon Yorumu:</strong>
+                İki taraflı dengede, bir “Under”, bir “KG” ve bir ev galibiyetiyle orta riskli üçlü.
+                (Samsun-Rize: Ev sahibi formda, deplasman moralsiz. Akhmat-Sochi: İki takım da defansif, düşük tempo. Malmo-Hammarby: Dengeli oyun, iki takım da skor bulabilir.)
+                <span>> ⚖️ “Dengeli kombin kuponu” – ideal 3’lü sistem adayı.</span>
+            </div>
         </div>
 
         <div class="coupon-box coupon-box-fire">
@@ -539,21 +556,22 @@
             <div class="table-container">
                 <table class="coupon-table">
                     <thead>
-                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th><th>Not</th></tr>
+                        <tr><th>Maç</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>Barracas – Boca Juniors</td><td>X (Berabere)</td><td>3.10</td><td>%60</td><td>Boca moralsiz, kısır maç bekleniyor.</td></tr>
-                        <tr><td>Real Betis – Atletico Madrid</td><td>MS 2</td><td>2.25</td><td>%65</td><td>Atletico defansla maçı alabilir.</td></tr>
-                        <tr><td>Radomiak – Wisla Plock</td><td>MS 1</td><td>2.30</td><td>%68</td><td>Ev sahibi yorgun rakibe karşı avantajlı.</td></tr>
-                        <tr><td>Brommapojkarna – GAIS</td><td>Üst 3.5</td><td>2.10</td><td>%58</td><td>Pozitif tilt, açık futbol, bol pozisyon.</td></tr>
+                        <tr><td>Barracas – Boca Juniors</td><td>X (Berabere)</td><td>3.10</td><td>%60</td></tr>
+                        <tr><td>Real Betis – Atletico Madrid</td><td>MS 2</td><td>2.25</td><td>%65</td></tr>
+                        <tr><td>Radomiak – Wisla Plock</td><td>MS 1</td><td>2.30</td><td>%68</td></tr>
+                        <tr><td>Brommapojkarna – GAIS</td><td>Üst 3.5</td><td>2.10</td><td>%58</td></tr>
                     </tbody>
                 </table>
             </div>
-            <pre>
-🔥 Kupon Yorumu:
-Yüksek risk / yüksek kazanç. İki deplasman galibiyeti + bir sürpriz beraberlik + bol gollü maç.
-> 💣 “Sürpriz yakalayanların kuponu” – az tutar, büyük kazanç.
-</pre>
+            <div class="coupon-comment">
+                🔥 <strong>Kupon Yorumu:</strong>
+                Yüksek risk / yüksek kazanç. İki deplasman galibiyeti + bir sürpriz beraberlik + bol gollü maç.
+                (Barracas-Boca: Boca moralsiz, kısır maç bekleniyor. Betis-Atletico: Atletico defansla maçı alabilir. Radomiak-Wisla: Ev sahibi yorgun rakibe karşı avantajlı. Bromma-GAIS: Pozitif tilt, açık futbol, bol pozisyon.)
+                <span>> 💣 “Sürpriz yakalayanların kuponu” – az tutar, büyük kazanç.</span>
+            </div>
         </div>
 
     </div>
