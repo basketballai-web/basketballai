@@ -3,32 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>Robotipster Analizler - FİNAL OPTİMİZASYON</title>
+    <title>Robotipster Analizler - BAŞLIK BÜYÜTME OPTİMİZASYONU</title>
     <style>
-        /* MATRIX THEME STYLES - FİNAL OKUNAKLI VE STABİL VERSİYON */
+        /* BESOCCER ESİNTİLİ TEMA STİLLERİ */
         :root {
-            --matrix-black: #000000;
-            --matrix-green-light: #00ff41;
-            --matrix-green-dark: #004d1a; 
-            --matrix-green-medium: #00b33c; 
-            --matrix-glow: rgba(0, 255, 65, 0.3); 
-            --text-white: #ffffff;
-            --text-light-green: #ccffcc;
-            --text-cyan: #00ffff;
-            --text-red: #ff3300;
+            --bg-dark: #1e1e1e; /* Koyu Gri Arkaplan */
+            --card-dark: #2a2a2a; /* Kart Arkaplanı */
+            --text-light: #ffffff;
+            --text-secondary: #cccccc;
+            --accent-blue: #007bff; /* Mavi Vurgu */
+            --accent-green: #28a745; /* Yeşil Vurgu (Güven) */
+            --accent-red: #dc3545; /* Kırmızı Vurgu (Uyarı) */
         }
 
         /* GENEL DÜZEN VE OKUNAKLILIK */
         body { 
-            font-family: 'Courier New', Courier, monospace; 
-            line-height: 1.6; 
+            font-family: Arial, Helvetica, sans-serif; /* Modern, temiz font */
+            line-height: 1.5; 
             margin: 0; 
-            background-color: var(--matrix-black); 
-            color: var(--matrix-green-light); 
-            text-shadow: 0 0 1px var(--matrix-glow); 
+            background-color: var(--bg-dark); 
+            color: var(--text-light); 
             padding: 15px; 
-            overflow-x: hidden; /* Yatay kaydırma engellendi */
-            font-weight: bold; 
+            overflow-x: hidden; 
             font-size: 16px; 
             min-width: 320px; 
         }
@@ -37,187 +33,261 @@
             box-sizing: border-box;
         }
 
-        /* BAŞLIKLAR VE ORTALAMA */
+        /* BAŞLIKLAR VE KONTROL ALANLARI */
         .header { 
             text-align: center; 
-            font-size: 2em; 
-            margin-bottom: 10px; 
-            text-shadow: 0 0 8px var(--matrix-green-light); 
+            font-size: 3em; /* **BÜYÜTÜLDÜ** (Önceki 2.2em) */
+            margin-bottom: 5px; 
+            color: var(--text-light);
+            font-weight: 700;
         }
-        .header-title { color: var(--text-white); font-size: 1.2em; margin-bottom: 5px; }
+        .header-subtitle {
+            font-size: 1.1em; /* **BÜYÜTÜLDÜ** (Önceki 0.85em) */
+            color: var(--accent-blue);
+            margin-bottom: 25px;
+            display: block;
+            text-align: center; /* **ORTALANDI** */
+        }
 
         .disclaimer {
             text-align: center; 
             font-size: 0.85em; 
-            margin-bottom: 20px;
-            padding: 8px;
-            border: 2px dashed var(--text-red);
-            background-color: rgba(51, 0, 0, 0.8); 
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid var(--accent-red);
+            background-color: rgba(220, 53, 69, 0.1); 
+            border-radius: 4px;
+            color: var(--accent-red);
         }
 
-        /* MAÇ KUTULARI */
-        .match-section { 
-            background: rgba(0, 0, 0, 0.9); 
+        /* MAÇ KARTLARI (MATCH CARDS) */
+        .match-card { 
+            background: var(--card-dark); 
             padding: 15px; 
             margin-bottom: 20px; 
-            border: 2px solid var(--matrix-green-dark); 
-            border-radius: 6px; 
-            box-shadow: 0 0 10px var(--matrix-glow); 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
             width: 100%; 
         }
 
-        .match-title { 
-            color: var(--matrix-green-medium); 
-            border-bottom: 2px solid var(--matrix-green-dark); 
-            padding-bottom: 8px; 
-            margin-bottom: 12px; 
-            font-size: 1.3em; 
-            text-align: center; 
+        /* Takım Bilgisi Bölümü */
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #3a3a3a;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
-        /* TABLOLAR */
+        .team-box {
+            display: flex;
+            align-items: center;
+            width: 45%;
+        }
+        .team-box.away {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        /* Logo Yer Tutucusu */
+        .logo-placeholder {
+            width: 30px;
+            height: 30px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 1.1em;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .team-box.home .logo-placeholder { margin-right: 10px; }
+        .team-box.away .logo-placeholder { margin-left: 10px; background-color: #f8c21a; } /* Deplasman farklı renk */
+
+        .team-name {
+            font-size: 1.1em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .match-time {
+            font-size: 1.2em;
+            color: var(--accent-green);
+            flex-shrink: 0;
+            padding: 0 10px;
+        }
+
+        /* Tahmin Tablosu */
         .table-container { 
             overflow-x: auto; 
         }
 
-        table { 
+        .match-card table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin-top: 5px; 
-            min-width: 380px; 
+            margin-top: 10px; 
+            table-layout: fixed;
         }
 
-        th, td { 
-            border: 1px solid var(--matrix-green-dark); 
+        .match-card th, .match-card td { 
+            border: none;
+            border-bottom: 1px solid #3a3a3a; 
             padding: 6px 4px; 
             text-align: center; 
-            word-wrap: break-word; 
+            font-size: 0.9em;
         }
 
-        th { 
-            background-color: var(--matrix-green-dark); 
-            color: var(--text-white); 
-            font-size: 0.85em; 
+        .match-card th { 
+            background-color: var(--bg-dark); 
+            color: var(--text-secondary); 
+            font-size: 0.8em; 
+            text-transform: uppercase;
         }
-        td { 
-            font-size: 0.9em; 
-            font-weight: 700;
+        .match-card td { 
+            font-weight: 600;
         } 
+        
+        /* Maç Tablosu Sütun Genişlikleri */
+        .match-card table th:nth-child(1) { width: 35%; } /* Kategori */
+        .match-card table th:nth-child(2) { width: 30%; } /* Tahmin */
+        .match-card table th:nth-child(3) { width: 15%; } /* Oran */
+        .match-card table th:nth-child(4) { width: 20%; } /* Güven */
 
         /* Analiz Kutusu */
         .analiz-box {
             margin-top: 15px;
             padding: 10px;
-            border-left: 5px solid var(--matrix-green-medium);
-            background-color: rgba(0, 51, 17, 0.6);
+            border-left: 3px solid var(--accent-blue);
+            background-color: rgba(0, 123, 255, 0.1);
             font-size: 0.9em; 
             word-wrap: break-word;
-            word-break: break-word; /* Stabiliteyi artırmak için eklendi */
+            word-break: break-word; 
             text-align: left; 
+            border-radius: 4px;
         }
+        .analiz-box strong { color: var(--text-light); }
 
         /* KUPON BÖLÜMÜ */
         .coupon-section { 
             margin-top: 40px; 
-            padding: 20px; 
-            background: rgba(0, 32, 11, 0.95); 
-            border-radius: 10px; 
-            border: 3px solid var(--matrix-green-medium);
-            box-shadow: 0 0 15px var(--matrix-glow);
+            padding: 25px; 
+            background: var(--card-dark); 
+            border-radius: 12px; 
+            border: 1px solid #3a3a3a;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             width: 100%; 
         }
 
         .coupon-title { 
-            color: var(--text-light-green); 
-            margin-bottom: 15px; 
-            font-size: 1.4em; 
-            border-bottom: 1px solid var(--matrix-green-medium); 
-            padding-bottom: 8px; 
+            color: var(--accent-blue); 
+            margin-bottom: 20px; 
+            font-size: 1.6em; 
+            border-bottom: 2px solid var(--accent-blue); 
+            padding-bottom: 10px; 
             text-align: center; 
         }
 
         .coupon-box { 
-            background: var(--matrix-black); 
-            color: var(--matrix-green-light);
+            background: #333333; /* Kupon içi koyu renk */
+            color: var(--text-light);
             padding: 15px; 
             margin-bottom: 20px; 
-            border-left: 6px solid var(--matrix-green-medium); 
+            border-left: 5px solid var(--accent-green); 
             border-radius: 6px; 
-            box-shadow: 0 0 8px var(--matrix-glow);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             width: 100%; 
         }
 
-        .coupon-box strong { color: var(--text-white); font-size: 1.1em;} 
+        .coupon-box strong { color: var(--text-light); font-size: 1.1em;} 
 
-        /* KUPON İÇİ PRE ETİKETİ DÜZENLEMESİ */
         .coupon-box pre {
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 0.9em; 
             line-height: 1.4;
-            white-space: pre-wrap; /* Satır kaymasını sağlar */
-            word-wrap: break-word; /* Uzun kelimeleri böler */
-            word-break: break-word; /* Ek stabilite */
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            word-break: break-word; 
             margin: 5px 0 10px 0;
             padding: 0;
             background: none;
             border: none;
-            color: var(--matrix-green-light);
+            color: var(--text-secondary);
         }
 
-        /* KUON YORUMU */
+        .coupon-table th:nth-child(1) { width: 40%; } 
+        .coupon-table th:nth-child(2) { width: 30%; } 
+        .coupon-table th:nth-child(3) { width: 15%; } 
+        .coupon-table th:nth-child(4) { width: 15%; } 
+
         .coupon-comment {
             font-size: 0.9em; 
             line-height: 1.5;
             word-wrap: break-word;
-            word-break: break-word; /* Stabiliteyi artırmak için eklendi */
+            word-break: break-word; 
             margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px dashed var(--matrix-green-dark);
-            background-color: rgba(0, 0, 0, 0.4); 
-            padding-bottom: 5px;
+            padding: 8px;
+            border-top: 1px dashed #555555;
+            background-color: #444444; 
+            border-radius: 0 0 4px 4px;
             text-align: left; 
         }
 
         /* MOBİL İYİLEŞTİRMELER */
         @media (max-width: 500px) {
-            body { font-size: 15px; padding: 10px; }
-            .header { font-size: 1.8em; }
-            .match-title { font-size: 1.2em; }
-            th { font-size: 0.8em; padding: 4px 2px; } 
-            td { font-size: 0.8em; padding: 4px 2px; } 
-            .analiz-box, .coupon-comment, .coupon-box pre { font-size: 0.85em; }
+            body { padding: 10px; }
+            .header { font-size: 2.2em; } /* Mobil cihazda biraz küçültülerek sığması sağlandı */
+            .header-subtitle { font-size: 0.9em; } /* Mobil cihazda biraz küçültülerek sığması sağlandı */
+            .team-name { font-size: 1em; }
+            .match-time { font-size: 1.1em; }
+            .match-card th, .match-card td { font-size: 0.8em; padding: 4px 2px; }
+            
+            /* Maç isimleri mobil cihazlarda daha iyi sığması için */
+            .team-box { width: 40%; }
+            .team-box.away .logo-placeholder { margin-left: 5px; }
+            .team-box.home .logo-placeholder { margin-right: 5px; }
+            .logo-placeholder { width: 25px; height: 25px; font-size: 1em; }
         }
     </style>
 </head>
 <body>
 
-    <h1 class="header">
-        <span class="header-title">ROBOTIPSTER ANALİZLER</span>
-        <span style="font-size: 0.7em; color: #00ff41; display: block; margin-top: 5px;">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
-    </h1>
+    <h1 class="header">ROBOTIPSTER ANALİZLER</h1>
+    <span class="header-subtitle">VERİYE DAYALI TAHMİNLER - SAATE GÖRE SIRALANMIŞ LİSTE</span>
 
     <div class="disclaimer">
-        ⚠️ TAHMİNLER VERİYE DAYALI OLUP %100 DEĞİLDİR. LÜTFEN SORUMLU BAHİS OYNAYINIZ. ⚠️
+        ⚠️ TAHMİNLER %100 DEĞİLDİR. LÜTFEN SORUMLU BAHİS OYNAYINIZ. ⚠️
     </div>
     
-    <div class="match-section">
-        <h2 class="match-title">1. AKHMAT GROZNY vs SOCHI (19:30) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #008000;">A</div>
+                <span class="team-name">AKHMAT GROZNY</span>
+            </div>
+            <div class="match-time">19:30 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">SOCHI</span>
+                <div class="logo-placeholder" style="background-color: #f8c21a;">S</div>
+            </div>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
                     <tr><td>MS</td><td>1</td><td>1.60</td><td>%65</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Alt</td><td>1.75</td><td>%70</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.78</td><td>%72</td></tr>
-                    <tr><td>İY 0.5</td><td>Alt</td><td>1.60</td><td>%68</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.25</td><td>%85</td></tr>
                     <tr><td>Ev 0.5</td><td>Üst</td><td>1.45</td><td>%75</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
                     <tr><td>Dep 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.60</td><td>%75</td></tr>
                     <tr><td>MS KG</td><td>Yok</td><td>1.70</td><td>%70</td></tr>
-                    <tr><td>SKOR</td><td>1-0</td><td>6.00</td><td>%18</td></tr>
                 </tbody>
             </table>
         </div>
@@ -227,22 +297,30 @@
         </div>
     </div>
 
-    <div class="match-section">
-        <h2 class="match-title">2. SAMSUNSPOR vs ÇAYKUR RİZESPOR (20:00) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">S</div>
+                <span class="team-name">SAMSUNSPOR</span>
+            </div>
+            <div class="match-time">20:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">RİZESPOR</span>
+                <div class="logo-placeholder" style="background-color: #008000;">R</div>
+            </div>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
                     <tr><td>MS</td><td>1</td><td>1.95</td><td>%68</td></tr>
                     <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%78</td></tr>
-                    <tr><td>Ü/A 2.5</td><td>Üst</td><td>2.10</td><td>%60</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.35</td><td>%85</td></tr>
                     <tr><td>Ev 1.5</td><td>Üst</td><td>1.90</td><td>%65</td></tr>
                     <tr><td>Dep 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
                     <tr><td>MS KG</td><td>Yok</td><td>1.85</td><td>%68</td></tr>
-                    <tr><td>SKOR</td><td>2-0</td><td>7.50</td><td>%16</td></tr>
                 </tbody>
             </table>
         </div>
@@ -251,24 +329,31 @@
             🎯 <strong>Value Bet:</strong> MS 1 (1.95) – %68 güven.
         </div>
     </div>
-
-    <div class="match-section">
-        <h2 class="match-title">3. GAZİANTEP vs FENERBAHÇE (20:00) ⚽</h2>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">G</div>
+                <span class="team-name">GAZİANTEP</span>
+            </div>
+            <div class="match-time">20:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">FENERBAHÇE</span>
+                <div class="logo-placeholder" style="background-color: #f8c21a;">F</div>
+            </div>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
                     <tr><td>MS</td><td>2</td><td>1.66</td><td>%75</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.32</td><td>%82</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%78</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.75</td><td>%60</td></tr>
                     <tr><td>Dep 0.5</td><td>Üst</td><td>1.25</td><td>%88</td></tr>
                     <tr><td>Dep 1.5</td><td>Üst</td><td>1.85</td><td>%72</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%65</td></tr>
                     <tr><td>MS KG</td><td>Var</td><td>1.90</td><td>%65</td></tr>
-                    <tr><td>SKOR</td><td>1-3</td><td>9.50</td><td>%15</td></tr>
                 </tbody>
             </table>
         </div>
@@ -277,53 +362,60 @@
             🎯 <strong>Value Bet:</strong> Over 2.5 (1.70) – %78 güven.
         </div>
     </div>
-
-    <div class="match-section">
-        <h2 class="match-title">4. BROMMAPOJKARNA vs GAIS (21:00) ⚽</h2>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">B</div>
+                <span class="team-name">BROMMAPOJKARNA</span>
+            </div>
+            <div class="match-time">21:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">GAIS</span>
+                <div class="logo-placeholder" style="background-color: #008000;">G</div>
+            </div>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
+                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr>
                 </thead>
                 <tbody>
                     <tr><td>MS</td><td>2</td><td>2.10</td><td>%65</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.28</td><td>%85</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.73</td><td>%75</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Üst</td><td>2.10</td><td>%58</td></tr>
-                    <tr><td>İY 0.5</td><td>Üst</td><td>1.40</td><td>%78</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.85</td><td>%60</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%60</td></tr>
                     <tr><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
                     <tr><td>Dep 1.5</td><td>Üst</td><td>1.95</td><td>%62</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>2.05</td><td>%60</td></tr>
                     <tr><td>MS KG</td><td>Var</td><td>1.75</td><td>%70</td></tr>
-                    <tr><td>SKOR</td><td>1-2</td><td>8.00</td><td>%16</td></tr>
                 </tbody>
             </table>
         </div>
         <div class="analiz-box">
-            🧩 <strong>Analiz:</strong> Her iki takım da pozitif tilt’te (15.0 & 12.7), yüksek tempo ve açık oyun bekleniyor. Hava açık, moral iyi.<br>
+            🧩 <strong>Analiz:</strong> Her iki takım da pozitif tilt’te, yüksek tempo ve açık oyun bekleniyor.<br>
             🎯 <strong>Value Bet:</strong> Over 2.5 (1.73) – %75 güven.
         </div>
     </div>
 
-    <div class="match-section">
-        <h2 class="match-title">5. RADOMIAK RADOM vs WISLA PLOCK (21:00) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">R</div>
+                <span class="team-name">RADOMIAK RADOM</span>
+            </div>
+            <div class="match-time">21:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">WISLA PLOCK</span>
+                <div class="logo-placeholder" style="background-color: #007bff;">W</div>
+            </div>
+        </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
                 <tbody>
                     <tr><td>MS</td><td>1</td><td>2.30</td><td>%68</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.35</td><td>%80</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.85</td><td>%65</td></tr>
                     <tr><td>Ev 0.5</td><td>Üst</td><td>1.35</td><td>%82</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.95</td><td>%60</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.85</td><td>%55</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.75</td><td>%70</td></tr>
                     <tr><td>MS KG</td><td>Var</td><td>2.05</td><td>%58</td></tr>
-                    <tr><td>SKOR</td><td>2-1</td><td>8.50</td><td>%15</td></tr>
                 </tbody>
             </table>
         </div>
@@ -333,135 +425,150 @@
         </div>
     </div>
 
-    <div class="match-section">
-        <h2 class="match-title">6. ODENSE BK vs BRONDBY (21:00) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">O</div>
+                <span class="team-name">ODENSE BK</span>
+            </div>
+            <div class="match-time">21:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">BRONDBY</span>
+                <div class="logo-placeholder" style="background-color: #f8c21a;">B</div>
+            </div>
+        </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
                 <tbody>
                     <tr><td>MS</td><td>2</td><td>1.83</td><td>%72</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.30</td><td>%85</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.70</td><td>%78</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.65</td><td>%62</td></tr>
                     <tr><td>Dep 0.5</td><td>Üst</td><td>1.30</td><td>%85</td></tr>
                     <tr><td>Dep 1.5</td><td>Üst</td><td>1.85</td><td>%70</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>2.10</td><td>%60</td></tr>
                     <tr><td>MS KG</td><td>Var</td><td>1.75</td><td>%72</td></tr>
-                    <tr><td>SKOR</td><td>1-3</td><td>10.00</td><td>%14</td></tr>
                 </tbody>
             </table>
         </div>
         <div class="analiz-box">
-            🧩 <strong>Analiz:</strong> Brondby tilt +25.2, form zirvede. Yağmurlu hava tempo düşürse de kalite farkı net.<br>
+            🧩 <strong>Analiz:</strong> Brondby form zirvede. Yağmurlu hava tempo düşürse de kalite farkı net.<br>
             🎯 <strong>Value Bet:</strong> Over 2.5 (1.70) – %78 güven.
         </div>
     </div>
-
-    <div class="match-section">
-        <h2 class="match-title">7. MALMO FF vs HAMMARBY (21:10) ⚽</h2>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #007bff;">M</div>
+                <span class="team-name">MALMO FF</span>
+            </div>
+            <div class="match-time">21:10 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">HAMMARBY</span>
+                <div class="logo-placeholder" style="background-color: #008000;">H</div>
+            </div>
+        </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
                 <tbody>
                     <tr><td>MS</td><td>X2</td><td>1.55</td><td>%70</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.40</td><td>%75</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Üst</td><td>1.96</td><td>%68</td></tr>
-                    <tr><td>Ü/A 3.5</td><td>Alt</td><td>1.40</td><td>%78</td></tr>
-                    <tr><td>İY 0.5</td><td>Üst</td><td>1.45</td><td>%72</td></tr>
-                    <tr><td>İY 1.5</td><td>Alt</td><td>1.70</td><td>%65</td></tr>
-                    <tr><td>İY 2.5</td><td>Alt</td><td>1.20</td><td>%88</td></tr>
                     <tr><td>Ev 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>Ev 1.5</td><td>Alt</td><td>1.90</td><td>%60</td></tr>
                     <tr><td>Dep 0.5</td><td>Üst</td><td>1.60</td><td>%75</td></tr>
-                    <tr><td>Dep 1.5</td><td>Alt</td><td>1.70</td><td>%68</td></tr>
-                    <tr><td>İY KG</td><td>Var</td><td>2.20</td><td>%55</td></tr>
                     <tr><td>MS KG</td><td>Var</td><td>1.95</td><td>%65</td></tr>
-                    <tr><td>SKOR</td><td>1-2</td><td>9.00</td><td>%15</td></tr>
                 </tbody>
             </table>
         </div>
         <div class="analiz-box">
-            🧩 <strong>Analiz:</strong> ELO eşit ama Hammarby tilt (+12.7) ve form avantajlı. Yağmurlu hava tempo düşürür ama Hammarby’nin yorgunluğu “yüksek riskli” değil. Gol potansiyeli orta-üst.<br>
+            🧩 <strong>Analiz:</strong> ELO eşit ama Hammarby form avantajlı. Gol potansiyeli orta-üst.<br>
             🎯 <strong>Value Bet:</strong> Over 2.5 (1.96) – %68 güven.
         </div>
     </div>
 
-    <div class="match-section">
-        <h2 class="match-title">8. BARRACAS CENTRAL vs BOCA JUNIORS (22:00) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #ff0000;">B</div>
+                <span class="team-name">BARRACAS CENTRAL</span>
+            </div>
+            <div class="match-time">22:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">BOCA JUNIORS</span>
+                <div class="logo-placeholder" style="background-color: #007bff;">B</div>
+            </div>
+        </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
                 <tbody>
                     <tr><td>MS</td><td>X</td><td>3.10</td><td>%60</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Alt</td><td>1.50</td><td>%75</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Alt</td><td>1.78</td><td>%70</td></tr>
                     <tr><td>Ev 0.5</td><td>Üst</td><td>1.70</td><td>%60</td></tr>
-                    <tr><td>Dep 0.5</td><td>Üst</td><td>1.55</td><td>%68</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.80</td><td>%68</td></tr>
                     <tr><td>MS KG</td><td>Yok</td><td>1.85</td><td>%65</td></tr>
-                    <tr><td>SKOR</td><td>1-1</td><td>6.50</td><td>%18</td></tr>
                 </tbody>
             </table>
         </div>
         <div class="analiz-box">
-            🧩 <strong>Analiz:</strong> Boca negatif tilt (-18.4) ve deplasman yorgunluğu etkili. Barracas dengeli.<br>
+            🧩 <strong>Analiz:</strong> Boca negatif tilt ve deplasman yorgunluğu etkili. Barracas dengeli.<br>
             🎯 <strong>Value Bet:</strong> Çifte Şans 1X (1.85) – %70 güven.
         </div>
     </div>
 
-    <div class="match-section">
-        <h2 class="match-title">9. REAL BETIS vs ATLETICO MADRID (23:00) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #008000;">B</div>
+                <span class="team-name">REAL BETIS</span>
+            </div>
+            <div class="match-time">23:00 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">ATLETICO MADRID</span>
+                <div class="logo-placeholder" style="background-color: #ff0000;">A</div>
+            </div>
+        </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
                 <tbody>
                     <tr><td>MS</td><td>2</td><td>2.25</td><td>%65</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.40</td><td>%70</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.05</td><td>%62</td></tr>
-                    <tr><td>Ev 0.5</td><td>Üst</td><td>1.50</td><td>%70</td></tr>
                     <tr><td>Dep 0.5</td><td>Üst</td><td>1.40</td><td>%80</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.70</td><td>%68</td></tr>
                     <tr><td>MS KG</td><td>Yok</td><td>1.90</td><td>%65</td></tr>
-                    <tr><td>SKOR</td><td>0-1</td><td>6.00</td><td>%18</td></tr>
                 </tbody>
             </table>
         </div>
         <div class="analiz-box">
-            🧩 <strong>Analiz:</strong> Atletico daha yüksek ELO ve moral avantajına sahip. Tempolu ama kontrollü oyun bekleniyor.<br>
+            🧩 <strong>Analiz:</strong> Atletico daha yüksek ELO ve moral avantajına sahip. Kontrollü oyun bekleniyor.<br>
             🎯 <strong>Value Bet:</strong> MS 2 (2.25) – %65 güven.
         </div>
     </div>
 
-    <div class="match-section">
-        <h2 class="match-title">10. MOREIRENSE FC vs PORTO (23:15) ⚽</h2>
+    <div class="match-card">
+        <div class="match-teams">
+            <div class="team-box home">
+                <div class="logo-placeholder" style="background-color: #008000;">M</div>
+                <span class="team-name">MOREIRENSE FC</span>
+            </div>
+            <div class="match-time">23:15 ⚽</div>
+            <div class="team-box away">
+                <span class="team-name">PORTO</span>
+                <div class="logo-placeholder" style="background-color: #007bff;">P</div>
+            </div>
+        </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr><th>Kategori</th><th>Tahmin</th><th>Oran Tahmini</th><th>Güven</th></tr>
-                </thead>
+                <thead><tr><th>Kategori</th><th>Tahmin</th><th>Oran</th><th>Güven</th></tr></thead>
                 <tbody>
                     <tr><td>MS</td><td>2</td><td>1.28</td><td>%74</td></tr>
-                    <tr><td>Ü/A 1.5</td><td>Üst</td><td>1.40</td><td>%78</td></tr>
                     <tr><td>Ü/A 2.5</td><td>Alt</td><td>2.12</td><td>%65</td></tr>
-                    <tr><td>Ev 0.5</td><td>Alt</td><td>1.60</td><td>%75</td></tr>
                     <tr><td>Dep 0.5</td><td>Üst</td><td>1.30</td><td>%85</td></tr>
                     <tr><td>Dep 1.5</td><td>Üst</td><td>1.75</td><td>%70</td></tr>
-                    <tr><td>İY KG</td><td>Yok</td><td>1.55</td><td>%72</td></tr>
                     <tr><td>MS KG</td><td>Yok</td><td>1.80</td><td>%70</td></tr>
-                    <tr><td>SKOR</td><td>0-2</td><td>6.50</td><td>%17</td></tr>
                 </tbody>
             </table>
         </div>
         <div class="analiz-box">
-            🧩 <strong>Analiz:</strong> Porto moral yüksek ama tilt negatif (-7). Moreirense çok eksik. Düşük tempo, kontrollü deplasman galibiyeti.<br>
+            🧩 <strong>Analiz:</strong> Porto moral yüksek. Düşük tempo, kontrollü deplasman galibiyeti.<br>
             🎯 <strong>Value Bet:</strong> MS 2 (1.28) – %74 güven.
         </div>
     </div>
@@ -470,7 +577,7 @@
     <div class="coupon-section">
         <h2 class="coupon-title">🎯 GÜNÜN KUPON ÖNERİLERİ</h2>
 
-        <div class="coupon-box" style="border-left-color: var(--text-cyan);">
+        <div class="coupon-box" style="border-left-color: var(--accent-blue);">
             <strong>🎯 1️⃣ YÜKSEK İHTİMAL KUPON (2 MAÇ)</strong>
             <pre>
 🔹 Amaç: Minimum risk, maksimum olasılık (%75+ güven)
@@ -489,14 +596,12 @@
                 </table>
             </div>
             <div class="coupon-comment">
-                🔥 <strong>Kupon Yorumu:</strong>
-                İki maç da yüksek form, yüksek tilt ve moral ile “gollü” geçme potansiyeline sahip.
-                (Fenerbahçe tam kadro, tempo yüksek, açık oyun. Brøndby form zirvesinde, savunma zayıf.)
-                <span>> 💎 “Güvenli gol kuponu” – 2.5 üst favori.</span>
+                🔥 <strong>Kupon Yorumu:</strong> İki maç da yüksek form, yüksek tilt ve moral ile “gollü” geçme potansiyeline sahip.
+                <span>> 💎 Güvenli gol kuponu – 2.5 üst favori.</span>
             </div>
         </div>
 
-        <div class="coupon-box">
+        <div class="coupon-box" style="border-left-color: var(--accent-green);">
             <strong>⚖️ 2️⃣ ORTA İHTİMAL KUPON (3 MAÇ)</strong>
             <pre>
 🔹 Amaç: Dengeli risk / oran oranı (%68–72 güven)
@@ -516,14 +621,12 @@
                 </table>
             </div>
             <div class="coupon-comment">
-                🔥 <strong>Kupon Yorumu:</strong>
-                İki taraflı dengede, bir “Under”, bir “KG” ve bir ev galibiyetiyle orta riskli üçlü.
-                (Samsun ev sahibi formda, deplasman moralsiz. Akhmat-Sochi defansif, düşük tempo. Malmo-Hammarby dengeli oyun, iki takım da skor bulabilir.)
-                <span>> ⚖️ “Dengeli kombin kuponu” – ideal 3’lü sistem adayı.</span>
+                🔥 <strong>Kupon Yorumu:</strong> İki taraflı dengede, bir “Under”, bir “KG” ve bir ev galibiyetiyle orta riskli üçlü.
+                <span>> ⚖️ Dengeli kombin kuponu – ideal 3’lü sistem adayı.</span>
             </div>
         </div>
 
-        <div class="coupon-box" style="border-left-color: var(--text-red);">
+        <div class="coupon-box" style="border-left-color: var(--accent-red);">
             <strong>💣 3️⃣ RİSKLİ (SÜRPRİZ) KUPON (4 MAÇ)</strong>
             <pre>
 🔹 Amaç: Yüksek getiri, sürpriz skor potansiyeli (%55–65 güven)
@@ -544,14 +647,10 @@
                 </table>
             </div>
             <div class="coupon-comment">
-                🔥 <strong>Kupon Yorumu:</strong>
-                Yüksek risk / yüksek kazanç. İki deplasman galibiyeti + bir sürpriz beraberlik + bol gollü maç.
-                (Boca moralsiz, kısır maç bekleniyor. Atletico defansla maçı alabilir. Radomiak ev sahibi yorgun rakibe karşı avantajlı. Bromma-GAIS pozitif tilt, açık futbol, bol pozisyon.)
-                <span>> 💣 “Sürpriz yakalayanların kuponu” – az tutar, büyük kazanç.</span>
+                🔥 <strong>Kupon Yorumu:</strong> Yüksek risk / yüksek kazanç. İki deplasman galibiyeti + bir sürpriz beraberlik + bol gollü maç.
+                <span>> 💣 Sürpriz yakalayanların kuponu – az tutar, büyük kazanç.</span>
             </div>
         </div>
-
     </div>
-
 </body>
 </html>
