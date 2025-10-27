@@ -6,6 +6,8 @@
     <title>Robotipster Analizler - GÜNCEL VERİ VE KONTROL</title>
     <style>
         /* BESOCCER ESİNTİLİ TEMA STİLLERİ */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap'); /* Neon fontu için Orbitron */
+
         :root {
             --bg-dark: #1e1e1e;
             --card-dark: #2a2a2a;
@@ -15,6 +17,8 @@
             --accent-green: #28a745;
             --accent-red: #dc3545;
             --accent-yellow: #ffc107; /* Kısmen tutarlı için sarı */
+            --neon-pink: #ff1493; /* Parlak neon pembe */
+            --neon-blue: #00ffff; /* Parlak neon mavi */
         }
 
         /* GENEL DÜZEN VE OKUNAKLILIK */
@@ -144,19 +148,6 @@
         } 
         
         /* ANALİZ VE KONTROL KUTUSU */
-        .analiz-box {
-            margin-top: 15px;
-            padding: 10px;
-            border-left: 3px solid var(--accent-blue);
-            background-color: rgba(0, 123, 255, 0.1);
-            font-size: 0.9em; 
-            word-wrap: break-word;
-            word-break: break-word; 
-            text-align: left; 
-            border-radius: 4px;
-        }
-        .analiz-box strong { color: var(--text-light); }
-        
         .control-box {
             margin-top: 15px;
             padding: 10px;
@@ -174,12 +165,23 @@
              border-color: var(--accent-yellow);
              background-color: rgba(255, 193, 7, 0.1);
         }
-        .control-box .main-direction {
-            font-weight: bold;
-            color: var(--accent-blue);
+        
+        /* ROBOT TAHMİN VURGUSU - YENİ NEON STİLİ */
+        .safe-prediction {
+            font-family: 'Orbitron', sans-serif; /* Yeni font */
+            font-weight: 700;
+            color: var(--neon-blue); /* Parlak mavi neon rengi */
+            background-color: rgba(0, 255, 255, 0.08); /* Hafif şeffaf arkaplan */
+            padding: 8px 12px;
+            border-radius: 5px;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            border: 1px solid var(--neon-blue);
+            font-size: 1.1em; /* Daha büyük font */
+            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 15px rgba(0, 255, 255, 0.5); /* Neon efekti */
+            text-align: left; /* BURASI GÜNCELLENDİ */
         }
+        
         .control-box .result-status {
             font-weight: bold;
             margin-top: 5px;
@@ -251,6 +253,7 @@
             .team-name { font-size: 1em; }
             .match-time { font-size: 1.1em; }
             .match-card th, .match-card td { font-size: 0.8em; padding: 4px 2px; }
+            .safe-prediction { font-size: 0.95em; padding: 6px 8px; } /* Mobil için küçültme */
         }
     </style>
 </head>
@@ -295,8 +298,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Alt 2.5**</span>
-            İçerik: İY Alt, KG Yok, Ev 1.5 Alt
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ü/A 2.5 Alt** (%78 Güven)</span>
+            İçerik: Alt 2.5 yönü, İY Alt ve KG Yok ile destekleniyor.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **1–0 skoru**, Alt & KG Yok ile uyumlu. Negatif tilt + eksikler + rüzgarlı hava = düşük tempo destekleniyor.
         </div>
@@ -332,8 +335,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Alt 2.5**</span>
-            İçerik: Ev 0.5 Üst, Dep 0.5 Alt, KG Yok
+            <span class="safe-prediction">🤖 Robot Tahmin: **İY 1.5 Alt** (%83 Güven)</span>
+            İçerik: Alt 2.5, Ev 0.5 Üst, Dep 0.5 Alt ve KG Yok tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **1–0 skoru**, Alt & KG Yok ile uyumlu. Ev takımı hafif favori, deplasman moral düşük. Tek taraflı skor 1–0 / 2–0 mantıklı.
         </div>
@@ -371,8 +374,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Üst 2.5**</span>
-            İçerik: İY Üst, MS KG Var
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ev 0.5 Üst** (%82 Güven)</span>
+            İçerik: Üst 2.5, İY Üst ve KG Var tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **2–2 skoru**, Üst 2.5 & KG Var ile uyumlu. Over 2.5 + İY Üst + KG Var kombinasyonu mantıken uyumlu. Yağmur riski olsa da iki tarafın tilt’i pozitif; tempo yüksek bekleniyor.
         </div>
@@ -412,8 +415,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Üst 2.5**</span>
-            İçerik: Ev 0.5 Üst, Dep 0.5 Üst, KG Var
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ev 0.5 Üst** (%84 Güven)</span>
+            İçerik: Üst 2.5, İY Üst, Ev 0.5 Üst ve KG Var tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **2–1 skoru**, Üst & KG Var ile uyumlu. Form farkı + iki takımın açık oyunu net şekilde üst yönünü destekliyor. İlk yarı tahminleri de uyumlu (İY Üst 0.5).
         </div>
@@ -453,8 +456,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Üst 2.5**</span>
-            İçerik: Ev 0.5 Üst, Dep 1.5 Üst, KG Var
+            <span class="safe-prediction">🤖 Robot Tahmin: **Dep 0.5 Üst** (%85 Güven)</span>
+            İçerik: Üst 2.5, İY Üst, Dep 0.5 Üst ve KG Var tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **1–3 skoru**, Üst & KG Var ile uyumlu. Fenerbahçe formda ve moral yüksek. Ev ekibi de 1 gol potansiyeline sahip. Over yönü destekleniyor.
         </div>
@@ -491,8 +494,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Üst 2.5**</span>
-            İçerik: İY Üst, KG Var, Ev gol buluyor
+            <span class="safe-prediction">🤖 Robot Tahmin: **Dep 0.5 Üst** (%85 Güven)</span>
+            İçerik: Üst 2.5, İY Üst, Dep 0.5 Üst ve KG Var tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **1–3 skoru**, Üst & KG Var ile uyumlu. Brøndby’nin +25 tilt ve yüksek moraline uygun; Over yönü kuvvetli. Yağmur olmasına rağmen ofansif yapı bozulmuyor.
         </div>
@@ -526,10 +529,10 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Alt 2.5**</span>
-            İçerik: İY Alt, KG Yok
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ü/A 2.5 Alt** (%77 Güven)</span>
+            İçerik: Alt 2.5 yönü, İY Alt ve KG Yok tahminleriyle destekleniyor.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
-            > Yorum: **0–1 skoru**, Alt & KG Yok ile uyumlu. Alt 2.5 ve KG Yok uyumlu. Atletico daha yüksek ELO ve moral avantajına sahip. Kontrollü oyun bekleniyor.
+            > Yorum: **0–1 skoru**, Alt & KG Yok ile uyumlu. Atletico daha yüksek ELO ve moral avantajına sahip. Kontrollü oyun bekleniyor.
         </div>
     </div>
 
@@ -563,8 +566,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Alt 2.5**</span>
-            İçerik: Ev 0.5 Alt, Dep 1.5 Üst, KG Yok
+            <span class="safe-prediction">🤖 Robot Tahmin: **Dep 0.5 Üst** (%80 Güven)</span>
+            İçerik: Alt 2.5, Ev 0.5 Alt ve KG Yok tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **0–2 skoru**, Alt & KG Yok ile uyumlu. Porto moral yüksek. Düşük tempo, kontrollü deplasman galibiyeti.
         </div>
@@ -599,8 +602,8 @@
             </table>
         </div>
         <div class="control-box kısmen-tutarlı">
-            <span class="main-direction">Ana Yön: **Alt 2.5**</span>
-            İçerik: İY Alt, MS KG Yok
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ü/A 2.5 Alt** (%75 Güven)</span>
+            İçerik: Alt 2.5 yönü, İY Alt ve KG Yok tahminleriyle destekleniyor.
             <span class="result-status">Kontrol Sonucu: **⚠️ Kısmen Tutarlı**</span>
             > Yorum: **0–1 skor**, “Alt 1.5” yerine sadece “Alt 2.5” verilmiş; ufak tutarsızlık. Boca form düşüklüğü sebebiyle gol beklentisi düşük, ancak deplasman galibiyeti senaryosu var.
         </div>
@@ -640,8 +643,8 @@
             </table>
         </div>
         <div class="control-box tutarlı">
-            <span class="main-direction">Ana Yön: **Üst 2.5**</span>
-            İçerik: Her iki taraf da gol buluyor
+            <span class="safe-prediction">🤖 Robot Tahmin: **Ü/A 1.5 Üst / Dep 0.5 Üst** (%82 Güven)</span>
+            İçerik: Üst 2.5, İY Üst ve KG Var tahminleriyle uyumlu.
             <span class="result-status">Kontrol Sonucu: **✅ Tutarlı**</span>
             > Yorum: **1–3 skoru**, Üst & KG Var mantıklı. Çift pozitif tilt + düşük over oranı = gol potansiyeli destekleniyor. İlk yarı Üst 0.5 ve MS KG Var tahminiyle uyumlu.
         </div>
