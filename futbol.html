@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>Robotipster Analizler - OKUNAKLI OPTİMİZASYON (Ortalanmış Başlıklar)</title>
+    <title>Robotipster Analizler - FİNAL OPTİMİZASYON</title>
     <style>
-        /* MATRIX THEME STYLES - OKUNAKLI YENİLEME */
+        /* MATRIX THEME STYLES - FİNAL OKUNAKLI VE STABİL VERSİYON */
         :root {
             --matrix-black: #000000;
             --matrix-green-light: #00ff41;
@@ -18,6 +18,7 @@
             --text-red: #ff3300;
         }
 
+        /* GENEL DÜZEN VE OKUNAKLILIK */
         body { 
             font-family: 'Courier New', Courier, monospace; 
             line-height: 1.6; 
@@ -26,7 +27,7 @@
             color: var(--matrix-green-light); 
             text-shadow: 0 0 1px var(--matrix-glow); 
             padding: 15px; 
-            overflow-x: hidden; 
+            overflow-x: hidden; /* Yatay kaydırma engellendi */
             font-weight: bold; 
             font-size: 16px; 
             min-width: 320px; 
@@ -36,22 +37,17 @@
             box-sizing: border-box;
         }
 
-        /* BAŞLIKLAR - ORTALANDI */
+        /* BAŞLIKLAR VE ORTALAMA */
         .header { 
-            text-align: center; /* Ana Başlık ortalandı */
-            color: var(--matrix-green-light); 
+            text-align: center; 
             font-size: 2em; 
             margin-bottom: 10px; 
             text-shadow: 0 0 8px var(--matrix-green-light); 
         }
-        .header-title {
-            color: var(--text-white);
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
+        .header-title { color: var(--text-white); font-size: 1.2em; margin-bottom: 5px; }
 
         .disclaimer {
-            text-align: center; /* Uyarı metni ortalandı */
+            text-align: center; 
             font-size: 0.85em; 
             margin-bottom: 20px;
             padding: 8px;
@@ -76,7 +72,7 @@
             padding-bottom: 8px; 
             margin-bottom: 12px; 
             font-size: 1.3em; 
-            text-align: center; /* Maç başlıkları ortalandı */
+            text-align: center; 
         }
 
         /* TABLOLAR */
@@ -107,14 +103,8 @@
             font-size: 0.9em; 
             font-weight: 700;
         } 
-        
-        /* Kupon Tablosu Sütun Genişlikleri */
-        .coupon-table th:nth-child(1), .coupon-table td:nth-child(1) { width: 35%; } 
-        .coupon-table th:nth-child(2), .coupon-table td:nth-child(2) { width: 30%; } 
-        .coupon-table th:nth-child(3), .coupon-table td:nth-child(3) { width: 15%; } 
-        .coupon-table th:nth-child(4), .coupon-table td:nth-child(4) { width: 20%; } 
 
-        /* Analiz ve Value Bet Stilleri */
+        /* Analiz Kutusu */
         .analiz-box {
             margin-top: 15px;
             padding: 10px;
@@ -122,11 +112,11 @@
             background-color: rgba(0, 51, 17, 0.6);
             font-size: 0.9em; 
             word-wrap: break-word;
-            text-align: left; /* Analiz metni sola hizalı kaldı */
+            word-break: break-word; /* Stabiliteyi artırmak için eklendi */
+            text-align: left; 
         }
-        .analiz-box strong { color: var(--text-light-green); }
 
-        /* KUPON KUTULARI */
+        /* KUPON BÖLÜMÜ */
         .coupon-section { 
             margin-top: 40px; 
             padding: 20px; 
@@ -143,7 +133,7 @@
             font-size: 1.4em; 
             border-bottom: 1px solid var(--matrix-green-medium); 
             padding-bottom: 8px; 
-            text-align: center; /* Kupon başlığı ortalandı */
+            text-align: center; 
         }
 
         .coupon-box { 
@@ -159,38 +149,42 @@
 
         .coupon-box strong { color: var(--text-white); font-size: 1.1em;} 
 
+        /* KUPON İÇİ PRE ETİKETİ DÜZENLEMESİ */
+        .coupon-box pre {
+            font-size: 0.9em; 
+            line-height: 1.4;
+            white-space: pre-wrap; /* Satır kaymasını sağlar */
+            word-wrap: break-word; /* Uzun kelimeleri böler */
+            word-break: break-word; /* Ek stabilite */
+            margin: 5px 0 10px 0;
+            padding: 0;
+            background: none;
+            border: none;
+            color: var(--matrix-green-light);
+        }
+
         /* KUON YORUMU */
         .coupon-comment {
             font-size: 0.9em; 
             line-height: 1.5;
             word-wrap: break-word;
+            word-break: break-word; /* Stabiliteyi artırmak için eklendi */
             margin-top: 10px;
             padding-top: 8px;
             border-top: 1px dashed var(--matrix-green-dark);
             background-color: rgba(0, 0, 0, 0.4); 
             padding-bottom: 5px;
-            text-align: left; /* Yorum metni sola hizalı kaldı */
-        }
-
-        .coupon-comment span { 
-            color: var(--text-cyan); 
-            font-size: 1em; 
-            display: block; 
-            margin-top: 5px; 
-            font-weight: 900;
+            text-align: left; 
         }
 
         /* MOBİL İYİLEŞTİRMELER */
         @media (max-width: 500px) {
-            body { 
-                font-size: 15px; 
-                padding: 10px; 
-            }
+            body { font-size: 15px; padding: 10px; }
             .header { font-size: 1.8em; }
             .match-title { font-size: 1.2em; }
             th { font-size: 0.8em; padding: 4px 2px; } 
             td { font-size: 0.8em; padding: 4px 2px; } 
-            .analiz-box, .coupon-comment { font-size: 0.85em; }
+            .analiz-box, .coupon-comment, .coupon-box pre { font-size: 0.85em; }
         }
     </style>
 </head>
@@ -478,7 +472,7 @@
 
         <div class="coupon-box" style="border-left-color: var(--text-cyan);">
             <strong>🎯 1️⃣ YÜKSEK İHTİMAL KUPON (2 MAÇ)</strong>
-            <pre style="font-size: 0.9em; line-height: 1.4;">
+            <pre>
 🔹 Amaç: Minimum risk, maksimum olasılık (%75+ güven)
 🎯 Ortalama Genel Güven: %77
 💰 Tahmini Toplam Oran: ~2.85
@@ -504,7 +498,7 @@
 
         <div class="coupon-box">
             <strong>⚖️ 2️⃣ ORTA İHTİMAL KUPON (3 MAÇ)</strong>
-            <pre style="font-size: 0.9em; line-height: 1.4;">
+            <pre>
 🔹 Amaç: Dengeli risk / oran oranı (%68–72 güven)
 🎯 Ortalama Genel Güven: %70
 💰 Tahmini Toplam Oran: ~5.40
@@ -531,7 +525,7 @@
 
         <div class="coupon-box" style="border-left-color: var(--text-red);">
             <strong>💣 3️⃣ RİSKLİ (SÜRPRİZ) KUPON (4 MAÇ)</strong>
-            <pre style="font-size: 0.9em; line-height: 1.4;">
+            <pre>
 🔹 Amaç: Yüksek getiri, sürpriz skor potansiyeli (%55–65 güven)
 🎯 Ortalama Genel Güven: %63
 💰 Tahmini Toplam Oran: ~15.00+
