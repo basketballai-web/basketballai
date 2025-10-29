@@ -14,6 +14,7 @@
     --neon-green:#22c55e;
     --accent:#7afaff;
     --warning:#ffb84d;
+    --label-color: #8b929c; /* Yeni: Etiket rengi */
   }
 
   html,body{
@@ -49,6 +50,13 @@
     color:var(--accent);
     font-weight:600;
   }
+  /* Yeni: Tarih Stili */
+  header p.date{
+    margin: 4px 0 0;
+    color: var(--warning);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
 
   .warning{
     display:inline-block;
@@ -61,121 +69,166 @@
     font-size:0.88rem;
   }
 
-  /* **MOBİL İYİLEŞTİRME 1: YATAY KAYDIRMAYA İZİN VER** */
+  /* KART GÖRÜNÜMÜ İÇİN SIFIRLAMA ve GENEL STİLLER */
   .table-wrap{
-    overflow-x:auto; /* Yatay kaydırmaya izin ver */
-    -webkit-overflow-scrolling:touch;
-    padding-bottom: 8px; /* Kaydırma çubuğu için boşluk */
+    width: 100%;
+    overflow-x: hidden; /* Sağ/Sola Kaymayı Kesinlikle Engelle */
   }
 
   table {
-    /* **MOBİL İYİLEŞTİRME 2: ESNEK TABLO GENİŞLİĞİ** */
-    min-width: 600px; 
-    width: max-content; 
+    width:100%;
     border-collapse:collapse;
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-radius:12px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    table-layout: auto; /* Daha esnek bir tablo düzeni sağlar */
-    word-break:break-word;
+    table-layout:auto; 
     font-size:13px;
   }
 
+  /* Masaüstünde (600px üzeri) normal tablo görünümü */
   thead th{
-    position:sticky;
-    top:0;
     background: rgba(10,20,30,0.9);
     color:var(--neon-cyan);
     padding:10px 6px;
-    z-index:2;
     font-weight:700;
     border-bottom:1px solid rgba(255,255,255,0.04);
   }
-
   tbody td{
     padding:8px 6px;
     border-bottom:1px solid rgba(255,255,255,0.03);
     vertical-align:middle;
-    color:#e7f3fb;
   }
-
   tr:nth-child(even) td{ background: rgba(255,255,255,0.01); }
-
   tr:hover td{ background: rgba(0,170,255,0.02); }
-
-  /* make sure long text wraps and lines are limited */
   td { white-space:normal; line-height:1.2; }
-
-  /* **MOBİL İYİLEŞTİRME 3: SÜTUN GENİŞLİKLERİ OPTİMİZASYONU** */
-  #match-table th:nth-child(2), /* Maç */
-  #match-table td:nth-child(2){
-    min-width: 150px;
-    text-align: left;
-    white-space: normal;
-  }
-
-  #match-table th:nth-child(3), /* Lig */
-  #match-table td:nth-child(3){
-    min-width: 80px;
-  }
-
-  #match-table th:nth-child(4), /* GSI */
-  #match-table td:nth-child(4){
-    min-width: 45px;
-  }
-
-  #match-table th:nth-child(20), /* Robot */
-  #match-table td:nth-child(20){
-    min-width: 80px;
-  }
   
-  /* Yüzde sütunları için daraltılmış dolgu ve minimum genişlik */
-  #match-table th:nth-child(n+5):nth-child(-n+16), 
-  #match-table td:nth-child(n+5):nth-child(-n+16){
-    min-width: 50px;
-    padding: 8px 2px; 
+  /* İlk 3 sütun için sabit genişlik (Masaüstü için) */
+  #match-table th:nth-child(2), #match-table td:nth-child(2) { min-width: 150px; }
+  #match-table th:nth-child(3), #match-table td:nth-child(3) { width: 60px; }
+  #match-table th:nth-child(4), #match-table td:nth-child(4) { width: 40px; }
+
+
+  /* **MOBİL KART GÖRÜNÜMÜ DÖNÜŞÜMÜ (600px Altı)** */
+  @media screen and (max-width: 600px) {
+    table, thead, tbody, th, td, tr { 
+      display: block; 
+      width: 100%; 
+      box-sizing: border-box; 
+    }
+    
+    /* Başlıkları gizle */
+    thead { display: none; }
+    
+    /* Her bir satırı (maçı) bir kart yap */
+    tr { 
+      margin-bottom: 12px; 
+      border-radius: 10px; 
+      background: rgba(255,255,255,0.04); /* Kart arka planı */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      padding: 10px; /* Kart içi dolgu */
+    }
+    
+    /* Her bir hücreyi dikey blok yap */
+    td { 
+      border: none;
+      padding: 6px 4px;
+      position: relative;
+      text-align: right; 
+      font-size: 1.0rem; /* Hücredeki veriyi biraz büyüt */
+      background: none !important; /* Arka plan karışmasın */
+      display: flex; /* Etiket ve değeri yan yana tutmak için */
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Etiket (Başlık) görünümü */
+    td::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: 600;
+      color: var(--label-color);
+      font-size: 0.9rem;
+      text-align: left;
+      flex-grow: 1; /* Etiketin sola yayılmasını sağla */
+    }
+    
+    /* İlk 4 sütun (Maç Bilgileri) özel kart üst bölümü */
+    tr td:nth-child(1), /* # */
+    tr td:nth-child(2), /* Maç */
+    tr td:nth-child(3), /* Lig */
+    tr td:nth-child(4) /* GSI */
+    {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 2px;
+    }
+
+    /* Maç başlığı ve saati */
+    tr td:nth-child(2) {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--neon-cyan);
+        display: block; /* Tek başına satır kaplasın */
+        text-align: center;
+        border-bottom: none;
+        padding-bottom: 4px;
+        margin-bottom: 0;
+    }
+    tr td:nth-child(2)::before {
+        content: attr(data-time) " | "; /* Maç saatini başa ekle */
+        color: var(--accent);
+        font-size: 0.9rem;
+        font-weight: 600;
+        float: none;
+    }
+
+    /* #, Lig ve GSI alt alta daha küçük kartlarda */
+    tr td:nth-child(1),
+    tr td:nth-child(3),
+    tr td:nth-child(4) {
+        display: inline-flex;
+        width: 33.33%; /* Yan yana 3 kart için */
+        border-bottom: none;
+        padding: 4px;
+        margin-bottom: 4px;
+        background: rgba(0,170,255,0.05);
+        border-radius: 6px;
+    }
+    
+    /* En son 2 sütun (Value, Robot) daha büyük kartlar */
+    tr td:nth-child(19), 
+    tr td:nth-child(20) {
+      padding: 8px 10px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
   }
-  /* Bitiş skorlarını biraz daha geniş tut */
-  #match-table th:nth-child(17), /* İY Skor */
-  #match-table td:nth-child(17),
-  #match-table th:nth-child(18), /* MS Skor */
-  #match-table td:nth-child(18){
-    min-width: 75px;
-    padding: 8px 4px;
-  }
-  
-  /* highlight style applied dynamically */
+
+
+  /* Diğer Stiller */
   .highlight{
     color:var(--neon-blue) !important;
     font-weight:800;
     text-shadow:0 0 8px rgba(0,170,255,0.14);
   }
 
-  /* **MOBİL İYİLEŞTİRME 4: VALUE VE ROBOT BADGE DÜZENLEMESİ** */
   .value-badge, .robot-badge{
     font-weight:700; 
     padding: 4px 6px; 
     border-radius:8px;
     font-size:0.8rem; 
-    white-space: nowrap; /* Metnin tek satırda kalmasını sağlar */
-    display: block; /* Tek başına bir blok haline getirerek yan yana sıkışmasını engeller */
+    white-space: nowrap;
     text-align: center; 
   }
-
-  /* Value Badge'e özel renkler */
   .value-badge{
     color:var(--neon-green);
     background:rgba(34,197,94,0.04);
     border:1px solid rgba(34,197,94,0.08);
   }
-
-  /* Robot Badge'e özel renkler */
   .robot-badge{
     color:#ffd86b;
     border:1px solid rgba(255,216,107,0.06);
     background: rgba(255,216,107,0.02);
   }
-
 
   caption{
     caption-side:top;
@@ -191,17 +244,17 @@
     display:flex;
     gap:12px;
     flex-direction:column;
-    padding: 0 4px; /* Yatayda daha iyi boşluk */
+    padding: 0 4px; 
   }
   .kupon{
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border:1px solid rgba(0,170,255,0.06);
-    padding:14px; /* İç dolguyu artırın */
+    padding:14px; 
     border-radius:12px;
     box-shadow:0 8px 20px rgba(0,0,0,0.5);
   }
   .kupon h3{ margin:0 0 10px 0; color:var(--neon-cyan); font-size: 1.1rem; } 
-  .kupon p{ margin:6px 0; color:var(--muted); line-height: 1.4; } /* Satır aralığını artırın */
+  .kupon p{ margin:6px 0; color:var(--muted); line-height: 1.4; } 
 
   footer{
     margin-top:22px;
@@ -209,35 +262,24 @@
     color:var(--muted);
     font-size:0.9rem;
   }
-
-  /* responsive tweaks */
-  @media (max-width:900px){
-    thead th { font-size:12px; padding:8px 6px; }
-    td { font-size:12px; padding:7px 6px; }
-  }
-  @media (max-width:520px){
-    .page{ padding:10px; }
-    thead th { font-size:11px; padding:6px 4px; }
-    td { font-size:11px; padding:6px 4px; }
-    .kupon { padding: 12px; }
-  }
 </style>
 </head>
 <body>
   <div class="page">
     <header>
       <h1>⚽ Tahmin App</h1>
+      <p class="date">📆 29.10.2025</p>
       <p class="sub">🤖 Powered by AI</p>
       <div class="warning">⚠️ Sorumlu Bahis Oyna • 💸 Herkes Kendinden Sorumludur • %100 Garanti İçermez</div>
     </header>
 
     <div class="table-wrap" role="region" aria-label="Tahmin Tablosu">
       <table id="match-table" aria-describedby="table-desc">
-        <caption id="table-desc">17 maçlık tahmin tablosu — mobil cihazlarda sağa kaydırılabilir (scrollable) hale getirildi. Her satırdaki en yüksek % otomatik mavi ile vurgulanır.</caption>
+        <caption id="table-desc">Güncel tahmin tablosu — 600px altı ekranlarda kart görünümüne (scrollsuz) dönüştürülür.</caption>
         <thead>
           <tr>
             <th>#</th>
-            <th>Maç</th>
+            <th>Maç | TSİ</th>
             <th>Lig</th>
             <th>GSI</th>
             <th>MS Ü1.5</th>
@@ -259,395 +301,395 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mantova vs Catanzaro</td>
-            <td>ITA Serie B</td>
-            <td>0.52</td>
-            <td>72%</td>
-            <td>46%</td>
-            <td>58%</td>
-            <td>28%</td>
-            <td>52%</td>
-            <td>25%</td>
-            <td>8%</td>
-            <td>65%</td>
-            <td>35%</td>
-            <td>12%</td>
-            <td>28%</td>
-            <td>42%</td>
-            <td>0-0 (42%)</td>
-            <td>0-1 (22%)</td>
-            <td></td>
-            <td><span class="robot-badge">Under 2.5</span></td>
+          <tr data-time="21:45">
+            <td data-label="#">1</td>
+            <td data-label="Maç" data-time="21:45">Shamrock Rovers vs Galway Utd</td>
+            <td data-label="Lig">IRL Premier Division</td>
+            <td data-label="GSI">0.61</td>
+            <td data-label="MS Ü1.5">78%</td>
+            <td data-label="MS Ü2.5">52%</td>
+            <td data-label="İY Ü0.5">65%</td>
+            <td data-label="İY Ü1.5">32%</td>
+            <td data-label="Ev Ü0.5">75%</td>
+            <td data-label="Ev Ü1.5">45%</td>
+            <td data-label="Ev Ü2.5">18%</td>
+            <td data-label="Dep Ü0.5">52%</td>
+            <td data-label="Dep Ü1.5">22%</td>
+            <td data-label="Dep Ü2.5">8%</td>
+            <td data-label="İY KG">25%</td>
+            <td data-label="MS KG">38%</td>
+            <td data-label="İY Skor">0-0 (35%)</td>
+            <td data-label="MS Skor">2-0 (20%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
+          </tr>
+          
+          <tr data-time="22:00">
+            <td data-label="#">2</td>
+            <td data-label="Maç" data-time="22:00">Spezia vs Padova</td>
+            <td data-label="Lig">ITA Serie B</td>
+            <td data-label="GSI">0.48</td>
+            <td data-label="MS Ü1.5">68%</td>
+            <td data-label="MS Ü2.5">42%</td>
+            <td data-label="İY Ü0.5">52%</td>
+            <td data-label="İY Ü1.5">22%</td>
+            <td data-label="Ev Ü0.5">48%</td>
+            <td data-label="Ev Ü1.5">18%</td>
+            <td data-label="Ev Ü2.5">6%</td>
+            <td data-label="Dep Ü0.5">55%</td>
+            <td data-label="Dep Ü1.5">25%</td>
+            <td data-label="Dep Ü2.5">8%</td>
+            <td data-label="İY KG">18%</td>
+            <td data-label="MS KG">32%</td>
+            <td data-label="İY Skor">0-0 (48%)</td>
+            <td data-label="MS Skor">0-1 (20%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Under 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>2</td>
-            <td>Shamrock Rovers vs Galway Utd</td>
-            <td>IRL Premier Division</td>
-            <td>0.61</td>
-            <td>78%</td>
-            <td>52%</td>
-            <td>65%</td>
-            <td>32%</td>
-            <td>75%</td>
-            <td>45%</td>
-            <td>18%</td>
-            <td>52%</td>
-            <td>22%</td>
-            <td>8%</td>
-            <td>25%</td>
-            <td>38%</td>
-            <td>0-0 (35%)</td>
-            <td>2-0 (20%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Home Win</span></td>
+          <tr data-time="22:00">
+            <td data-label="#">3</td>
+            <td data-label="Maç" data-time="22:00">Mantova vs Catanzaro</td>
+            <td data-label="Lig">ITA Serie B</td>
+            <td data-label="GSI">0.52</td>
+            <td data-label="MS Ü1.5">72%</td>
+            <td data-label="MS Ü2.5">46%</td>
+            <td data-label="İY Ü0.5">58%</td>
+            <td data-label="İY Ü1.5">28%</td>
+            <td data-label="Ev Ü0.5">52%</td>
+            <td data-label="Ev Ü1.5">25%</td>
+            <td data-label="Ev Ü2.5">8%</td>
+            <td data-label="Dep Ü0.5">65%</td>
+            <td data-label="Dep Ü1.5">35%</td>
+            <td data-label="Dep Ü2.5">12%</td>
+            <td data-label="İY KG">28%</td>
+            <td data-label="MS KG">42%</td>
+            <td data-label="İY Skor">0-0 (42%)</td>
+            <td data-label="MS Skor">0-1 (22%)</td>
+            <td data-label="Value"></td>
+            <td data-label="Robot"><span class="robot-badge">Under 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>3</td>
-            <td>SK Brann vs Bodo Glimt</td>
-            <td>NOR Eliteserien</td>
-            <td>0.68</td>
-            <td>85%</td>
-            <td>58%</td>
-            <td>72%</td>
-            <td>38%</td>
-            <td>58%</td>
-            <td>28%</td>
-            <td>10%</td>
-            <td>82%</td>
-            <td>52%</td>
-            <td>22%</td>
-            <td>35%</td>
-            <td>48%</td>
-            <td>0-1 (25%)</td>
-            <td>1-2 (20%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
+          <tr data-time="22:00">
+            <td data-label="#">4</td>
+            <td data-label="Maç" data-time="22:00">Juve Stabia vs Bari</td>
+            <td data-label="Lig">ITA Serie B</td>
+            <td data-label="GSI">0.52</td>
+            <td data-label="MS Ü1.5">75%</td>
+            <td data-label="MS Ü2.5">48%</td>
+            <td data-label="İY Ü0.5">62%</td>
+            <td data-label="İY Ü1.5">28%</td>
+            <td data-label="Ev Ü0.5">72%</td>
+            <td data-label="Ev Ü1.5">38%</td>
+            <td data-label="Ev Ü2.5">12%</td>
+            <td data-label="Dep Ü0.5">52%</td>
+            <td data-label="Dep Ü1.5">22%</td>
+            <td data-label="Dep Ü2.5">8%</td>
+            <td data-label="İY KG">22%</td>
+            <td data-label="MS KG">35%</td>
+            <td data-label="İY Skor">0-0 (32%)</td>
+            <td data-label="MS Skor">2-0 (18%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <tr>
-            <td>4</td>
-            <td>Hibernian vs Rangers</td>
-            <td>SCO Premiership</td>
-            <td>0.72</td>
-            <td>88%</td>
-            <td>61%</td>
-            <td>75%</td>
-            <td>42%</td>
-            <td>65%</td>
-            <td>35%</td>
-            <td>12%</td>
-            <td>78%</td>
-            <td>48%</td>
-            <td>20%</td>
-            <td>38%</td>
-            <td>52%</td>
-            <td>0-1 (22%)</td>
-            <td>1-2 (18%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
+          <tr data-time="22:00">
+            <td data-label="#">5</td>
+            <td data-label="Maç" data-time="22:00">Venezia vs Sudtirol</td>
+            <td data-label="Lig">ITA Serie B</td>
+            <td data-label="GSI">0.59</td>
+            <td data-label="MS Ü1.5">82%</td>
+            <td data-label="MS Ü2.5">52%</td>
+            <td data-label="İY Ü0.5">68%</td>
+            <td data-label="İY Ü1.5">35%</td>
+            <td data-label="Ev Ü0.5">75%</td>
+            <td data-label="Ev Ü1.5">42%</td>
+            <td data-label="Ev Ü2.5">15%</td>
+            <td data-label="Dep Ü0.5">48%</td>
+            <td data-label="Dep Ü1.5">18%</td>
+            <td data-label="Dep Ü2.5">6%</td>
+            <td data-label="İY KG">22%</td>
+            <td data-label="MS KG">32%</td>
+            <td data-label="İY Skor">1-0 (30%)</td>
+            <td data-label="MS Skor">2-0 (20%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <tr>
-            <td>5</td>
-            <td>ENPPI vs Pyramids FC</td>
-            <td>EGY Premier League</td>
-            <td>0.76</td>
-            <td>92%</td>
-            <td>65%</td>
-            <td>78%</td>
-            <td>45%</td>
-            <td>52%</td>
-            <td>22%</td>
-            <td>8%</td>
-            <td>85%</td>
-            <td>58%</td>
-            <td>28%</td>
-            <td>32%</td>
-            <td>45%</td>
-            <td>0-1 (25%)</td>
-            <td>0-2 (20%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
+          <tr data-time="22:00">
+            <td data-label="#">6</td>
+            <td data-label="Maç" data-time="22:00">Como vs Hellas Verona</td>
+            <td data-label="Lig">ITA Serie B</td>
+            <td data-label="GSI">0.54</td>
+            <td data-label="MS Ü1.5">72%</td>
+            <td data-label="MS Ü2.5">50%</td>
+            <td data-label="İY Ü0.5">58%</td>
+            <td data-label="İY Ü1.5">25%</td>
+            <td data-label="Ev Ü0.5">55%</td>
+            <td data-label="Ev Ü1.5">25%</td>
+            <td data-label="Ev Ü2.5">8%</td>
+            <td data-label="Dep Ü0.5">62%</td>
+            <td data-label="Dep Ü1.5">28%</td>
+            <td data-label="Dep Ü2.5">10%</td>
+            <td data-label="İY KG">25%</td>
+            <td data-label="MS KG">38%</td>
+            <td data-label="İY Skor">0-0 (35%)</td>
+            <td data-label="MS Skor">1-1 (20%)</td>
+            <td data-label="Value"></td>
+            <td data-label="Robot"><span class="robot-badge">Draw</span></td>
           </tr>
 
-          <tr>
-            <td>6</td>
-            <td>Spezia vs Padova</td>
-            <td>ITA Serie B</td>
-            <td>0.48</td>
-            <td>68%</td>
-            <td>42%</td>
-            <td>52%</td>
-            <td>22%</td>
-            <td>48%</td>
-            <td>18%</td>
-            <td>6%</td>
-            <td>55%</td>
-            <td>25%</td>
-            <td>8%</td>
-            <td>18%</td>
-            <td>32%</td>
-            <td>0-0 (48%)</td>
-            <td>0-1 (20%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Under 2.5</span></td>
+          <tr data-time="22:00">
+            <td data-label="#">7</td>
+            <td data-label="Maç" data-time="22:00">Mjondalen vs Stabaek</td>
+            <td data-label="Lig">NOR 1. Divisjon</td>
+            <td data-label="GSI">0.62</td>
+            <td data-label="MS Ü1.5">82%</td>
+            <td data-label="MS Ü2.5">58%</td>
+            <td data-label="İY Ü0.5">68%</td>
+            <td data-label="İY Ü1.5">35%</td>
+            <td data-label="Ev Ü0.5">55%</td>
+            <td data-label="Ev Ü1.5">25%</td>
+            <td data-label="Ev Ü2.5">8%</td>
+            <td data-label="Dep Ü0.5">72%</td>
+            <td data-label="Dep Ü1.5">38%</td>
+            <td data-label="Dep Ü2.5">15%</td>
+            <td data-label="İY KG">28%</td>
+            <td data-label="MS KG">42%</td>
+            <td data-label="İY Skor">0-1 (22%)</td>
+            <td data-label="MS Skor">1-2 (18%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>7</td>
-            <td>St Mirren vs Hearts</td>
-            <td>SCO Premiership</td>
-            <td>0.58</td>
-            <td>75%</td>
-            <td>48%</td>
-            <td>62%</td>
-            <td>28%</td>
-            <td>45%</td>
-            <td>18%</td>
-            <td>6%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>12%</td>
-            <td>22%</td>
-            <td>35%</td>
-            <td>0-0 (32%)</td>
-            <td>0-2 (18%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Away Win</span></td>
+          <tr data-time="22:45">
+            <td data-label="#">8</td>
+            <td data-label="Maç" data-time="22:45">Hibernian vs Rangers</td>
+            <td data-label="Lig">SCO Premiership</td>
+            <td data-label="GSI">0.72</td>
+            <td data-label="MS Ü1.5">88%</td>
+            <td data-label="MS Ü2.5">61%</td>
+            <td data-label="İY Ü0.5">75%</td>
+            <td data-label="İY Ü1.5">42%</td>
+            <td data-label="Ev Ü0.5">65%</td>
+            <td data-label="Ev Ü1.5">35%</td>
+            <td data-label="Ev Ü2.5">12%</td>
+            <td data-label="Dep Ü0.5">78%</td>
+            <td data-label="Dep Ü1.5">48%</td>
+            <td data-label="Dep Ü2.5">20%</td>
+            <td data-label="İY KG">38%</td>
+            <td data-label="MS KG">52%</td>
+            <td data-label="İY Skor">0-1 (22%)</td>
+            <td data-label="MS Skor">1-2 (18%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>8</td>
-            <td>Aberdeen vs Kilmarnock</td>
-            <td>SCO Premiership</td>
-            <td>0.55</td>
-            <td>78%</td>
-            <td>52%</td>
-            <td>65%</td>
-            <td>32%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>12%</td>
-            <td>62%</td>
-            <td>28%</td>
-            <td>8%</td>
-            <td>28%</td>
-            <td>42%</td>
-            <td>1-0 (25%)</td>
-            <td>2-1 (16%)</td>
-            <td></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
+          <tr data-time="22:45">
+            <td data-label="#">9</td>
+            <td data-label="Maç" data-time="22:45">Aberdeen vs Kilmarnock</td>
+            <td data-label="Lig">SCO Premiership</td>
+            <td data-label="GSI">0.55</td>
+            <td data-label="MS Ü1.5">78%</td>
+            <td data-label="MS Ü2.5">52%</td>
+            <td data-label="İY Ü0.5">65%</td>
+            <td data-label="İY Ü1.5">32%</td>
+            <td data-label="Ev Ü0.5">68%</td>
+            <td data-label="Ev Ü1.5">35%</td>
+            <td data-label="Ev Ü2.5">12%</td>
+            <td data-label="Dep Ü0.5">62%</td>
+            <td data-label="Dep Ü1.5">28%</td>
+            <td data-label="Dep Ü2.5">8%</td>
+            <td data-label="İY KG">28%</td>
+            <td data-label="MS KG">42%</td>
+            <td data-label="İY Skor">1-0 (25%)</td>
+            <td data-label="MS Skor">2-1 (16%)</td>
+            <td data-label="Value"></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>9</td>
-            <td>Juve Stabia vs Bari</td>
-            <td>ITA Serie B</td>
-            <td>0.52</td>
-            <td>75%</td>
-            <td>48%</td>
-            <td>62%</td>
-            <td>28%</td>
-            <td>72%</td>
-            <td>38%</td>
-            <td>12%</td>
-            <td>52%</td>
-            <td>22%</td>
-            <td>8%</td>
-            <td>22%</td>
-            <td>35%</td>
-            <td>0-0 (32%)</td>
-            <td>2-0 (18%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Home Win</span></td>
+          <tr data-time="22:45">
+            <td data-label="#">10</td>
+            <td data-label="Maç" data-time="22:45">St Mirren vs Hearts</td>
+            <td data-label="Lig">SCO Premiership</td>
+            <td data-label="GSI">0.58</td>
+            <td data-label="MS Ü1.5">75%</td>
+            <td data-label="MS Ü2.5">48%</td>
+            <td data-label="İY Ü0.5">62%</td>
+            <td data-label="İY Ü1.5">28%</td>
+            <td data-label="Ev Ü0.5">45%</td>
+            <td data-label="Ev Ü1.5">18%</td>
+            <td data-label="Ev Ü2.5">6%</td>
+            <td data-label="Dep Ü0.5">68%</td>
+            <td data-label="Dep Ü1.5">35%</td>
+            <td data-label="Dep Ü2.5">12%</td>
+            <td data-label="İY KG">22%</td>
+            <td data-label="MS KG">35%</td>
+            <td data-label="İY Skor">0-0 (32%)</td>
+            <td data-label="MS Skor">0-2 (18%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Away Win</span></td>
           </tr>
 
-          <tr>
-            <td>10</td>
-            <td>Como vs Hellas Verona</td>
-            <td>ITA Serie B</td>
-            <td>0.54</td>
-            <td>72%</td>
-            <td>50%</td>
-            <td>58%</td>
-            <td>25%</td>
-            <td>55%</td>
-            <td>25%</td>
-            <td>8%</td>
-            <td>62%</td>
-            <td>28%</td>
-            <td>10%</td>
-            <td>25%</td>
-            <td>38%</td>
-            <td>0-0 (35%)</td>
-            <td>1-1 (20%)</td>
-            <td></td>
-            <td><span class="robot-badge">Draw</span></td>
+          <tr data-time="23:00">
+            <td data-label="#">11</td>
+            <td data-label="Maç" data-time="23:00">ENPPI vs Pyramids FC</td>
+            <td data-label="Lig">EGY Premier League</td>
+            <td data-label="GSI">0.76</td>
+            <td data-label="MS Ü1.5">92%</td>
+            <td data-label="MS Ü2.5">65%</td>
+            <td data-label="İY Ü0.5">78%</td>
+            <td data-label="İY Ü1.5">45%</td>
+            <td data-label="Ev Ü0.5">52%</td>
+            <td data-label="Ev Ü1.5">22%</td>
+            <td data-label="Ev Ü2.5">8%</td>
+            <td data-label="Dep Ü0.5">85%</td>
+            <td data-label="Dep Ü1.5">58%</td>
+            <td data-label="Dep Ü2.5">28%</td>
+            <td data-label="İY KG">32%</td>
+            <td data-label="MS KG">45%</td>
+            <td data-label="İY Skor">0-1 (25%)</td>
+            <td data-label="MS Skor">0-2 (20%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>11</td>
-            <td>Venezia vs Sudtirol</td>
-            <td>ITA Serie B</td>
-            <td>0.59</td>
-            <td>82%</td>
-            <td>52%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>75%</td>
-            <td>42%</td>
-            <td>15%</td>
-            <td>48%</td>
-            <td>18%</td>
-            <td>6%</td>
-            <td>22%</td>
-            <td>32%</td>
-            <td>1-0 (30%)</td>
-            <td>2-0 (20%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Home Win</span></td>
+          <tr data-time="23:00">
+            <td data-label="#">12</td>
+            <td data-label="Maç" data-time="23:00">Metz vs Lens</td>
+            <td data-label="Lig">FRA Ligue 1</td>
+            <td data-label="GSI">0.56</td>
+            <td data-label="MS Ü1.5">72%</td>
+            <td data-label="MS Ü2.5">47%</td>
+            <td data-label="İY Ü0.5">58%</td>
+            <td data-label="İY Ü1.5">25%</td>
+            <td data-label="Ev Ü0.5">42%</td>
+            <td data-label="Ev Ü1.5">15%</td>
+            <td data-label="Ev Ü2.5">5%</td>
+            <td data-label="Dep Ü0.5">68%</td>
+            <td data-label="Dep Ü1.5">35%</td>
+            <td data-label="Dep Ü2.5">12%</td>
+            <td data-label="İY KG">20%</td>
+            <td data-label="MS KG">32%</td>
+            <td data-label="İY Skor">0-0 (35%)</td>
+            <td data-label="MS Skor">0-2 (18%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Away Win</span></td>
           </tr>
 
-          <tr>
-            <td>12</td>
-            <td>Lorient vs PSG</td>
-            <td>FRA Ligue 1</td>
-            <td>0.82</td>
-            <td>95%</td>
-            <td>69%</td>
-            <td>82%</td>
-            <td>52%</td>
-            <td>32%</td>
-            <td>12%</td>
-            <td>4%</td>
-            <td>92%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>25%</td>
-            <td>32%</td>
-            <td>0-1 (28%)</td>
-            <td>0-3 (25%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
+          <tr data-time="23:00">
+            <td data-label="#">13</td>
+            <td data-label="Maç" data-time="23:00">Lorient vs PSG</td>
+            <td data-label="Lig">FRA Ligue 1</td>
+            <td data-label="GSI">0.82</td>
+            <td data-label="MS Ü1.5">95%</td>
+            <td data-label="MS Ü2.5">69%</td>
+            <td data-label="İY Ü0.5">82%</td>
+            <td data-label="İY Ü1.5">52%</td>
+            <td data-label="Ev Ü0.5">32%</td>
+            <td data-label="Ev Ü1.5">12%</td>
+            <td data-label="Ev Ü2.5">4%</td>
+            <td data-label="Dep Ü0.5">92%</td>
+            <td data-label="Dep Ü1.5">68%</td>
+            <td data-label="Dep Ü2.5">35%</td>
+            <td data-label="İY KG">25%</td>
+            <td data-label="MS KG">32%</td>
+            <td data-label="İY Skor">0-1 (28%)</td>
+            <td data-label="MS Skor">0-3 (25%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>13</td>
-            <td>Toulouse vs Rennes</td>
-            <td>FRA Ligue 1</td>
-            <td>0.51</td>
-            <td>75%</td>
-            <td>47%</td>
-            <td>58%</td>
-            <td>25%</td>
-            <td>62%</td>
-            <td>28%</td>
-            <td>8%</td>
-            <td>58%</td>
-            <td>25%</td>
-            <td>8%</td>
-            <td>25%</td>
-            <td>38%</td>
-            <td>0-0 (32%)</td>
-            <td>1-1 (18%)</td>
-            <td></td>
-            <td><span class="robot-badge">Under 2.5</span></td>
+          <tr data-time="23:00">
+            <td data-label="#">14</td>
+            <td data-label="Maç" data-time="23:00">Toulouse vs Rennes</td>
+            <td data-label="Lig">FRA Ligue 1</td>
+            <td data-label="GSI">0.51</td>
+            <td data-label="MS Ü1.5">75%</td>
+            <td data-label="MS Ü2.5">47%</td>
+            <td data-label="İY Ü0.5">58%</td>
+            <td data-label="İY Ü1.5">25%</td>
+            <td data-label="Ev Ü0.5">62%</td>
+            <td data-label="Ev Ü1.5">28%</td>
+            <td data-label="Ev Ü2.5">8%</td>
+            <td data-label="Dep Ü0.5">58%</td>
+            <td data-label="Dep Ü1.5">25%</td>
+            <td data-label="Dep Ü2.5">8%</td>
+            <td data-label="İY KG">25%</td>
+            <td data-label="MS KG">38%</td>
+            <td data-label="İY Skor">0-0 (32%)</td>
+            <td data-label="MS Skor">1-1 (18%)</td>
+            <td data-label="Value"></td>
+            <td data-label="Robot"><span class="robot-badge">Under 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>14</td>
-            <td>Metz vs Lens</td>
-            <td>FRA Ligue 1</td>
-            <td>0.56</td>
-            <td>72%</td>
-            <td>47%</td>
-            <td>58%</td>
-            <td>25%</td>
-            <td>42%</td>
-            <td>15%</td>
-            <td>5%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>12%</td>
-            <td>20%</td>
-            <td>32%</td>
-            <td>0-0 (35%)</td>
-            <td>0-2 (18%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Away Win</span></td>
+          <tr data-time="23:30">
+            <td data-label="#">15</td>
+            <td data-label="Maç" data-time="23:30">Lausanne-Sport vs Servette</td>
+            <td data-label="Lig">SWI Super League</td>
+            <td data-label="GSI">0.57</td>
+            <td data-label="MS Ü1.5">78%</td>
+            <td data-label="MS Ü2.5">52%</td>
+            <td data-label="İY Ü0.5">65%</td>
+            <td data-label="İY Ü1.5">32%</td>
+            <td data-label="Ev Ü0.5">68%</td>
+            <td data-label="Ev Ü1.5">35%</td>
+            <td data-label="Ev Ü2.5">12%</td>
+            <td data-label="Dep Ü0.5">55%</td>
+            <td data-label="Dep Ü1.5">22%</td>
+            <td data-label="Dep Ü2.5">8%</td>
+            <td data-label="İY KG">25%</td>
+            <td data-label="MS KG">38%</td>
+            <td data-label="İY Skor">0-0 (28%)</td>
+            <td data-label="MS Skor">2-0 (16%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <tr>
-            <td>15</td>
-            <td>Lausanne-Sport vs Servette</td>
-            <td>SWI Super League</td>
-            <td>0.57</td>
-            <td>78%</td>
-            <td>52%</td>
-            <td>65%</td>
-            <td>32%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>12%</td>
-            <td>55%</td>
-            <td>22%</td>
-            <td>8%</td>
-            <td>25%</td>
-            <td>38%</td>
-            <td>0-0 (28%)</td>
-            <td>2-0 (16%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Home Win</span></td>
+          <tr data-time="23:30">
+            <td data-label="#">16</td>
+            <td data-label="Maç" data-time="23:30">Basel vs Zurich</td>
+            <td data-label="Lig">SWI Super League</td>
+            <td data-label="GSI">0.68</td>
+            <td data-label="MS Ü1.5">88%</td>
+            <td data-label="MS Ü2.5">61%</td>
+            <td data-label="İY Ü0.5">75%</td>
+            <td data-label="İY Ü1.5">42%</td>
+            <td data-label="Ev Ü0.5">82%</td>
+            <td data-label="Ev Ü1.5">48%</td>
+            <td data-label="Ev Ü2.5">20%</td>
+            <td data-label="Dep Ü0.5">48%</td>
+            <td data-label="Dep Ü1.5">18%</td>
+            <td data-label="Dep Ü2.5">6%</td>
+            <td data-label="İY KG">28%</td>
+            <td data-label="MS KG">38%</td>
+            <td data-label="İY Skor">0-0 (20%)</td>
+            <td data-label="MS Skor">3-0 (18%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <tr>
-            <td>16</td>
-            <td>Basel vs Zurich</td>
-            <td>SWI Super League</td>
-            <td>0.68</td>
-            <td>88%</td>
-            <td>61%</td>
-            <td>75%</td>
-            <td>42%</td>
-            <td>82%</td>
-            <td>48%</td>
-            <td>20%</td>
-            <td>48%</td>
-            <td>18%</td>
-            <td>6%</td>
-            <td>28%</td>
-            <td>38%</td>
-            <td>0-0 (20%)</td>
-            <td>3-0 (18%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr>
-            <td>17</td>
-            <td>Mjondalen vs Stabaek</td>
-            <td>NOR 1. Divisjon</td>
-            <td>0.62</td>
-            <td>82%</td>
-            <td>58%</td>
-            <td>68%</td>
-            <td>35%</td>
-            <td>55%</td>
-            <td>25%</td>
-            <td>8%</td>
-            <td>72%</td>
-            <td>38%</td>
-            <td>15%</td>
-            <td>28%</td>
-            <td>42%</td>
-            <td>0-1 (22%)</td>
-            <td>1-2 (18%)</td>
-            <td><span class="value-badge">✅ VALUE</span></td>
-            <td><span class="robot-badge">Over 2.5</span></td>
+          <tr data-time="23:30">
+            <td data-label="#">17</td>
+            <td data-label="Maç" data-time="23:30">SK Brann vs Bodo Glimt</td>
+            <td data-label="Lig">NOR Eliteserien</td>
+            <td data-label="GSI">0.68</td>
+            <td data-label="MS Ü1.5">85%</td>
+            <td data-label="MS Ü2.5">58%</td>
+            <td data-label="İY Ü0.5">72%</td>
+            <td data-label="İY Ü1.5">38%</td>
+            <td data-label="Ev Ü0.5">58%</td>
+            <td data-label="Ev Ü1.5">28%</td>
+            <td data-label="Ev Ü2.5">10%</td>
+            <td data-label="Dep Ü0.5">82%</td>
+            <td data-label="Dep Ü1.5">52%</td>
+            <td data-label="Dep Ü2.5">22%</td>
+            <td data-label="İY KG">35%</td>
+            <td data-label="MS KG">48%</td>
+            <td data-label="İY Skor">0-1 (25%)</td>
+            <td data-label="MS Skor">1-2 (20%)</td>
+            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
+            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
         </tbody>
@@ -657,25 +699,25 @@
     <div class="kupons">
       <div class="kupon">
         <h3>🔥 2 Maç – Yüksek Güven Kuponu</h3>
-        <p>1️⃣ Hibernian vs Rangers → Over 2.5 (GSI: 0.72 / VALUE ✅)<br>
-           2️⃣ Lorient vs PSG → Over 2.5 (GSI: 0.82 / VALUE ✅)</p>
+        <p>1️⃣ Hibernian vs Rangers (22:45) → Over 2.5 (GSI: 0.72 / VALUE ✅)<br>
+           2️⃣ Lorient vs PSG (23:00) → Over 2.5 (GSI: 0.82 / VALUE ✅)</p>
         <p style="color:var(--muted)">Açıklama: Yüksek GSI + gol beklentisi.</p>
       </div>
 
       <div class="kupon">
         <h3>⚙️ 3 Maç – Orta Güven Kuponu</h3>
-        <p>1️⃣ SK Brann vs Bodo Glimt → Over 2.5 (GSI: 0.68 / VALUE ✅)<br>
-           2️⃣ Basel vs Zurich → Over 2.5 (GSI: 0.68 / VALUE ✅)<br>
-           3️⃣ Shamrock Rovers vs Galway Utd → Home Win (GSI: 0.61 / VALUE ✅)</p>
+        <p>1️⃣ SK Brann vs Bodo Glimt (23:30) → Over 2.5 (GSI: 0.68 / VALUE ✅)<br>
+           2️⃣ Basel vs Zurich (23:30) → Over 2.5 (GSI: 0.68 / VALUE ✅)<br>
+           3️⃣ Shamrock Rovers vs Galway Utd (21:45) → Home Win (GSI: 0.61 / VALUE ✅)</p>
         <p style="color:var(--muted)">Açıklama: Orta güven, dengeli kupon.</p>
       </div>
 
       <div class="kupon">
         <h3>⚡ 4 Maç – Riskli (Sürpriz) Kupon</h3>
-        <p>1️⃣ Mantova vs Catanzaro → Under 2.5 (GSI: 0.52)<br>
-           2️⃣ Spezia vs Padova → Under 2.5 (GSI: 0.48 / VALUE ✅)<br>
-           3️⃣ Metz vs Lens → Away Win (GSI: 0.56 / VALUE ✅)<br>
-           4️⃣ Juve Stabia vs Bari → Home Win (GSI: 0.52 / VALUE ✅)</p>
+        <p>1️⃣ Mantova vs Catanzaro (22:00) → Under 2.5 (GSI: 0.52)<br>
+           2️⃣ Spezia vs Padova (22:00) → Under 2.5 (GSI: 0.48 / VALUE ✅)<br>
+           3️⃣ Metz vs Lens (23:00) → Away Win (GSI: 0.56 / VALUE ✅)<br>
+           4️⃣ Juve Stabia vs Bari (22:00) → Home Win (GSI: 0.52 / VALUE ✅)</p>
         <p style="color:var(--muted)">Açıklama: Yüksek oran, yüksek risk. Dikkatli oyna.</p>
       </div>
     </div>
@@ -708,24 +750,22 @@
         var maxVal = -Infinity;
         var maxTd = null;
         tds.forEach(function(td, idx){
-          // skip non-predict columns early: treat all, but parse percent
-          var val = parsePercent(td.textContent || td.innerText);
-          if(val !== -Infinity){
-            if(val > maxVal){
-              maxVal = val;
-              maxTd = td;
+          // Prediction columns start at index 4 (5. column MS Ü1.5) and end at 15 (MS KG)
+          if(idx >= 4 && idx <= 15){ 
+            var val = parsePercent(td.textContent || td.innerText);
+            if(val !== -Infinity){
+              if(val > maxVal){
+                maxVal = val;
+                maxTd = td;
+              }
             }
           }
         });
         if(maxTd){
-          // apply highlight ONLY to the percent chunk inside the cell if possible,
-          // otherwise apply to entire cell content.
-          // We try to wrap the percent with a span.highlight
+          // Apply highlight only to the percentage value
           var html = maxTd.innerHTML;
-          // find last occurrence of 'NN%' and wrap it
           var replaced = html.replace(/(\d{1,3}(?:\.\d+)?)\s*%([^%]*)$/,'<span class="highlight">$1%</span>$2');
           if(replaced === html){
-            // fallback: find first percent
             replaced = html.replace(/(\d{1,3}(?:\.\d+)?\s*%)/,'<span class="highlight">$1</span>');
           }
           maxTd.innerHTML = replaced;
