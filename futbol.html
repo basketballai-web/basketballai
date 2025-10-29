@@ -61,20 +61,24 @@
     font-size:0.88rem;
   }
 
-  /* container that prevents horizontal scroll */
+  /* container that allows horizontal scroll on small screens */
+  /* ÖNEMLİ MOBİL UYUMLULUK DEĞİŞİKLİĞİ 1/3 */
   .table-wrap{
-    width:100%;
-    overflow-x:hidden; /* ensure no horizontal scrolling */
+    /* width:100%; <- Kaldırıldı */
+    overflow-x:auto; /* Yatay kaydırmaya izin ver */
     -webkit-overflow-scrolling:touch;
+    padding-bottom: 8px; /* Kaydırma çubuğu için boşluk */
   }
 
   table {
-    width:100%;
+    /* ÖNEMLİ MOBİL UYUMLULUK DEĞİŞİKLİĞİ 2/3 */
+    min-width: 600px; /* Çok dar ekranlarda dahi içeriğin görünür olması için minimum genişlik */
+    width: max-content; /* Sütun genişliklerinin içeriğe göre ayarlanmasını sağlar */
     border-collapse:collapse;
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-radius:12px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    table-layout:fixed; /* important to prevent overflow */
+    /* table-layout:fixed; <- Kaldırıldı */
     word-break:break-word;
     font-size:13px;
   }
@@ -103,6 +107,46 @@
 
   /* make sure long text wraps and lines are limited */
   td { white-space:normal; line-height:1.2; }
+
+  /* ÖNEMLİ MOBİL UYUMLULUK DEĞİŞİKLİĞİ 3/3: SÜTUN GENİŞLİKLERİ OPTİMİZASYONU */
+  /* Sütun genişliklerini içeriğe göre optimize edin */
+  #match-table th:nth-child(2), /* Maç */
+  #match-table td:nth-child(2){
+    width: 150px;
+    text-align: left; /* Maç adını sola hizalayın */
+    white-space: nowrap; /* Maç adının tek satırda kalmasını sağla */
+  }
+
+  #match-table th:nth-child(3), /* Lig */
+  #match-table td:nth-child(3){
+    width: 100px;
+  }
+
+  #match-table th:nth-child(4), /* GSI */
+  #match-table td:nth-child(4){
+    width: 45px;
+  }
+
+  #match-table th:nth-child(20), /* Robot */
+  #match-table td:nth-child(20){
+    width: 80px;
+  }
+  
+  /* Yüzde sütunları için küçük bir minimum genişlik ve daraltılmış dolgu */
+  #match-table th:nth-child(n+5):nth-child(-n+18), 
+  #match-table td:nth-child(n+5):nth-child(-n+18){
+    min-width: 55px;
+    max-width: 60px;
+    padding: 8px 3px; /* İç dolguyu azaltın */
+  }
+  /* Bitiş skorlarını biraz daha geniş tut */
+  #match-table th:nth-child(17), /* İY Skor */
+  #match-table td:nth-child(17),
+  #match-table th:nth-child(18), /* MS Skor */
+  #match-table td:nth-child(18){
+    min-width: 80px;
+  }
+
 
   /* highlight style applied dynamically */
   .highlight{
@@ -166,6 +210,7 @@
   }
 
   /* responsive tweaks */
+  /* Bu kısımlar tablo kaydırılabilir olduğu için artık daha az önem taşıyor, ancak genel düzeni iyileştirir */
   @media (max-width:900px){
     thead th { font-size:12px; padding:8px 6px; }
     td { font-size:12px; padding:7px 6px; }
@@ -187,7 +232,7 @@
 
     <div class="table-wrap" role="region" aria-label="Tahmin Tablosu">
       <table id="match-table" aria-describedby="table-desc">
-        <caption id="table-desc">17 maçlık tahmin tablosu — her satırdaki en yüksek % otomatik mavi ile vurgulanır.</caption>
+        <caption id="table-desc">17 maçlık tahmin tablosu — mobil cihazlarda sağa kaydırılabilir (scrollable) hale getirildi. Her satırdaki en yüksek % otomatik mavi ile vurgulanır.</caption>
         <thead>
           <tr>
             <th>#</th>
@@ -213,7 +258,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- 1 -->
           <tr>
             <td>1</td>
             <td>Mantova vs Catanzaro</td>
@@ -234,10 +278,9 @@
             <td>0-0 (42%)</td>
             <td>0-1 (22%)</td>
             <td></td>
-            <td>Under 2.5</td>
+            <td><span class="robot-badge">Under 2.5</span></td>
           </tr>
 
-          <!-- 2 -->
           <tr>
             <td>2</td>
             <td>Shamrock Rovers vs Galway Utd</td>
@@ -257,11 +300,10 @@
             <td>38%</td>
             <td>0-0 (35%)</td>
             <td>2-0 (20%)</td>
-            <td>✅ VALUE</td>
-            <td>Home Win</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <!-- 3 -->
           <tr>
             <td>3</td>
             <td>SK Brann vs Bodo Glimt</td>
@@ -281,11 +323,10 @@
             <td>48%</td>
             <td>0-1 (25%)</td>
             <td>1-2 (20%)</td>
-            <td>✅ VALUE</td>
-            <td>Over 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <!-- 4 -->
           <tr>
             <td>4</td>
             <td>Hibernian vs Rangers</td>
@@ -305,11 +346,10 @@
             <td>52%</td>
             <td>0-1 (22%)</td>
             <td>1-2 (18%)</td>
-            <td>✅ VALUE</td>
-            <td>Over 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <!-- 5 -->
           <tr>
             <td>5</td>
             <td>ENPPI vs Pyramids FC</td>
@@ -329,11 +369,10 @@
             <td>45%</td>
             <td>0-1 (25%)</td>
             <td>0-2 (20%)</td>
-            <td>✅ VALUE</td>
-            <td>Over 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <!-- 6 -->
           <tr>
             <td>6</td>
             <td>Spezia vs Padova</td>
@@ -353,11 +392,10 @@
             <td>32%</td>
             <td>0-0 (48%)</td>
             <td>0-1 (20%)</td>
-            <td>✅ VALUE</td>
-            <td>Under 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Under 2.5</span></td>
           </tr>
 
-          <!-- 7 -->
           <tr>
             <td>7</td>
             <td>St Mirren vs Hearts</td>
@@ -377,11 +415,10 @@
             <td>35%</td>
             <td>0-0 (32%)</td>
             <td>0-2 (18%)</td>
-            <td>✅ VALUE</td>
-            <td>Away Win</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Away Win</span></td>
           </tr>
 
-          <!-- 8 -->
           <tr>
             <td>8</td>
             <td>Aberdeen vs Kilmarnock</td>
@@ -402,10 +439,9 @@
             <td>1-0 (25%)</td>
             <td>2-1 (16%)</td>
             <td></td>
-            <td>Over 2.5</td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <!-- 9 -->
           <tr>
             <td>9</td>
             <td>Juve Stabia vs Bari</td>
@@ -425,11 +461,10 @@
             <td>35%</td>
             <td>0-0 (32%)</td>
             <td>2-0 (18%)</td>
-            <td>✅ VALUE</td>
-            <td>Home Win</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <!-- 10 -->
           <tr>
             <td>10</td>
             <td>Como vs Hellas Verona</td>
@@ -450,10 +485,9 @@
             <td>0-0 (35%)</td>
             <td>1-1 (20%)</td>
             <td></td>
-            <td>Draw</td>
+            <td><span class="robot-badge">Draw</span></td>
           </tr>
 
-          <!-- 11 -->
           <tr>
             <td>11</td>
             <td>Venezia vs Sudtirol</td>
@@ -473,11 +507,10 @@
             <td>32%</td>
             <td>1-0 (30%)</td>
             <td>2-0 (20%)</td>
-            <td>✅ VALUE</td>
-            <td>Home Win</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <!-- 12 -->
           <tr>
             <td>12</td>
             <td>Lorient vs PSG</td>
@@ -497,11 +530,10 @@
             <td>32%</td>
             <td>0-1 (28%)</td>
             <td>0-3 (25%)</td>
-            <td>✅ VALUE</td>
-            <td>Over 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <!-- 13 -->
           <tr>
             <td>13</td>
             <td>Toulouse vs Rennes</td>
@@ -522,10 +554,9 @@
             <td>0-0 (32%)</td>
             <td>1-1 (18%)</td>
             <td></td>
-            <td>Under 2.5</td>
+            <td><span class="robot-badge">Under 2.5</span></td>
           </tr>
 
-          <!-- 14 -->
           <tr>
             <td>14</td>
             <td>Metz vs Lens</td>
@@ -545,11 +576,10 @@
             <td>32%</td>
             <td>0-0 (35%)</td>
             <td>0-2 (18%)</td>
-            <td>✅ VALUE</td>
-            <td>Away Win</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Away Win</span></td>
           </tr>
 
-          <!-- 15 -->
           <tr>
             <td>15</td>
             <td>Lausanne-Sport vs Servette</td>
@@ -569,11 +599,10 @@
             <td>38%</td>
             <td>0-0 (28%)</td>
             <td>2-0 (16%)</td>
-            <td>✅ VALUE</td>
-            <td>Home Win</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Home Win</span></td>
           </tr>
 
-          <!-- 16 -->
           <tr>
             <td>16</td>
             <td>Basel vs Zurich</td>
@@ -593,11 +622,10 @@
             <td>38%</td>
             <td>0-0 (20%)</td>
             <td>3-0 (18%)</td>
-            <td>✅ VALUE</td>
-            <td>Over 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
-          <!-- 17 -->
           <tr>
             <td>17</td>
             <td>Mjondalen vs Stabaek</td>
@@ -617,15 +645,14 @@
             <td>42%</td>
             <td>0-1 (22%)</td>
             <td>1-2 (18%)</td>
-            <td>✅ VALUE</td>
-            <td>Over 2.5</td>
+            <td><span class="value-badge">✅ VALUE</span></td>
+            <td><span class="robot-badge">Over 2.5</span></td>
           </tr>
 
         </tbody>
       </table>
     </div>
 
-    <!-- kupons -->
     <div class="kupons">
       <div class="kupon">
         <h3>🔥 2 Maç – Yüksek Güven Kuponu</h3>
@@ -721,4 +748,3 @@
 </script>
 </body>
 </html>
-
