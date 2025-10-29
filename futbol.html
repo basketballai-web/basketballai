@@ -61,24 +61,22 @@
     font-size:0.88rem;
   }
 
-  /* container that allows horizontal scroll on small screens */
-  /* ÖNEMLİ MOBİL UYUMLULUK DEĞİŞİKLİĞİ 1/3 */
+  /* **MOBİL İYİLEŞTİRME 1: YATAY KAYDIRMAYA İZİN VER** */
   .table-wrap{
-    /* width:100%; <- Kaldırıldı */
     overflow-x:auto; /* Yatay kaydırmaya izin ver */
     -webkit-overflow-scrolling:touch;
     padding-bottom: 8px; /* Kaydırma çubuğu için boşluk */
   }
 
   table {
-    /* ÖNEMLİ MOBİL UYUMLULUK DEĞİŞİKLİĞİ 2/3 */
-    min-width: 600px; /* Çok dar ekranlarda dahi içeriğin görünür olması için minimum genişlik */
-    width: max-content; /* Sütun genişliklerinin içeriğe göre ayarlanmasını sağlar */
+    /* **MOBİL İYİLEŞTİRME 2: ESNEK TABLO GENİŞLİĞİ** */
+    min-width: 600px; 
+    width: max-content; 
     border-collapse:collapse;
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-radius:12px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    /* table-layout:fixed; <- Kaldırıldı */
+    table-layout: auto; /* Daha esnek bir tablo düzeni sağlar */
     word-break:break-word;
     font-size:13px;
   }
@@ -108,46 +106,44 @@
   /* make sure long text wraps and lines are limited */
   td { white-space:normal; line-height:1.2; }
 
-  /* ÖNEMLİ MOBİL UYUMLULUK DEĞİŞİKLİĞİ 3/3: SÜTUN GENİŞLİKLERİ OPTİMİZASYONU */
-  /* Sütun genişliklerini içeriğe göre optimize edin */
+  /* **MOBİL İYİLEŞTİRME 3: SÜTUN GENİŞLİKLERİ OPTİMİZASYONU** */
   #match-table th:nth-child(2), /* Maç */
   #match-table td:nth-child(2){
-    width: 150px;
-    text-align: left; /* Maç adını sola hizalayın */
-    white-space: nowrap; /* Maç adının tek satırda kalmasını sağla */
+    min-width: 150px;
+    text-align: left;
+    white-space: normal;
   }
 
   #match-table th:nth-child(3), /* Lig */
   #match-table td:nth-child(3){
-    width: 100px;
+    min-width: 80px;
   }
 
   #match-table th:nth-child(4), /* GSI */
   #match-table td:nth-child(4){
-    width: 45px;
+    min-width: 45px;
   }
 
   #match-table th:nth-child(20), /* Robot */
   #match-table td:nth-child(20){
-    width: 80px;
+    min-width: 80px;
   }
   
-  /* Yüzde sütunları için küçük bir minimum genişlik ve daraltılmış dolgu */
-  #match-table th:nth-child(n+5):nth-child(-n+18), 
-  #match-table td:nth-child(n+5):nth-child(-n+18){
-    min-width: 55px;
-    max-width: 60px;
-    padding: 8px 3px; /* İç dolguyu azaltın */
+  /* Yüzde sütunları için daraltılmış dolgu ve minimum genişlik */
+  #match-table th:nth-child(n+5):nth-child(-n+16), 
+  #match-table td:nth-child(n+5):nth-child(-n+16){
+    min-width: 50px;
+    padding: 8px 2px; 
   }
   /* Bitiş skorlarını biraz daha geniş tut */
   #match-table th:nth-child(17), /* İY Skor */
   #match-table td:nth-child(17),
   #match-table th:nth-child(18), /* MS Skor */
   #match-table td:nth-child(18){
-    min-width: 80px;
+    min-width: 75px;
+    padding: 8px 4px;
   }
-
-
+  
   /* highlight style applied dynamically */
   .highlight{
     color:var(--neon-blue) !important;
@@ -155,27 +151,31 @@
     text-shadow:0 0 8px rgba(0,170,255,0.14);
   }
 
-  .value-badge{
-    color:var(--neon-green);
-    font-weight:800;
-    background:rgba(34,197,94,0.04);
-    padding:6px 8px;
+  /* **MOBİL İYİLEŞTİRME 4: VALUE VE ROBOT BADGE DÜZENLEMESİ** */
+  .value-badge, .robot-badge{
+    font-weight:700; 
+    padding: 4px 6px; 
     border-radius:8px;
-    display:inline-block;
-    border:1px solid rgba(34,197,94,0.08);
-    font-size:0.86rem;
+    font-size:0.8rem; 
+    white-space: nowrap; /* Metnin tek satırda kalmasını sağlar */
+    display: block; /* Tek başına bir blok haline getirerek yan yana sıkışmasını engeller */
+    text-align: center; 
   }
 
+  /* Value Badge'e özel renkler */
+  .value-badge{
+    color:var(--neon-green);
+    background:rgba(34,197,94,0.04);
+    border:1px solid rgba(34,197,94,0.08);
+  }
+
+  /* Robot Badge'e özel renkler */
   .robot-badge{
     color:#ffd86b;
-    font-weight:800;
-    display:inline-block;
-    padding:6px 8px;
-    border-radius:8px;
     border:1px solid rgba(255,216,107,0.06);
     background: rgba(255,216,107,0.02);
-    font-size:0.86rem;
   }
+
 
   caption{
     caption-side:top;
@@ -191,16 +191,17 @@
     display:flex;
     gap:12px;
     flex-direction:column;
+    padding: 0 4px; /* Yatayda daha iyi boşluk */
   }
   .kupon{
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border:1px solid rgba(0,170,255,0.06);
-    padding:12px;
+    padding:14px; /* İç dolguyu artırın */
     border-radius:12px;
     box-shadow:0 8px 20px rgba(0,0,0,0.5);
   }
-  .kupon h3{ margin:0 0 8px 0; color:var(--neon-cyan); }
-  .kupon p{ margin:4px 0; color:var(--muted); }
+  .kupon h3{ margin:0 0 10px 0; color:var(--neon-cyan); font-size: 1.1rem; } 
+  .kupon p{ margin:6px 0; color:var(--muted); line-height: 1.4; } /* Satır aralığını artırın */
 
   footer{
     margin-top:22px;
@@ -210,7 +211,6 @@
   }
 
   /* responsive tweaks */
-  /* Bu kısımlar tablo kaydırılabilir olduğu için artık daha az önem taşıyor, ancak genel düzeni iyileştirir */
   @media (max-width:900px){
     thead th { font-size:12px; padding:8px 6px; }
     td { font-size:12px; padding:7px 6px; }
@@ -219,6 +219,7 @@
     .page{ padding:10px; }
     thead th { font-size:11px; padding:6px 4px; }
     td { font-size:11px; padding:6px 4px; }
+    .kupon { padding: 12px; }
   }
 </style>
 </head>
