@@ -71,7 +71,7 @@
   /* KART GÖRÜNÜMÜ İÇİN SIFIRLAMA ve GENEL STİLLER */
   .table-wrap{
     width: 100%;
-    overflow-x: hidden; /* Sağ/Sola Kaymayı Kesinlikle Engelle */
+    overflow-x: hidden;
   }
 
   table {
@@ -83,6 +83,9 @@
     table-layout:auto; 
     font-size:13px;
   }
+
+  /* CAPTION KALDIRILDI */
+  caption{ display: none; }
 
   /* Masaüstünde (600px üzeri) normal tablo görünümü */
   thead th{
@@ -96,8 +99,11 @@
     padding:8px 6px;
     border-bottom:1px solid rgba(255,255,255,0.03);
     vertical-align:middle;
-    color:#e7f3fb; /* Yeni: Veri rengi */
+    color:#e7f3fb;
+    text-align: center; /* Masaüstü tahmin ortalama */
   }
+  tbody td:nth-child(2) { text-align: left; } /* Maç adını solda tut */
+
   tr:nth-child(even) td{ background: rgba(255,255,255,0.01); }
   tr:hover td{ background: rgba(0,170,255,0.02); }
   td { white-space:normal; line-height:1.2; }
@@ -108,7 +114,7 @@
   #match-table th:nth-child(4), #match-table td:nth-child(4) { width: 40px; }
 
 
-  /* **MOBİL KART GÖRÜNÜMÜ DÖNÜŞÜMÜ (600px Altı)** */
+  /* **MOBİL KART GÖRÜNÜMÜ DÜZENLEMELERİ (600px Altı)** */
   @media screen and (max-width: 600px) {
     table, thead, tbody, th, td, tr { 
       display: block; 
@@ -126,57 +132,58 @@
       padding: 10px; 
     }
     
+    /* Tahmin Veri Kartları */
     td { 
       border: none;
-      padding: 6px 8px; /* Metinlerin sıkışmaması için dolguyu ayarla */
+      padding: 6px 8px; 
       position: relative;
-      text-align: right; 
-      font-size: 1.0rem; 
       background: none !important;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-between; /* Etiket ve değeri iki yana yay */
       align-items: center;
-      line-height: 1.3; /* Satır yüksekliğini artır */
+      line-height: 1.3;
+      text-align: right; /* Değerleri sağa hizala */
     }
     
+    /* Tahmin Etiketleri (Başlıklar) */
     td::before {
       content: attr(data-label);
       font-weight: 600;
       color: var(--label-color);
-      font-size: 0.85rem; /* Etiket font boyutunu küçült */
-      text-align: left;
-      flex-basis: 50%; /* Etiketin genişliğini sınırla */
-      flex-shrink: 0; /* Etiketin küçülmesini engelle */
-      margin-right: 8px; /* Etiket ile değer arasına boşluk */
+      font-size: 0.85rem; 
+      text-align: left; /* Etiketi sola hizala */
+      flex-basis: 50%;
+      flex-shrink: 0;
+      margin-right: 8px;
     }
     
-    /* Maç başlığı ve saati için özel stil */
+    /* Maç başlığı ve saati için YENİ/GÜNCEL Estetik Düzenleme */
     tr td:nth-child(2) {
         font-size: 1.15rem;
         font-weight: 700;
         color: var(--neon-cyan);
-        display: block; 
+        display: flex; /* Flexbox kullan */
+        flex-direction: column; /* İçeriği dikey yığ */
         text-align: center;
         border-bottom: none;
-        padding-bottom: 4px;
+        padding-bottom: 8px; /* Boşluğu artır */
         margin-bottom: 0;
-        white-space: normal; /* Metnin sarmalanmasını sağla */
+        white-space: normal;
     }
     tr td:nth-child(2)::before {
         content: attr(data-time) " | "; 
         color: var(--accent);
         font-size: 0.9rem;
         font-weight: 600;
-        float: none;
-        display: block; /* Saat ve maç isminin ayrı satırlarda olmasını sağlar */
         margin-bottom: 4px;
+        text-align: center; /* Saati ortaya hizala */
     }
 
-    /* #, Lig ve GSI için grup */
+    /* #, Lig ve GSI için grup (Yan Yana Gruplanmış Öğeler) */
     .match-info-group {
         display: flex;
         justify-content: space-between;
-        gap: 5px; /* Küçük kartlar arasına boşluk */
+        gap: 5px;
         margin-bottom: 8px;
         border-bottom: 1px solid rgba(255,255,255,0.06);
         padding-bottom: 8px;
@@ -187,32 +194,42 @@
     tr td:nth-child(3),
     tr td:nth-child(4) {
         display: flex;
-        flex-direction: column; /* İçeriği dikey yığ */
-        align-items: center;
-        width: calc(33.33% - 5px); /* Yan yana 3 kart için boşluk dahil genişlik */
+        flex-direction: column; 
+        align-items: center; /* İçeriği ortaya hizala */
+        justify-content: center;
+        width: calc(33.33% - 5px); 
         border-bottom: none;
         padding: 6px 4px;
-        margin: 0; /* Boşlukları resetle */
+        margin: 0;
         background: rgba(0,170,255,0.05);
         border-radius: 6px;
-        font-size: 0.9rem; /* Metni küçült */
+        font-size: 0.9rem;
         flex-shrink: 1;
         flex-grow: 1;
+        text-align: center; /* Sayı ve metni ortala */
     }
     tr td:nth-child(1)::before,
     tr td:nth-child(3)::before,
     tr td:nth-child(4)::before {
-        font-size: 0.75rem; /* Etiket font boyutunu daha da küçült */
+        font-size: 0.75rem; 
         margin-bottom: 2px;
-        flex-basis: auto; /* Kendi içeriğine göre ayarla */
-        text-align: center;
+        flex-basis: auto; 
+        text-align: center; /* Etiketi ortala */
     }
 
-    /* En son 2 sütun (Value, Robot) daha büyük kartlar */
+    /* En son 2 sütun (Value, Robot) */
     tr td:nth-child(19), 
     tr td:nth-child(20) {
       padding: 8px 10px;
       border-top: 1px solid rgba(255,255,255,0.06);
+      /* İçerik ve etiket birbirinden ayrılacak */
+      justify-content: space-between;
+    }
+
+    /* Value ve Robot Badge'lerin hizalaması */
+    .value-badge, .robot-badge{
+        margin-left: auto; /* Sağa hizala */
+        flex-shrink: 0;
     }
   }
 
@@ -231,8 +248,6 @@
     font-size:0.8rem; 
     white-space: nowrap;
     text-align: center; 
-    flex-shrink: 0; /* İçeriğin küçülmesini engelle */
-    margin-left: auto; /* Sağa hizala */
   }
   .value-badge{
     color:var(--neon-green);
@@ -245,14 +260,6 @@
     background: rgba(255,216,107,0.02);
   }
 
-  /* Kaption'dan gereksiz metni kaldırdık */
-  caption{
-    caption-side:top;
-    text-align:left;
-    font-size:1.05rem;
-    padding:8px 6px;
-    color:var(--accent);
-  }
 
   /* Kupon boxes */
   .kupons{
@@ -291,7 +298,7 @@
 
     <div class="table-wrap" role="region" aria-label="Tahmin Tablosu">
       <table id="match-table" aria-describedby="table-desc">
-        <caption id="table-desc">Güncel tahmin tablosu.</caption>
+        <caption id="table-desc">Tahmin Tablosu.</caption> 
         <thead>
           <tr>
             <th>#</th>
