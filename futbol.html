@@ -1,814 +1,544 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<title>Tahmin App - Nihai Maç Tablosu</title>
-<style>
-  :root{
-    --bg-1:#0e1116;
-    --panel:#0f1720;
-    --muted:#bfc7cc;
-    --neon-blue:#00aaff;
-    --neon-cyan:#00ffd1;
-    --neon-green:#22c55e;
-    --accent:#7afaff;
-    --warning:#ffb84d;
-    --label-color: #8b929c; 
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
+    <title>Günün Analizleri | Yapay Zeka Destekli Tahminler</title>
+    <style>
+        /* FONT VE RENKLER */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-  html,body{
-    height:100%;
-    margin:0;
-    padding:0;
-    background: linear-gradient(180deg,var(--bg-1) 0%, #111521 100%);
-    color:#e6eef3;
-    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    -webkit-text-size-adjust:100%;
-  }
+        :root {
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --text-light: #f0f0f0;
+            --text-secondary: #aaaaaa;
+            --accent-blue: #40c4ff;
+            --accent-green: #69f0ae;
+            --accent-red: #ff5252;
+            --neon-blue: #00e5ff; 
+            --accent-yellow: #ffeb3b;
+        }
 
-  .page{
-    max-width:980px;
-    margin:0 auto;
-    padding:14px;
-  }
+        /* GENEL DÜZEN VE SIFIRLAMA */
+        body { 
+            font-family: 'Roboto', Arial, Helvetica, sans-serif;
+            line-height: 1.6; 
+            margin: 0; 
+            background-color: var(--bg-dark); 
+            color: var(--text-light); 
+            padding: 15px; 
+            overflow-x: hidden; 
+            font-size: 16px; 
+            min-width: 320px; 
+        }
+        * { box-sizing: border-box; }
 
-  header{
-    text-align:center;
-    margin-bottom:12px;
-  }
-  header h1{
-    margin:0;
-    font-size:1.4rem;
-    color:var(--neon-cyan);
-    text-shadow:0 0 10px rgba(0,255,209,0.06);
-  }
-  header p.sub{
-    margin:6px 0 0;
-    color:var(--accent);
-    font-weight:600;
-  }
-  header p.date{
-    margin: 4px 0 0;
-    color: var(--warning);
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
+        /* BAŞLIKLAR */
+        .header { 
+            text-align: center; 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em; 
+            margin-bottom: 5px; 
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.7); 
+            letter-spacing: 1px;
+        }
+        .header-subtitle {
+            font-size: 1em; 
+            color: var(--accent-blue);
+            margin-bottom: 30px;
+            display: block;
+            text-align: center; 
+            font-weight: 500;
+        }
+        .disclaimer {
+            text-align: center; 
+            font-size: 0.8em; 
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid var(--accent-red);
+            background-color: rgba(255, 82, 82, 0.1); 
+            border-radius: 4px;
+            color: var(--accent-red);
+        }
 
-  .warning{
-    display:inline-block;
-    margin-top:10px;
-    background: rgba(255,184,77,0.06);
-    color:var(--warning);
-    border:1px solid rgba(255,184,77,0.12);
-    padding:8px 12px;
-    border-radius:10px;
-    font-size:0.88rem;
-  }
+        /* MAÇ KARTLARI */
+        .match-card { 
+            background: var(--card-dark); 
+            padding: 15px;
+            margin-bottom: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+            border-top: 4px solid var(--neon-blue); 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+            font-weight: 700;
+        }
+        .team-name { font-size: 1.1em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .match-time {
+            font-size: 1.3em; 
+            color: var(--accent-green);
+            flex-shrink: 0;
+            padding: 0 5px;
+            font-family: 'Orbitron', sans-serif;
+        }
 
-  /* KART GÖRÜNÜMÜ İÇİN SIFIRLAMA ve GENEL STİLLER */
-  .table-wrap{
-    width: 100%;
-    overflow-x: hidden;
-  }
+        /* DİKEY KART YAPISI (ANALİZ GRUPLARI) */
+        .detail-box {
+            background: #2a2a2a;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid;
+            font-size: 0.9em;
+        }
+        .main-prediction { border-left-color: var(--accent-green); } 
+        .goal-details { border-left-color: var(--accent-yellow); } 
+        .analysis-box { 
+            border-left-color: var(--neon-blue);
+            background: rgba(0, 229, 255, 0.08); 
+        }
+        
+        .detail-box strong { color: var(--text-light); font-size: 1em; display: block; margin-bottom: 5px; border-bottom: 1px dotted #444; padding-bottom: 3px;}
 
-  table {
-    width:100%;
-    border-collapse:collapse;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    table-layout:auto; 
-    font-size:13px;
-  }
+        /* Dikey Tablo Stili (2 Sütun) */
+        .vertical-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .vertical-table tr {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #333; 
+            padding: 5px 0;
+        }
+        .vertical-table tr:last-child { border-bottom: none; }
+        .vertical-table td {
+            padding: 0;
+            text-align: left;
+            flex: 1;
+            font-weight: 400;
+        }
+        .vertical-table .label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
+            flex: 1.3;
+        }
+        .vertical-table .value {
+            text-align: right;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        .vertical-table .value.red { color: var(--accent-red); }
+        .vertical-table .value.blue { color: var(--accent-blue); }
 
-  /* CAPTION KALDIRILDI */
-  caption{ display: none; }
-
-  /* Masaüstünde (600px üzeri) normal tablo görünümü */
-  thead th{
-    background: rgba(10,20,30,0.9);
-    color:var(--neon-cyan);
-    padding:10px 6px;
-    font-weight:700;
-    border-bottom:1px solid rgba(255,255,255,0.04);
-  }
-  tbody td{
-    padding:8px 6px;
-    border-bottom:1px solid rgba(255,255,255,0.03);
-    vertical-align:middle;
-    color:#e7f3fb;
-    text-align: center; /* Masaüstü tahmin ortalama */
-  }
-  tbody td:nth-child(2) { text-align: left; } /* Maç adını solda tut */
-
-  tr:nth-child(even) td{ background: rgba(255,255,255,0.01); }
-  tr:hover td{ background: rgba(0,170,255,0.02); }
-  td { white-space:normal; line-height:1.2; }
-  
-  /* İlk 3 sütun için sabit genişlik (Masaüstü için) */
-  #match-table th:nth-child(2), #match-table td:nth-child(2) { min-width: 150px; }
-  #match-table th:nth-child(3), #match-table td:nth-child(3) { width: 60px; }
-  #match-table th:nth-child(4), #match-table td:nth-child(4) { width: 40px; }
-
-
-  /* **MOBİL KART GÖRÜNÜMÜ DÜZENLEMELERİ (600px Altı)** */
-  @media screen and (max-width: 600px) {
-    table, thead, tbody, th, td, tr { 
-      display: block; 
-      width: 100%; 
-      box-sizing: border-box; 
-    }
-    
-    thead { display: none; }
-    
-    tr { 
-      margin-bottom: 12px; 
-      border-radius: 10px; 
-      background: rgba(255,255,255,0.04);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      padding: 10px; 
-    }
-    
-    /* Tahmin Veri Kartları */
-    td { 
-      border: none;
-      padding: 6px 8px; 
-      position: relative;
-      background: none !important;
-      display: flex;
-      justify-content: space-between; /* Etiket ve değeri iki yana yay */
-      align-items: center;
-      line-height: 1.3;
-      text-align: right; /* Değerleri sağa hizala */
-    }
-    
-    /* Tahmin Etiketleri (Başlıklar) */
-    td::before {
-      content: attr(data-label);
-      font-weight: 600;
-      color: var(--label-color);
-      font-size: 0.85rem; 
-      text-align: left; /* Etiketi sola hizala */
-      flex-basis: 50%;
-      flex-shrink: 0;
-      margin-right: 8px;
-    }
-    
-    /* Maç başlığı ve saati için YENİ/GÜNCEL Estetik Düzenleme */
-    tr td:nth-child(2) {
-        font-size: 1.15rem;
-        font-weight: 700;
-        color: var(--neon-cyan);
-        display: flex; /* Flexbox kullan */
-        flex-direction: column; /* İçeriği dikey yığ */
-        text-align: center;
-        border-bottom: none;
-        padding-bottom: 8px; /* Boşluğu artır */
-        margin-bottom: 0;
-        white-space: normal;
-    }
-    tr td:nth-child(2)::before {
-        content: attr(data-time) " | "; 
-        color: var(--accent);
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-bottom: 4px;
-        text-align: center; /* Saati ortaya hizala */
-    }
-
-    /* #, Lig ve GSI için grup (Yan Yana Gruplanmış Öğeler) */
-    .match-info-group {
-        display: flex;
-        justify-content: space-between;
-        gap: 5px;
-        margin-bottom: 8px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        padding-bottom: 8px;
-    }
-
-    /* #, Lig ve GSI alt alta daha küçük kartlarda */
-    tr td:nth-child(1),
-    tr td:nth-child(3),
-    tr td:nth-child(4) {
-        display: flex;
-        flex-direction: column; 
-        align-items: center; /* İçeriği ortaya hizala */
-        justify-content: center;
-        width: calc(33.33% - 5px); 
-        border-bottom: none;
-        padding: 6px 4px;
-        margin: 0;
-        background: rgba(0,170,255,0.05);
-        border-radius: 6px;
-        font-size: 0.9rem;
-        flex-shrink: 1;
-        flex-grow: 1;
-        text-align: center; /* Sayı ve metni ortala */
-    }
-    tr td:nth-child(1)::before,
-    tr td:nth-child(3)::before,
-    tr td:nth-child(4)::before {
-        font-size: 0.75rem; 
-        margin-bottom: 2px;
-        flex-basis: auto; 
-        text-align: center; /* Etiketi ortala */
-    }
-
-    /* En son 2 sütun (Value, Robot) */
-    tr td:nth-child(19), 
-    tr td:nth-child(20) {
-      padding: 8px 10px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      /* İçerik ve etiket birbirinden ayrılacak */
-      justify-content: space-between;
-    }
-
-    /* Value ve Robot Badge'lerin hizalaması */
-    .value-badge, .robot-badge{
-        margin-left: auto; /* Sağa hizala */
-        flex-shrink: 0;
-    }
-  }
-
-
-  /* Diğer Stiller */
-  .highlight{
-    color:var(--neon-blue) !important;
-    font-weight:800;
-    text-shadow:0 0 8px rgba(0,170,255,0.14);
-  }
-
-  .value-badge, .robot-badge{
-    font-weight:700; 
-    padding: 4px 6px; 
-    border-radius:8px;
-    font-size:0.8rem; 
-    white-space: nowrap;
-    text-align: center; 
-  }
-  .value-badge{
-    color:var(--neon-green);
-    background:rgba(34,197,94,0.04);
-    border:1px solid rgba(34,197,94,0.08);
-  }
-  .robot-badge{
-    color:#ffd86b;
-    border:1px solid rgba(255,216,107,0.06);
-    background: rgba(255,216,107,0.02);
-  }
-
-
-  /* Kupon boxes */
-  .kupons{
-    margin-top:18px;
-    display:flex;
-    gap:12px;
-    flex-direction:column;
-    padding: 0 4px; 
-  }
-  .kupon{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(0,170,255,0.06);
-    padding:14px; 
-    border-radius:12px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.5);
-  }
-  .kupon h3{ margin:0 0 10px 0; color:var(--neon-cyan); font-size: 1.1rem; } 
-  .kupon p{ margin:6px 0; color:var(--muted); line-height: 1.4; } 
-
-  footer{
-    margin-top:22px;
-    text-align:center;
-    color:var(--muted);
-    font-size:0.9rem;
-  }
-</style>
+        /* GÜVENLİK KİLİDİ VURGUSU */
+        .safe-prediction {
+            font-family: 'Orbitron', sans-serif; 
+            font-weight: 700;
+            color: var(--neon-blue); 
+            background-color: rgba(0, 229, 255, 0.15);
+            padding: 8px 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 2px solid var(--neon-blue);
+            font-size: 1.1em; 
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+        .safe-prediction .result {
+            color: var(--accent-green);
+            margin-left: 5px;
+            font-size: 1.1em;
+        }
+        .safe-prediction .icon { margin-right: 8px; font-size: 1.2em; }
+        .comment-text {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+        
+        /* KUPONLAR VE VALUE LİSTESİ */
+        .coupon-section { 
+            margin-top: 30px; 
+            padding: 15px; 
+            background: #181818; 
+            border-radius: 12px; 
+            border: 2px solid var(--accent-blue);
+        }
+        .coupon-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em; 
+            color: var(--accent-blue); 
+            text-align: center; 
+            margin-top: 0;
+            text-shadow: 0 0 5px var(--accent-blue);
+            margin-bottom: 15px;
+        }
+        .value-list { list-style: none; padding: 0; margin: 5px 0 0 0; font-size: 0.9em;}
+        .value-list li {
+            background: #2a2a2a;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            border-left: 4px solid var(--accent-yellow);
+            display: flex;
+            justify-content: space-between;
+        }
+        .value-list strong { color: var(--accent-yellow); font-weight: 700; }
+        .coupon-box strong { font-size: 1.05em; color: var(--text-light); }
+        
+        /* Renkli takım başlıkları */
+        .team-name.home-color { color: var(--accent-red); }
+        .team-name.away-color { color: var(--accent-blue); }
+    </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <h1>⚽ Tahmin App</h1>
-      <p class="date">📆 29.10.2025</p>
-      <p class="sub">🤖 Powered by AI</p>
-      <div class="warning">⚠️ Sorumlu Bahis Oyna • 💸 Herkes Kendinden Sorumludur • %100 Garanti İçermez</div>
-    </header>
 
-    <div class="table-wrap" role="region" aria-label="Tahmin Tablosu">
-      <table id="match-table" aria-describedby="table-desc">
-        <caption id="table-desc">Tahmin Tablosu.</caption> 
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Maç | TSİ</th>
-            <th>Lig</th>
-            <th>GSI</th>
-            <th>MS Ü1.5</th>
-            <th>MS Ü2.5</th>
-            <th>İY Ü0.5</th>
-            <th>İY Ü1.5</th>
-            <th>Ev Ü0.5</th>
-            <th>Ev Ü1.5</th>
-            <th>Ev Ü2.5</th>
-            <th>Dep Ü0.5</th>
-            <th>Dep Ü1.5</th>
-            <th>Dep Ü2.5</th>
-            <th>İY KG</th>
-            <th>MS KG</th>
-            <th>İY Skor</th>
-            <th>MS Skor</th>
-            <th>Value</th>
-            <th>Robot</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-time="21:45">
-            <td data-label="#">1</td>
-            <td data-label="Maç" data-time="21:45">Shamrock Rovers vs Galway Utd</td>
-            <td data-label="Lig">IRL Premier Division</td>
-            <td data-label="GSI">0.61</td>
-            <td data-label="MS Ü1.5">78%</td>
-            <td data-label="MS Ü2.5">52%</td>
-            <td data-label="İY Ü0.5">65%</td>
-            <td data-label="İY Ü1.5">32%</td>
-            <td data-label="Ev Ü0.5">75%</td>
-            <td data-label="Ev Ü1.5">45%</td>
-            <td data-label="Ev Ü2.5">18%</td>
-            <td data-label="Dep Ü0.5">52%</td>
-            <td data-label="Dep Ü1.5">22%</td>
-            <td data-label="Dep Ü2.5">8%</td>
-            <td data-label="İY KG">25%</td>
-            <td data-label="MS KG">38%</td>
-            <td data-label="İY Skor">0-0 (35%)</td>
-            <td data-label="MS Skor">2-0 (20%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
-          </tr>
-          
-          <tr data-time="22:00">
-            <td data-label="#">2</td>
-            <td data-label="Maç" data-time="22:00">Spezia vs Padova</td>
-            <td data-label="Lig">ITA Serie B</td>
-            <td data-label="GSI">0.48</td>
-            <td data-label="MS Ü1.5">68%</td>
-            <td data-label="MS Ü2.5">42%</td>
-            <td data-label="İY Ü0.5">52%</td>
-            <td data-label="İY Ü1.5">22%</td>
-            <td data-label="Ev Ü0.5">48%</td>
-            <td data-label="Ev Ü1.5">18%</td>
-            <td data-label="Ev Ü2.5">6%</td>
-            <td data-label="Dep Ü0.5">55%</td>
-            <td data-label="Dep Ü1.5">25%</td>
-            <td data-label="Dep Ü2.5">8%</td>
-            <td data-label="İY KG">18%</td>
-            <td data-label="MS KG">32%</td>
-            <td data-label="İY Skor">0-0 (48%)</td>
-            <td data-label="MS Skor">0-1 (20%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Under 2.5</span></td>
-          </tr>
+    <h1 class="header">TIPSTER ANALİZLER</h1>
+    <span class="header-subtitle">NESİNE BÜLTEN ORANLARI VE KİLİT TAHMİNLER (9 MAÇ)</span>
 
-          <tr data-time="22:00">
-            <td data-label="#">3</td>
-            <td data-label="Maç" data-time="22:00">Mantova vs Catanzaro</td>
-            <td data-label="Lig">ITA Serie B</td>
-            <td data-label="GSI">0.52</td>
-            <td data-label="MS Ü1.5">72%</td>
-            <td data-label="MS Ü2.5">46%</td>
-            <td data-label="İY Ü0.5">58%</td>
-            <td data-label="İY Ü1.5">28%</td>
-            <td data-label="Ev Ü0.5">52%</td>
-            <td data-label="Ev Ü1.5">25%</td>
-            <td data-label="Ev Ü2.5">8%</td>
-            <td data-label="Dep Ü0.5">65%</td>
-            <td data-label="Dep Ü1.5">35%</td>
-            <td data-label="Dep Ü2.5">12%</td>
-            <td data-label="İY KG">28%</td>
-            <td data-label="MS KG">42%</td>
-            <td data-label="İY Skor">0-0 (42%)</td>
-            <td data-label="MS Skor">0-1 (22%)</td>
-            <td data-label="Value"></td>
-            <td data-label="Robot"><span class="robot-badge">Under 2.5</span></td>
-          </tr>
+    <div class="disclaimer">
+        ⚠️ BU TAHMİNLER VE ORANLAR YASAL BÜLTEN DEĞERLERİNE GÖRE DÜZENLENMİŞTİR. KESİN SONUÇ GARANTİSİ YOKTUR. ⚠️
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">1. ILVES</span>
+            <div class="match-time">2-2 / 2-1</div>
+            <span class="team-name away-color">HJK HELSİNKİ</span>
+        </div>
+        
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">2.5 Gol Üst</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@1.25</td></tr> 
+                <tr><td class="label">Alternatif</td><td class="value red">BTTS Evet (@1.35)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value red">+%27 ⭐⭐⭐⭐⭐</td></tr>
+            </table>
+        </div>
+        
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/İY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">3-4 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">1.5-2 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1.5-2 Gol</td></tr>
+            </table>
+        </div>
 
-          <tr data-time="22:00">
-            <td data-label="#">4</td>
-            <td data-label="Maç" data-time="22:00">Juve Stabia vs Bari</td>
-            <td data-label="Lig">ITA Serie B</td>
-            <td data-label="GSI">0.52</td>
-            <td data-label="MS Ü1.5">75%</td>
-            <td data-label="MS Ü2.5">48%</td>
-            <td data-label="İY Ü0.5">62%</td>
-            <td data-label="İY Ü1.5">28%</td>
-            <td data-label="Ev Ü0.5">72%</td>
-            <td data-label="Ev Ü1.5">38%</td>
-            <td data-label="Ev Ü2.5">12%</td>
-            <td data-label="Dep Ü0.5">52%</td>
-            <td data-label="Dep Ü1.5">22%</td>
-            <td data-label="Dep Ü2.5">8%</td>
-            <td data-label="İY KG">22%</td>
-            <td data-label="MS KG">35%</td>
-            <td data-label="İY Skor">0-0 (32%)</td>
-            <td data-label="MS Skor">2-0 (18%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
-          </tr>
-
-          <tr data-time="22:00">
-            <td data-label="#">5</td>
-            <td data-label="Maç" data-time="22:00">Venezia vs Sudtirol</td>
-            <td data-label="Lig">ITA Serie B</td>
-            <td data-label="GSI">0.59</td>
-            <td data-label="MS Ü1.5">82%</td>
-            <td data-label="MS Ü2.5">52%</td>
-            <td data-label="İY Ü0.5">68%</td>
-            <td data-label="İY Ü1.5">35%</td>
-            <td data-label="Ev Ü0.5">75%</td>
-            <td data-label="Ev Ü1.5">42%</td>
-            <td data-label="Ev Ü2.5">15%</td>
-            <td data-label="Dep Ü0.5">48%</td>
-            <td data-label="Dep Ü1.5">18%</td>
-            <td data-label="Dep Ü2.5">6%</td>
-            <td data-label="İY KG">22%</td>
-            <td data-label="MS KG">32%</td>
-            <td data-label="İY Skor">1-0 (30%)</td>
-            <td data-label="MS Skor">2-0 (20%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
-          </tr>
-
-          <tr data-time="22:00">
-            <td data-label="#">6</td>
-            <td data-label="Maç" data-time="22:00">Como vs Hellas Verona</td>
-            <td data-label="Lig">ITA Serie B</td>
-            <td data-label="GSI">0.54</td>
-            <td data-label="MS Ü1.5">72%</td>
-            <td data-label="MS Ü2.5">50%</td>
-            <td data-label="İY Ü0.5">58%</td>
-            <td data-label="İY Ü1.5">25%</td>
-            <td data-label="Ev Ü0.5">55%</td>
-            <td data-label="Ev Ü1.5">25%</td>
-            <td data-label="Ev Ü2.5">8%</td>
-            <td data-label="Dep Ü0.5">62%</td>
-            <td data-label="Dep Ü1.5">28%</td>
-            <td data-label="Dep Ü2.5">10%</td>
-            <td data-label="İY KG">25%</td>
-            <td data-label="MS KG">38%</td>
-            <td data-label="İY Skor">0-0 (35%)</td>
-            <td data-label="MS Skor">1-1 (20%)</td>
-            <td data-label="Value"></td>
-            <td data-label="Robot"><span class="robot-badge">Draw</span></td>
-          </tr>
-
-          <tr data-time="22:00">
-            <td data-label="#">7</td>
-            <td data-label="Maç" data-time="22:00">Mjondalen vs Stabaek</td>
-            <td data-label="Lig">NOR 1. Divisjon</td>
-            <td data-label="GSI">0.62</td>
-            <td data-label="MS Ü1.5">82%</td>
-            <td data-label="MS Ü2.5">58%</td>
-            <td data-label="İY Ü0.5">68%</td>
-            <td data-label="İY Ü1.5">35%</td>
-            <td data-label="Ev Ü0.5">55%</td>
-            <td data-label="Ev Ü1.5">25%</td>
-            <td data-label="Ev Ü2.5">8%</td>
-            <td data-label="Dep Ü0.5">72%</td>
-            <td data-label="Dep Ü1.5">38%</td>
-            <td data-label="Dep Ü2.5">15%</td>
-            <td data-label="İY KG">28%</td>
-            <td data-label="MS KG">42%</td>
-            <td data-label="İY Skor">0-1 (22%)</td>
-            <td data-label="MS Skor">1-2 (18%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr data-time="22:45">
-            <td data-label="#">8</td>
-            <td data-label="Maç" data-time="22:45">Hibernian vs Rangers</td>
-            <td data-label="Lig">SCO Premiership</td>
-            <td data-label="GSI">0.72</td>
-            <td data-label="MS Ü1.5">88%</td>
-            <td data-label="MS Ü2.5">61%</td>
-            <td data-label="İY Ü0.5">75%</td>
-            <td data-label="İY Ü1.5">42%</td>
-            <td data-label="Ev Ü0.5">65%</td>
-            <td data-label="Ev Ü1.5">35%</td>
-            <td data-label="Ev Ü2.5">12%</td>
-            <td data-label="Dep Ü0.5">78%</td>
-            <td data-label="Dep Ü1.5">48%</td>
-            <td data-label="Dep Ü2.5">20%</td>
-            <td data-label="İY KG">38%</td>
-            <td data-label="MS KG">52%</td>
-            <td data-label="İY Skor">0-1 (22%)</td>
-            <td data-label="MS Skor">1-2 (18%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr data-time="22:45">
-            <td data-label="#">9</td>
-            <td data-label="Maç" data-time="22:45">Aberdeen vs Kilmarnock</td>
-            <td data-label="Lig">SCO Premiership</td>
-            <td data-label="GSI">0.55</td>
-            <td data-label="MS Ü1.5">78%</td>
-            <td data-label="MS Ü2.5">52%</td>
-            <td data-label="İY Ü0.5">65%</td>
-            <td data-label="İY Ü1.5">32%</td>
-            <td data-label="Ev Ü0.5">68%</td>
-            <td data-label="Ev Ü1.5">35%</td>
-            <td data-label="Ev Ü2.5">12%</td>
-            <td data-label="Dep Ü0.5">62%</td>
-            <td data-label="Dep Ü1.5">28%</td>
-            <td data-label="Dep Ü2.5">8%</td>
-            <td data-label="İY KG">28%</td>
-            <td data-label="MS KG">42%</td>
-            <td data-label="İY Skor">1-0 (25%)</td>
-            <td data-label="MS Skor">2-1 (16%)</td>
-            <td data-label="Value"></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr data-time="22:45">
-            <td data-label="#">10</td>
-            <td data-label="Maç" data-time="22:45">St Mirren vs Hearts</td>
-            <td data-label="Lig">SCO Premiership</td>
-            <td data-label="GSI">0.58</td>
-            <td data-label="MS Ü1.5">75%</td>
-            <td data-label="MS Ü2.5">48%</td>
-            <td data-label="İY Ü0.5">62%</td>
-            <td data-label="İY Ü1.5">28%</td>
-            <td data-label="Ev Ü0.5">45%</td>
-            <td data-label="Ev Ü1.5">18%</td>
-            <td data-label="Ev Ü2.5">6%</td>
-            <td data-label="Dep Ü0.5">68%</td>
-            <td data-label="Dep Ü1.5">35%</td>
-            <td data-label="Dep Ü2.5">12%</td>
-            <td data-label="İY KG">22%</td>
-            <td data-label="MS KG">35%</td>
-            <td data-label="İY Skor">0-0 (32%)</td>
-            <td data-label="MS Skor">0-2 (18%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Away Win</span></td>
-          </tr>
-
-          <tr data-time="23:00">
-            <td data-label="#">11</td>
-            <td data-label="Maç" data-time="23:00">ENPPI vs Pyramids FC</td>
-            <td data-label="Lig">EGY Premier League</td>
-            <td data-label="GSI">0.76</td>
-            <td data-label="MS Ü1.5">92%</td>
-            <td data-label="MS Ü2.5">65%</td>
-            <td data-label="İY Ü0.5">78%</td>
-            <td data-label="İY Ü1.5">45%</td>
-            <td data-label="Ev Ü0.5">52%</td>
-            <td data-label="Ev Ü1.5">22%</td>
-            <td data-label="Ev Ü2.5">8%</td>
-            <td data-label="Dep Ü0.5">85%</td>
-            <td data-label="Dep Ü1.5">58%</td>
-            <td data-label="Dep Ü2.5">28%</td>
-            <td data-label="İY KG">32%</td>
-            <td data-label="MS KG">45%</td>
-            <td data-label="İY Skor">0-1 (25%)</td>
-            <td data-label="MS Skor">0-2 (20%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr data-time="23:00">
-            <td data-label="#">12</td>
-            <td data-label="Maç" data-time="23:00">Metz vs Lens</td>
-            <td data-label="Lig">FRA Ligue 1</td>
-            <td data-label="GSI">0.56</td>
-            <td data-label="MS Ü1.5">72%</td>
-            <td data-label="MS Ü2.5">47%</td>
-            <td data-label="İY Ü0.5">58%</td>
-            <td data-label="İY Ü1.5">25%</td>
-            <td data-label="Ev Ü0.5">42%</td>
-            <td data-label="Ev Ü1.5">15%</td>
-            <td data-label="Ev Ü2.5">5%</td>
-            <td data-label="Dep Ü0.5">68%</td>
-            <td data-label="Dep Ü1.5">35%</td>
-            <td data-label="Dep Ü2.5">12%</td>
-            <td data-label="İY KG">20%</td>
-            <td data-label="MS KG">32%</td>
-            <td data-label="İY Skor">0-0 (35%)</td>
-            <td data-label="MS Skor">0-2 (18%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Away Win</span></td>
-          </tr>
-
-          <tr data-time="23:00">
-            <td data-label="#">13</td>
-            <td data-label="Maç" data-time="23:00">Lorient vs PSG</td>
-            <td data-label="Lig">FRA Ligue 1</td>
-            <td data-label="GSI">0.82</td>
-            <td data-label="MS Ü1.5">95%</td>
-            <td data-label="MS Ü2.5">69%</td>
-            <td data-label="İY Ü0.5">82%</td>
-            <td data-label="İY Ü1.5">52%</td>
-            <td data-label="Ev Ü0.5">32%</td>
-            <td data-label="Ev Ü1.5">12%</td>
-            <td data-label="Ev Ü2.5">4%</td>
-            <td data-label="Dep Ü0.5">92%</td>
-            <td data-label="Dep Ü1.5">68%</td>
-            <td data-label="Dep Ü2.5">35%</td>
-            <td data-label="İY KG">25%</td>
-            <td data-label="MS KG">32%</td>
-            <td data-label="İY Skor">0-1 (28%)</td>
-            <td data-label="MS Skor">0-3 (25%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr data-time="23:00">
-            <td data-label="#">14</td>
-            <td data-label="Maç" data-time="23:00">Toulouse vs Rennes</td>
-            <td data-label="Lig">FRA Ligue 1</td>
-            <td data-label="GSI">0.51</td>
-            <td data-label="MS Ü1.5">75%</td>
-            <td data-label="MS Ü2.5">47%</td>
-            <td data-label="İY Ü0.5">58%</td>
-            <td data-label="İY Ü1.5">25%</td>
-            <td data-label="Ev Ü0.5">62%</td>
-            <td data-label="Ev Ü1.5">28%</td>
-            <td data-label="Ev Ü2.5">8%</td>
-            <td data-label="Dep Ü0.5">58%</td>
-            <td data-label="Dep Ü1.5">25%</td>
-            <td data-label="Dep Ü2.5">8%</td>
-            <td data-label="İY KG">25%</td>
-            <td data-label="MS KG">38%</td>
-            <td data-label="İY Skor">0-0 (32%)</td>
-            <td data-label="MS Skor">1-1 (18%)</td>
-            <td data-label="Value"></td>
-            <td data-label="Robot"><span class="robot-badge">Under 2.5</span></td>
-          </tr>
-
-          <tr data-time="23:30">
-            <td data-label="#">15</td>
-            <td data-label="Maç" data-time="23:30">Lausanne-Sport vs Servette</td>
-            <td data-label="Lig">SWI Super League</td>
-            <td data-label="GSI">0.57</td>
-            <td data-label="MS Ü1.5">78%</td>
-            <td data-label="MS Ü2.5">52%</td>
-            <td data-label="İY Ü0.5">65%</td>
-            <td data-label="İY Ü1.5">32%</td>
-            <td data-label="Ev Ü0.5">68%</td>
-            <td data-label="Ev Ü1.5">35%</td>
-            <td data-label="Ev Ü2.5">12%</td>
-            <td data-label="Dep Ü0.5">55%</td>
-            <td data-label="Dep Ü1.5">22%</td>
-            <td data-label="Dep Ü2.5">8%</td>
-            <td data-label="İY KG">25%</td>
-            <td data-label="MS KG">38%</td>
-            <td data-label="İY Skor">0-0 (28%)</td>
-            <td data-label="MS Skor">2-0 (16%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Home Win</span></td>
-          </tr>
-
-          <tr data-time="23:30">
-            <td data-label="#">16</td>
-            <td data-label="Maç" data-time="23:30">Basel vs Zurich</td>
-            <td data-label="Lig">SWI Super League</td>
-            <td data-label="GSI">0.68</td>
-            <td data-label="MS Ü1.5">88%</td>
-            <td data-label="MS Ü2.5">61%</td>
-            <td data-label="İY Ü0.5">75%</td>
-            <td data-label="İY Ü1.5">42%</td>
-            <td data-label="Ev Ü0.5">82%</td>
-            <td data-label="Ev Ü1.5">48%</td>
-            <td data-label="Ev Ü2.5">20%</td>
-            <td data-label="Dep Ü0.5">48%</td>
-            <td data-label="Dep Ü1.5">18%</td>
-            <td data-label="Dep Ü2.5">6%</td>
-            <td data-label="İY KG">28%</td>
-            <td data-label="MS KG">38%</td>
-            <td data-label="İY Skor">0-0 (20%)</td>
-            <td data-label="MS Skor">3-0 (18%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-          <tr data-time="23:30">
-            <td data-label="#">17</td>
-            <td data-label="Maç" data-time="23:30">SK Brann vs Bodo Glimt</td>
-            <td data-label="Lig">NOR Eliteserien</td>
-            <td data-label="GSI">0.68</td>
-            <td data-label="MS Ü1.5">85%</td>
-            <td data-label="MS Ü2.5">58%</td>
-            <td data-label="İY Ü0.5">72%</td>
-            <td data-label="İY Ü1.5">38%</td>
-            <td data-label="Ev Ü0.5">58%</td>
-            <td data-label="Ev Ü1.5">28%</td>
-            <td data-label="Ev Ü2.5">10%</td>
-            <td data-label="Dep Ü0.5">82%</td>
-            <td data-label="Dep Ü1.5">52%</td>
-            <td data-label="Dep Ü2.5">22%</td>
-            <td data-label="İY KG">35%</td>
-            <td data-label="MS KG">48%</td>
-            <td data-label="İY Skor">0-1 (25%)</td>
-            <td data-label="MS Skor">1-2 (20%)</td>
-            <td data-label="Value"><span class="value-badge">✅ VALUE</span></td>
-            <td data-label="Robot"><span class="robot-badge">Over 2.5</span></td>
-          </tr>
-
-        </tbody>
-      </table>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">Üst 2.5</span></span>
+            <div class="comment-text">
+                > **Analiz:** Yüksek gol beklentisi mevcuttur. Bülten oranı düşük (@1.25), ancak Value potansiyeli yüksektir.
+            </div>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">2. İNTER TURKU</span>
+            <div class="match-time">1-0 / 2-1</div>
+            <span class="team-name away-color">SJK</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">2.5 Gol Alt</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@2.19</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value blue">MS 1 (@2.10)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value blue">+%2 ⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">2 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">0.5-1 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">Alt 2.5</span></span>
+            <div class="comment-text">
+                > **Analiz:** Düşük gol beklentisi. Alt 2.5 oranı (@2.19) yasal bültende cazip bir seçenektir.
+            </div>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">3. KUPS KUOPIO</span>
+            <div class="match-time">3-0 / 2-0</div>
+            <span class="team-name away-color">GNİSTAN</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">MS 1 Handikap (0-1)</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@1.95</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value red">2.5 Gol Üst (@1.22)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value red">+%18 ⭐⭐⭐⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">2.5-3 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">2-2.5 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">0.5-1 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">MS 1 (H:0-1)</span></span>
+            <div class="comment-text">
+                > **Analiz:** KuPS'un net üstünlüğü. Yasal bültende handikaplı MS 1 (@1.95) yüksek Value taşır.
+            </div>
+        </div>
     </div>
 
-    <div class="kupons">
-      <div class="kupon">
-        <h3>🔥 2 Maç – Yüksek Güven Kuponu</h3>
-        <p>1️⃣ Hibernian vs Rangers (22:45) → Over 2.5 (GSI: 0.72 / VALUE ✅)<br>
-           2️⃣ Lorient vs PSG (23:00) → Over 2.5 (GSI: 0.82 / VALUE ✅)</p>
-        <p style="color:var(--muted)">Açıklama: Yüksek GSI + gol beklentisi.</p>
-      </div>
-
-      <div class="kupon">
-        <h3>⚙️ 3 Maç – Orta Güven Kuponu</h3>
-        <p>1️⃣ SK Brann vs Bodo Glimt (23:30) → Over 2.5 (GSI: 0.68 / VALUE ✅)<br>
-           2️⃣ Basel vs Zurich (23:30) → Over 2.5 (GSI: 0.68 / VALUE ✅)<br>
-           3️⃣ Shamrock Rovers vs Galway Utd (21:45) → Home Win (GSI: 0.61 / VALUE ✅)</p>
-        <p style="color:var(--muted)">Açıklama: Orta güven, dengeli kupon.</p>
-      </div>
-
-      <div class="kupon">
-        <h3>⚡ 4 Maç – Riskli (Sürpriz) Kupon</h3>
-        <p>1️⃣ Mantova vs Catanzaro (22:00) → Under 2.5 (GSI: 0.52)<br>
-           2️⃣ Spezia vs Padova (22:00) → Under 2.5 (GSI: 0.48 / VALUE ✅)<br>
-           3️⃣ Metz vs Lens (23:00) → Away Win (GSI: 0.56 / VALUE ✅)<br>
-           4️⃣ Juve Stabia vs Bari (22:00) → Home Win (GSI: 0.52 / VALUE ✅)</p>
-        <p style="color:var(--muted)">Açıklama: Yüksek oran, yüksek risk. Dikkatli oyna.</p>
-      </div>
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">4. NAT. BANK OF EGYPT</span>
+            <div class="match-time">1-1 / 1-2</div>
+            <span class="team-name away-color">ZAMALEK</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">2.5 Gol Alt</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@1.80</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value blue">BTTS Var (@1.90)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value blue">+%2 ⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">2-2.5 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">Alt 2.5</span></span>
+            <div class="comment-text">
+                > **Analiz:** Savunma odaklı ligde, Alt 2.5 (@1.80) kilit tahmin olarak önerilir.
+            </div>
+        </div>
     </div>
 
-    <footer>
-      ⚽ Tahmin App © 2025 • 🤖 Yapay Zeka Destekli Analiz • Tüm tahminler bilgilendirme amaçlıdır.
-    </footer>
-  </div>
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">5. FK VOJVODINA</span>
+            <div class="match-time">1-2 / 2-2</div>
+            <span class="team-name away-color">CRVENA ZVEZDA</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">2.5 Gol Üst</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@1.70</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value blue">BTTS Evet (@1.65)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value red">+%16 ⭐⭐⭐⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">3 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1.5-2 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">Üst 2.5</span></span>
+            <div class="comment-text">
+                > **Analiz:** Yüksek gol beklentisi. 2.5 Üst (@1.70) yasal bültendeki en güçlü Value fırsatlarından biridir.
+            </div>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">6. GRASSHOPPER</span>
+            <div class="match-time">1-2 / 0-2</div>
+            <span class="team-name away-color">YOUNG BOYS</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">MS 2</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@1.75</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value blue">2.5 Gol Üst (@1.52)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value blue">+%1 ⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">2.5-3 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">0.5-1 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1.5-2 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">MS 2</span></span>
+            <div class="comment-text">
+                > **Analiz:** Young Boys'un kalite avantajı, Deplasman Galibiyetini (**MS 2 @1.75**) ana tahmin yapıyor.
+            </div>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">7. FC LUGANO</span>
+            <div class="match-time">1-1 / 2-1</div>
+            <span class="team-name away-color">LUZERN</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value blue">BTTS Evet</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value blue">@1.70</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value red">2.5 Gol Alt</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value blue">+%2 ⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">2-2.5 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">BTTS Var</span></span>
+            <div class="comment-text">
+                > **Analiz:** Her iki takımın da skor üretme potansiyeli **Karşılıklı Gol Var (@1.70)** tahminini destekliyor.
+            </div>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">8. PISA SC</span>
+            <div class="match-time">0-2 / 1-2</div>
+            <span class="team-name away-color">LAZIO</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value red">MS 2</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value red">@1.80</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value red">MS 2 Handikap (1-0) (@3.00)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value red">+%11 ⭐⭐⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">1.5-2 Gol</td></tr>
+                <tr><tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">0-0.5 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1.5-2 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">MS 2</span></span>
+            <div class="comment-text">
+                > **Analiz:** Lazio'nun kalite farkı nedeniyle **MS 2 (@1.80)** güvenli tahmindir. Yüksek orancılar Handikap MS 2 deneyebilir.
+            </div>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="match-teams">
+            <span class="team-name home-color">9. CAGLIARI</span>
+            <div class="match-time">1-1 / 0-1</div>
+            <span class="team-name away-color">SASSUOLO</span>
+        </div>
+        <div class="detail-box main-prediction">
+            <strong>🔥 ANA TAHMİNLER & BÜLTEN ORANI</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Kilit Tahmin</td><td class="value blue">MS X</td></tr>
+                <tr><td class="label">Bülten Oranı</td><td class="value blue">@3.30</td></tr>
+                <tr><td class="label">Alternatif</td><td class="value red">2.5 Gol Alt (@1.90)</td></tr>
+                <tr><td class="label">Edge (Value)</td><td class="value blue">+%3 ⭐⭐⭐</td></tr>
+            </table>
+        </div>
+        <div class="detail-box goal-details">
+            <strong>⚽ GOL ORTALAMALARI (MAÇ/IY)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Skor Ortalaması</td><td class="value">2 Gol</td></tr>
+                <tr><td class="label">Ev Sahibi Gol Tah.</td><td class="value">0.5-1 Gol</td></tr>
+                <tr><td class="label">Deplasman Gol Tah.</td><td class="value">1-1.5 Gol</td></tr>
+            </table>
+        </div>
+        <div class="detail-box analysis-box">
+            <span class="safe-prediction"><span class="icon">🚀</span> GÜVENLİK KİLİDİ: <span class="result">MS X</span></span>
+            <div class="comment-text">
+                > **Analiz:** Denk takımlar mücadelesinde düşük gollü bir beraberlik (**MS X @3.30**) yüksek orandan Value fırsatı sunar.
+            </div>
+        </div>
+    </div>
 
-<script>
-  // JS: her satırdaki en yüksek yüzdeyi bularak .highlight ekler
-  (function(){
-    function parsePercent(text){
-      if(!text) return -Infinity;
-      var m = String(text).match(/(\d{1,3}(?:\.\d+)?)\s*%/);
-      if(m && m[1]) return parseFloat(m[1]);
-      return -Infinity;
-    }
 
-    function highlightRows(){
-      var tbody = document.querySelector('#match-table tbody');
-      if(!tbody) return;
-      var rows = Array.from(tbody.querySelectorAll('tr'));
-      rows.forEach(function(row){
-        // remove previous highlights
-        row.querySelectorAll('.highlight').forEach(function(n){ n.classList.remove('highlight'); });
+    <div class="match-card" style="border-top-color: var(--accent-yellow);">
+        <div class="match-teams" style="border-bottom: none; padding-bottom: 0;">
+            <h3 style="color: var(--accent-yellow); margin: 0; font-size: 1.2em; border-bottom: 1px dashed #444; padding-bottom: 5px;">🏆 GÜNÜN EN YÜKSEK VALUE BET'LERİ (BÜLTEN ORANLARIYLA)</h3>
+        </div>
+        <ul class="value-list" style="margin-top: 5px;">
+            <li><span style="color: var(--neon-blue);">Ilves-HJK Üst 2.5</span><strong class="value-text">@1.25 (+%27) ⭐⭐⭐⭐⭐</strong></li>
+            <li><span style="color: var(--neon-blue);">KuPS MS 1 (H:0-1)</span><strong class="value-text">@1.95 (+%18) ⭐⭐⭐⭐⭐</strong></li>
+            <li><span style="color: var(--neon-blue);">Vojvodina-Crvena Üst 2.5</span><strong class="value-text">@1.70 (+%16) ⭐⭐⭐⭐⭐</strong></li>
+            <li><span style="color: var(--neon-blue);">Lazio MS 2</span><strong class="value-text">@1.80 (+%11) ⭐⭐⭐⭐</strong></li>
+            <li><span style="color: var(--neon-blue);">Cagliari-Sassuolo MS X</span><strong class="value-text">@3.30 (+%3) ⭐⭐⭐</strong></li>
+        </ul>
+        <div class="comment-text" style="color: var(--accent-yellow); margin-top: 10px;">
+            *Value Oranları, bültendeki düşük oranlara rağmen analitik olarak en çok beklenen sonuçlardır.
+        </div>
+    </div>
 
-        // find all tds that contain a percent (skip first columns: #, match, lig, GSI)
-        var tds = Array.from(row.querySelectorAll('td'));
-        var maxVal = -Infinity;
-        var maxTd = null;
-        tds.forEach(function(td, idx){
-          // Prediction columns start at index 4 (5. column MS Ü1.5) and end at 15 (MS KG)
-          if(idx >= 4 && idx <= 15){ 
-            var val = parsePercent(td.textContent || td.innerText);
-            if(val !== -Infinity){
-              if(val > maxVal){
-                maxVal = val;
-                maxTd = td;
-              }
-            }
-          }
-        });
-        if(maxTd){
-          // Apply highlight only to the percentage value
-          var html = maxTd.innerHTML;
-          var replaced = html.replace(/(\d{1,3}(?:\.\d+)?)\s*%([^%]*)$/,'<span class="highlight">$1%</span>$2');
-          if(replaced === html){
-            replaced = html.replace(/(\d{1,3}(?:\.\d+)?\s*%)/,'<span class="highlight">$1</span>');
-          }
-          maxTd.innerHTML = replaced;
-        }
-      });
-    }
 
-    document.addEventListener('DOMContentLoaded', function(){
-      highlightRows();
-      // also re-run when window resized (in case text reflows) - small debounce
-      var t;
-      window.addEventListener('resize', function(){
-        clearTimeout(t);
-        t = setTimeout(highlightRows, 120);
-      });
-    });
+    <div class="coupon-section">
+        <h2 class="coupon-title">💰 VALUE KUPON ÖNERİLERİ</h2>
 
-    // expose for debug
-    window.highlightRows = highlightRows;
-  })();
-</script>
+        <div class="detail-box" style="border-left-color: var(--accent-green); margin-bottom: 15px;">
+            <strong>🎯 1️⃣ GÜVENLİK KUPONU (~4.37 Oran)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">Ilves – HJK Helsinki</td><td class="value red">BTTS Evet (@1.35)</td></tr>
+                <tr><td class="label">Lazio – Pisa SC</td><td class="value red">MS 2 (@1.80)</td></tr>
+                <tr><td class="label">Grasshopper – Young Boys</td><td class="value red">MS 2 (@1.75)</td></tr>
+            </table>
+            <div class="comment-text">
+                🔥 **Yorum:** Güvenilir, temel tahminlerden Nesine oranlarıyla oluşturulmuş kupon.
+            </div>
+        </div>
+
+        <div class="detail-box" style="border-left-color: var(--accent-yellow); margin-bottom: 15px;">
+            <strong>⚖️ 2️⃣ YÜKSEK ORAN KUPONU (~11.66 Oran)</strong>
+            <table class="vertical-table">
+                <tr><td class="label">KuPS – Gnistan</td><td class="value red">MS 1 (H:0-1) (@1.95)</td></tr>
+                <tr><td class="label">Vojvodina – Crvena</td><td class="value red">Üst 2.5 (@1.70)</td></tr>
+                <tr><td class="label">Cagliari – Sassuolo</td><td class="value blue">MS X (@3.30)</td></tr>
+            </table>
+            <div class="comment-text">
+                🔥 **Yorum:** Yüksek Value ve yüksek bülten oranlarını hedefleyen kilit tahminlerin birleşimi.
+            </div>
+        </div>
+    </div>
 </body>
 </html>
