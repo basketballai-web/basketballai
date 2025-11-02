@@ -2,124 +2,188 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Robotipster Güncelleme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
+    <title>Basketbol Analiz Sistemi | AI Tahmin Raporu</title>
+    
     <style>
-        /* MATRIX TEMASI İÇİN KÖK DEĞİŞKENLER */
+        /* SOFT & AÇIK BASKETBOL & AI TEMASI RENK KÖKLERİ */
         :root {
-            --matrix-black: #000000;
-            --matrix-green-light: #00ff41;
-            --matrix-green-dark: #003311;
-            --matrix-glow: rgba(0, 255, 65, 0.7);
-            --matrix-cyan: #00ffff; /* Yeni Neon Rengi */
+            /* Açık ve Soft Parke Teması */
+            --bg-parke-dark: #a08c76; 
+            --bg-parke-light: #c2ac91; 
+            --card-base: #f0f0e8; 
+            
+            /* Vurgu Renkler (Profesyonel Neon Etkisi) */
+            --neon-orange-soft: #ff6600; /* Turuncu (Basketbol) */
+            --neon-blue-soft: #007bff; /* Mavi (Teknoloji) */
+            
+            /* Glowlar ve Metinler */
+            --neon-glow-orange-soft: rgba(255, 102, 0, 0.4);
+            --neon-glow-blue-soft: rgba(0, 123, 255, 0.3);
+            --text-dark: #3a2e24; 
+            --text-light: #ffffff; 
+            --accent-ai: #28a745; /* Yeşil (Sistem Onayı) */
         }
 
-        /* TEMEL DÜZENLEMELER */
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            line-height: 1.5;
-            margin: 0;
-            background-color: var(--matrix-black);
-            color: var(--matrix-green-light);
-            text-shadow: 0 0 5px var(--matrix-glow);
-            padding: 20px;
-            overflow-x: hidden;
-            font-weight: bold;
-            font-size: 14px;
-            min-height: 100vh;
+        /* GENEL DÜZEN VE SIFIRLAMA (MOBİL UYUMLU) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6; 
+            margin: 0; 
+            background-color: var(--bg-parke-light); 
+            color: var(--text-dark); 
+            padding: 15px; 
+            overflow-x: hidden; 
+            font-size: 16px; 
+            min-width: 320px; 
+            /* Parke Deseni Efekti */
+            background-image: repeating-linear-gradient(45deg, var(--bg-parke-dark) 0, var(--bg-parke-dark) 1px, var(--bg-parke-light) 2px, var(--bg-parke-light) 40px);
+            background-size: 100% 100%;
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
         }
+        * { box-sizing: border-box; }
 
-        /* Başlık Stili */
-        .header-basket {
-            font-size: 2.5em;
-            font-weight: 900;
+        /* BAŞLIKLAR (PROFESYONEL VE VURGULU) */
+        .header { 
+            text-align: center; 
+            font-size: 2.2em; 
+            margin-bottom: 5px; 
+            color: var(--neon-blue-soft); /* Ana Başlık Mavi */
+            text-shadow: 0 0 5px var(--neon-glow-blue-soft);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        .header-subtitle {
+            font-size: 1.1em; 
+            color: var(--neon-orange-soft); /* Alt Başlık Turuncu */
             margin-bottom: 30px;
-            text-transform: uppercase;
-            color: var(--matrix-cyan); /* Mavi Neon */
-            text-shadow: 0 0 10px var(--matrix-cyan), 0 0 20px var(--matrix-cyan), 0 0 30px var(--matrix-green-light);
-            padding: 0 5px; /* Taşmayı önlemek için */
-            word-break: break-word; /* Mobil uyumluluk */
-        }
-
-        /* Güncelleme Mesajı Stili */
-        .update-message {
-            font-size: 1.5em;
-            color: #ccffcc;
-            margin-bottom: 40px;
-            font-weight: bold;
-            padding: 0 5px; /* Taşmayı önlemek için */
-        }
-
-        /* Buton Stili (Neon Efektli) */
-        .neon-button {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.5em;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffffff; /* Buton metin rengi */
-            background: var(--matrix-green-dark);
-            border: 3px solid var(--matrix-green-light);
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 5px var(--matrix-green-light), 0 0 20px var(--matrix-green-light), 0 0 40px var(--matrix-green-light); /* Yeşil neon parlama */
-        }
-
-        .neon-button:hover {
-            background: var(--matrix-green-light);
-            color: var(--matrix-black);
-            box-shadow: 0 0 10px var(--matrix-green-light), 0 0 40px var(--matrix-green-light), 0 0 80px var(--matrix-green-light);
-        }
-
-        /* Uyarı Stili */
-        .disclaimer {
-            text-align: center;
-            color: var(--matrix-cyan);
-            font-size: 0.75em;
-            margin-top: 50px;
+            display: block;
+            text-align: center; 
+            font-weight: 600;
+            text-shadow: 0 0 3px var(--neon-glow-orange-soft);
             padding: 5px;
-            border: 1px dashed var(--matrix-cyan);
-            background-color: rgba(0, 0, 51, 0.5);
-            font-weight: bold;
-            max-width: 90%;
+            background: rgba(255, 255, 255, 0.7); 
+            border-radius: 5px;
+            border: 1px solid var(--neon-orange-soft);
         }
 
-        /* Mobil Cihazlar İçin Medya Sorguları */
+        /* YASAL UYARI (GÜÇLÜ VE KURUMSAL) */
+        .disclaimer {
+            text-align: center; 
+            font-size: 1em; 
+            margin-bottom: 30px;
+            padding: 15px; 
+            border: 3px solid #dc3545; /* Kırmızı Kasa */
+            background-color: rgba(220, 53, 69, 0.1); /* Soft Kırmızı Arka Plan */
+            border-radius: 8px;
+            color: #dc3545; 
+            text-shadow: none;
+            font-weight: 700; 
+            width: 100%;
+            max-width: 500px;
+            animation: pulse 1.5s infinite alternate; 
+        }
+        
+        @keyframes pulse {
+            from { border-color: #dc3545; box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); }
+            to { border-color: #ffc107; box-shadow: 0 0 10px rgba(255, 193, 7, 0.7); }
+        }
+
+        /* GÜNCELLEME KUTUSU (PROFESYONEL) */
+        .update-box {
+            margin: 50px auto;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 4px solid var(--accent-ai);
+            box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .update-box h2 {
+            font-size: 1.8em;
+            color: var(--neon-blue-soft);
+            margin-bottom: 15px;
+            text-shadow: 0 0 3px var(--neon-glow-blue-soft);
+            text-transform: uppercase;
+        }
+
+        .update-box p {
+            font-size: 1.2em;
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .update-box .loading-bar {
+            height: 10px;
+            background: var(--bg-parke-dark);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .update-box .loading-progress {
+            display: block;
+            height: 100%;
+            background: var(--accent-ai);
+            width: 0%; 
+            animation: loading 3s infinite;
+            box-shadow: 0 0 5px var(--accent-ai);
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            50% { width: 90%; }
+            100% { width: 0%; }
+        }
+
+        /* MOBİL UYUMLULUK */
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .header-basket { font-size: 1.8em; margin-bottom: 20px; }
-            .update-message { font-size: 1.2em; margin-bottom: 30px; }
-            .neon-button { padding: 10px 20px; font-size: 1.2em; }
+            body { font-size: 14px; padding: 10px; }
+            .header { font-size: 1.8em; }
+            .header-subtitle { font-size: 1em; }
+            .disclaimer { font-size: 0.9em; padding: 10px; }
+            .update-box { padding: 30px 15px; }
+            .update-box h2 { font-size: 1.5em; }
+            .update-box p { font-size: 1.1em; }
         }
     </style>
 </head>
 <body>
 
-    <h1 class="header-basket">
-        BASKETBOL TAHMİN BOTU GÜNCELLENİYOR
+    <h1 class="header">
+        🏀 BASKETBOL ANALİZ RAPORU
     </h1>
-
-    <hr style="width: 50%; border: 1px dashed var(--matrix-green-light);">
-
-    <div class="update-message">
-        FUTBOL TAHMİN BOTU GELİŞTİRİLMEYE DEVAM EDİYOR. DENEMEK İSTER MİSİN?
-    </div>
-
-    <a href="https://t.me/futboltahminaibot" class="neon-button" target="_blank" rel="noopener noreferrer">
-        TIKLA
-    </a>
+    <span class="header-subtitle">
+        Yapay Zeka Destekli Tahmin Sisteminin Güncel Analizleri
+    </span>
 
     <div class="disclaimer">
-        ⚠️ TAHMİNLER VERİYE DAYALI OLUP %100 DEĞİLDİR. LÜTFEN SORUMLU BAHİS OYNAYINIZ. ⚠️
+        🚨 **ÖNEMLİ YASAL UYARI!** 🚨 <br>
+        Bu analizler, Yapay Zeka (AI) sistemimizin istatistiksel modellemesi sonucu oluşturulmuştur. <br>
+        **Kesin ve garantili bir sonuç vaat edilmemektedir.** Lütfen sorumlu ve bilinçli bahis yapınız.
     </div>
 
-</body>
+    <div class="update-box">
+        <h2>
+            🔄 GÜNCEL ANALİZLER YÜKLENİYOR 🔄
+        </h2>
+        <p>
+            Sistemimiz, en yeni veri akışını ve takım istatistiklerini analiz etmektedir. <br> Yeni tahmin raporu kısa süre içinde paylaşılacaktır.
+        </p>
+        
+        <div class="loading-bar">
+            <span class="loading-progress"></span>
+        </div>
+        <p style="font-size:0.9em; margin-top: 10px; color: var(--accent-ai); font-weight: 500;">
+            Sistem Durumu: Veri Analizi Devam Ediyor
+        </p>
+    </div>
+    </body>
 </html>
