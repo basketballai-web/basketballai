@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>Basketbol Analiz Sistemi | AI Tahmin Raporu</title>
+    <title>GÜNCEL AI BASKETBOL ANALİZ RAPORU | Saat Sıralı</title>
     
     <style>
-        /* SOFT & AÇIK BASKETBOL & AI TEMASI RENK KÖKLERİ */
+        /* SOFT & AÇIK PARKELİ BASKETBOL TEMASI RENK KÖKLERİ */
         :root {
-            /* Açık ve Soft Parke Teması */
             --bg-parke-dark: #a08c76; 
             --bg-parke-light: #c2ac91; 
             --card-base: #f0f0e8; 
             
-            /* Vurgu Renkler (Profesyonel Neon Etkisi) */
-            --neon-orange-soft: #ff6600; /* Turuncu (Basketbol) */
-            --neon-blue-soft: #007bff; /* Mavi (Teknoloji) */
+            --neon-orange-soft: #ff6600; 
+            --neon-blue-soft: #007bff; 
             
-            /* Glowlar ve Metinler */
             --neon-glow-orange-soft: rgba(255, 102, 0, 0.4);
             --neon-glow-blue-soft: rgba(0, 123, 255, 0.3);
             --text-dark: #3a2e24; 
             --text-light: #ffffff; 
-            --accent-ai: #28a745; /* Yeşil (Sistem Onayı) */
+            --accent-ai: #28a745; 
+            --warning-red: #dc3545; 
         }
 
         /* GENEL DÜZEN VE SIFIRLAMA (MOBİL UYUMLU) */
@@ -46,144 +44,425 @@
         }
         * { box-sizing: border-box; }
 
-        /* BAŞLIKLAR (PROFESYONEL VE VURGULU) */
-        .header { 
+        /* BAŞLIKLAR */
+       .header { 
             text-align: center; 
-            font-size: 2.2em; 
+            font-size: 2.4em; 
             margin-bottom: 5px; 
-            color: var(--neon-blue-soft); /* Ana Başlık Mavi */
+            color: var(--neon-blue-soft);
             text-shadow: 0 0 5px var(--neon-glow-blue-soft);
             letter-spacing: 1px;
             text-transform: uppercase;
-            font-weight: 800;
+            font-weight: 900;
         }
-        .header-subtitle {
+       .header-subtitle {
             font-size: 1.1em; 
-            color: var(--neon-orange-soft); /* Alt Başlık Turuncu */
+            color: var(--neon-orange-soft);
             margin-bottom: 30px;
             display: block;
             text-align: center; 
             font-weight: 600;
             text-shadow: 0 0 3px var(--neon-glow-orange-soft);
             padding: 5px;
-            background: rgba(255, 255, 255, 0.7); 
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 5px;
-            border: 1px solid var(--neon-orange-soft);
         }
 
-        /* YASAL UYARI (GÜÇLÜ VE KURUMSAL) */
-        .disclaimer {
+        /* YASAL UYARI */
+       .disclaimer {
             text-align: center; 
             font-size: 1em; 
             margin-bottom: 30px;
             padding: 15px; 
-            border: 3px solid #dc3545; /* Kırmızı Kasa */
-            background-color: rgba(220, 53, 69, 0.1); /* Soft Kırmızı Arka Plan */
+            border: 3px solid var(--warning-red); 
+            background-color: rgba(220, 53, 69, 0.1); 
             border-radius: 8px;
-            color: #dc3545; 
+            color: var(--warning-red); 
             text-shadow: none;
             font-weight: 700; 
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             animation: pulse 1.5s infinite alternate; 
         }
         
         @keyframes pulse {
-            from { border-color: #dc3545; box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); }
+            from { border-color: var(--warning-red); box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); }
             to { border-color: #ffc107; box-shadow: 0 0 10px rgba(255, 193, 7, 0.7); }
         }
 
-        /* GÜNCELLEME KUTUSU (PROFESYONEL) */
-        .update-box {
-            margin: 50px auto;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            border: 4px solid var(--accent-ai);
-            box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
+        /* MAÇ KARTLARI */
+       .match-card { 
+            background: var(--card-base); 
+            padding: 20px;
+            padding-top: 40px; 
+            margin-bottom: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            border-left: 8px solid var(--neon-blue-soft); 
+            color: var(--text-dark); 
+            width: 100%;
+            max-width: 550px;
+            position: relative; 
+        }
+        
+        /* BAŞLAMA SAATİ KUTUSU */
+       .time-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--neon-orange-soft);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 0 12px 0 8px; 
+            font-weight: 900;
+            font-size: 1.2em;
+            box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 10;
             text-align: center;
-            width: 90%;
-            max-width: 500px;
+        }
+       .time-box span {
+            display: block;
+            font-size: 0.7em;
+            font-weight: 500;
         }
 
-        .update-box h2 {
-            font-size: 1.8em;
-            color: var(--neon-blue-soft);
-            margin-bottom: 15px;
-            text-shadow: 0 0 3px var(--neon-glow-blue-soft);
+        /* MAÇ BAŞLIĞI */
+       .match-title {
+            font-size: 1.5em;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--neon-orange-soft);
+            text-shadow: 0 0 2px var(--neon-glow-orange-soft);
+            border-bottom: 2px dashed var(--bg-parke-dark);
+            padding-bottom: 5px;
             text-transform: uppercase;
         }
 
-        .update-box p {
-            font-size: 1.2em;
-            color: var(--text-dark);
-            font-weight: 500;
-            margin-bottom: 25px;
+        /* TAHMİN KUTUSU (PROFESYONEL TABLO) */
+       .prediction-box {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--neon-blue-soft);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
         }
-
-        .update-box .loading-bar {
-            height: 10px;
-            background: var(--bg-parke-dark);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .update-box .loading-progress {
+       .prediction-box strong {
             display: block;
-            height: 100%;
-            background: var(--accent-ai);
-            width: 0%; 
-            animation: loading 3s infinite;
-            box-shadow: 0 0 5px var(--accent-ai);
+            color: var(--neon-blue-soft);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 1px dashed var(--neon-blue-soft);
+            padding-bottom: 5px;
+            font-weight: 700;
         }
 
-        @keyframes loading {
-            0% { width: 0%; }
-            50% { width: 90%; }
-            100% { width: 0%; }
+        /* TAHMİN TABLOSU */
+       .prediction-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+        }
+       .prediction-table td {
+            padding: 8px 0;
+            border-bottom: 1px dotted #e0e0e0;
+        }
+       .prediction-table tr:last-child td {
+            border-bottom: none;
+        }
+       .prediction-label {
+            color: var(--text-dark);
+            text-align: left;
+            font-weight: 500;
+        }
+       .prediction-value {
+            text-align: right;
+            font-weight: 900;
+            color: var(--neon-orange-soft); 
+        }
+       .prediction-confidence {
+            color: var(--accent-ai); 
+            font-weight: 900;
+        }
+        
+        /* KISA ANALİZ BÖLÜMÜ */
+       .analysis-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-ai);
+        }
+       .analysis-box strong {
+            display: block;
+            color: var(--accent-ai);
+            font-size: 1em;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+       .analysis-box p {
+            font-size: 0.95em;
+            margin: 0;
+            color: var(--text-dark);
+            font-style: italic;
         }
 
         /* MOBİL UYUMLULUK */
         @media (max-width: 600px) {
-            body { font-size: 14px; padding: 10px; }
-            .header { font-size: 1.8em; }
-            .header-subtitle { font-size: 1em; }
-            .disclaimer { font-size: 0.9em; padding: 10px; }
-            .update-box { padding: 30px 15px; }
-            .update-box h2 { font-size: 1.5em; }
-            .update-box p { font-size: 1.1em; }
+            body { padding: 10px; }
+           .header { font-size: 2em; }
+           .header-subtitle { font-size: 1em; }
+           .disclaimer { font-size: 0.9em; padding: 10px; }
+           .match-card { padding-top: 35px; }
+           .time-box { font-size: 1.1em; padding: 7px 12px; }
+           .match-title { font-size: 1.3em; }
         }
     </style>
 </head>
 <body>
 
     <h1 class="header">
-        🏀 BASKETBOL ANALİZ RAPORU
+        🏀 GÜNCEL BASKETBOL ANALİZ RAPORU
     </h1>
     <span class="header-subtitle">
-        Yapay Zeka Destekli Tahmin Sisteminin Güncel Analizleri
+        Yapay Zeka (AI) Sistemimizin İstatistiksel Tahminleri
     </span>
 
     <div class="disclaimer">
         🚨 **ÖNEMLİ YASAL UYARI!** 🚨 <br>
-        Bu analizler, Yapay Zeka (AI) sistemimizin istatistiksel modellemesi sonucu oluşturulmuştur. <br>
-        **Kesin ve garantili bir sonuç vaat edilmemektedir.** Lütfen sorumlu ve bilinçli bahis yapınız.
+        Bu analizler, istatistiksel modellemeye dayanmakta olup, **kesin sonuç garantisi verilmemektedir.** Lütfen sorumlu ve bilinçli bahis yapınız.
     </div>
 
-    <div class="update-box">
-        <h2>
-            🔄 GÜNCEL ANALİZLER YÜKLENİYOR 🔄
-        </h2>
-        <p>
-            Sistemimiz, en yeni veri akışını ve takım istatistiklerini analiz etmektedir. <br> Yeni tahmin raporu kısa süre içinde paylaşılacaktır.
-        </p>
-        
-        <div class="loading-bar">
-            <span class="loading-progress"></span>
+    <div class="match-card">
+        <div class="time-box">
+            14:30
+            <span>(TSİ)</span>
         </div>
-        <p style="font-size:0.9em; margin-top: 10px; color: var(--accent-ai); font-weight: 500;">
-            Sistem Durumu: Veri Analizi Devam Ediyor
-        </p>
+        <div class="match-title">Zaragoza – Real Madrid</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Real Madrid Kazanır <span class="prediction-confidence">(%74)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Real Madrid Önde Kapatır <span class="prediction-confidence">(%68)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">174.5 ALT <span class="prediction-confidence">(%56)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">87.0 ALT <span class="prediction-confidence">(%58)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Spread net, total sabit. Real Madrid temposu düşürür, düşük skorlu maç beklenir. Edge ev sahibinde olsa da, kalite farkı ağır basar.</p>
+        </div>
     </div>
-    </body>
+
+    <div class="match-card">
+        <div class="time-box">
+            17:00
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Pallacanestro Cantu – Vanoli Basket Cremona</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Cantu Kazanır <span class="prediction-confidence">(%65)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Cantu Önde Kapatır <span class="prediction-confidence">(%60)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">165.5 ÜST <span class="prediction-confidence">(%57)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">82.5 ÜST <span class="prediction-confidence">(%55)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Spread dar, total yükselişte. İki takım da tempolu oynar, ev sahibi avantajlı.</p>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="time-box">
+            18:30
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Mitteldeutscher BC – Riesen Ludwigsburg</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Mitteldeutscher Kazanır <span class="prediction-confidence">(%69)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Mitteldeutscher Önde Kapatır <span class="prediction-confidence">(%63)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">171 ÜST <span class="prediction-confidence">(%56)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">85.5 ÜST <span class="prediction-confidence">(%54)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Spread orta, Edge güçlü. Totalde küçük artış hücum temposuna işaret. Ev sahibi ritim avantajını korur.</p>
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="time-box">
+            20:00
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Pallacanestro Reggiana – Olimpia Milano</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Olimpia Milano Kazanır <span class="prediction-confidence">(%71)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Olimpia Milano Önde Kapatır <span class="prediction-confidence">(%65)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">162 ALT <span class="prediction-confidence">(%54)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">81.0 ALT <span class="prediction-confidence">(%55)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Spread dengeli, total düşüşü yavaş tempolu maç sinyali. Milano tecrübesiyle farkı ikinci yarıda açar.</p>
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="time-box">
+            20:00
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Baskets Bonn – Alba Berlin</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Alba Berlin Kazanır <span class="prediction-confidence">(%60)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Alba Berlin Önde Kapatır <span class="prediction-confidence">(%56)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">163.5 ALT <span class="prediction-confidence">(%54)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">81.5 ALT <span class="prediction-confidence">(%55)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Under tarafı avantajlı, Alba daha dengeli kadroya sahip. Savunma ağırlıklı maç beklenir.</p>
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="time-box">
+            20:30
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Club Joventut Badalona – Forca Lleida</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Joventut Kazanır <span class="prediction-confidence">(%79)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Joventut Önde Kapatır <span class="prediction-confidence">(%73)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">171.5 ÜST <span class="prediction-confidence">(%57)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">85.5 ÜST <span class="prediction-confidence">(%55)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Yüksek güvenli favori. Tempo ve şut oranı yüksek, erken fark beklenir.</p>
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="time-box">
+            21:00
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">TBB Trier – Rasta Vechta</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">TBB Trier Kazanır <span class="prediction-confidence">(%62)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">TBB Trier Önde Kapatır <span class="prediction-confidence">(%58)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">176 ÜST <span class="prediction-confidence">(%55)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">88.0 ÜST <span class="prediction-confidence">(%53)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Total yüksek, spread düşük. Hızlı tempo, açık oyun. Trier iç sahada temponun kazananı olur.</p>
+        </div>
+    </div>
+    
+    <div class="match-card">
+        <div class="time-box">
+            21:00
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Trapani Shark – Pallacanestro Brescia</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Trapani Kazanır <span class="prediction-confidence">(%64)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Trapani Önde Kapatır <span class="prediction-confidence">(%59)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">175 ALT <span class="prediction-confidence">(%55)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">87.5 ALT <span class="prediction-confidence">(%53)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Total düşüşü temponun sınırlı olacağını gösteriyor. Edge ev sahibinde, düşük tempoda galibiyet beklenir.</p>
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="time-box">
+            22:00
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Baskonia Vitoria Gasteiz – Tenerife</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Baskonia Kazanır <span class="prediction-confidence">(%59)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Baskonia Önde Kapatır <span class="prediction-confidence">(%55)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">175.5 ALT <span class="prediction-confidence">(%52)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">87.5 ALT <span class="prediction-confidence">(%53)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Total yüksek ama Under oranı değerli. Tenerife savunması tempoyu kırabilir, düşük farklı Baskonia galibiyeti olası.</p>
+        </div>
+    </div>
+
+    <div class="match-card">
+        <div class="time-box">
+            22:30
+            <span>(TSİ)</span>
+        </div>
+        <div class="match-title">Barcelona – UCAM Murcia</div>
+        
+        <div class="prediction-box">
+            <strong>📊 AI TAHMİN ANALİZİ</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Barcelona Kazanır <span class="prediction-confidence">(%79)</span></td></tr>
+                <tr><td class="prediction-label">İlk Yarı Sonucu</td><td class="prediction-value">Barcelona Önde Kapatır <span class="prediction-confidence">(%72)</span></td></tr>
+                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">170.5 ÜST <span class="prediction-confidence">(%56)</span></td></tr>
+                <tr><td class="prediction-label">İY Sayı A/U</td><td class="prediction-value">85.5 ÜST <span class="prediction-confidence">(%55)</span></td></tr>
+            </table>
+        </div>
+        
+        <div class="analysis-box">
+            <strong>📝 ANALİZ ÖZETİ</strong>
+            <p>Yüksek güvenli favori. Geniş rotasyon ve yüksek hücum performansı.</p>
+        </div>
+    </div>
+    
+</body>
 </html>
