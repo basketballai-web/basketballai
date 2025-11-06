@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>BASKETBOL AI ROBOT ANALİZ RAPORU | Nihai Baremlere Göre Revize</title>
+    <title>BASKETBOL AI ROBOT ANALİZ RAPORU | Güncel Alt/Üst Kararlar</title>
     
     <style>
-        /* SOFT & AÇIK PARKELİ BASKETBOL TEMASI RENK KÖKLERİ */
+        /* NBA / AMERİKAN TEMASI RENK KÖKLERİ - KART FORMATINA UYARLANDI */
         :root {
-            --bg-parke-dark: #a08c76; 
-            --bg-parke-light: #c2ac91; 
-            --card-base: #f0f0e8; 
+            --bg-parke-dark: #8c725e; /* Koyu Parke */
+            --bg-parke-light: #b09176; /* Açık Parke */
+            --card-base: #ffffff; /* Temiz Beyaz Kart */
             
-            --neon-orange-soft: #ff6600; 
-            --neon-blue-soft: #007bff; 
+            --nba-blue: #1d428a; /* NBA Mavisi/Koyu Mavi */
+            --nba-red: #c8102e; /* NBA Kırmızısı/Aksiyon */
+            --nba-gold: #ffc72c; /* Altın Sarı Aksan */
             
-            --neon-glow-orange-soft: rgba(255, 102, 0, 0.4);
-            --neon-glow-blue-soft: rgba(0, 123, 255, 0.3);
-            --text-dark: #3a2e24; 
+            --nba-ust: var(--nba-red); /* ÜST için Kırmızı */
+            --nba-alt: #008000; /* ALT için Yeşil (daha belirgin) */
+            
+            --text-dark: #1f1f1f; 
             --text-light: #ffffff; 
-            --accent-ai: #28a745; 
+            --accent-ai: #008000; /* Yeşil Güven Oylaması */
             --warning-red: #dc3545; 
         }
 
@@ -28,13 +30,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6; 
             margin: 0; 
-            background-color: var(--bg-parke-light); 
             color: var(--text-dark); 
             padding: 15px; 
             overflow-x: hidden; 
             font-size: 16px; 
             min-width: 320px; 
-            /* Parke Deseni Efekti */
+            /* Yeni Parke Deseni */
             background-image: repeating-linear-gradient(45deg, var(--bg-parke-dark) 0, var(--bg-parke-dark) 1px, var(--bg-parke-light) 2px, var(--bg-parke-light) 40px);
             background-size: 100% 100%;
             min-height: 100vh; 
@@ -47,25 +48,13 @@
         /* BAŞLIKLAR */
        .header { 
             text-align: center; 
-            font-size: 2.4em; 
-            margin-bottom: 5px; 
-            color: var(--neon-blue-soft);
-            text-shadow: 0 0 5px var(--neon-glow-blue-soft);
-            letter-spacing: 1px;
+            font-size: 2.6em; 
+            margin-bottom: 30px; 
+            color: var(--nba-blue);
+            text-shadow: 2px 2px 4px var(--nba-gold);
+            letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 900;
-        }
-       .header-subtitle {
-            font-size: 1.1em; 
-            color: var(--neon-orange-soft);
-            margin-bottom: 30px;
-            display: block;
-            text-align: center; 
-            font-weight: 600;
-            text-shadow: 0 0 3px var(--neon-glow-orange-soft);
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 5px;
         }
 
         /* YASAL UYARI */
@@ -75,19 +64,14 @@
             margin-bottom: 30px;
             padding: 15px; 
             border: 3px solid var(--warning-red); 
-            background-color: rgba(220, 53, 69, 0.1); 
+            background-color: rgba(200, 0, 0, 0.1); 
             border-radius: 8px;
             color: var(--warning-red); 
             text-shadow: none;
             font-weight: 700; 
             width: 100%;
             max-width: 550px;
-            animation: pulse 1.5s infinite alternate; 
-        }
-        
-        @keyframes pulse {
-            from { border-color: var(--warning-red); box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); }
-            to { border-color: #ffc107; box-shadow: 0 0 10px rgba(255, 193, 7, 0.7); }
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
         }
 
         /* MAÇ KARTLARI */
@@ -97,26 +81,30 @@
             padding-top: 40px; 
             margin-bottom: 25px; 
             border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-            border-left: 8px solid var(--neon-blue-soft); 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); 
+            border-left: 8px solid var(--nba-blue); 
             color: var(--text-dark); 
             width: 100%;
             max-width: 550px;
             position: relative; 
+            transition: all 0.3s ease-in-out;
         }
+        .match-card.alt { border-left-color: var(--nba-alt); }
+        .match-card.ust { border-left-color: var(--nba-ust); }
+        .match-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
         
         /* BAŞLAMA SAATİ KUTUSU */
        .time-box {
             position: absolute;
             top: 0;
             right: 0;
-            background-color: var(--neon-orange-soft);
-            color: var(--text-light);
+            background-color: var(--nba-gold);
+            color: var(--nba-blue);
             padding: 8px 15px;
             border-radius: 0 12px 0 8px; 
             font-weight: 900;
             font-size: 1.2em;
-            box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: -3px 3px 6px rgba(0, 0, 0, 0.3);
             z-index: 10;
             text-align: center;
         }
@@ -128,31 +116,38 @@
 
         /* MAÇ BAŞLIĞI */
        .match-title {
-            font-size: 1.5em;
+            font-size: 1.6em;
             font-weight: 800;
             margin-bottom: 10px;
-            color: var(--neon-orange-soft);
-            text-shadow: 0 0 2px var(--neon-glow-orange-soft);
-            border-bottom: 2px dashed var(--bg-parke-dark);
+            color: var(--nba-red);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid var(--nba-blue);
             padding-bottom: 5px;
             text-transform: uppercase;
+        }
+       .match-title span { 
+            font-size: 0.7em; 
+            font-weight: 500; 
+            color: var(--text-dark);
+            text-shadow: none;
+            display: block;
         }
 
         /* TAHMİN KUTUSU (PROFESYONEL TABLO) */
        .prediction-box {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid var(--neon-blue-soft);
+            background: #f5f5f5;
+            border: 2px solid var(--nba-blue);
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
         }
        .prediction-box strong {
             display: block;
-            color: var(--neon-blue-soft);
+            color: var(--nba-blue);
             font-size: 1.1em;
             margin-bottom: 10px;
             text-transform: uppercase;
-            border-bottom: 1px dashed var(--neon-blue-soft);
+            border-bottom: 1px dashed #cccccc;
             padding-bottom: 5px;
             font-weight: 700;
         }
@@ -173,29 +168,34 @@
        .prediction-label {
             color: var(--text-dark);
             text-align: left;
-            font-weight: 500;
+            font-weight: 600;
         }
        .prediction-value {
             text-align: right;
             font-weight: 900;
-            color: var(--neon-orange-soft); 
+            font-size: 1.2em;
         }
+        .prediction-value.alt { color: var(--nba-alt); }
+        .prediction-value.ust { color: var(--nba-ust); }
+        
        .prediction-confidence {
             color: var(--accent-ai); 
             font-weight: 900;
+            font-size: 0.9em;
         }
         
         /* KISA ANALİZ BÖLÜMÜ */
        .analysis-box {
             margin-top: 15px;
             padding: 15px;
-            background: rgba(200, 200, 200, 0.3);
+            background: rgba(var(--nba-blue), 0.05); /* Mavi Tonlu Arka Plan */
             border-radius: 8px;
-            border-left: 4px solid var(--accent-ai);
+            border: 1px solid rgba(var(--nba-blue), 0.2);
+            border-left: 4px solid var(--nba-blue);
         }
        .analysis-box strong {
             display: block;
-            color: var(--accent-ai);
+            color: var(--nba-blue);
             font-size: 1em;
             margin-bottom: 5px;
             text-transform: uppercase;
@@ -207,12 +207,46 @@
             color: var(--text-dark);
             font-style: italic;
         }
+        
+        /* KUPON KUTUSU STİLİ */
+        .kupon-box {
+            margin-top: 30px;
+            padding: 25px;
+            width: 100%;
+            max-width: 550px;
+            background-color: var(--nba-blue); /* Koyu NBA Mavisi Zemin */
+            color: var(--nba-gold); /* Altın Sarısı Metin */
+            border: 5px solid var(--nba-gold);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 10px var(--nba-gold);
+            text-align: center;
+        }
+        .kupon-box h2 {
+            color: var(--nba-red); 
+            margin-top: 0;
+            font-size: 2em;
+            text-shadow: 1px 1px 2px var(--nba-gold);
+            border-bottom: 3px solid var(--nba-gold);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        .kupon-box pre {
+            white-space: pre-wrap;
+            text-align: left;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15); /* Hafif Şeffaf Beyaz */
+            border-radius: 8px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: var(--text-light);
+            border: 1px solid var(--nba-gold);
+        }
 
         /* MOBİL UYUMLULUK */
         @media (max-width: 600px) {
             body { padding: 10px; }
-           .header { font-size: 2em; }
-           .header-subtitle { font-size: 1em; }
+           .header { font-size: 2em; margin-bottom: 20px; }
            .disclaimer { font-size: 0.9em; padding: 10px; }
            .match-card { padding-top: 35px; }
            .time-box { font-size: 1.1em; padding: 7px 12px; }
@@ -225,135 +259,175 @@
     <h1 class="header">
         🏀 BASKETBOL AI ROBOT ANALİZ RAPORU
     </h1>
-    <span class="header-subtitle">
-        YAPAY ZEKA (AI) SİSTEMİMİZİN İSTATİSTİKSEL TAHMİNLERİ (NİHAİ BAREMLERLE)
-    </span>
-
+    
     <div class="disclaimer">
         🚨 **ÖNEMLİ YASAL UYARI!** 🚨 <br>
         Bu analizler, istatistiksel modellemeye dayanmakta olup, **kesin sonuç garantisi verilmemektedir.** Lütfen sorumlu ve bilinçli bahis yapınız.
     </div>
 
-    <div class="match-card">
-        <div class="time-box">
-            11:30
-            <span>(TSİ)</span>
-        </div>
-        <div class="match-title">Illawarra Hawks vs Melbourne United (NBL)</div>
-        
+    <div class="match-card alt">
+        <div class="time-box">11:30<span>NBL</span></div>
+        <div class="match-title">Tasmania vs Melbourne Phoenix</div>
         <div class="prediction-box">
-            <strong>📊 AI TAHMİN ANALİZİ (GÜNCEL BAREM)</strong>
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
             <table class="prediction-table">
-                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Melbourne United Kazanır <span class="prediction-confidence">(Tahmini)</span></td></tr>
-                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">184.5 ÜST <span class="prediction-confidence">🟢 Orta Güven</span></td></tr>
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">185.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %58 Güven</span></td></tr>
             </table>
         </div>
-        
         <div class="analysis-box">
-            <strong>📝 ANALİZ ÖZETİ</strong>
-            <p>**184.5 ÜST** tahmini için **Orta** güven düzeyi belirlenmiştir. NBL'de yüksek skor beklenmektedir. (Maç 1)</p>
+            <strong>📝 KISA MANTIK</strong>
+            <p>Savunma odaklı ve düşük tempo beklentisiyle ALT. NBL'de kontrollü oyun hakim.</p>
         </div>
     </div>
 
-    <div class="match-card">
-        <div class="time-box">
-            13:00
-            <span>(TSİ)</span>
-        </div>
-        <div class="match-title">Samsung Thunders vs Anyang KGC (KBL)</div>
-        
+    <div class="match-card alt">
+        <div class="time-box">13:00<span>KBL</span></div>
+        <div class="match-title">Mobis Phoebus vs Goyang Orions</div>
         <div class="prediction-box">
-            <strong>📊 AI TAHMİN ANALİZİ (GÜNCEL BAREM)</strong>
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
             <table class="prediction-table">
-                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Samsung Thunders Kazanır <span class="prediction-confidence">(Tahmini)</span></td></tr>
-                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">165.5 ALT <span class="prediction-confidence">🟢🟢 Yüksek Güven</span></td></tr>
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">160.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %60 Güven</span></td></tr>
             </table>
         </div>
-        
         <div class="analysis-box">
-            <strong>📝 ANALİZ ÖZETİ</strong>
-            <p>KBL ortalamasının düşük olması nedeniyle **165.5 ALT** tahmini için **Yüksek** güven düzeyi verilmiştir. Barem gerçek değerin üstündedir. (Maç 2)</p>
+            <strong>📝 KISA MANTIK</strong>
+            <p>Lig ortalaması düşük, savunma hakimiyeti bekleniyor. Kuponda yer alan sağlam ALT tahmini.</p>
+        </div>
+    </div>
+
+    <div class="match-card ust">
+        <div class="time-box">20:45<span>ELeague</span></div>
+        <div class="match-title">Fenerbahçe vs Asvel Villeurbanne</div>
+        <div class="prediction-box">
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">165.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢 %58 Güven</span></td></tr>
+            </table>
+        </div>
+        <div class="analysis-box">
+            <strong>📝 KISA MANTIK</strong>
+            <p>Yüksek tempo ve Asvel'in zayıf savunması nedeniyle ÜST bekleniyor.</p>
+        </div>
+    </div>
+
+    <div class="match-card alt">
+        <div class="time-box">21:00<span>ELeague</span></div>
+        <div class="match-title">BC Dubai vs Hapoel Tel Aviv</div>
+        <div class="prediction-box">
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">162.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %57 Güven</span></td></tr>
+            </table>
+        </div>
+        <div class="analysis-box">
+            <strong>📝 KISA MANTIK</strong>
+            <p>Savunma odaklı oyun tarzı ve rotasyon sorunları nedeniyle ALT.</p>
         </div>
     </div>
     
-    <div class="match-card">
-        <div class="time-box">
-            19:00
-            <span>(TSİ)</span>
-        </div>
-        <div class="match-title">Brescia vs Olimpia Milano (Serie A)</div>
-        
+    <div class="match-card alt">
+        <div class="time-box">22:30<span>Serie A</span></div>
+        <div class="match-title">Sassari vs Cantu</div>
         <div class="prediction-box">
-            <strong>📊 AI TAHMİN ANALİZİ (GÜNCEL BAREM)</strong>
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
             <table class="prediction-table">
-                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Olimpia Milano Kazanır <span class="prediction-confidence">(Tahmini)</span></td></tr>
-                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">166.5 ÜST <span class="prediction-confidence">🟢 Orta Güven</span></td></tr>
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">166.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %57 Güven</span></td></tr>
             </table>
         </div>
-        
         <div class="analysis-box">
-            <strong>📝 ANALİZ ÖZETİ</strong>
-            <p>**166.5 ÜST** tahmini için **Orta** güven seviyesi uygun görülmüştür. Serie A'da çekişmeli geçen maçların yüksek skorlara ulaşma potansiyeli vardır. (Maç 3)</p>
+            <strong>📝 KISA MANTIK</strong>
+            <p>Düşük tempo ve güçlü rebound performansının skoru aşağı çekmesi bekleniyor.</p>
+        </div>
+    </div>
+
+    <div class="match-card ust">
+        <div class="time-box">22:30<span>ELeague</span></div>
+        <div class="match-title">Baskonia vs Virtus Bologna</div>
+        <div class="prediction-box">
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">158.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢 %60 Güven</span></td></tr>
+            </table>
+        </div>
+        <div class="analysis-box">
+            <strong>📝 KISA MANTIK</strong>
+            <p>Hızlı hücum ve takımların savunma zaafları nedeniyle ÜST. Barem düşük tutulmuş.</p>
+        </div>
+    </div>
+
+    <div class="match-card alt">
+        <div class="time-box">22:45<span>Serie A</span></div>
+        <div class="match-title">Cremona vs Trento</div>
+        <div class="prediction-box">
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">171.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %56 Güven</span></td></tr>
+            </table>
+        </div>
+        <div class="analysis-box">
+            <strong>📝 KISA MANTIK</strong>
+            <p>Savunma odaklı ve yavaş oyun beklentisi. Yüksek barem nedeniyle ALT daha yakın.</p>
+        </div>
+    </div>
+
+    <div class="match-card ust">
+        <div class="time-box">23:00<span>ELeague</span></div>
+        <div class="match-title">Paris vs Bayern Münih</div>
+        <div class="prediction-box">
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">172.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢 %59 Güven</span></td></tr>
+            </table>
+        </div>
+        <div class="analysis-box">
+            <strong>📝 KISA MANTIK</strong>
+            <p>Yüksek tempo ve rebound zaafları nedeniyle skorun yükselmesi muhtemel.</p>
+        </div>
+    </div>
+
+    <div class="match-card ust">
+        <div class="time-box">23:00<span>ELeague</span></div>
+        <div class="match-title">M. Tel Aviv vs Monaco</div>
+        <div class="prediction-box">
+            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
+            <table class="prediction-table">
+                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">163.5</td></tr>
+                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢🟢 %62 Güven</span></td></tr>
+            </table>
+        </div>
+        <div class="analysis-box">
+            <strong>📝 KISA MANTIK</strong>
+            <p>Hücum derinliği yüksek, savunma zaafları belirgin. Kupondaki en güvenilir ÜST seçimi.</p>
         </div>
     </div>
     
-    <div class="match-card">
-        <div class="time-box">
-            21:00
-            <span>(TSİ)</span>
-        </div>
-        <div class="match-title">Ratiopharm Ulm vs London Lions (EuroCup)</div>
+    <div class="kupon-box">
+        <h2>🔥 🎯 GÜNÜN KUPON ÖNERİSİ (2 MAÇLIK)</h2>
+        <pre>
+1. M. Tel Aviv - Monaco   // ÜST 163.5 (Güven: %62)
+2. Mobis - Goyang         // ALT 160.5 (Güven: %60)
+        </pre>
+        <p style="font-size: 1.1em; color: var(--text-light); text-align: left;">
+            **Ortalama Güven:** %61
+        </p>
         
-        <div class="prediction-box">
-            <strong>📊 AI TAHMİN ANALİZİ (GÜNCEL BAREM)</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Ratiopharm Ulm Kazanır <span class="prediction-confidence">(Tahmini)</span></td></tr>
-                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">167.5 ÜST <span class="prediction-confidence">🟢🟢 Yüksek Güven</span></td></tr>
-            </table>
-        </div>
-        
-        <div class="analysis-box">
-            <strong>📝 ANALİZ ÖZETİ</strong>
-            <p>Ulm'un evdeki yüksek skor ortalaması ve EuroCup'taki hızlı tempo nedeniyle **167.5 ÜST** önerilir. Barem hızlı takımlar için düşük kalmıştır. (Maç 4)</p>
-        </div>
-    </div>
-
-    <div class="match-card">
-        <div class="time-box">
-            22:00
-            <span>(TSİ)</span>
-        </div>
-        <div class="match-title">Kızılyıldız vs Panathinaikos (EuroLeague)</div>
-        
-        <div class="prediction-box">
-            <strong>📊 AI TAHMİN ANALİZİ (GÜNCEL BAREM)</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Maç Sonucu</td><td class="prediction-value">Kızılyıldız Kazanır <span class="prediction-confidence">(Tahmini)</span></td></tr>
-                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">162.5 ALT <span class="prediction-confidence">🟢 Orta Güven (Riskli)</span></td></tr>
-            </table>
-        </div>
-        
-        <div class="analysis-box">
-            <strong>📝 ANALİZ ÖZETİ</strong>
-            <p>EuroLeague'de kritik bir mücadele. Savunma ağırlıklı maç beklentisiyle **162.5 ALT** tahmini yapılmıştır. Bu barem sınır değer olduğu için dikkat edilmelidir. (Maç 5)</p>
-        </div>
-    </div>
-
-    <div class="match-card" style="border-left: 8px solid var(--accent-ai); background-color: rgba(40, 167, 69, 0.1);">
-        <div class="match-title" style="color: var(--accent-ai);">💎 EK TAHMİN (ÇOK YÜKSEK GÜVEN)</div>
-        
-        <div class="prediction-box">
-            <strong>📈 Napoli Basket vs Trapani (Serie A2)</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Maç Saati</td><td class="prediction-value">22:00 Sonrası <span class="prediction-confidence">(Tahmini)</span></td></tr>
-                <tr><td class="prediction-label">MS Sayı A/U</td><td class="prediction-value">169.5 ÜST <span class="prediction-confidence">🟢🟢🟢 ÇOK YÜKSEK GÜVEN</span></td></tr>
-            </table>
-        </div>
-        
-        <div class="analysis-box">
-            <strong>📝 ANALİZ ÖZETİ</strong>
-            <p>Bu, listenizdeki en güçlü **ÜST** tahminidir. İki takımın yüksek skor ortalaması ve Serie A2'nin yapısı nedeniyle tavsiye edilir.</p>
-        </div>
+        <strong style="display: block; margin-top: 15px; color: var(--nba-gold); text-align: left;">
+            💡 GEREKÇE ÖZETİ:
+        </strong>
+        <p style="font-size: 0.95em; margin: 5px 0; text-align: left;">
+            · Tel Aviv/Monaco: Hücum derinliği yüksek, H2H son 5/4 maç 165+ bitmiş.
+        </p>
+        <p style="font-size: 0.95em; margin: 5px 0; text-align: left;">
+            · Mobis/Goyang: KBL düşük skorlu lig, son 6/5 maç 158 altı bitmiş. Savunma odaklı.
+        </p>
     </div>
     
 </body>
