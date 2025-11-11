@@ -3,432 +3,734 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>BASKETBOL AI ROBOT ANALİZ RAPORU | Güncel Alt/Üst Kararlar</title>
-    
+    <title>AI Basketbol Tahmin Raporu</title>
     <style>
-        /* NBA / AMERİKAN TEMASI RENK KÖKLERİ - KART FORMATINA UYARLANDI */
+        /* Renk Kökleri (Soft ve Modern) */
         :root {
-            --bg-parke-dark: #8c725e; /* Koyu Parke */
-            --bg-parke-light: #b09176; /* Açık Parke */
-            --card-base: #ffffff; /* Temiz Beyaz Kart */
-            
-            --nba-blue: #1d428a; /* NBA Mavisi/Koyu Mavi */
-            --nba-red: #c8102e; /* NBA Kırmızısı/Aksiyon */
-            --nba-gold: #ffc72c; /* Altın Sarı Aksan */
-            
-            --nba-ust: var(--nba-red); /* ÜST için Kırmızı */
-            --nba-alt: #008000; /* ALT için Yeşil (daha belirgin) */
-            
-            --text-dark: #1f1f1f; 
-            --text-light: #ffffff; 
-            --accent-ai: #008000; /* Yeşil Güven Oylaması */
-            --warning-red: #dc3545; 
+            --color-primary: #007bff; /* Mavi - Ana Vurgu */
+            --color-secondary: #6c757d; /* Gri - İkincil Metin */
+            --color-success: #28a745; /* Yeşil - Başarılı Tahmin (Üst) */
+            --color-danger: #dc3545; /* Kırmızı - Alt Tahmin */
+            --color-warning: #ffc107; /* Sarı - Handikap Vurgu */
+            --color-background: #f8f9fa; /* Açık Gri Arka Plan */
+            --color-card: #ffffff; /* Beyaz Kart Arka Plan */
+            --color-text: #343a40; /* Koyu Metin */
+            --color-border: #e9ecef; /* Kart Sınırı */
         }
 
-        /* GENEL DÜZEN VE SIFIRLAMA (MOBİL UYUMLU) */
-        body { 
+        /* GENEL STİL VE RESET */
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6; 
-            margin: 0; 
-            color: var(--text-dark); 
-            padding: 15px; 
-            overflow-x: hidden; 
-            font-size: 16px; 
-            min-width: 320px; 
-            /* Yeni Parke Deseni */
-            background-image: repeating-linear-gradient(45deg, var(--bg-parke-dark) 0, var(--bg-parke-dark) 1px, var(--bg-parke-light) 2px, var(--bg-parke-light) 40px);
-            background-size: 100% 100%;
-            min-height: 100vh; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px 10px;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-size: 16px;
+            min-height: 100vh;
         }
         * { box-sizing: border-box; }
 
-        /* BAŞLIKLAR */
-       .header { 
-            text-align: center; 
-            font-size: 2.6em; 
-            margin-bottom: 30px; 
-            color: var(--nba-blue);
-            text-shadow: 2px 2px 4px var(--nba-gold);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 900;
-        }
-
-        /* YASAL UYARI */
-       .disclaimer {
-            text-align: center; 
-            font-size: 1em; 
-            margin-bottom: 30px;
-            padding: 15px; 
-            border: 3px solid var(--warning-red); 
-            background-color: rgba(200, 0, 0, 0.1); 
-            border-radius: 8px;
-            color: var(--warning-red); 
-            text-shadow: none;
-            font-weight: 700; 
-            width: 100%;
-            max-width: 550px;
-            box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
-        }
-
-        /* MAÇ KARTLARI */
-       .match-card { 
-            background: var(--card-base); 
-            padding: 20px;
-            padding-top: 40px; 
-            margin-bottom: 25px; 
-            border-radius: 12px; 
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); 
-            border-left: 8px solid var(--nba-blue); 
-            color: var(--text-dark); 
-            width: 100%;
-            max-width: 550px;
-            position: relative; 
-            transition: all 0.3s ease-in-out;
-        }
-        .match-card.alt { border-left-color: var(--nba-alt); }
-        .match-card.ust { border-left-color: var(--nba-ust); }
-        .match-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
-        
-        /* BAŞLAMA SAATİ KUTUSU */
-       .time-box {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--nba-gold);
-            color: var(--nba-blue);
-            padding: 8px 15px;
-            border-radius: 0 12px 0 8px; 
-            font-weight: 900;
-            font-size: 1.2em;
-            box-shadow: -3px 3px 6px rgba(0, 0, 0, 0.3);
-            z-index: 10;
+        /* BAŞLIK STİLLERİ */
+        .header-container {
             text-align: center;
-        }
-       .time-box span {
-            display: block;
-            font-size: 0.7em;
-            font-weight: 500;
-        }
-
-        /* MAÇ BAŞLIĞI */
-       .match-title {
-            font-size: 1.6em;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--nba-red);
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-            border-bottom: 2px solid var(--nba-blue);
-            padding-bottom: 5px;
-            text-transform: uppercase;
-        }
-       .match-title span { 
-            font-size: 0.7em; 
-            font-weight: 500; 
-            color: var(--text-dark);
-            text-shadow: none;
-            display: block;
-        }
-
-        /* TAHMİN KUTUSU (PROFESYONEL TABLO) */
-       .prediction-box {
-            background: #f5f5f5;
-            border: 2px solid var(--nba-blue);
-            border-radius: 8px;
+            margin-bottom: 25px;
             padding: 15px;
-            margin-top: 15px;
+            background-color: var(--color-card);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
-       .prediction-box strong {
-            display: block;
-            color: var(--nba-blue);
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            border-bottom: 1px dashed #cccccc;
-            padding-bottom: 5px;
+        .header {
+            font-size: 1.8em;
+            color: var(--color-primary);
+            margin-bottom: 5px;
             font-weight: 700;
         }
+        .subheader {
+            font-size: 1.1em;
+            color: var(--color-secondary);
+            font-weight: 400;
+        }
 
-        /* TAHMİN TABLOSU */
-       .prediction-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 1em;
-        }
-       .prediction-table td {
-            padding: 8px 0;
-            border-bottom: 1px dotted #e0e0e0;
-        }
-       .prediction-table tr:last-child td {
-            border-bottom: none;
-        }
-       .prediction-label {
-            color: var(--text-dark);
-            text-align: left;
+        /* YASAL UYARI KUTUSU */
+        .disclaimer {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid var(--color-danger);
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: 8px;
+            color: var(--color-danger);
+            font-size: 0.9em;
+            text-align: center;
             font-weight: 600;
         }
-       .prediction-value {
-            text-align: right;
-            font-weight: 900;
-            font-size: 1.2em;
+
+        /* MAÇ LİSTESİ DÜZENİ */
+        .match-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
-        .prediction-value.alt { color: var(--nba-alt); }
-        .prediction-value.ust { color: var(--nba-ust); }
-        
-       .prediction-confidence {
-            color: var(--accent-ai); 
-            font-weight: 900;
-            font-size: 0.9em;
+
+        /* MAÇ KARTI */
+        .match-card {
+            background-color: var(--color-card);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            transition: transform 0.3s ease;
         }
-        
-        /* KISA ANALİZ BÖLÜMÜ */
-       .analysis-box {
-            margin-top: 15px;
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* KART BAŞLIĞI */
+        .match-header {
             padding: 15px;
-            background: rgba(var(--nba-blue), 0.05); /* Mavi Tonlu Arka Plan */
-            border-radius: 8px;
-            border: 1px solid rgba(var(--nba-blue), 0.2);
-            border-left: 4px solid var(--nba-blue);
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-       .analysis-box strong {
-            display: block;
-            color: var(--nba-blue);
-            font-size: 1em;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+        .match-time {
+            font-size: 1.2em;
             font-weight: 700;
         }
-       .analysis-box p {
-            font-size: 0.95em;
-            margin: 0;
-            color: var(--text-dark);
-            font-style: italic;
+        .match-league {
+            font-size: 0.9em;
+            opacity: 0.9;
         }
-        
-        /* KUPON KUTUSU STİLİ */
-        .kupon-box {
-            margin-top: 30px;
-            padding: 25px;
-            width: 100%;
-            max-width: 550px;
-            background-color: var(--nba-blue); /* Koyu NBA Mavisi Zemin */
-            color: var(--nba-gold); /* Altın Sarısı Metin */
-            border: 5px solid var(--nba-gold);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 10px var(--nba-gold);
+
+        /* KART İÇERİĞİ */
+        .match-body {
+            padding: 15px;
+        }
+        .teams {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 15px;
             text-align: center;
         }
-        .kupon-box h2 {
-            color: var(--nba-red); 
-            margin-top: 0;
-            font-size: 2em;
-            text-shadow: 1px 1px 2px var(--nba-gold);
-            border-bottom: 3px solid var(--nba-gold);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            font-weight: 900;
+
+        /* TAHMİN BÖLÜMLERİ */
+        .predictions {
+            display: flex;
+            gap: 10px;
         }
-        .kupon-box pre {
-            white-space: pre-wrap;
-            text-align: left;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.15); /* Hafif Şeffaf Beyaz */
+        .prediction-box {
+            flex: 1;
+            padding: 10px;
             border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px dashed var(--color-secondary);
+        }
+
+        /* HMS TAHMİN STİLİ */
+        .hms-box {
+            background-color: rgba(255, 193, 7, 0.1); /* Sarımsı Arka Plan */
+            border-color: var(--color-warning);
+            color: var(--color-text);
+        }
+        .hms-box .pred-label {
+            color: var(--color-warning);
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .hms-box .pred-value {
             font-size: 1.1em;
-            line-height: 1.8;
-            color: var(--text-light);
-            border: 1px solid var(--nba-gold);
+            color: var(--color-warning);
+        }
+
+        /* ALT/ÜST TAHMİN STİLİ */
+        .total-box {
+            color: white;
+            font-size: 1.1em;
+            position: relative;
+            overflow: hidden;
+        }
+        .total-box.alt {
+            background-color: var(--color-danger);
+        }
+        .total-box.ust {
+            background-color: var(--color-success);
+        }
+        .total-box .pred-label {
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        .limit {
+            font-size: 0.9em;
+            display: block;
+            opacity: 0.7;
+            font-weight: 400;
+            margin-top: 3px;
         }
 
         /* MOBİL UYUMLULUK */
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-           .header { font-size: 2em; margin-bottom: 20px; }
-           .disclaimer { font-size: 0.9em; padding: 10px; }
-           .match-card { padding-top: 35px; }
-           .time-box { font-size: 1.1em; padding: 7px 12px; }
-           .match-title { font-size: 1.3em; }
+        @media (max-width: 650px) {
+            .match-list {
+                grid-template-columns: 1fr;
+            }
+            .match-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .match-league {
+                margin-top: 5px;
+            }
+            .predictions {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1 class="header">
-        🏀 BASKETBOL AI ROBOT ANALİZ RAPORU
-    </h1>
-    
+    <div class="header-container">
+        <div class="header">
+            🏀 Yapay Zeka Basketbol Tahmin Raporu
+        </div>
+        <div class="subheader">
+            Veri ve İstatistik Bazlı Analiz Sistemi Çıktısı (Saat: 11.11.2025)
+        </div>
+    </div>
+
     <div class="disclaimer">
-        🚨 **ÖNEMLİ YASAL UYARI!** 🚨 <br>
-        Bu analizler, istatistiksel modellemeye dayanmakta olup, **kesin sonuç garantisi verilmemektedir.** Lütfen sorumlu ve bilinçli bahis yapınız.
+        ⚠️ **Sorumluluk Reddi:** Bu bir finansal veya bahis tavsiyesi değildir. Veriler istatistiksel modelleme ile üretilmiştir. Lütfen bilinçli ve sorumlu davranınız.
     </div>
 
-    <div class="match-card alt">
-        <div class="time-box">11:30<span>NBL</span></div>
-        <div class="match-title">Tasmania vs Melbourne Phoenix</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">185.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %58 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Savunma odaklı ve düşük tempo beklentisiyle ALT. NBL'de kontrollü oyun hakim.</p>
-        </div>
-    </div>
-
-    <div class="match-card alt">
-        <div class="time-box">13:00<span>KBL</span></div>
-        <div class="match-title">Mobis Phoebus vs Goyang Orions</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">160.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %60 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Lig ortalaması düşük, savunma hakimiyeti bekleniyor. Kuponda yer alan sağlam ALT tahmini.</p>
-        </div>
-    </div>
-
-    <div class="match-card ust">
-        <div class="time-box">20:45<span>ELeague</span></div>
-        <div class="match-title">Fenerbahçe vs Asvel Villeurbanne</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">165.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢 %58 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Yüksek tempo ve Asvel'in zayıf savunması nedeniyle ÜST bekleniyor.</p>
-        </div>
-    </div>
-
-    <div class="match-card alt">
-        <div class="time-box">21:00<span>ELeague</span></div>
-        <div class="match-title">BC Dubai vs Hapoel Tel Aviv</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">162.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %57 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Savunma odaklı oyun tarzı ve rotasyon sorunları nedeniyle ALT.</p>
-        </div>
-    </div>
-    
-    <div class="match-card alt">
-        <div class="time-box">22:30<span>Serie A</span></div>
-        <div class="match-title">Sassari vs Cantu</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">166.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %57 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Düşük tempo ve güçlü rebound performansının skoru aşağı çekmesi bekleniyor.</p>
-        </div>
-    </div>
-
-    <div class="match-card ust">
-        <div class="time-box">22:30<span>ELeague</span></div>
-        <div class="match-title">Baskonia vs Virtus Bologna</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">158.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢 %60 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Hızlı hücum ve takımların savunma zaafları nedeniyle ÜST. Barem düşük tutulmuş.</p>
-        </div>
-    </div>
-
-    <div class="match-card alt">
-        <div class="time-box">22:45<span>Serie A</span></div>
-        <div class="match-title">Cremona vs Trento</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value alt">171.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value alt">ALT <span class="prediction-confidence">🟢 %56 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Savunma odaklı ve yavaş oyun beklentisi. Yüksek barem nedeniyle ALT daha yakın.</p>
-        </div>
-    </div>
-
-    <div class="match-card ust">
-        <div class="time-box">23:00<span>ELeague</span></div>
-        <div class="match-title">Paris vs Bayern Münih</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">172.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢 %59 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Yüksek tempo ve rebound zaafları nedeniyle skorun yükselmesi muhtemel.</p>
-        </div>
-    </div>
-
-    <div class="match-card ust">
-        <div class="time-box">23:00<span>ELeague</span></div>
-        <div class="match-title">M. Tel Aviv vs Monaco</div>
-        <div class="prediction-box">
-            <strong>📊 NİHAİ ALT/ÜST KARARI</strong>
-            <table class="prediction-table">
-                <tr><td class="prediction-label">Barem</td><td class="prediction-value ust">163.5</td></tr>
-                <tr><td class="prediction-label">Karar</td><td class="prediction-value ust">ÜST <span class="prediction-confidence">🟢🟢 %62 Güven</span></td></tr>
-            </table>
-        </div>
-        <div class="analysis-box">
-            <strong>📝 KISA MANTIK</strong>
-            <p>Hücum derinliği yüksek, savunma zaafları belirgin. Kupondaki en güvenilir ÜST seçimi.</p>
-        </div>
-    </div>
-    
-    <div class="kupon-box">
-        <h2>🔥 🎯 GÜNÜN KUPON ÖNERİSİ (2 MAÇLIK)</h2>
-        <pre>
-1. M. Tel Aviv - Monaco   // ÜST 163.5 (Güven: %62)
-2. Mobis - Goyang         // ALT 160.5 (Güven: %60)
-        </pre>
-        <p style="font-size: 1.1em; color: var(--text-light); text-align: left;">
-            **Ortalama Güven:** %61
-        </p>
+    <div class="match-list">
         
-        <strong style="display: block; margin-top: 15px; color: var(--nba-gold); text-align: left;">
-            💡 GEREKÇE ÖZETİ:
-        </strong>
-        <p style="font-size: 0.95em; margin: 5px 0; text-align: left;">
-            · Tel Aviv/Monaco: Hücum derinliği yüksek, H2H son 5/4 maç 165+ bitmiş.
-        </p>
-        <p style="font-size: 0.95em; margin: 5px 0; text-align: left;">
-            · Mobis/Goyang: KBL düşük skorlu lig, son 6/5 maç 158 altı bitmiş. Savunma odaklı.
-        </p>
-    </div>
-    
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">13:00</span>
+                <span class="match-league">Güney Kore KBL Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Dongbu Promy - KT Sonicboom</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Dongbu Promy -5,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 153,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">19:00</span>
+                <span class="match-league">Slovenya Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Nova Polzela - KK Krka</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Nova Polzela +14,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 167,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">19:00</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">BC Dubai - Kızıl Yıldız</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">BC Dubai -2,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 165,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">19:00</span>
+                <span class="match-league">VTB Birleşik Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Unics Kazan - BC Samara</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Unics Kazan -28,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 163,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">20:30</span>
+                <span class="match-league">FIBA Şampiyonlar Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">BK Levicki Patrioti - Szolnoki Olaj Kk</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">BK Levicki Patrioti -1,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 157,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">20:30</span>
+                <span class="match-league">FIBA Avrupa Kupası</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Bakken Bears - F. Szombathely</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Bakken Bears -5,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 172,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">21:00</span>
+                <span class="match-league">FIBA Şampiyonlar Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">AS Karditsas - BC Oostende</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">AS Karditsas -5,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 163,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">21:00</span>
+                <span class="match-league">Eurocup</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Slask Wroclaw - Hamburg Towers</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Slask Wroclaw -6,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 172,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">21:00</span>
+                <span class="match-league">Eurocup</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Aris - Bahçeşehir Koleji</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Aris +7,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 165,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">21:00</span>
+                <span class="match-league">Eurocup</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Ratiopharm Ulm - JL Bourg</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Ratiopharm Ulm -1,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 168,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">21:00</span>
+                <span class="match-league">Fransa Basketbol Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Boulazac Dord. - Gravelines</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Boulazac Dord. -5,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 166,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">21:30</span>
+                <span class="match-league">BNXT Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Donar Groningen - Leuven Bears</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Donar Groningen -2,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 161,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:00</span>
+                <span class="match-league">Fransa Pro B</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Ujap Quimper 29 - AIX Maurienne</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Ujap Quimper -2,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 165,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:00</span>
+                <span class="match-league">FIBA Avrupa Kupası</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Dijon Basket - Cibona Zagreb</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Dijon Basket -12,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 163,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:00</span>
+                <span class="match-league">FIBA Avrupa Kupası</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Antwerp - Rostock Seawolves</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Antwerp -1,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 170,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:00</span>
+                <span class="match-league">İspanya Basketbol Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Bilbao Basket - Basket Brno</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Bilbao Basket -29,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 164,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:00</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Fenerbahçe - M. Tel Aviv</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Fenerbahçe -6,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 170,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:05</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Hap. Tel Aviv - Baskonia</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Hap. Tel Aviv -10,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 177,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:30</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Virtus Bologna - Anadolu Efes</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Virtus Bologna -1,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 161,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:30</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Valencia - Real Madrid</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Real Madrid +1,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 177,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:30</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Partizan - Monaco</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Monaco +2,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 167,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:30</span>
+                <span class="match-league">Eurocup</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Hapoel Jerusalem - Neptunas K.</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Hapoel Jerusalem -10,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 177,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:30</span>
+                <span class="match-league">FIBA Şampiyonlar Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Trapani - Bnei Herzelia</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Trapani -8,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 174,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">22:30</span>
+                <span class="match-league">FIBA Avrupa Kupası</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">UCAM Murcia - KK Bosna Royal Sarajevo</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">UCAM Murcia -14,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 158,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">23:00</span>
+                <span class="match-league">Euroleague</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Paris - Panathinaikos</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Panathinaikos +1,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box ust">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ÜST</span>
+                        <span class="limit">(Limit: 178,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="match-card">
+            <div class="match-header">
+                <span class="match-time">23:00</span>
+                <span class="match-league">FIBA Şampiyonlar Ligi</span>
+            </div>
+            <div class="match-body">
+                <div class="teams">Tenerife - Tofaş</div>
+                <div class="predictions">
+                    <div class="prediction-box hms-box">
+                        <span class="pred-label">Handikaplı Maç Sonucu (HMS)</span>
+                        <span class="pred-value">Tenerife -10,5 Kazanır</span>
+                    </div>
+                    <div class="prediction-box total-box alt">
+                        <span class="pred-label">Sayı Tahmini</span>
+                        <span class="pred-value">ALT</span>
+                        <span class="limit">(Limit: 166,5)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
 </body>
 </html>
