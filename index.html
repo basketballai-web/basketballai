@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>Sıralı Alt/Üst Tahmin Raporu (TSİ)</title>
+    <title>Güncel AI Basketbol Alt/Üst Tahminleri</title>
     <style>
         /* Renk Kökleri (Modern ve Tahmin Odaklı) */
         :root {
@@ -11,7 +11,7 @@
             --color-secondary: #6c757d; /* Gri - Metinler */
             --color-alt: #dc3545; /* Kırmızı - ALT Tahmin */
             --color-ust: #008000; /* Koyu Yeşil - ÜST Tahmin */
-            --color-best-pick: #ffc107; /* Altın Sarısı - En Güvenilir Seçim Vurgusu */
+            --color-best-pick: #ff9900; /* Turuncu - En Güvenilir Seçim Vurgusu */
             --color-background: #f8f9fa; /* Açık Gri Arka Plan */
             --color-card: #ffffff; /* Beyaz Kart Arka Plan */
             --color-border: #e9ecef; /* Kart Sınırı */
@@ -54,7 +54,7 @@
             padding: 15px;
             margin-top: 15px;
             border: 2px solid var(--color-best-pick);
-            background-color: rgba(255, 193, 7, 0.1);
+            background-color: rgba(255, 153, 0, 0.1);
             border-radius: 8px;
             font-weight: 600;
             color: var(--color-text);
@@ -88,11 +88,11 @@
         /* EN GÜVENİLİR SEÇİM VURGUSU */
         .best-pick {
             border: 3px solid var(--color-best-pick);
-            box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.5);
         }
         .best-pick .match-title {
             background-color: var(--color-best-pick);
-            color: var(--color-text) !important;
+            color: white !important;
         }
 
         /* KART İÇERİĞİ */
@@ -148,8 +148,7 @@
             font-weight: 700;
             color: var(--color-primary);
         }
-        .confidence.high { color: var(--color-ust); }
-        .confidence.low { color: var(--color-alt); }
+        .confidence.high { color: var(--color-best-pick); }
 
         .explanation {
             font-size: 0.9em;
@@ -162,6 +161,13 @@
         .explanation strong {
              color: var(--color-text);
              font-style: normal;
+        }
+        .limit-value {
+            display: block;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-top: 5px;
+            opacity: 0.9;
         }
         
         /* MOBİL UYUMLULUK */
@@ -198,13 +204,13 @@
 
     <div class="header-container">
         <div class="header">
-            ⬆️⬇️ Yapay Zeka & Saha Raporu Tahminleri
+            ⬆️⬇️ Yapay Zeka Güncel Tahminleri
         </div>
         <div class="subheader">
-            Güncel Basketbol Toplam Sayı (Alt/Üst) Analizi (TSİ'ye Göre Sıralı)
+            Toplam Sayı (Alt/Üst) Analizi (TSİ'ye Göre Sıralı)
         </div>
         <div class="summary-box">
-            🌟 **Günün En Güvenilir Seçimi:** Niners Chemnitz – Buducnost → **ALT (%71)**
+            🔥 **Günün En Güvenilir Seçimleri (%83):** **Fenerbahçe – Hapoel** ve **Paris – Valencia**
         </div>
     </div>
 
@@ -212,144 +218,76 @@
         
         <div class="match-card">
             <div class="match-title">
-                <span class="match-time">10:30</span>
-                <span class="team-names">Brisbane Bullets – N.Z. Breakers</span>
+                <span class="match-time">19:00</span>
+                <span class="team-names">Bamberg – MLP Heidelberg (Kupa)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box alt">ALT</div>
-                    <div class="confidence">G: %62</div>
+                    <div class="pred-box ust">
+                        ÜST
+                        <span class="limit-value">(Limit: 170.5)</span>
+                    </div>
+                    <div class="confidence">G: %76</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** Son 10 maç düşük tempo, pregame injury raporları rotasyonu kısıtlıyor; Monte-Carlo hafifçe ALT/orta gösteriyordu.
-                </div>
-            </div>
-        </div>
-        
-        <div class="match-card">
-            <div class="match-title">
-                <span class="match-time">13:00</span>
-                <span class="team-names">Samsung Thunders – LG Sakers</span>
-            </div>
-            <div class="match-body">
-                <div class="prediction-section">
-                    <div class="pred-box ust">ÜST</div>
-                    <div class="confidence high">G: %72</div>
-                </div>
-                <div class="explanation">
-                    **Açıklama:** KBL form ve LG’nin hücum verimliliği güçlü; hem senin kaynaklar hem simülasyon üstü destekliyor. (EN GÜÇLÜ ÜST)
+                    **Gerekçe:** Kupa maçı, 'Fast Break' alarmı çalar!
                 </div>
             </div>
         </div>
 
         <div class="match-card">
             <div class="match-title">
-                <span class="match-time">19:30</span>
-                <span class="team-names">Cluj Napoca – Manresa</span>
+                <span class="match-time">20:30</span>
+                <span class="team-names">Caen Basket – AIX Maurienne (Pro B)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box ust">ÜST</div>
-                    <div class="confidence high">G: %68</div>
+                    <div class="pred-box alt">
+                        ALT
+                        <span class="limit-value">(Limit: 167.5)</span>
+                    </div>
+                    <div class="confidence">G: %75</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** Cluj’ın evde yüksek skor potansiyeli ve Manresa’nın üretkenliği. Simülasyon da hafif üst destekliyordu.
+                    **Gerekçe:** Pro B'de kontrollü gece, skor tavan yapmaz.
                 </div>
             </div>
         </div>
         
         <div class="match-card">
             <div class="match-title">
-                <span class="match-time">20:00</span>
-                <span class="team-names">Olimp Ljubljana – Reyer Venezia</span>
+                <span class="match-time">21:00</span>
+                <span class="team-names">Crvena Zvezda – Monaco (EuroLeague)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box alt">ALT</div>
-                    <div class="confidence">G: %64</div>
+                    <div class="pred-box alt">
+                        ALT
+                        <span class="limit-value">(Limit: 170.5)</span>
+                    </div>
+                    <div class="confidence">G: %71</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** Kontrollü tempo, sakat/rotasyon belirsizliği düşük; hem senin hem benim veriler ALT’ı destekliyor.
+                    **Gerekçe:** Belgrad Savunması kilidi vurur, tempo düşer.
                 </div>
             </div>
         </div>
 
         <div class="match-card best-pick">
             <div class="match-title">
-                <span class="match-time">20:30</span>
-                <span class="team-names">Niners Chemnitz – Buducnost</span>
+                <span class="match-time">21:45</span>
+                <span class="team-names">Fenerbahçe – Hapoel (EuroLeague)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box alt">ALT</div>
-                    <div class="confidence high">G: %71</div>
+                    <div class="pred-box ust">
+                        ÜST
+                        <span class="limit-value">(Limit: 167.5)</span>
+                    </div>
+                    <div class="confidence high">G: %83</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** Chemnitz evinde tempo kontrolü, Buducnost savunma ağırlıklı; simülasyon da net ALT demişti.
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-title">
-                <span class="match-time">21:00</span>
-                <span class="team-names">Lietkabelis – Türk Telekom</span>
-            </div>
-            <div class="match-body">
-                <div class="prediction-section">
-                    <div class="pred-box ust">ÜST</div>
-                    <div class="confidence">G: %61</div>
-                </div>
-                <div class="explanation">
-                    **Açıklama:** Türk Telekom’un hücum üretimi ve Lietkabelis’in tempolu oyun profili; senin araştırman üstü işaret ediyor.
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-title">
-                <span class="match-time">21:00</span>
-                <span class="team-names">Beşiktaş – A. Basket Trento</span>
-            </div>
-            <div class="match-body">
-                <div class="prediction-section">
-                    <div class="pred-box ust">ÜST</div>
-                    <div class="confidence">G: %60</div>
-                </div>
-                <div class="explanation">
-                    **Açıklama:** EuroCup önemi ve iki takımın geçmişte üst eğilimi; senin saha notların bunu doğruluyor.
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-title">
-                <span class="match-time">21:30</span>
-                <span class="team-names">Trieste – Derthona Basket (Çelişki: ÜST)</span>
-            </div>
-            <div class="match-body">
-                <div class="prediction-section">
-                    <div class="pred-box ust">ÜST</div>
-                    <div class="confidence low">G: %58</div>
-                </div>
-                <div class="explanation">
-                    **Açıklama:** Önceki simülasyon ALT çıkarmıştı; ancak güncel H2H ve Derthona’nın ofansif formu nedeniyle ÜST olarak güncellendi.
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-title">
-                <span class="match-time">21:30</span>
-                <span class="team-names">Olympiakos – Zalgiris Kaunas</span>
-            </div>
-            <div class="match-body">
-                <div class="prediction-section">
-                    <div class="pred-box alt">ALT</div>
-                    <div class="confidence">G: %63</div>
-                </div>
-                <div class="explanation">
-                    **Açıklama:** EuroLeague düşük tempoları, pregame sakat/rotasyon notları ve H2H alt eğilimleri bunu destekliyor.
+                    **Gerekçe:** Hapoel ateşi, Fener'i de hücuma zorlar. 🔥
                 </div>
             </div>
         </div>
@@ -357,47 +295,56 @@
         <div class="match-card">
             <div class="match-title">
                 <span class="match-time">22:00</span>
-                <span class="team-names">Olimpia Milano – Asvel Villeurbanne (Çelişki: ALT)</span>
+                <span class="team-names">Real Madrid – Panathinaikos (EuroLeague)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box alt">ALT</div>
-                    <div class="confidence low">G: %55</div>
+                    <div class="pred-box ust">
+                        ÜST
+                        <span class="limit-value">(Limit: 171.5)</span>
+                    </div>
+                    <div class="confidence">G: %72</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** Simülasyon ÜST demesine rağmen, Milano’nun kontrollü tempo tercihleri nedeniyle ALT önerildi. Güven orta seviyede.
+                    **Gerekçe:** Real evinde hücum ritmini bulur.
                 </div>
             </div>
         </div>
 
         <div class="match-card">
             <div class="match-title">
-                <span class="match-time">22:30</span>
-                <span class="team-names">Bayern Münih – Barcelona</span>
+                <span class="match-time">22:05</span>
+                <span class="team-names">Maccabi Tel Aviv – Baskonia (EuroLeague)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box ust">ÜST</div>
-                    <div class="confidence low">G: %57</div>
+                    <div class="pred-box alt">
+                        ALT
+                        <span class="limit-value">(Limit: 182.5)</span>
+                    </div>
+                    <div class="confidence">G: %67</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** İki takımın hücum profili ve geçmiş yüzleşmeler ÜST'ü destekliyor; simülasyon 50/50’e çok yakın geldi.
+                    **Gerekçe:** Telsizler çekmez, stres skoru düşürür.
                 </div>
             </div>
         </div>
-        
-        <div class="match-card">
+
+        <div class="match-card best-pick">
             <div class="match-title">
                 <span class="match-time">22:30</span>
-                <span class="team-names">London Lions – Panionios</span>
+                <span class="team-names">Paris – Valencia (EuroCup)</span>
             </div>
             <div class="match-body">
                 <div class="prediction-section">
-                    <div class="pred-box alt">ALT</div>
-                    <div class="confidence">G: %60</div>
+                    <div class="pred-box ust">
+                        ÜST
+                        <span class="limit-value">(Limit: 184.5)</span>
+                    </div>
+                    <div class="confidence high">G: %83</div>
                 </div>
                 <div class="explanation">
-                    **Açıklama:** Panionios’un eksikleri ve Lions’ın kontrollü saha oyunuyla ALT destekleniyor.
+                    **Gerekçe:** Savunma bitti, 'Showtime' başladı. 🚀
                 </div>
             </div>
         </div>
