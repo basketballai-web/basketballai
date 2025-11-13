@@ -2,8 +2,8 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> 
-    <title>Güncel AI Basketbol Alt/Üst Tahminleri</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Robot Güncel Basketbol Alt/Üst Tahminleri</title>
     <style>
         /* Renk Kökleri (Modern ve Tahmin Odaklı) */
         :root {
@@ -124,7 +124,7 @@
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         /* TAHMİN KUTUSU (ALT/ÜST) */
         .pred-box {
             flex-grow: 1;
@@ -138,7 +138,7 @@
         }
         .pred-box.alt { background-color: var(--color-alt); }
         .pred-box.ust { background-color: var(--color-ust); }
-        
+
         /* GÜVEN VE AÇIKLAMA */
         .confidence {
             margin-left: 15px;
@@ -169,7 +169,75 @@
             margin-top: 5px;
             opacity: 0.9;
         }
+
+        /* DİNAMİK YÜKLEME STİLLERİ */
+        .hidden {
+            display: none !important;
+        }
+
+        .reveal-button {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            user-select: none;
+            margin-bottom: 15px; /* Tahmin alanının alt boşluğunu taklit eder */
+        }
+
+        .reveal-button:hover {
+            background-color: #0056b3; /* Koyu Mavi */
+        }
+
+        /* Yükleme Çubuğu Alanı */
+        .loading-bar-container {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .loading-bar {
+            width: 0;
+            height: 10px;
+            background-color: var(--color-best-pick);
+            border-radius: 5px;
+            margin: 5px 0 10px 0; /* Soldan hizalamayı sağlamak için margin ayarlandı */
+            transition: none; /* Animasyonu sadece JS ile kontrol edeceğiz */
+            display: block;
+        }
         
+        /* Yükleme Metni Stili */
+        .loading-text {
+            display: block;
+            font-weight: 700;
+            /* Yanıp sönme animasyonu */
+            animation: pulse 1.5s infinite alternate; /* pulse animasyonunu 1.5 saniyede bir tekrarla */
+        }
+
+        .loading-text-percentage {
+            font-size: 1.2em;
+            font-weight: 800;
+            color: var(--color-best-pick);
+            display: inline-block;
+            margin-left: 5px;
+            animation: none; /* Yüzde metninin kendisinin yanıp sönmesini engelleriz */
+        }
+
+        /* Yanıp Sönme Keyframes */
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.4; }
+        }
+
+
         /* MOBİL UYUMLULUK */
         @media (max-width: 650px) {
             .match-list {
@@ -192,9 +260,11 @@
             }
             .pred-box {
                 width: 100%;
-                margin-bottom: 10px;
+                margin-left: 0;
+                margin-right: 0;
             }
             .confidence {
+                margin-top: 10px;
                 margin-left: 0;
             }
         }
@@ -204,10 +274,10 @@
 
     <div class="header-container">
         <div class="header">
-            ⬆️⬇️ Yapay Zeka Güncel Tahminleri
+            ⬆️⬇️ Robot Güncel Tahminleri
         </div>
         <div class="subheader">
-            Toplam Sayı (Alt/Üst) Analizi (TSİ'ye Göre Sıralı)
+            Toplam Sayı (Alt/Üst) Analizi
         </div>
         <div class="summary-box">
             🔥 **Günün En Güvenilir Seçimleri (%83):** **Fenerbahçe – Hapoel** ve **Paris – Valencia**
@@ -216,139 +286,257 @@
 
     <div class="match-list">
         
-        <div class="match-card">
+        <div class="match-card best-pick" id="match-1">
             <div class="match-title">
-                <span class="match-time">19:00</span>
-                <span class="team-names">Bamberg – MLP Heidelberg (Kupa)</span>
+                <span class="match-time">22:00</span>
+                <span class="team-names">Fenerbahçe – Hap. Tel Aviv (EuroLeague)</span>
             </div>
             <div class="match-body">
-                <div class="prediction-section">
+                <div class="prediction-content prediction-section hidden">
                     <div class="pred-box ust">
                         ÜST
                         <span class="limit-value">(Limit: 170.5)</span>
                     </div>
-                    <div class="confidence">G: %76</div>
+                    <div class="confidence high">G: %83</div>
                 </div>
-                <div class="explanation">
-                    **Gerekçe:** Kupa maçı, 'Fast Break' alarmı çalar!
+                <div class="explanation hidden">
+                    **Gerekçe:** Fener'in yüksek tempo isteği ve Hapoel'in skor potansiyeli. 🔥
                 </div>
             </div>
         </div>
 
-        <div class="match-card">
+        <div class="match-card" id="match-2">
             <div class="match-title">
-                <span class="match-time">20:30</span>
+                <span class="match-time">22:00</span>
                 <span class="team-names">Caen Basket – AIX Maurienne (Pro B)</span>
             </div>
             <div class="match-body">
-                <div class="prediction-section">
+                 <div class="prediction-content prediction-section hidden">
                     <div class="pred-box alt">
                         ALT
-                        <span class="limit-value">(Limit: 167.5)</span>
+                        <span class="limit-value">(Limit: 169.5)</span>
                     </div>
                     <div class="confidence">G: %75</div>
                 </div>
-                <div class="explanation">
+                <div class="explanation hidden">
                     **Gerekçe:** Pro B'de kontrollü gece, skor tavan yapmaz.
                 </div>
             </div>
         </div>
-        
-        <div class="match-card">
+
+        <div class="match-card" id="match-3">
             <div class="match-title">
-                <span class="match-time">21:00</span>
-                <span class="team-names">Crvena Zvezda – Monaco (EuroLeague)</span>
+                <span class="match-time">22:00</span>
+                <span class="team-names">Kızıl Yıldız – Monaco (EuroLeague)</span>
             </div>
             <div class="match-body">
-                <div class="prediction-section">
+                 <div class="prediction-content prediction-section hidden">
                     <div class="pred-box alt">
                         ALT
-                        <span class="limit-value">(Limit: 170.5)</span>
+                        <span class="limit-value">(Limit: 167.5)</span>
                     </div>
                     <div class="confidence">G: %71</div>
                 </div>
-                <div class="explanation">
-                    **Gerekçe:** Belgrad Savunması kilidi vurur, tempo düşer.
+                <div class="explanation hidden">
+                    **Gerekçe:** Kızılyıldız savunması ve Monaco'nun temkinli oyunu.
                 </div>
             </div>
         </div>
 
-        <div class="match-card best-pick">
+        <div class="match-card" id="match-4">
             <div class="match-title">
-                <span class="match-time">21:45</span>
-                <span class="team-names">Fenerbahçe – Hapoel (EuroLeague)</span>
+                <span class="match-time">22:00</span>
+                <span class="team-names">Bamberg – MLP A. Heidelberg (Kupa)</span>
             </div>
             <div class="match-body">
-                <div class="prediction-section">
+                 <div class="prediction-content prediction-section hidden">
                     <div class="pred-box ust">
                         ÜST
-                        <span class="limit-value">(Limit: 167.5)</span>
+                        <span class="limit-value">(Limit: 173.5)</span>
+                    </div>
+                    <div class="confidence">G: %76</div>
+                </div>
+                <div class="explanation hidden">
+                    **Gerekçe:** Kupa maçı, 'Fast Break' alarmı çalar!
+                </div>
+            </div>
+        </div>
+        
+        <div class="match-card best-pick" id="match-5">
+            <div class="match-title">
+                <span class="match-time">22:45</span>
+                <span class="team-names">Paris – Valencia (EuroCup)</span>
+            </div>
+            <div class="match-body">
+                 <div class="prediction-content prediction-section hidden">
+                    <div class="pred-box ust">
+                        ÜST
+                        <span class="limit-value">(Limit: 181.5)</span>
                     </div>
                     <div class="confidence high">G: %83</div>
                 </div>
-                <div class="explanation">
-                    **Gerekçe:** Hapoel ateşi, Fener'i de hücuma zorlar. 🔥
+                <div class="explanation hidden">
+                    **Gerekçe:** Savunma bitti, 'Showtime' başladı. Her iki takım da yüksek skor potansiyeli taşıyor. 🚀
                 </div>
             </div>
         </div>
 
-        <div class="match-card">
+        <div class="match-card" id="match-6">
             <div class="match-title">
-                <span class="match-time">22:00</span>
+                <span class="match-time">22:45</span>
                 <span class="team-names">Real Madrid – Panathinaikos (EuroLeague)</span>
             </div>
             <div class="match-body">
-                <div class="prediction-section">
+                 <div class="prediction-content prediction-section hidden">
                     <div class="pred-box ust">
                         ÜST
-                        <span class="limit-value">(Limit: 171.5)</span>
+                        <span class="limit-value">(Limit: 173.5)</span>
                     </div>
                     <div class="confidence">G: %72</div>
                 </div>
-                <div class="explanation">
-                    **Gerekçe:** Real evinde hücum ritmini bulur.
+                <div class="explanation hidden">
+                    **Gerekçe:** Real evinde hücum ritmini bulur, Panathinaikos karşılık verir.
                 </div>
             </div>
         </div>
 
-        <div class="match-card">
+        <div class="match-card" id="match-7">
             <div class="match-title">
-                <span class="match-time">22:05</span>
-                <span class="team-names">Maccabi Tel Aviv – Baskonia (EuroLeague)</span>
+                <span class="match-time">23:00</span>
+                <span class="team-names">M. Tel Aviv – Baskonia (EuroLeague)</span>
             </div>
             <div class="match-body">
-                <div class="prediction-section">
+                 <div class="prediction-content prediction-section hidden">
                     <div class="pred-box alt">
                         ALT
                         <span class="limit-value">(Limit: 182.5)</span>
                     </div>
                     <div class="confidence">G: %67</div>
                 </div>
-                <div class="explanation">
-                    **Gerekçe:** Telsizler çekmez, stres skoru düşürür.
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card best-pick">
-            <div class="match-title">
-                <span class="match-time">22:30</span>
-                <span class="team-names">Paris – Valencia (EuroCup)</span>
-            </div>
-            <div class="match-body">
-                <div class="prediction-section">
-                    <div class="pred-box ust">
-                        ÜST
-                        <span class="limit-value">(Limit: 184.5)</span>
-                    </div>
-                    <div class="confidence high">G: %83</div>
-                </div>
-                <div class="explanation">
-                    **Gerekçe:** Savunma bitti, 'Showtime' başladı. 🚀
+                <div class="explanation hidden">
+                    **Gerekçe:** Yüksek stresli maç, Baskonia deplasmanda skoru düşürmeye çalışır.
                 </div>
             </div>
         </div>
 
     </div>
+
+    <script>
+        /**
+         * Verilen maç ID'si için tahmin yükleme simülasyonunu başlatır.
+         * Tıklama butonu gizlenir, yükleme çubuğu gösterilir ve 7 saniye boyunca rakamsal ilerleme (%0-%100) yapar.
+         * @param {string} matchId - Maç kartının ID'si (örn: 'match-1').
+         */
+        function loadDelayedPrediction(matchId) {
+            const card = document.getElementById(matchId);
+            if (!card) return;
+
+            const revealButton = card.querySelector('.reveal-button');
+            const predictionContent = card.querySelector('.prediction-content');
+            const loadingContainer = card.querySelector('.loading-bar-container');
+            const explanation = card.querySelector('.explanation');
+
+            // Eğer zaten yüklenmişse tekrar başlatma
+            if (predictionContent && !predictionContent.classList.contains('hidden')) {
+                 return;
+            }
+
+            // 1. Loading Container içeriğini dinamik olarak oluşturma/sıfırlama
+            // Yanıp sönme animasyonu artık .loading-text sınıfına eklendiği için burada sadece metni güncelliyoruz.
+            loadingContainer.innerHTML = `
+                <div class="loading-bar"></div>
+                <span class="loading-text">Robot Analizi Yapılıyor... <span class="loading-text-percentage">0%</span></span>
+            `;
+
+            const loadingPercentageSpan = loadingContainer.querySelector('.loading-text-percentage');
+            const newLoadingBar = loadingContainer.querySelector('.loading-bar');
+            const loadingTextElement = loadingContainer.querySelector('.loading-text');
+
+
+            // Butonu gizle, yükleme alanını göster
+            revealButton.classList.add('hidden');
+            loadingContainer.classList.remove('hidden');
+            newLoadingBar.style.width = '0%';
+            loadingPercentageSpan.textContent = '0%';
+
+            // Yükleme metnine yanıp sönme animasyonunu başlat
+            loadingTextElement.style.animationPlayState = 'running';
+
+            const duration = 7000; // 7 saniye
+            const totalSteps = 100; // %1'er artış için 100 adım
+            const intervalTime = duration / totalSteps; // Her bir %1'lik artışın süresi
+
+            let currentPercentage = 0;
+
+            const loadInterval = setInterval(() => {
+                currentPercentage++;
+                
+                // Yüzde çubuğu dolumu (Soldan Sağa)
+                newLoadingBar.style.width = currentPercentage + '%';
+                
+                // Rakam güncelleme
+                loadingPercentageSpan.textContent = currentPercentage + '%';
+                
+                if (currentPercentage >= totalSteps) {
+                    // Animasyon bitti
+                    clearInterval(loadInterval);
+
+                    // Son yüzdeyi (100%) göster
+                    loadingPercentageSpan.textContent = '100%';
+
+                    // Yanıp sönme animasyonunu durdur (isteğe bağlı, bitişte metin sabit kalır)
+                    loadingTextElement.style.animationPlayState = 'paused';
+                    loadingTextElement.style.opacity = '1'; // Animasyon durunca opaklığı normale döndür
+
+                    // Gecikmeli bitiş: loading'i gizle, tahmini göster
+                    setTimeout(() => {
+                        loadingContainer.classList.add('hidden');
+
+                        if (predictionContent) {
+                           predictionContent.classList.remove('hidden');
+                        }
+                        if (explanation) {
+                           explanation.classList.remove('hidden');
+                        }
+                    }, 200); // Hafif bir bitiş animasyonu için bekleme
+
+                }
+            }, intervalTime);
+        }
+
+        // DOM yüklendiğinde çalışacak ana işlev
+        document.addEventListener('DOMContentLoaded', () => {
+            const matchCards = document.querySelectorAll('.match-card');
+
+            matchCards.forEach((card) => {
+                const matchBody = card.querySelector('.match-body');
+
+                // 1. "Tahmini Göster" butonunu oluştur
+                const revealButton = document.createElement('div');
+                revealButton.className = 'reveal-button';
+                revealButton.textContent = 'Tahmini Görmek İçin Tıklayın';
+                revealButton.onclick = () => {
+                    loadDelayedPrediction(card.id);
+                };
+
+                // 2. Yükleme çubuğu container'ı oluştur (Başlangıç içeriği, gizli)
+                const loadingContainer = document.createElement('div');
+                loadingContainer.className = 'loading-bar-container hidden';
+                // İçerik dinamik olarak JS'de ayarlanacak
+                loadingContainer.innerHTML = `
+                    <div class="loading-bar"></div>
+                    <span class="loading-text">Robot Analizi Yapılıyor... <span class="loading-text-percentage">0%</span></span>
+                `;
+
+                // 3. Maç kartı gövdesine (match-body) buton ve yükleme alanını ekle
+                if (matchBody) {
+                    matchBody.prepend(loadingContainer);
+                    matchBody.prepend(revealButton);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+```http://googleusercontent.com/generated_image_content/0
+
