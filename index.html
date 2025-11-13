@@ -16,6 +16,12 @@
             --color-card: #ffffff; /* Beyaz Kart Arka Plan */
             --color-border: #e9ecef; /* Kart Sınırı */
             --color-text: #343a40;
+            
+            /* Neon Renkleri */
+            --color-neon-blue: #00aaff; /* Parlak Mavi Neon */
+            --color-neon-blue-hover: #0088cc; /* Koyu Mavi Hover */
+            --color-neon-orange: #ffaa00; /* Parlak Turuncu Neon */
+            --color-neon-orange-hover: #cc8800; /* Koyu Turuncu Hover */
         }
 
         /* GENEL STİL VE RESET */
@@ -170,26 +176,71 @@
             opacity: 0.9;
         }
 
-        /* DİNAMİK YÜKLEME STİLLERİ */
+        /* DİNAMİK GİZLEME SINIFI */
         .hidden {
             display: none !important;
         }
 
+        /* VIP Yönlendirme Butonu Stili */
+        .vip-link-button {
+            display: block;
+            width: 100%; /* Kartı doldurması için */
+            text-align: center;
+            padding: 20px 12px; /* Dikey padding arttırıldı */
+            background-color: var(--color-alt); /* Kırmızı, daha dikkat çekici */
+            color: white;
+            font-weight: 800;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            text-decoration: none;
+            font-size: 1.3em; /* Daha büyük font */
+            margin-top: 0; /* Kartın tamamını dolduracağı için margin sıfırlandı */
+            
+            /* Yanıp Sönme ve Neon Efekti */
+            animation: pulse-vip 1s infinite alternate; 
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.8); 
+        }
+        .vip-link-button:hover {
+            background-color: #a82e38; /* Koyu kırmızı hover */
+            animation: none;
+            opacity: 1;
+        }
+
+        /* NEON BUTONLARIN GENEL STİLİ */
         .reveal-button {
             text-align: center;
             padding: 15px;
-            background-color: var(--color-primary);
             color: white;
             font-weight: 700;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, box-shadow 0.2s, text-shadow 0.2s;
             user-select: none;
-            margin-bottom: 15px; /* Tahmin alanının alt boşluğunu taklit eder */
+            margin-bottom: 15px;
+            border: none;
         }
 
-        .reveal-button:hover {
-            background-color: #0056b3; /* Koyu Mavi */
+        /* MAVİ NEON BUTON (Normal Tahminler) */
+        .reveal-button.blue {
+            background-color: var(--color-neon-blue);
+            text-shadow: 0 0 5px var(--color-neon-blue), 0 0 10px var(--color-neon-blue);
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+        }
+        .reveal-button.blue:hover {
+            background-color: var(--color-neon-blue-hover);
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.8);
+        }
+
+        /* TURUNCU NEON BUTON (Best Pick Tahminler) */
+        .reveal-button.orange {
+            background-color: var(--color-neon-orange);
+            text-shadow: 0 0 5px var(--color-neon-orange), 0 0 10px var(--color-neon-orange);
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
+        }
+        .reveal-button.orange:hover {
+            background-color: var(--color-neon-orange-hover);
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.8);
         }
 
         /* Yükleme Çubuğu Alanı */
@@ -209,8 +260,8 @@
             height: 10px;
             background-color: var(--color-best-pick);
             border-radius: 5px;
-            margin: 5px 0 10px 0; /* Soldan hizalamayı sağlamak için margin ayarlandı */
-            transition: none; /* Animasyonu sadece JS ile kontrol edeceğiz */
+            margin: 5px 0 10px 0;
+            transition: none;
             display: block;
         }
         
@@ -218,8 +269,7 @@
         .loading-text {
             display: block;
             font-weight: 700;
-            /* Yanıp sönme animasyonu */
-            animation: pulse 1.5s infinite alternate; /* pulse animasyonunu 1.5 saniyede bir tekrarla */
+            animation: pulse 1.5s infinite alternate;
         }
 
         .loading-text-percentage {
@@ -228,13 +278,18 @@
             color: var(--color-best-pick);
             display: inline-block;
             margin-left: 5px;
-            animation: none; /* Yüzde metninin kendisinin yanıp sönmesini engelleriz */
+            animation: none;
         }
 
-        /* Yanıp Sönme Keyframes */
+        /* Yanıp Sönme Keyframes (Normal) */
         @keyframes pulse {
             from { opacity: 1; }
             to { opacity: 0.4; }
+        }
+        /* Yanıp Sönme Keyframes (VIP Butonu için) */
+        @keyframes pulse-vip {
+            from { opacity: 1; box-shadow: 0 0 15px rgba(220, 53, 69, 1); }
+            to { opacity: 0.8; box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); }
         }
 
 
@@ -300,7 +355,9 @@
                     <div class="confidence high">G: %83</div>
                 </div>
                 <div class="explanation hidden">
-                    **Gerekçe:** Fener'in yüksek tempo isteği ve Hapoel'in skor potansiyeli. 🔥
+                    <a href="https://t.me/vahidox" target="_blank" class="vip-link-button">
+                        🔥 VİP TAHMİN İÇİN TIKLA 🔥
+                    </a>
                 </div>
             </div>
         </div>
@@ -375,8 +432,10 @@
                     </div>
                     <div class="confidence high">G: %83</div>
                 </div>
-                <div class="explanation hidden">
-                    **Gerekçe:** Savunma bitti, 'Showtime' başladı. Her iki takım da yüksek skor potansiyeli taşıyor. 🚀
+                 <div class="explanation hidden">
+                     <a href="https://t.me/vahidox" target="_blank" class="vip-link-button">
+                        🔥 VİP TAHMİN İÇİN TIKLA 🔥
+                    </a>
                 </div>
             </div>
         </div>
@@ -422,12 +481,36 @@
     </div>
 
     <script>
+        // Açık olan tüm tahminleri kapatan yardımcı fonksiyon
+        function closeAllPredictions() {
+            // Tüm tahmin/açıklamaları kapat
+            document.querySelectorAll('.prediction-content:not(.hidden)').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.explanation:not(.hidden)').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Loading bar'ları kapat
+            document.querySelectorAll('.loading-bar-container:not(.hidden)').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Tüm butonları geri getir
+            document.querySelectorAll('.reveal-button.hidden').forEach(el => {
+                el.classList.remove('hidden');
+            });
+            // Tüm yanıp sönmeleri durdur
+            document.querySelectorAll('.loading-text').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                el.style.opacity = '1';
+            });
+        }
+
         /**
-         * Verilen maç ID'si için tahmin yükleme simülasyonunu başlatır.
-         * Tıklama butonu gizlenir, yükleme çubuğu gösterilir ve 7 saniye boyunca rakamsal ilerleme (%0-%100) yapar.
-         * @param {string} matchId - Maç kartının ID'si (örn: 'match-1').
+         * Tahmin için yükleme simülasyonunu başlatır.
+         * @param {string} matchId - Maç kartının ID'si.
+         * @param {boolean} isVip - Kartın VIP olup olmadığı (turuncu kart).
          */
-        function loadDelayedPrediction(matchId) {
+        function loadDelayedPrediction(matchId, isVip) {
             const card = document.getElementById(matchId);
             if (!card) return;
 
@@ -436,13 +519,10 @@
             const loadingContainer = card.querySelector('.loading-bar-container');
             const explanation = card.querySelector('.explanation');
 
-            // Eğer zaten yüklenmişse tekrar başlatma
-            if (predictionContent && !predictionContent.classList.contains('hidden')) {
-                 return;
-            }
+            // Diğer açık tahminleri kapat
+            closeAllPredictions();
 
             // 1. Loading Container içeriğini dinamik olarak oluşturma/sıfırlama
-            // Yanıp sönme animasyonu artık .loading-text sınıfına eklendiği için burada sadece metni güncelliyoruz.
             loadingContainer.innerHTML = `
                 <div class="loading-bar"></div>
                 <span class="loading-text">Robot Analizi Yapılıyor... <span class="loading-text-percentage">0%</span></span>
@@ -451,7 +531,6 @@
             const loadingPercentageSpan = loadingContainer.querySelector('.loading-text-percentage');
             const newLoadingBar = loadingContainer.querySelector('.loading-bar');
             const loadingTextElement = loadingContainer.querySelector('.loading-text');
-
 
             // Butonu gizle, yükleme alanını göster
             revealButton.classList.add('hidden');
@@ -484,25 +563,36 @@
                     // Son yüzdeyi (100%) göster
                     loadingPercentageSpan.textContent = '100%';
 
-                    // Yanıp sönme animasyonunu durdur (isteğe bağlı, bitişte metin sabit kalır)
+                    // Yanıp sönme animasyonunu durdur
                     loadingTextElement.style.animationPlayState = 'paused';
-                    loadingTextElement.style.opacity = '1'; // Animasyon durunca opaklığı normale döndür
+                    loadingTextElement.style.opacity = '1'; 
 
-                    // Gecikmeli bitiş: loading'i gizle, tahmini göster
+                    // Gecikmeli bitiş: loading'i gizle, tahmini göster (veya VIP butonu)
                     setTimeout(() => {
                         loadingContainer.classList.add('hidden');
 
-                        if (predictionContent) {
-                           predictionContent.classList.remove('hidden');
+                        if (isVip) {
+                           // VIP kart ise, sadece explanation içindeki VIP butonunu göster
+                           if (explanation) {
+                               explanation.classList.remove('hidden');
+                               // Tahmin ve confidence gizli kalır
+                               if (predictionContent) predictionContent.classList.add('hidden');
+                           }
+                        } else {
+                           // Normal kart ise tahmin ve gerekçeyi göster
+                            if (predictionContent) {
+                               predictionContent.classList.remove('hidden');
+                            }
+                            if (explanation) {
+                               explanation.classList.remove('hidden');
+                            }
                         }
-                        if (explanation) {
-                           explanation.classList.remove('hidden');
-                        }
-                    }, 200); // Hafif bir bitiş animasyonu için bekleme
+                    }, 200);
 
                 }
             }, intervalTime);
         }
+
 
         // DOM yüklendiğinde çalışacak ana işlev
         document.addEventListener('DOMContentLoaded', () => {
@@ -510,25 +600,34 @@
 
             matchCards.forEach((card) => {
                 const matchBody = card.querySelector('.match-body');
+                const isBestPick = card.classList.contains('best-pick');
 
-                // 1. "Tahmini Göster" butonunu oluştur
                 const revealButton = document.createElement('div');
                 revealButton.className = 'reveal-button';
-                revealButton.textContent = 'Tahmini Görmek İçin Tıklayın';
+                revealButton.textContent = 'Tahmini Görmek İçin Tıklayınız'; // Tüm butonlarda aynı metin
+                
+                if (isBestPick) {
+                    // VIP Kartlar (Turuncu Neon Buton)
+                    revealButton.classList.add('orange'); 
+                } else {
+                    // Normal Kartlar (Mavi Neon Buton)
+                    revealButton.classList.add('blue'); 
+                }
+                
                 revealButton.onclick = () => {
-                    loadDelayedPrediction(card.id);
+                    // VIP durumunu fonksiyona iletiyoruz
+                    loadDelayedPrediction(card.id, isBestPick);
                 };
-
-                // 2. Yükleme çubuğu container'ı oluştur (Başlangıç içeriği, gizli)
+                
+                // Yükleme çubuğu container'ı oluştur (tüm kartlar için gerekli)
                 const loadingContainer = document.createElement('div');
                 loadingContainer.className = 'loading-bar-container hidden';
-                // İçerik dinamik olarak JS'de ayarlanacak
                 loadingContainer.innerHTML = `
                     <div class="loading-bar"></div>
                     <span class="loading-text">Robot Analizi Yapılıyor... <span class="loading-text-percentage">0%</span></span>
                 `;
-
-                // 3. Maç kartı gövdesine (match-body) buton ve yükleme alanını ekle
+                
+                // Maç kartı gövdesine (match-body) buton ve yükleme alanını ekle
                 if (matchBody) {
                     matchBody.prepend(loadingContainer);
                     matchBody.prepend(revealButton);
@@ -538,5 +637,3 @@
     </script>
 </body>
 </html>
-```http://googleusercontent.com/generated_image_content/0
-
