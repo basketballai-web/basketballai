@@ -148,9 +148,9 @@
         /* GÜVEN VE AÇIKLAMA */
         .confidence {
             margin-left: 15px;
-            width: 80px;
+            width: 120px; /* Metin sığması için genişletildi */
             text-align: center;
-            font-size: 1.2em;
+            font-size: 0.9em; /* Metin sığması için küçültüldü */
             font-weight: 700;
             color: var(--color-primary);
         }
@@ -535,7 +535,7 @@
                                 ${data.prediction}
                                 <span class="limit-value">(Barem: ${data.limit})</span>
                             </div>
-                            <div class="confidence ${confidenceClass}">G: %${data.confidence}</div>
+                            <div class="confidence ${confidenceClass}">GÜVEN SEVİYESİ: %${data.confidence}</div>
                         </div>
                         <div class="explanation hidden">
                             ${explanationContent}
