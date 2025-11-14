@@ -345,50 +345,50 @@
 
     <script>
         
-        // MAÇ VERİLERİ (Türkiye saatine göre sıralı)
+        // MAÇ VERİLERİ (Türkiye saatine göre kronolojik olarak sıralı)
         const matchData = [
-            // id: match-1, Asvel - Partizan (Normal)
-            { id: 'match-1', time: '21:00', teams: 'Asvel Vil. - Partizan (EuroLeague)', prediction: 'ALT', limit: '162.5', confidence: 70, isVip: false, comment: 'Savunma ve sakatlıkların etkisiyle tempo düşecek. 162.5\'tan Alt, EuroLeague\'in zorlu atmosferinde mantıklı.' },
-            // id: match-2, Milano - Olympiakos (Normal)
-            { id: 'match-2', time: '21:00', teams: 'Olimpia Milano - Olympiakos (EuroLeague)', prediction: 'ALT', limit: '163.5', confidence: 73, isVip: false, comment: 'Sakatlıklar ve EuroLeague\'in en iyi savunmalarından ikisi sahada. Skorun 163.5\'un çok altında kalması bekleniyor.' },
+            // id: match-17, BC Dubai - Zalgiris Kaunas (EuroCup) - SAAT 19:00 OLARAK GÜNCELLENDİ
+            { id: 'match-17', time: '19:00', teams: 'BC Dubai - Zalgiris Kaunas (EuroCup)', prediction: 'ALT', limit: '164.5', confidence: 79, isVip: false, comment: 'Zalgiris\'in çelik savunması ve düşük tempo baskısı, Dubai\'yi kilitleyecek. Skor 164.5\'in altında kalmaya mahkum.' },
+            // id: match-1, Asvel - Partizan (EuroLeague)
+            { id: 'match-1', time: '19:30', teams: 'Asvel Vil. - Partizan (EuroLeague)', prediction: 'ALT', limit: '162.5', confidence: 70, isVip: false, comment: 'Savunma ve sakatlıkların etkisiyle tempo düşecek. 162.5\'tan Alt, EuroLeague\'in zorlu atmosferinde mantıklı.' },
+            // id: match-2, Milano - Olympiakos (EuroLeague)
+            { id: 'match-2', time: '19:30', teams: 'Olimpia Milano - Olympiakos (EuroLeague)', prediction: 'ALT', limit: '163.5', confidence: 73, isVip: false, comment: 'Sakatlıklar ve EuroLeague\'in en iyi savunmalarından ikisi sahada. Skorun 163.5\'un çok altında kalması bekleniyor.' },
             // id: match-3, Anadolu Efes - Bayern Münih (VIP)
-            { id: 'match-3', time: '21:30', teams: 'Anadolu Efes - Bayern Münih (EuroLeague)', prediction: 'ALT', limit: '164.5', confidence: 85, isVip: true, comment: 'Her iki taraftaki sakatlık krizi, hücum ritmini darmadağın etti. EuroLeague\'de bu kadar eksikle üst olmaz, Alt banko!' },
-            // id: match-4, KK Split - Borac Cacak (Normal)
-            { id: 'match-4', time: '22:00', teams: 'KK Split - Borac Cacak (ABA Ligi)', prediction: 'ALT', limit: '159.5', confidence: 65, isVip: false, comment: 'Düşük tempoda oynayan iki takım. 159.5, skorun altında kalması için uygun bir barem.' },
-            // id: match-5, KK Zadar - Mega Bemax (Normal)
-            { id: 'match-5', time: '22:00', teams: 'KK Zadar - Mega Bemax (ABA Ligi)', prediction: 'ALT', limit: '169.5', confidence: 70, isVip: false, comment: 'ABA Ligi\'nde grup savunmaları sertleşiyor. 169.5 baremi bu tarz bir maç için fazla yüksek.' },
-            // id: match-6, Studentski Centar - Cluj Napoca (Normal)
-            { id: 'match-6', time: '22:00', teams: 'Studentski Centar - Cluj Napoca (ABA Ligi)', prediction: 'ÜST', limit: '169.5', confidence: 68, isVip: false, comment: 'ABA\'nın hücum odaklı ekipleri karşı karşıya. Skor potansiyeli yüksek, 169.5\'u zorlayarak geçebilirler.' },
-            // id: match-7, Cholet - Nanterre 92 (Normal)
-            { id: 'match-7', time: '22:00', teams: 'Cholet - Nanterre 92 (LNB)', prediction: 'ÜST', limit: '167.5', confidence: 75, isVip: false, comment: 'LNB\'nin yüksek tempo ve hızlı hücumları Cholet-Nanterre maçına damga vurur. 167.5 Üst riskine değer.' },
-            // id: match-8, Rouen Metropole B. - Hermine Nantes B. (Normal)
-            { id: 'match-8', time: '22:00', teams: 'Rouen Metropole B. - Hermine Nantes B. (Pro B)', prediction: 'ÜST', limit: '166.5', confidence: 69, isVip: false, comment: 'Pro B\'de hücum biaslı bir eşleşme. Savunmalar ikinci planda kalacak, 166.5’un üstü sürpriz olmaz.' },
-            // id: match-9, Hyeres Toulon - Saint Chamond (Normal)
-            { id: 'match-9', time: '22:00', teams: 'Hyeres Toulon - Saint Chamond (Pro B)', prediction: 'ÜST', limit: '167.5', confidence: 71, isVip: false, comment: 'Yine bir Pro B hücum düellosu. Yüksek tempo ve bol şut bekliyorum, baremin üstünde bir sonuç olasılığı yüksek.' },
-            // id: match-10, Stade Rochelais B. - Ujap Quimper 29 (Normal)
-            { id: 'match-10', time: '22:00', teams: 'Stade Rochelais B. - Ujap Quimper 29 (Pro B)', prediction: 'ALT', limit: '156.5', confidence: 78, isVip: false, comment: 'Düşük limitli ve sert savunma odaklı bir maç. 156.5 çok kritik, Alt güvenilir duruyor.' },
-            // id: match-11, Roanne Chorale - Antibes Shar (Normal)
-            { id: 'match-11', time: '22:00', teams: 'Roanne Chorale - Antibes Shar (Pro B)', prediction: 'ÜST', limit: '168.5', confidence: 72, isVip: false, comment: 'Roanne ve Antibes\'in hücum gücü 168.5\'u aşmaya yetecektir. Pro B\'nin en skorer maçlarından biri olabilir.' },
-            // id: match-12, A. S. Alsace - Chalons Reims (Normal)
-            { id: 'match-12', time: '22:00', teams: 'A. S. Alsace - Chalons Reims (Pro B)', prediction: 'ALT', limit: '161.5', confidence: 66, isVip: false, comment: 'Pro B\'nin sert savunmacıları iş başında. 161.5\'u geçmeleri zor görünüyor.' },
-            // id: match-13, Pau Orthez - Poitiers Basket 86 (Normal)
-            { id: 'match-13', time: '22:00', teams: 'Pau Orthez - Poitiers Basket 86 (Pro B)', prediction: 'ÜST', limit: '166.5', confidence: 69, isVip: false, comment: 'Pau Orthez\'in hücum eğilimi, Poitiers\'i de tempoya zorlayacak. 166.5 üstü makul.' },
-            // id: match-14, Vendee Challans B. - ALM Evreux Basket (Normal)
-            { id: 'match-14', time: '22:00', teams: 'Vendee Challans B. - ALM Evreux Basket (Pro B)', prediction: 'ALT', limit: '163.5', confidence: 74, isVip: false, comment: 'Pro B\'de savunma odaklı iki ekip. Alt baremi 163.5\'ten mantıklı bir tercih.' },
-            // id: match-15, Sbb Baskets - Nürnberg Falcons (Normal)
-            { id: 'match-15', time: '22:00', teams: 'Sbb Baskets - Nürnberg Falcons (Pro A)', prediction: 'ALT', limit: '164.5', confidence: 78, isVip: false, comment: 'Almanya Pro A\'nın yavaş temposu ve disiplinli savunmaları, skoru aşağı çekecek. 164.5\'ten Alt riski düşük.' },
-            // id: match-16, Büyükçekmece - Galatasaray (Normal)
-            { id: 'match-16', time: '22:30', teams: 'Büyükçekmece - Galatasaray (BSL)', prediction: 'ALT', limit: '170.5', confidence: 72, isVip: false, comment: 'BSL\'de orta sıra savunma eforu devrede. İki takım da tempoyu yavaşlatacak, 170.5 zor bir hedef.' },
-            // id: match-17, BC Dubai - Zalgiris Kaunas (Normal)
-            { id: 'match-17', time: '22:30', teams: 'BC Dubai - Zalgiris Kaunas (EuroCup)', prediction: 'ALT', limit: '164.5', confidence: 79, isVip: false, comment: 'Zalgiris\'in çelik savunması ve düşük tempo baskısı, Dubai\'yi kilitleyecek. Skor 164.5\'in altında kalmaya mahkum.' },
-            // id: match-18, Barcelona - Virtus Bologna (Normal)
-            { id: 'match-18', time: '22:30', teams: 'Barcelona - Virtus Bologna (EuroLeague)', prediction: 'ALT', limit: '166.5', confidence: 74, isVip: false, comment: 'Barcelona\'nın güçlü savunması ve tempoyu kontrol etme isteği Virtus\'u yavaşlatır. 166.5 Alt yönünde güçlü.' },
-            // id: match-19, Gipuzkoa - Innova Chef Cb Zamora (Normal)
-            { id: 'match-19', time: '23:00', teams: 'Gipuzkoa - Innova Chef Cb Zamora (LEB Oro)', prediction: 'ALT', limit: '165.5', confidence: 69, isVip: false, comment: 'LEB Oro savunma ağırlıklı bir lig. 165.5 bareminde Alt, güvenilir bir seçim.' },
-            // id: match-20, Leyma Basquet Coruna - Club Melilla (Normal)
-            { id: 'match-20', time: '23:00', teams: 'Leyma Basquet Coruna - Club Melilla (LEB Oro)', prediction: 'ALT', limit: '166.5', confidence: 67, isVip: false, comment: 'LEB Oro\'da tipik bir savunma maçı. 166.5, Alt için iyi bir marj sunuyor.' },
-            // id: match-21, CD Maristas Palencia - Oviedo (Normal)
-            { id: 'match-21', time: '23:00', teams: 'CD Maristas Palencia - Oviedo (LEB Oro)', prediction: 'ÜST', limit: '163.5', confidence: 68, isVip: false, comment: 'LEB Oro\'nun hücum potansiyeli yüksek takımları. 163.5 Üst yönünde eğilim gösteriyor.' },
+            { id: 'match-3', time: '20:00', teams: 'Anadolu Efes - Bayern Münih (EuroLeague)', prediction: 'ALT', limit: '164.5', confidence: 85, isVip: true, comment: 'Her iki taraftaki sakatlık krizi, hücum ritmini darmadağın etti. EuroLeague\'de bu kadar eksikle üst olmaz, Alt banko!' },
+            // id: match-16, Büyükçekmece - Galatasaray (BSL)
+            { id: 'match-16', time: '20:30', teams: 'Büyükçekmece - Galatasaray (BSL)', prediction: 'ALT', limit: '170.5', confidence: 72, isVip: false, comment: 'BSL\'de orta sıra savunma eforu devrede. İki takım da tempoyu yavaşlatacak, 170.5 zor bir hedef.' },
+            // id: match-18, Barcelona - Virtus Bologna (EuroLeague)
+            { id: 'match-18', time: '20:30', teams: 'Barcelona - Virtus Bologna (EuroLeague)', prediction: 'ALT', limit: '166.5', confidence: 74, isVip: false, comment: 'Barcelona\'nın güçlü savunması ve tempoyu kontrol etme isteği Virtus\'u yavaşlatır. 166.5 Alt yönünde güçlü.' },
+            // id: match-4, KK Split - Borac Cacak (ABA Ligi)
+            { id: 'match-4', time: '21:00', teams: 'KK Split - Borac Cacak (ABA Ligi)', prediction: 'ALT', limit: '159.5', confidence: 65, isVip: false, comment: 'Düşük tempoda oynayan iki takım. 159.5, skorun altında kalması için uygun bir barem.' },
+            // id: match-5, KK Zadar - Mega Bemax (ABA Ligi)
+            { id: 'match-5', time: '21:00', teams: 'KK Zadar - Mega Bemax (ABA Ligi)', prediction: 'ALT', limit: '169.5', confidence: 70, isVip: false, comment: 'ABA Ligi\'nde grup savunmaları sertleşiyor. 169.5 baremi bu tarz bir maç için fazla yüksek.' },
+            // id: match-6, Studentski Centar - Cluj Napoca (ABA Ligi)
+            { id: 'match-6', time: '21:00', teams: 'Studentski Centar - Cluj Napoca (ABA Ligi)', prediction: 'ÜST', limit: '169.5', confidence: 68, isVip: false, comment: 'ABA\'nın hücum odaklı ekipleri karşı karşıya. Skor potansiyeli yüksek, 169.5\'u zorlayarak geçebilirler.' },
+            // id: match-7, Cholet - Nanterre 92 (LNB)
+            { id: 'match-7', time: '21:00', teams: 'Cholet - Nanterre 92 (LNB)', prediction: 'ÜST', limit: '167.5', confidence: 75, isVip: false, comment: 'LNB\'nin yüksek tempo ve hızlı hücumları Cholet-Nanterre maçına damga vurur. 167.5 Üst riskine değer.' },
+            // id: match-8, Rouen Metropole B. - Hermine Nantes B. (Pro B)
+            { id: 'match-8', time: '21:00', teams: 'Rouen Metropole B. - Hermine Nantes B. (Pro B)', prediction: 'ÜST', limit: '166.5', confidence: 69, isVip: false, comment: 'Pro B\'de hücum biaslı bir eşleşme. Savunmalar ikinci planda kalacak, 166.5’un üstü sürpriz olmaz.' },
+            // id: match-9, Hyeres Toulon - Saint Chamond (Pro B)
+            { id: 'match-9', time: '21:00', teams: 'Hyeres Toulon - Saint Chamond (Pro B)', prediction: 'ÜST', limit: '167.5', confidence: 71, isVip: false, comment: 'Yine bir Pro B hücum düellosu. Yüksek tempo ve bol şut bekliyorum, baremin üstünde bir sonuç olasılığı yüksek.' },
+            // id: match-10, Stade Rochelais B. - Ujap Quimper 29 (Pro B)
+            { id: 'match-10', time: '21:00', teams: 'Stade Rochelais B. - Ujap Quimper 29 (Pro B)', prediction: 'ALT', limit: '156.5', confidence: 78, isVip: false, comment: 'Düşük limitli ve sert savunma odaklı bir maç. 156.5 çok kritik, Alt güvenilir duruyor.' },
+            // id: match-11, Roanne Chorale - Antibes Shar (Pro B)
+            { id: 'match-11', time: '21:00', teams: 'Roanne Chorale - Antibes Shar (Pro B)', prediction: 'ÜST', limit: '168.5', confidence: 72, isVip: false, comment: 'Roanne ve Antibes\'in hücum gücü 168.5\'u aşmaya yetecektir. Pro B\'nin en skorer maçlarından biri olabilir.' },
+            // id: match-12, A. S. Alsace - Chalons Reims (Pro B)
+            { id: 'match-12', time: '21:00', teams: 'A. S. Alsace - Chalons Reims (Pro B)', prediction: 'ALT', limit: '161.5', confidence: 66, isVip: false, comment: 'Pro B\'nin sert savunmacıları iş başında. 161.5\'u geçmeleri zor görünüyor.' },
+            // id: match-13, Pau Orthez - Poitiers Basket 86 (Pro B)
+            { id: 'match-13', time: '21:00', teams: 'Pau Orthez - Poitiers Basket 86 (Pro B)', prediction: 'ÜST', limit: '166.5', confidence: 69, isVip: false, comment: 'Pau Orthez\'in hücum eğilimi, Poitiers\'i de tempoya zorlayacak. 166.5 üstü makul.' },
+            // id: match-14, Vendee Challans B. - ALM Evreux Basket (Pro B)
+            { id: 'match-14', time: '21:00', teams: 'Vendee Challans B. - ALM Evreux Basket (Pro B)', prediction: 'ALT', limit: '163.5', confidence: 74, isVip: false, comment: 'Pro B\'de savunma odaklı iki ekip. Alt baremi 163.5\'ten mantıklı bir tercih.' },
+            // id: match-15, Sbb Baskets - Nürnberg Falcons (Pro A)
+            { id: 'match-15', time: '21:00', teams: 'Sbb Baskets - Nürnberg Falcons (Pro A)', prediction: 'ALT', limit: '164.5', confidence: 78, isVip: false, comment: 'Almanya Pro A\'nın yavaş temposu ve disiplinli savunmaları, skoru aşağı çekecek. 164.5\'ten Alt riski düşük.' },
+            // id: match-19, Gipuzkoa - Innova Chef Cb Zamora (LEB Oro)
+            { id: 'match-19', time: '22:00', teams: 'Gipuzkoa - Innova Chef Cb Zamora (LEB Oro)', prediction: 'ALT', limit: '165.5', confidence: 69, isVip: false, comment: 'LEB Oro savunma ağırlıklı bir lig. 165.5 bareminde Alt, güvenilir bir seçim.' },
+            // id: match-20, Leyma Basquet Coruna - Club Melilla (LEB Oro)
+            { id: 'match-20', time: '22:00', teams: 'Leyma Basquet Coruna - Club Melilla (LEB Oro)', prediction: 'ALT', limit: '166.5', confidence: 67, isVip: false, comment: 'LEB Oro\'da tipik bir savunma maçı. 166.5, Alt için iyi bir marj sunuyor.' },
+            // id: match-21, CD Maristas Palencia - Oviedo (LEB Oro)
+            { id: 'match-21', time: '22:00', teams: 'CD Maristas Palencia - Oviedo (LEB Oro)', prediction: 'ÜST', limit: '163.5', confidence: 68, isVip: false, comment: 'LEB Oro\'nun hücum potansiyeli yüksek takımları. 163.5 Üst yönünde eğilim gösteriyor.' },
         ];
 
         
