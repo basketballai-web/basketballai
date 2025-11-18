@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Robot Güncel Basketbol Alt/Üst Tahminleri</title>
+    <title>Robot Güncel Basketbol Maç Sonucu Analizi</title>
     <style>
-        /* Renk Kökleri (Modern ve Tahmin Odaklı) */
+        /* Renk Kökleri */
         :root {
             --color-primary: #007bff; /* Mavi - Genel Vurgu */
             --color-secondary: #6c757d; /* Gri - Metinler */
-            --color-alt: #dc3545; /* Kırmızı - ALT Tahmin */
-            --color-ust: #008000; /* Koyu Yeşil - ÜST Tahmin */
+            --color-alt: #c0392b; /* KESİN KIRMIZI - ALT Tahmin */
+            --color-ust: #00b300; /* ÇOK CANLI BİR YEŞİL - ÜST Tahmin */ 
             --color-best-pick: #ff9900; /* Turuncu - En Güvenilir Seçim Vurgusu */
             --color-background: #f8f9fa; /* Açık Gri Arka Plan */
             --color-card: #ffffff; /* Beyaz Kart Arka Plan */
@@ -18,10 +18,7 @@
             --color-text: #343a40;
             
             /* Neon Renkleri */
-            --color-neon-blue: #00aaff; /* Parlak Mavi Neon */
-            --color-neon-blue-hover: #0088cc; /* Koyu Mavi Hover */
-            --color-neon-orange: #ffaa00; /* Parlak Turuncu Neon */
-            --color-neon-orange-hover: #cc8800; /* Koyu Turuncu Hover */
+            --color-neon-blue: #00aaff;
         }
 
         /* GENEL STİL VE RESET */
@@ -84,23 +81,8 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             border: 1px solid var(--color-border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .match-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* EN GÜVENİLİR SEÇİM VURGUSU */
-        .best-pick {
-            border: 3px solid var(--color-best-pick);
-            box-shadow: 0 0 15px rgba(255, 153, 0, 0.5);
-        }
-        .best-pick .match-title {
-            background-color: var(--color-best-pick);
-            color: white !important;
-        }
-
+        
         /* KART İÇERİĞİ */
         .match-title {
             padding: 15px;
@@ -112,15 +94,6 @@
             justify-content: space-between;
             align-items: center;
         }
-        .match-time {
-            font-size: 1.2em;
-            font-weight: 800;
-            margin-right: 10px;
-        }
-        .team-names {
-            flex-grow: 1;
-            text-align: left;
-        }
         .match-body {
             padding: 15px;
         }
@@ -131,46 +104,37 @@
             margin-bottom: 10px;
         }
 
-        /* TAHMİN KUTUSU (ALT/ÜST) */
+        /* TAHMİN KUTUSU (ALT/ÜST) - ZEMİN RENKLERİ */
         .pred-box {
             flex-grow: 1;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
-            font-weight: 800;
+            font-weight: 900;
             color: white;
-            font-size: 1.5em;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            font-size: 1.8em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .pred-box.alt { background-color: var(--color-alt); }
-        .pred-box.ust { background-color: var(--color-ust); }
+        .pred-box.alt { 
+            background-color: var(--color-alt); /* KIRMIZI ZEMİN */
+        }
+        .pred-box.ust { 
+            background-color: var(--color-ust); /* YEŞİL ZEMİN (ÇOK CANLI) */
+        }
 
         /* GÜVEN VE AÇIKLAMA */
         .confidence {
             margin-left: 15px;
-            width: 120px; /* Metin sığması için genişletildi */
+            width: 100px;
             text-align: center;
-            font-size: 0.9em; /* Metin sığması için küçültüldü */
+            font-size: 1em;
             font-weight: 700;
             color: var(--color-primary);
         }
-        .confidence.high { color: var(--color-best-pick); }
-
-        .explanation {
-            font-size: 0.9em;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--color-border);
-            color: var(--color-secondary);
-            font-style: italic;
-        }
-        .explanation strong {
-             color: var(--color-text);
-             font-style: normal;
-        }
         .limit-value {
             display: block;
-            font-size: 0.9em;
+            font-size: 0.7em;
             font-weight: 500;
             margin-top: 5px;
             opacity: 0.9;
@@ -181,80 +145,14 @@
             display: none !important;
         }
 
-        /* VIP Yönlendirme Butonu Stili */
-        .vip-link-button {
-            display: block;
-            width: 100%; /* Kartı doldurması için */
-            text-align: center;
-            padding: 20px 12px; /* Dikey padding arttırıldı */
-            background-color: var(--color-alt); /* Kırmızı, daha dikkat çekici */
-            color: white;
-            font-weight: 800;
-            border-radius: 6px;
-            cursor: pointer;
-            user-select: none;
-            text-decoration: none;
-            font-size: 1.3em; /* Daha büyük font */
-            margin-top: 0; 
-            
-            /* Yanıp Sönme ve Neon Efekti */
-            animation: pulse-vip 1s infinite alternate; 
-            box-shadow: 0 0 10px rgba(220, 53, 69, 0.8); 
-        }
-        .vip-link-button:hover {
-            background-color: #a82e38; /* Koyu kırmızı hover */
-            animation: none;
-            opacity: 1;
-        }
-
-        /* NEON BUTONLARIN GENEL STİLİ */
-        .reveal-button {
-            text-align: center;
-            padding: 15px;
-            color: white;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s, text-shadow 0.2s;
-            user-select: none;
-            margin-bottom: 15px;
-            border: none;
-        }
-
-        /* MAVİ NEON BUTON (Normal Tahminler) */
-        .reveal-button.blue {
-            background-color: var(--color-neon-blue);
-            text-shadow: 0 0 5px var(--color-neon-blue), 0 0 10px var(--color-neon-blue);
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
-        }
-        .reveal-button.blue:hover {
-            background-color: var(--color-neon-blue-hover);
-            box-shadow: 0 0 20px rgba(0, 170, 255, 0.8);
-        }
-
-        /* TURUNCU NEON BUTON (Best Pick Tahminler) */
-        .reveal-button.orange {
-            background-color: var(--color-neon-orange);
-            text-shadow: 0 0 5px var(--color-neon-orange), 0 0 10px var(--color-neon-orange);
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
-        }
-        .reveal-button.orange:hover {
-            background-color: var(--color-neon-orange-hover);
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.8);
-        }
-
-        /* Yükleme Çubuğu Alanı */
+        /* YÜKLEME ÇUBUĞU VE BUTON STİLLERİ */
         .loading-bar-container {
             text-align: center;
             padding: 10px;
             border: 1px solid var(--color-border);
             border-radius: 6px;
             margin-bottom: 15px;
-            font-size: 1em;
-            font-weight: 600;
-            color: var(--color-primary);
         }
-
         .loading-bar {
             width: 0;
             height: 10px;
@@ -264,35 +162,20 @@
             transition: none;
             display: block;
         }
-        
-        /* Yükleme Metni Stili */
-        .loading-text {
-            display: block;
+        .reveal-button {
+            text-align: center;
+            padding: 15px;
+            color: white;
             font-weight: 700;
-            animation: pulse 1.5s infinite alternate;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            border: none;
+            width: 100%;
+            font-size: 1.1em;
+            background-color: var(--color-neon-blue);
         }
-
-        .loading-text-percentage {
-            font-size: 1.2em;
-            font-weight: 800;
-            color: var(--color-best-pick);
-            display: inline-block;
-            margin-left: 5px;
-            animation: none;
-        }
-
-        /* Yanıp Sönme Keyframes (Normal) */
-        @keyframes pulse {
-            from { opacity: 1; }
-            to { opacity: 0.4; }
-        }
-        /* Yanıp Sönme Keyframes (VIP Butonu için) */
-        @keyframes pulse-vip {
-            from { opacity: 1; box-shadow: 0 0 15px rgba(220, 53, 69, 1); }
-            to { opacity: 0.8; box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); }
-        }
-
-
+        
         /* MOBİL UYUMLULUK */
         @media (max-width: 650px) {
             .match-list {
@@ -301,13 +184,6 @@
             .match-title {
                 flex-direction: column;
                 align-items: center;
-                text-align: center;
-            }
-            .match-time {
-                margin-right: 0;
-                margin-bottom: 5px;
-            }
-            .team-names {
                 text-align: center;
             }
             .prediction-section {
@@ -329,269 +205,222 @@
 
     <div class="header-container">
         <div class="header">
-            ⬆️⬇️ Robot Güncel Tahminleri
+            ⬆️⬇️ Robot Simülasyon Analizi
         </div>
         <div class="subheader">
-            Toplam Sayı (Alt/Üst) Analizi
+            Detaylı Maç Sonuçları Tahmin Formatına Uyarlanmıştır
         </div>
         <div class="summary-box">
-            🔥 **Günün En Güvenilir Seçimi:** **Anadolu Efes - Bayern Münih** (VIP)
+            <strong id="summary-text">Maçlar, robot verilerine göre analiz edilmiştir.</strong>
         </div>
     </div>
 
-    <div class="match-list">
-        
+    <div class="match-list" id="match-list">
         </div>
 
     <script>
         
-        // MAÇ VERİLERİ (Türkiye saatine göre kronolojik olarak sıralı)
-        const matchData = [
-            // id: match-17, BC Dubai - Zalgiris Kaunas (EuroCup) - SAAT 19:00 OLARAK GÜNCELLENDİ
-            { id: 'match-17', time: '19:00', teams: 'BC Dubai - Zalgiris Kaunas (EuroCup)', prediction: 'ALT', limit: '164.5', confidence: 79, isVip: false, comment: 'Zalgiris\'in çelik savunması ve düşük tempo baskısı, Dubai\'yi kilitleyecek. Skor 164.5\'in altında kalmaya mahkum.' },
-            // id: match-1, Asvel - Partizan (EuroLeague)
-            { id: 'match-1', time: '19:30', teams: 'Asvel Vil. - Partizan (EuroLeague)', prediction: 'ALT', limit: '162.5', confidence: 70, isVip: false, comment: 'Savunma ve sakatlıkların etkisiyle tempo düşecek. 162.5\'tan Alt, EuroLeague\'in zorlu atmosferinde mantıklı.' },
-            // id: match-2, Milano - Olympiakos (EuroLeague)
-            { id: 'match-2', time: '19:30', teams: 'Olimpia Milano - Olympiakos (EuroLeague)', prediction: 'ALT', limit: '163.5', confidence: 73, isVip: false, comment: 'Sakatlıklar ve EuroLeague\'in en iyi savunmalarından ikisi sahada. Skorun 163.5\'un çok altında kalması bekleniyor.' },
-            // id: match-3, Anadolu Efes - Bayern Münih (VIP)
-            { id: 'match-3', time: '20:00', teams: 'Anadolu Efes - Bayern Münih (EuroLeague)', prediction: 'ALT', limit: '164.5', confidence: 85, isVip: true, comment: 'Her iki taraftaki sakatlık krizi, hücum ritmini darmadağın etti. EuroLeague\'de bu kadar eksikle üst olmaz, Alt banko!' },
-            // id: match-16, Büyükçekmece - Galatasaray (BSL)
-            { id: 'match-16', time: '20:30', teams: 'Büyükçekmece - Galatasaray (BSL)', prediction: 'ALT', limit: '170.5', confidence: 72, isVip: false, comment: 'BSL\'de orta sıra savunma eforu devrede. İki takım da tempoyu yavaşlatacak, 170.5 zor bir hedef.' },
-            // id: match-18, Barcelona - Virtus Bologna (EuroLeague)
-            { id: 'match-18', time: '20:30', teams: 'Barcelona - Virtus Bologna (EuroLeague)', prediction: 'ALT', limit: '166.5', confidence: 74, isVip: false, comment: 'Barcelona\'nın güçlü savunması ve tempoyu kontrol etme isteği Virtus\'u yavaşlatır. 166.5 Alt yönünde güçlü.' },
-            // id: match-4, KK Split - Borac Cacak (ABA Ligi)
-            { id: 'match-4', time: '21:00', teams: 'KK Split - Borac Cacak (ABA Ligi)', prediction: 'ALT', limit: '159.5', confidence: 65, isVip: false, comment: 'Düşük tempoda oynayan iki takım. 159.5, skorun altında kalması için uygun bir barem.' },
-            // id: match-5, KK Zadar - Mega Bemax (ABA Ligi)
-            { id: 'match-5', time: '21:00', teams: 'KK Zadar - Mega Bemax (ABA Ligi)', prediction: 'ALT', limit: '169.5', confidence: 70, isVip: false, comment: 'ABA Ligi\'nde grup savunmaları sertleşiyor. 169.5 baremi bu tarz bir maç için fazla yüksek.' },
-            // id: match-6, Studentski Centar - Cluj Napoca (ABA Ligi)
-            { id: 'match-6', time: '21:00', teams: 'Studentski Centar - Cluj Napoca (ABA Ligi)', prediction: 'ÜST', limit: '169.5', confidence: 68, isVip: false, comment: 'ABA\'nın hücum odaklı ekipleri karşı karşıya. Skor potansiyeli yüksek, 169.5\'u zorlayarak geçebilirler.' },
-            // id: match-7, Cholet - Nanterre 92 (LNB)
-            { id: 'match-7', time: '21:00', teams: 'Cholet - Nanterre 92 (LNB)', prediction: 'ÜST', limit: '167.5', confidence: 75, isVip: false, comment: 'LNB\'nin yüksek tempo ve hızlı hücumları Cholet-Nanterre maçına damga vurur. 167.5 Üst riskine değer.' },
-            // id: match-8, Rouen Metropole B. - Hermine Nantes B. (Pro B)
-            { id: 'match-8', time: '21:00', teams: 'Rouen Metropole B. - Hermine Nantes B. (Pro B)', prediction: 'ÜST', limit: '166.5', confidence: 69, isVip: false, comment: 'Pro B\'de hücum biaslı bir eşleşme. Savunmalar ikinci planda kalacak, 166.5’un üstü sürpriz olmaz.' },
-            // id: match-9, Hyeres Toulon - Saint Chamond (Pro B)
-            { id: 'match-9', time: '21:00', teams: 'Hyeres Toulon - Saint Chamond (Pro B)', prediction: 'ÜST', limit: '167.5', confidence: 71, isVip: false, comment: 'Yine bir Pro B hücum düellosu. Yüksek tempo ve bol şut bekliyorum, baremin üstünde bir sonuç olasılığı yüksek.' },
-            // id: match-10, Stade Rochelais B. - Ujap Quimper 29 (Pro B)
-            { id: 'match-10', time: '21:00', teams: 'Stade Rochelais B. - Ujap Quimper 29 (Pro B)', prediction: 'ALT', limit: '156.5', confidence: 78, isVip: false, comment: 'Düşük limitli ve sert savunma odaklı bir maç. 156.5 çok kritik, Alt güvenilir duruyor.' },
-            // id: match-11, Roanne Chorale - Antibes Shar (Pro B)
-            { id: 'match-11', time: '21:00', teams: 'Roanne Chorale - Antibes Shar (Pro B)', prediction: 'ÜST', limit: '168.5', confidence: 72, isVip: false, comment: 'Roanne ve Antibes\'in hücum gücü 168.5\'u aşmaya yetecektir. Pro B\'nin en skorer maçlarından biri olabilir.' },
-            // id: match-12, A. S. Alsace - Chalons Reims (Pro B)
-            { id: 'match-12', time: '21:00', teams: 'A. S. Alsace - Chalons Reims (Pro B)', prediction: 'ALT', limit: '161.5', confidence: 66, isVip: false, comment: 'Pro B\'nin sert savunmacıları iş başında. 161.5\'u geçmeleri zor görünüyor.' },
-            // id: match-13, Pau Orthez - Poitiers Basket 86 (Pro B)
-            { id: 'match-13', time: '21:00', teams: 'Pau Orthez - Poitiers Basket 86 (Pro B)', prediction: 'ÜST', limit: '166.5', confidence: 69, isVip: false, comment: 'Pau Orthez\'in hücum eğilimi, Poitiers\'i de tempoya zorlayacak. 166.5 üstü makul.' },
-            // id: match-14, Vendee Challans B. - ALM Evreux Basket (Pro B)
-            { id: 'match-14', time: '21:00', teams: 'Vendee Challans B. - ALM Evreux Basket (Pro B)', prediction: 'ALT', limit: '163.5', confidence: 74, isVip: false, comment: 'Pro B\'de savunma odaklı iki ekip. Alt baremi 163.5\'ten mantıklı bir tercih.' },
-            // id: match-15, Sbb Baskets - Nürnberg Falcons (Pro A)
-            { id: 'match-15', time: '21:00', teams: 'Sbb Baskets - Nürnberg Falcons (Pro A)', prediction: 'ALT', limit: '164.5', confidence: 78, isVip: false, comment: 'Almanya Pro A\'nın yavaş temposu ve disiplinli savunmaları, skoru aşağı çekecek. 164.5\'ten Alt riski düşük.' },
-            // id: match-19, Gipuzkoa - Innova Chef Cb Zamora (LEB Oro)
-            { id: 'match-19', time: '22:00', teams: 'Gipuzkoa - Innova Chef Cb Zamora (LEB Oro)', prediction: 'ALT', limit: '165.5', confidence: 69, isVip: false, comment: 'LEB Oro savunma ağırlıklı bir lig. 165.5 bareminde Alt, güvenilir bir seçim.' },
-            // id: match-20, Leyma Basquet Coruna - Club Melilla (LEB Oro)
-            { id: 'match-20', time: '22:00', teams: 'Leyma Basquet Coruna - Club Melilla (LEB Oro)', prediction: 'ALT', limit: '166.5', confidence: 67, isVip: false, comment: 'LEB Oro\'da tipik bir savunma maçı. 166.5, Alt için iyi bir marj sunuyor.' },
-            // id: match-21, CD Maristas Palencia - Oviedo (LEB Oro)
-            { id: 'match-21', time: '22:00', teams: 'CD Maristas Palencia - Oviedo (LEB Oro)', prediction: 'ÜST', limit: '163.5', confidence: 68, isVip: false, comment: 'LEB Oro\'nun hücum potansiyeli yüksek takımları. 163.5 Üst yönünde eğilim gösteriyor.' },
+        // --- VERİ ALANI ---
+        const originalData = [
+            { time: '20:00', home: 'Cluj Napoca', away: 'Hapoel Jerusalem', total: 193, lig: 'EURO CUP' }, 
+            { time: '20:00', home: 'Neptunas K.', away: 'Aris', total: 171, lig: 'EURO CUP' }, 
+            { time: '20:00', home: 'Galatasaray', away: 'Trieste', total: 183, lig: 'FIBA ŞAMPİYONLAR LİGİ' }, 
+            { time: '20:30', home: 'MLP A. Heidelberg', away: 'Promitheas', total: 158, lig: 'FIBA ŞAMPİYONLAR LİGİ' }, 
+            { time: '20:45', home: 'Legia Warsz.', away: 'Rytas Vilnius', total: 177, lig: 'FIBA ŞAMPİYONLAR LİGİ' }, 
+            { time: '21:00', home: 'Buducnost', away: 'Ratiopharm Ulm', total: 174, lig: 'EURO CUP' }, 
+            { time: '21:00', home: 'Slask Wroclaw', away: 'Bahçeşehir Koleji', total: 170, lig: 'EURO CUP' }, 
+            { time: '22:00', home: 'A. Basket Trento', away: 'Niners Chemnitz', total: 158, lig: 'EURO CUP' }, 
+            { time: '22:00', home: 'Le Mans', away: 'Gran Canaria', total: 172, lig: 'FIBA ŞAMPİYONLAR LİGİ' } 
         ];
 
+        // Bahis Limitleri
+        const limits = {
+            'Cluj Napoca - Hapoel Jerusalem': 181.5,
+            'Neptunas K. - Aris': 175.5,
+            'Galatasaray - Trieste': 178.5,
+            'MLP A. Heidelberg - Promitheas': 166.5,
+            'Legia Warsz. - Rytas Vilnius': 169.5,
+            'Buducnost - Ratiopharm Ulm': 170.5,
+            'Slask Wroclaw - Bahçeşehir Koleji': 169.5,
+            'A. Basket Trento - Niners Chemnitz': 165.5,
+            'Le Mans - Gran Canaria': 164.5
+        };
+        // --- /VERİ ALANI ---
+
+        function transformToPredictionData(data) {
+            let transformed = [];
+            data.sort((a, b) => a.time.localeCompare(b.time));
+
+            data.forEach((match, index) => {
+                const teamKey = `${match.home} - ${match.away}`;
+                const limit = limits[teamKey];
+                const total = match.total;
+                
+                if (limit === undefined) return;
+
+                const predictionType = total > limit ? 'ÜST' : 'ALT';
+                const difference = Math.abs(total - limit);
+                
+                let confidence = 55 + Math.min(35, Math.floor(difference * 4)); 
+
+                let comment;
+                if (predictionType === 'ÜST') {
+                    comment = `Maçın MS Toplam Skoru (${total}), belirlenen baremin (${limit}) ÜSTÜNDE gerçekleşmiştir. Yüksek tempo simülasyonu.`;
+                } else {
+                    comment = `Maçın MS Toplam Skoru (${total}), belirlenen baremin (${limit}) ALTINDA gerçekleşmiştir. Kontrollü oyun simülasyonu.`;
+                }
+                
+                transformed.push({
+                    id: `match-${index + 1}`,
+                    time: match.time,
+                    teams: `${match.home} – ${match.away} (${match.lig})`,
+                    prediction: predictionType,
+                    limit: limit,
+                    confidence: confidence,
+                    isVip: false,
+                    comment: comment
+                });
+            });
+
+            if (transformed.length > 0) {
+                let highestConfidence = 0;
+                let bestMatchIndex = -1;
+                
+                transformed.forEach((match, index) => {
+                    if (match.confidence > highestConfidence) {
+                        highestConfidence = match.confidence;
+                        bestMatchIndex = index;
+                    }
+                });
+                
+                if (bestMatchIndex !== -1) {
+                    transformed[bestMatchIndex].isVip = true;
+                }
+            }
+            return transformed;
+        }
+
+        const matchData = transformToPredictionData(originalData);
+
         
-        // Açık olan tüm tahminleri kapatan yardımcı fonksiyon
+        /**
+         * Açık olan tüm tahminleri kapatır.
+         */
         function closeAllPredictions() {
-            // Tüm tahmin/açıklamaları kapat
-            document.querySelectorAll('.prediction-content:not(.hidden)').forEach(el => {
-                el.classList.add('hidden');
-            });
-            document.querySelectorAll('.explanation:not(.hidden)').forEach(el => {
-                el.classList.add('hidden');
-            });
-            // Loading bar'ları kapat
-            document.querySelectorAll('.loading-bar-container:not(.hidden)').forEach(el => {
-                el.classList.add('hidden');
-            });
-            // Tüm butonları geri getir
-            document.querySelectorAll('.reveal-button.hidden').forEach(el => {
-                el.classList.remove('hidden');
-            });
-            // Tüm yanıp sönmeleri durdur
-            document.querySelectorAll('.loading-text').forEach(el => {
-                el.style.animationPlayState = 'paused';
-                el.style.opacity = '1';
+            document.querySelectorAll('.match-card').forEach(card => {
+                card.querySelector('.prediction-content').classList.add('hidden');
+                card.querySelector('.explanation').classList.add('hidden');
+                card.querySelector('.loading-bar-container').classList.add('hidden');
+                const revealButton = card.querySelector('.reveal-button');
+                if (revealButton) {
+                    revealButton.classList.remove('hidden');
+                }
             });
         }
 
         /**
-         * Tahmin için yükleme simülasyonunu başlatır.
-         * @param {string} matchId - Maç kartının ID'si.
-         * @param {boolean} isVip - Kartın VIP olup olmadığı (turuncu kart).
+         * Tahmin için yükleme simülasyonunu başlatır ve sonucu gösterir.
+         * window.loadDelayedPrediction olarak tanımlandı ki onClick eventi doğru çalışsın.
          */
-        function loadDelayedPrediction(matchId, isVip) {
+        window.loadDelayedPrediction = function(matchId, predictionType, limit, confidence, comment) {
             const card = document.getElementById(matchId);
             if (!card) return;
 
             const revealButton = card.querySelector('.reveal-button');
-            const predictionContent = card.querySelector('.prediction-content');
             const loadingContainer = card.querySelector('.loading-bar-container');
             const explanation = card.querySelector('.explanation');
-
-            // Diğer açık tahminleri kapat
+            const predictionContent = card.querySelector('.prediction-content');
+            
             closeAllPredictions();
 
-            // 1. Loading Container içeriğini dinamik olarak oluşturma/sıfırlama
+            // Loading Container'ı sıfırla ve göster
             loadingContainer.innerHTML = `
+                <span class="loading-text">Analiz Yürütülüyor... <span class="loading-text-percentage">0%</span></span>
                 <div class="loading-bar"></div>
-                <span class="loading-text">Robot Analizi Yapılıyor... <span class="loading-text-percentage">0%</span></span>
             `;
-
-            const loadingPercentageSpan = loadingContainer.querySelector('.loading-text-percentage');
-            const newLoadingBar = loadingContainer.querySelector('.loading-bar');
-            const loadingTextElement = loadingContainer.querySelector('.loading-text');
-
-            // Butonu gizle, yükleme alanını göster
-            revealButton.classList.add('hidden');
             loadingContainer.classList.remove('hidden');
-            newLoadingBar.style.width = '0%';
-            loadingPercentageSpan.textContent = '0%';
+            revealButton.classList.add('hidden');
+            
+            const loadingBar = card.querySelector('.loading-bar');
+            const percentageSpan = card.querySelector('.loading-text-percentage');
+            let percentage = 0;
 
-            // Yükleme metnine yanıp sönme animasyonunu başlat
-            loadingTextElement.style.animationPlayState = 'running';
+            const interval = setInterval(() => {
+                if (percentage < 100) {
+                    percentage += 5;
+                    loadingBar.style.width = `${percentage}%`;
+                    percentageSpan.textContent = `${percentage}%`;
+                } else {
+                    clearInterval(interval);
+                    loadingContainer.classList.add('hidden');
+                    
+                    // Tahmin içeriğini güncelleme ve gösterme
+                    predictionContent.innerHTML = `
+                        <div class="pred-box ${predictionType.toLowerCase()}">
+                            ${predictionType}
+                            <span class="limit-value">(Limit: ${limit})</span>
+                        </div>
+                        <div class="confidence ${confidence >= 80 ? 'high' : ''}">G: %${confidence}</div>
+                    `;
+                    predictionContent.classList.remove('hidden');
 
-            const duration = 7000; // 7 saniye
-            const totalSteps = 100; // %1'er artış için 100 adım
-            const intervalTime = duration / totalSteps; // Her bir %1'lik artışın süresi
-
-            let currentPercentage = 0;
-
-            const loadInterval = setInterval(() => {
-                currentPercentage++;
-                
-                // Yüzde çubuğu dolumu (Soldan Sağa)
-                newLoadingBar.style.width = currentPercentage + '%';
-                
-                // Rakam güncelleme
-                loadingPercentageSpan.textContent = currentPercentage + '%';
-                
-                if (currentPercentage >= totalSteps) {
-                    // Animasyon bitti
-                    clearInterval(loadInterval);
-
-                    // Son yüzdeyi (100%) göster
-                    loadingPercentageSpan.textContent = '100%';
-
-                    // Yanıp sönme animasyonunu durdur
-                    loadingTextElement.style.animationPlayState = 'paused';
-                    loadingTextElement.style.opacity = '1'; 
-
-                    // Gecikmeli bitiş: loading'i gizle, tahmini göster (veya VIP butonu)
-                    setTimeout(() => {
-                        loadingContainer.classList.add('hidden');
-
-                        if (isVip) {
-                           // VIP kart ise, sadece explanation içindeki VIP butonunu göster
-                           if (explanation) {
-                               explanation.classList.remove('hidden');
-                               // Tahmin ve confidence gizli kalır
-                               if (predictionContent) predictionContent.classList.add('hidden');
-                           }
-                        } else {
-                           // Normal kart ise tahmin ve gerekçeyi göster
-                            if (predictionContent) {
-                               predictionContent.classList.remove('hidden');
-                            }
-                            if (explanation) {
-                               explanation.classList.remove('hidden');
-                            }
-                        }
-                    }, 200);
-
+                    // Gerekçeyi gösterme
+                    explanation.innerHTML = `
+                        <strong>Gerekçe:</strong> ${comment}
+                    `;
+                    explanation.classList.remove('hidden');
                 }
-            }, intervalTime);
-        }
+            }, 100); 
+        };
+        
+        /**
+         * Maç kartlarını veriye göre oluşturur ve sayfaya ekler.
+         */
+        function renderMatches() {
+            const matchList = document.getElementById('match-list');
+            if (!matchList) return; 
 
+            matchList.innerHTML = ''; 
 
-        // Maç Kartını HTML olarak oluşturan fonksiyon
-        function createMatchCard(data) {
-            const isVip = data.isVip;
-            const predClass = data.prediction === 'ALT' ? 'alt' : 'ust';
-            const confidenceClass = data.confidence >= 80 ? 'high' : '';
+            let bestMatch = matchData.find(match => match.isVip);
 
-            // VIP Kartlar için, explanation içeriği sadece VIP butonu olur.
-            // Normal Kartlar için, explanation içeriği gerekçe ve yorum olur.
-            const explanationContent = isVip
-                ? `
-                    <a href="https://t.me/vahidox" target="_blank" class="vip-link-button">
-                        🔥 VİP TAHMİN İÇİN TIKLA 🔥
-                    </a>
-                  `
-                : `
-                    **Gerekçe:** ${data.comment}
-                  `;
+            // Özeti güncelle
+            const summaryTextElement = document.getElementById('summary-text');
+            if (bestMatch && summaryTextElement) {
+                 summaryTextElement.innerHTML = `🔥 **Günün En Güvenilir Maçı (%${bestMatch.confidence}):** ${bestMatch.teams} → ${bestMatch.prediction}`;
+            }
 
-            const cardHtml = `
-                <div class="match-card ${isVip ? 'best-pick' : ''}" id="${data.id}">
+            matchData.forEach(match => {
+                const card = document.createElement('div');
+                card.id = match.id;
+                card.className = `match-card ${match.isVip ? 'best-pick' : ''}`;
+
+                // Kartın HTML içeriği
+                card.innerHTML = `
                     <div class="match-title">
-                        <span class="match-time">${data.time}</span>
-                        <span class="team-names">${data.teams}</span>
+                        <span class="match-time">${match.time}</span>
+                        <span class="team-names">${match.teams}</span>
                     </div>
                     <div class="match-body">
-                        <div class="prediction-content prediction-section hidden">
-                            <div class="pred-box ${predClass}">
-                                ${data.prediction}
-                                <span class="limit-value">(Barem: ${data.limit})</span>
-                            </div>
-                            <div class="confidence ${confidenceClass}">GÜVEN SEVİYESİ: %${data.confidence}</div>
+                        <div class="loading-bar-container hidden"></div>
+                        
+                        <div class="prediction-section hidden prediction-content"></div>
+
+                        <div class="reveal-button blue" 
+                             onclick="window.loadDelayedPrediction('${match.id}', '${match.prediction}', '${match.limit}', ${match.confidence}, '${match.comment.replace(/'/g, "\\'")}')">
+                            Tahmini Gör
                         </div>
-                        <div class="explanation hidden">
-                            ${explanationContent}
-                        </div>
+
+                        <div class="explanation hidden"></div>
                     </div>
-                </div>
-            `;
-            return cardHtml;
+                `;
+                matchList.appendChild(card);
+            });
         }
 
+        // Sayfa yüklendiğinde maçları oluştur
+        document.addEventListener('DOMContentLoaded', renderMatches);
 
-        // DOM yüklendiğinde çalışacak ana işlev
-        document.addEventListener('DOMContentLoaded', () => {
-            const matchListContainer = document.querySelector('.match-list');
-            
-            // Tüm maç kartlarını oluştur ve ekle
-            matchData.forEach(data => {
-                matchListContainer.innerHTML += createMatchCard(data);
-            });
-            
-            // Dinamik olarak oluşturulan butonlara event listener'ları ekle
-            const matchCards = document.querySelectorAll('.match-card');
-
-            matchCards.forEach((card) => {
-                const matchBody = card.querySelector('.match-body');
-                const isBestPick = card.classList.contains('best-pick');
-
-                const revealButton = document.createElement('div');
-                revealButton.className = 'reveal-button';
-                revealButton.textContent = 'Tahmini Görmek İçin Tıklayınız'; // Tüm butonlarda aynı metin
-                
-                if (isBestPick) {
-                    // VIP Kartlar (Turuncu Neon Buton)
-                    revealButton.classList.add('orange'); 
-                } else {
-                    // Normal Kartlar (Mavi Neon Buton)
-                    revealButton.classList.add('blue'); 
-                }
-                
-                revealButton.onclick = () => {
-                    // VIP durumunu fonksiyona iletiyoruz
-                    loadDelayedPrediction(card.id, isBestPick);
-                };
-                
-                // Yükleme çubuğu container'ı oluştur (tüm kartlar için gerekli)
-                const loadingContainer = document.createElement('div');
-                loadingContainer.className = 'loading-bar-container hidden';
-                
-                // Maç kartı gövdesine (match-body) buton ve yükleme alanını ekle
-                if (matchBody) {
-                    // Loading içeriği statik HTML olarak değil, JS içinde tanımlanıp eklenecek.
-                    matchBody.prepend(loadingContainer);
-                    matchBody.prepend(revealButton);
-                }
-            });
-        });
     </script>
 </body>
 </html>
