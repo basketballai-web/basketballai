@@ -2,206 +2,337 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏀 Günün Banko Maçı Analizi | BASKETBOL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>BASKETBOL Aİ ROBOT ANALİZ</title>
     <style>
-        /* Ana Stil: Basketbol Teması */
+        /* Renk Kökleri (Basketbol Teması) */
+        :root {
+            --color-primary: #0077c2; /* Koyu Basketbol Mavisi */
+            --color-secondary: #ff8c00; /* Basketbol Topu Turuncusu/Vurgu */
+            --color-alt: #c0392b; /* KESİN KIRMIZI - ALT Tahmin */
+            --color-ust: #00b300; /* ÇOK CANLI YEŞİL - ÜST Tahmin */ 
+            --color-background: #f0f4f8; /* Hafif Gri Arka Plan */
+            --color-card: #ffffff; /* Beyaz Kart Arka Plan */
+            --color-border: #dcdcdc; /* Kart Sınırı */
+            --color-text: #333333;
+            --color-warning: #e74c3c; /* Kırmızı - Uyarı Metni İçin */
+        }
+
+        /* GENEL STİL VE RESET */
         body {
-            font-family: 'Arial Black', sans-serif;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0); /* Açık gri zemin */
-            color: #333;
+            padding: 20px 10px;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-size: 16px;
+        }
+        * { box-sizing: border-box; }
+
+        /* BAŞLIK VE ÖZET STİLİ */
+        .header-container {
             text-align: center;
-            overflow-x: hidden;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px solid var(--color-secondary);
         }
-
-        /* Saha Dokusu: Basketbol sahası rengi ve çizgiler */
-        .court-background {
-            background-color: #D2B48C; /* Taba rengi, parke zemin */
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px; /* Çizgi sıklığı */
-            min-height: 100vh;
-            padding: 20px 0;
-            position: relative;
+        .header {
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            font-weight: 900;
+            letter-spacing: 1px;
         }
-
-        /* Pota Çerçevesi */
-        .backboard {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 60px;
-            background-color: #fff;
-            border: 3px solid #333;
-            z-index: 10;
-        }
-
-        /* Çember */
-        .rim {
-            position: fixed;
-            top: 55px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            border: 5px solid #FF4500; /* Kırmızımsı turuncu */
-            border-radius: 50%;
-            z-index: 11;
-        }
-
-        /* Başlık ve Kurgu Stili */
-        header {
-            background-color: #333;
-            color: #FF8C00; /* Turuncu tonu */
-            padding: 15px;
-            margin-bottom: 30px;
-            border-bottom: 5px solid #FF4500;
-            position: relative;
-            z-index: 20;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-        }
-
-        .match-card {
-            background-color: #fff;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 5px solid #005691; /* Barcelona Mavi */
-            position: relative;
-            z-index: 20;
-        }
-
-        .match-header {
-            font-size: 1.8em;
-            color: #005691;
-            margin-bottom: 15px;
-        }
-
-        .teams {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .team {
-            font-size: 1.5em;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .vs {
-            font-size: 2em;
-            color: #FF4500;
-            margin: 0 15px;
-        }
-
-        .prediction {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f0f8ff;
-            border-left: 5px solid #FF8C00;
-            text-align: left;
-        }
-
-        .prediction strong {
-            color: #005691;
-        }
-
-        /* Basketbol Topu İkonu */
-        .ball {
+        .subheader {
             font-size: 1.2em;
-            color: #FF8C00;
-            margin-right: 5px;
+            font-weight: 500;
+        }
+        .summary-box {
+            padding: 12px;
+            margin-top: 20px;
+            border: 2px solid var(--color-secondary);
+            background-color: rgba(255, 140, 0, 0.15); /* Hafif Turuncu */
+            border-radius: 8px;
+            font-weight: 700;
+            color: var(--color-text);
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+        .disclaimer-text {
+            color: var(--color-warning);
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid var(--color-warning);
+            border-radius: 5px;
+            background-color: rgba(231, 76, 60, 0.05);
         }
 
-        /* Top animasyonu */
-        .floating-ball {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background-color: #FF8C00;
-            border-radius: 50%;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-            animation: bounce 4s infinite ease-in-out;
-            opacity: 0.7;
-            z-index: 5;
+        /* MAÇ LİSTESİ DÜZENİ */
+        .match-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
 
-        .ball-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .ball-2 { top: 80%; right: 10%; animation-delay: 1.5s; }
-        .ball-3 { bottom: 5%; left: 30%; animation-delay: 3s; }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-30px); }
+        /* MAÇ KARTI */
+        .match-card {
+            background-color: var(--color-card);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            transition: transform 0.3s ease;
+        }
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* KART BAŞLIĞI */
+        .match-title {
+            padding: 15px;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .match-body {
+            padding: 15px;
         }
 
+        /* TAHMİN KUTUSU VE ORAN */
+        .prediction-wrapper {
+            padding: 15px 0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .pred-box {
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 900;
+            color: white;
+            font-size: 1.6em;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            line-height: 1.2;
+            min-width: 80px;
+        }
+        .pred-box.alt { 
+            background-color: var(--color-alt); 
+        }
+        .pred-box.ust { 
+            background-color: var(--color-ust); 
+        }
+        .pred-box.ms-hnd {
+            background-color: var(--color-primary); 
+        }
+
+        /* ORAN STİLİ */
+        .odds-display {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--color-secondary);
+            text-align: right;
+        }
+        .odds-display span {
+            display: block;
+            font-size: 0.8em;
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        /* YORUM STİLİ */
+        .comment {
+            margin-top: 15px;
+            padding: 12px;
+            border-left: 4px solid var(--color-secondary);
+            border-radius: 4px;
+            font-style: italic;
+            background-color: #fff9f0;
+            font-size: 0.9em;
+        }
+        .comment strong {
+            color: var(--color-primary);
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* MOBİL UYUMLULUK */
+        @media (max-width: 650px) {
+            .match-list {
+                grid-template-columns: 1fr;
+            }
+            .match-title {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .match-title .match-time {
+                margin-bottom: 5px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="court-background">
-
-        <div class="backboard"></div>
-        <div class="rim"></div>
-
-        <div class="floating-ball ball-1"></div>
-        <div class="floating-ball ball-2"></div>
-        <div class="floating-ball ball-3"></div>
-
-        <header>
-            <h1><span class="ball">🏀</span> GÜNÜN BANKOSU: EUROLEAGUE ANALİZİ <span class="ball">🏆</span></h1>
-        </header>
-
-        <div class="match-card">
-            <div class="match-header">🔥 TEK MAÇ SEÇENEĞİ: DEV DERBİ 🔥</div>
-            
-            <div class="teams">
-                <div class="team" style="color: #6A1B4D;">
-                    <span class="ball">🇹🇷</span> ANADOLU EFES
-                </div>
-                <div class="vs">V S</div>
-                <div class="team" style="color: #005691;">
-                    <span class="ball">🇪🇸</span> BARCELONA
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="prediction">
-                <h2><span class="ball">✅</span> ANALİTİK TAHMİN</h2>
-                <p>Analiz, Anadolu Efes'in **Shane Larkin**'in yokluğunda organize hücumda çok zorlanacağını gösteriyor. Barcelona, **Punter ve Clyburn** gibi elit kanat skorerleri ve derin kadrosuyla bu boşluğu rahatça değerlendirecektir.</p>
-                <p>Bu maçta Handikap beklentisi çok düşük tutulmuştur ve **Oran Değeri yüksektir.**</p>
-                <p>
-                    <span class="ball">👉</span> **SEÇENEK:** Maç Sonucu 2 Handikaplı (MS 2)
-                </p>
-                <p>
-                    <span class="ball">📝</span> **TAHMiN:** <strong>BARCELONA (-1.5) Handikap</strong>
-                </p>
-                <p>
-                    <span class="ball">💰</span> **ORAN:** Yaklaşık <strong>1.70</strong>
-                </p>
-            </div>
-            
-            <hr>
-
-            <p style="font-size: 0.8em; color: #999;">*Bu kurgu, tamamen analitik verilerle desteklenmiş bir tahmindir. Bahis ciddi finansal risk taşır, dikkatli olun.</p>
+    <div class="header-container">
+        <div class="header">
+            🤖 BASKETBOL Aİ ROBOT ANALİZ
         </div>
-
+        <div class="subheader">
+            Günün Basketbol Karşılaşmaları İçin Analiz ve Tahminler
+        </div>
+        <div class="disclaimer-text">
+            ⚠️ **SORUMLULUK UYARISI:** Bu analizler yapay zeka tarafından simülasyon amaçlı oluşturulmuştur. Tahminler kesinlik içermez ve hiçbir garanti verilmez. Lütfen sorumlu bir şekilde hareket edin. Tüm kararlar ve sonuçları, tamamen kullanıcıya aittir. Sorumluluk kabul edilmez.
+        </div>
     </div>
 
+    <div class="match-list" id="match-list">
+        </div>
+
+    <script>
+        
+        const newMatchData = [
+            { 
+                time: '22:00', 
+                teams: 'Stade Rochelais B - A.S. Alsace Hnd. MS (0:4,5)', 
+                prediction: '1', 
+                type: 'MS-Hnd',
+                odds: 1.42, 
+                comment: "4.5 Handikap Ev Sahibi Cepte! Rakip güçlü olsa bile, evinde oynayan takımın bu handikapı aşması bizim için oldukça güvenilir bir başlangıç. Düşük oran ama garanticiyiz!" 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Brescia - Cremona Hnd. MS (0:11,5)', 
+                prediction: '2', 
+                type: 'MS-Hnd',
+                odds: 1.35, 
+                comment: "Cremona'ya Bu Kadar Fark Yazılmaz! 11.5 gibi kocaman bir handikap, Cremona'nın deplasmanda bile olsa bu kadar teslim olmayacağını düşündürüyor. Sadece 12 sayılık bir fark yememeleri bile bizi kazandırır. Risk-ödül dengesi güzel." 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Baskonia - Bayern Münih Toplam Sayı (174,5)', 
+                prediction: 'ALT', 
+                type: 'ALT',
+                odds: 1.43, 
+                comment: "Kritik Maç, Sert Savunma Vakti! 174.5 çizgisi iştah açıcı derecede yüksek. Ancak iki takımın da özellikle EuroLeague'de bu tarz kritik bir eşleşmede savunmayı önceliklendireceğini biliyoruz. Hücumlar yavaşlayacak, biz de Alt tercihimizle rahatlayacağız." 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Partisan - Fenerbahçe Hnd. 1.Y (1,5:0)', 
+                prediction: '1', 
+                type: 'MS-Hnd',
+                odds: 1.37, 
+                comment: "Belgrad Ateşi İlk Yarıda Vurur! Partisan'ın o meşhur taraftar gücü ve enerjisi, maçı hep ilk yarıda domine etmelerini sağlıyor. Fenerbahçe ne kadar güçlü olsa da, o ilk rüzgara kapılmamaları zor. İlk yarı handikabını güvenle alıp, erken sevinmek istedik." 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Kortrijk Spurs - Z. Leiden Toplam Sayı (166,5)', 
+                prediction: 'ALT', 
+                type: 'ALT',
+                odds: 1.64, 
+                comment: "Temponun Düşmesini Bekliyoruz. Basketbol kalitesinin zaman zaman inişli çıkışlı olduğu bu liglerde, 166.5'u geçmek iki takım için de zorlu bir görev olabilir. Hücum organizasyonları sekteye uğrarsa, düşük skor Alt'ı getirir." 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Virtus Bologna - M. Tel Aviv 1.Y Sayı (88,5)', 
+                prediction: 'ALT', 
+                type: 'ALT',
+                odds: 1.42, 
+                comment: "Taktik Savaşından Skor Çıkmaz. İki tecrübeli koç karşı karşıya. İlk yarı, birbirlerini tarttıkları bir satranç oyunu gibi geçer. Dolayısıyla aceleci hücumlar yerine, kontrollü setler izleriz. İlk yarıda 88.5'in altında kalmaları bizi şaşırtmaz." 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Bristol Flyers - London Lions Toplam Sayı (155,5)', 
+                prediction: 'ÜST', 
+                type: 'ÜST',
+                odds: 1.59, 
+                comment: "İngiliz Basketbolu ve Yüksek Tempo Aşkı! İngiltere ligi genellikle hızlı oynanır, oyuncular koç talimatlarından çok bireysel yeteneklerini konuşturur. Bu tempoda 155.5 barajının koşarak ve sayı bularak aşılacağını düşünüyoruz." 
+            },
+            { 
+                time: '22:30', 
+                teams: 'Leicester Riders - Caledonia Gladiators Toplam Sayı (166,5)', 
+                prediction: 'ALT', 
+                type: 'ALT',
+                odds: 1.72, 
+                comment: "Bu Baraj Bize Alt Sinyali Veriyor. Aynı ligden olmasına rağmen, bu eşleşmede daha fiziksel ve yavaş bir mücadele bekliyoruz. Eğer takımlar pota altını zorlarsa ve serbest atış çizgisinde vakit kaybederse, 166.5 Alt tercihi 1.72 oranıyla yüzümüzü güldürecektir." 
+            }
+        ];
+
+        
+        function renderMatches() {
+            const matchList = document.getElementById('match-list');
+            if (!matchList) return; 
+
+            matchList.innerHTML = ''; 
+
+            newMatchData.forEach(match => {
+                const card = document.createElement('div');
+                card.className = `match-card`;
+
+                let predictionClass = '';
+                if (match.type === 'ALT') {
+                    predictionClass = 'alt';
+                } else if (match.type === 'ÜST') {
+                    predictionClass = 'ust';
+                } else {
+                    predictionClass = 'ms-hnd';
+                }
+
+                // Takım isimlerini temizle
+                let teamName = match.teams.split('Hnd.')[0].split('Toplam Sayı')[0].split('1.Y Sayı')[0].trim();
+                let matchTypeInfo = match.teams.replace(teamName, '').trim();
+                
+                // Kartın HTML içeriği
+                card.innerHTML = `
+                    <div class="match-title">
+                        <span class="match-time">${match.time}</span>
+                        <span class="team-names">${teamName}</span>
+                    </div>
+                    
+                    <div class="match-body">
+                        
+                        <div class="prediction-wrapper">
+                            <div class="pred-box ${predictionClass}">
+                                ${match.prediction}
+                            </div>
+                            <div class="odds-display">
+                                ${match.odds.toFixed(2).replace('.', ',')}
+                                <span>Oran</span>
+                            </div>
+                        </div>
+
+                        <p style="font-size:0.9em; color:var(--color-secondary); font-weight:600; margin-bottom: 5px;">
+                            ${matchTypeInfo}
+                        </p>
+
+
+                        <div class="comment">
+                            <strong>Yorum:</strong> ${match.comment}
+                        </div>
+                    </div>
+                `;
+                matchList.appendChild(card);
+            });
+        }
+
+        // Sayfa yüklendiğinde maçları oluştur
+        document.addEventListener('DOMContentLoaded', renderMatches);
+
+    </script>
 </body>
 </html>
